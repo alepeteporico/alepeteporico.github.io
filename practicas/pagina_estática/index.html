@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Implantanción y despliegue de una web estática &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.54.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="http://example.org/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='http://example.org/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='http://example.org/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="http://example.org/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="http://example.org/practicas/pagina_est%C3%A1tica/">Implantanción y despliegue de una web estática</a></h1>
+                <span class="post-date">2021-02-15 </span>
+                <div class="post-content">
+                    <p><strong><em>La instalación es tan sencilla como usar apt:</em></strong></p>
+
+<p><code>sudo apt install hugo</code></p>
+
+<p><strong><em>Una vez instalado el siguiente paso sería crear un sitio web:</em></strong></p>
+
+<p><code>hugo new site [nombre]</code></p>
+
+<p><strong><em>Esto creará una carpeta donde podremos configurar nuestra página, para ello primero descargaremos desde <a href="https://themes.gohugo.io/">la página oficial de hugo</a> un tema. Debemos fijarnos que se corresponde con nuestra versión de hugo o es inferior, si elegimos una plantilla que necesite una versión de hugo superior dará problemas.</em></strong></p>
+
+<p><strong><em>Una vez escogida nuestra plantilla clonaremos el respositorio en la carpeta themes, dentro que se encuentra dentro de la carpeta de configuración de nuestra página:</em></strong></p>
+
+<p><code>git clone git@github.com:jpescador/hugo-future-imperfect.git</code></p>
+
+<p><strong><em>Dentro del respositorio tendremos que copiar el contenido la carpeta exampleSites al raiz:</em></strong></p>
+
+<p><code>cp -r exampleSite/* ../../</code></p>
+
+<p><strong><em>Una vez hayamos hecho esto simplemente ejecutaremos debemos ejecutar nuestro servidor en local y entraremos en localhost por el puerto 1313</em></strong></p>
+
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/hugo/alepeteporicoblog$ hugo server
+
+                   | EN  
++------------------+----+
+  Pages            | 40  
+  Paginator pages  |  2  
+  Non-page files   |  1  
+  Static files     | 17  
+  Processed images |  0  
+  Aliases          |  9  
+  Sitemaps         |  1  
+  Cleaned          |  0  
+
+Total in 66 ms
+Watching for changes in /home/alejandrogv/Escritorio/ASIR/IWEB/hugo/alepeteporicoblog/{content,data,layouts,static,themes}
+Watching for config changes in /home/alejandrogv/Escritorio/ASIR/IWEB/hugo/alepeteporicoblog/config.toml
+Environment: &quot;development&quot;
+Serving pages from memory
+Running in Fast Render Mode. For full rebuilds on change: hugo server --disableFastRender
+Web Server is available at //localhost:1313/ (bind address 127.0.0.1)
+Press Ctrl+C to stop
+</code></pre>
+
+<p><strong><em>Lo unico que faltaría sería modificar la web a nuestro gusto, el archivo de configuración general suele ser config.toml que está en el directorio raiz. Y el contenido de la página está en la carpeta content</em></strong></p>
+
+<p><strong><em>Una vez que la página está a nuestro gusto podremos empezar a implementarla en github pages, pero primero subiremos este repositorio a github</em></strong></p>
+
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2021 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>
