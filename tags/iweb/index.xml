@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Iweb on Alepetepórico Blog</title>
-    <link>https://alepeteporico.github.io/alepeteporicoblog.github.io/tags/iweb/</link>
+    <link>https://alepeteporico.github.io/alepeteporicoblog/tags/iweb/</link>
     <description>Recent content in Iweb on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 15 Feb 2021 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://alepeteporico.github.io/alepeteporicoblog.github.io/tags/iweb/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://alepeteporico.github.io/alepeteporicoblog/tags/iweb/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Implantanción y despliegue de una web estática</title>
-      <link>https://alepeteporico.github.io/alepeteporicoblog.github.io/practicas/pagina_est%C3%A1tica/</link>
+      <link>https://alepeteporico.github.io/alepeteporicoblog/practicas/pagina_est%C3%A1tica/</link>
       <pubDate>Mon, 15 Feb 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://alepeteporico.github.io/alepeteporicoblog.github.io/practicas/pagina_est%C3%A1tica/</guid>
+      <guid>https://alepeteporico.github.io/alepeteporicoblog/practicas/pagina_est%C3%A1tica/</guid>
       <description>La instalación es tan sencilla como usar apt:
 sudo apt install hugo
 Una vez instalado el siguiente paso sería crear un sitio web:
