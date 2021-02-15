@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Alepetepórico Blog</title>
-    <link>http://example.org/</link>
+    <link>/</link>
     <description>Recent content on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 15 Feb 2021 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Implantanción y despliegue de una web estática</title>
-      <link>http://example.org/practicas/pagina_est%C3%A1tica/</link>
+      <link>/practicas/pagina_est%C3%A1tica/</link>
       <pubDate>Mon, 15 Feb 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/practicas/pagina_est%C3%A1tica/</guid>
+      <guid>/practicas/pagina_est%C3%A1tica/</guid>
       <description>La instalación es tan sencilla como usar apt:
 sudo apt install hugo
 Una vez instalado el siguiente paso sería crear un sitio web:
@@ -26,10 +26,10 @@ Esto creará una carpeta donde podremos configurar nuestra página, para ello pr
     
     <item>
       <title>About Hugo</title>
-      <link>http://example.org/about/</link>
+      <link>/about/</link>
       <pubDate>Wed, 09 Apr 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/about/</guid>
+      <guid>/about/</guid>
       <description>Hugo is a static site engine written in Go.
 It makes use of a variety of open source projects including:
  Cobra Viper J Walter Weatherman Cast  Learn more and contribute on GitHub.
