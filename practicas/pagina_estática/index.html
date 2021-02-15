@@ -82,25 +82,29 @@
                 <h1><a href="https://alepeteporico.github.io/practicas/pagina_est%C3%A1tica/">Implantanción y despliegue de una web estática</a></h1>
                 <span class="post-date">2021-02-15 </span>
                 <div class="post-content">
-                    <p><strong><em>La instalación es tan sencilla como usar apt:</em></strong></p>
+                    <p><strong>La instalación es tan sencilla como usar apt:</strong></p>
 
-<p><code>sudo apt install hugo</code></p>
+<pre><code>sudo apt install hugo
+</code></pre>
 
-<p><strong><em>Una vez instalado el siguiente paso sería crear un sitio web:</em></strong></p>
+<p><strong>Una vez instalado el siguiente paso sería crear un sitio web:</strong></p>
 
-<p><code>hugo new site [nombre]</code></p>
+<pre><code>hugo new site [nombre]
+</code></pre>
 
-<p><strong><em>Esto creará una carpeta donde podremos configurar nuestra página, para ello primero descargaremos desde <a href="https://themes.gohugo.io/">la página oficial de hugo</a> un tema. Debemos fijarnos que se corresponde con nuestra versión de hugo o es inferior, si elegimos una plantilla que necesite una versión de hugo superior dará problemas.</em></strong></p>
+<p><strong>Esto creará una carpeta donde podremos configurar nuestra página, para ello primero descargaremos desde <a href="https://themes.gohugo.io/">la página oficial de hugo</a> un tema. Debemos fijarnos que se corresponde con nuestra versión de hugo o es inferior, si elegimos una plantilla que necesite una versión de hugo superior dará problemas.</strong></p>
 
-<p><strong><em>Una vez escogida nuestra plantilla clonaremos el respositorio en la carpeta themes, dentro que se encuentra dentro de la carpeta de configuración de nuestra página:</em></strong></p>
+<p><strong>Una vez escogida nuestra plantilla clonaremos el respositorio en la carpeta themes, dentro que se encuentra dentro de la carpeta de configuración de nuestra página:</strong></p>
 
-<p><code>git clone git@github.com:jpescador/hugo-future-imperfect.git</code></p>
+<pre><code>git clone git@github.com:LordMathis/hugo-theme-nix.git
+</code></pre>
 
-<p><strong><em>Dentro del respositorio tendremos que copiar el contenido la carpeta exampleSites al raiz:</em></strong></p>
+<p><strong>Dentro del respositorio tendremos que copiar el contenido la carpeta exampleSites al raiz:</strong></p>
 
-<p><code>cp -r exampleSite/* ../../</code></p>
+<pre><code>cp -r exampleSite/* ../../
+</code></pre>
 
-<p><strong><em>Una vez hayamos hecho esto simplemente ejecutaremos debemos ejecutar nuestro servidor en local y entraremos en localhost por el puerto 1313</em></strong></p>
+<p><strong>Una vez hayamos hecho esto simplemente ejecutaremos debemos ejecutar nuestro servidor en local y entraremos en localhost por el puerto 1313</strong></p>
 
 <pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/hugo/alepeteporicoblog$ hugo server
 
@@ -125,9 +129,24 @@ Web Server is available at //localhost:1313/ (bind address 127.0.0.1)
 Press Ctrl+C to stop
 </code></pre>
 
-<p><strong><em>Lo unico que faltaría sería modificar la web a nuestro gusto, el archivo de configuración general suele ser config.toml que está en el directorio raiz. Y el contenido de la página está en la carpeta content</em></strong></p>
+<p><strong>Lo unico que faltaría sería modificar la web a nuestro gusto, el archivo de configuración general suele ser config.toml que está en el directorio raiz. Y el contenido de la página está en la carpeta content</strong></p>
 
-<p><strong><em>Una vez que la página está a nuestro gusto podremos empezar a implementarla en github pages, pero primero subiremos este repositorio a github</em></strong></p>
+<p><strong>Una vez que la página está a nuestro gusto podremos empezar a implementarla en github pages, crearemos un respositorio vacío en github, al que llamaré alepeteporico.github.io clonaremos el repositorio y crearemos el contenido estático en este repositorio con el siguiete comando</strong></p>
+
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/hugo/blog_hugo$ hugo -d ../alepeteporicoblog.github.io/
+</code></pre>
+
+<p><strong>Ahora deberemos entrar en la configuración de nuestro repostirorio para añadir nuestra página a GithubPages, en la option podremos encontrar el apartado GithubPages</strong></p>
+
+<p><img src="/implantacion_web_estatica/2.png" alt="apartado_Githubpages" /></p>
+
+<p><strong>Cambiaremos el Source de none a main y entonces se generará la URL de nuestra página</strong></p>
+
+<p><img src="/implantacion_web_estatica/3.png" alt="none" /></p>
+
+<p><strong>Y ya tendremos nuestra <a href="https://alepeteporico.github.io/">página</a> desplegada, solo tendremos que ir añadiendo contenido</strong></p>
+
+<p><img src="/implantacion_web_estatica/4.png" alt="pagina" /></p>
 
                 </div>
                 
