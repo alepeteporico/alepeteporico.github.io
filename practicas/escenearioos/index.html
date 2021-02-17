@@ -284,7 +284,7 @@
     rtt min/avg/max/mdev = 52.290/52.290/52.290/0.000 ms
 </code></pre>
 
-<p><strong>Ahora que nuestro escenario tiene conectividad entre si y fuera, vamos a habilitar ssh-agent</strong></p>
+<p><strong>Ahora que nuestro escenario tiene conectividad entre si y fuera, vamos a habilitar ssh-agent, para solo tener que usar nuestra clave una vez, para conectarnos a Dulcinea y después poder conectarnos a las diferentes máquinas de nuestro escenario sin tener que usar la clave ni tener que pasarla a todas las máquinas.</strong></p>
 
 <pre><code>    root@dulcinea:/home/debian/.ssh# ssh-add claves.pem 
     Identity added: claves.pem (claves.pem)
@@ -302,6 +302,85 @@
 <h4 id="sshd-config">sshd_config</h4>
 
 <pre><code>    AllowAgentForwarding yes
+</code></pre>
+
+<p><strong>Si queremos que se quede permanentemente debemos crear en &ldquo;~/.ssh/&rdquo; un archivo &ldquo;config&rdquo; el cual por seguridad le pondremos los permisos 600 y añadiremos la siguiente línea:</strong></p>
+
+<pre><code>    IdentityFile ~/.ssh/claves.pem
+</code></pre>
+
+<p><strong>Comprobemos su funcionamiento:</strong></p>
+
+<h3 id="freston">Freston</h3>
+
+<pre><code>    debian@dulcinea:~$ ssh debian@10.0.1.9
+    Linux freston 4.19.0-11-cloud-amd64 #1 SMP Debian 4.19.146-1 (2020-09-17) x86_64
+
+    The programs included with the Debian GNU/Linux system are free software;
+    the exact distribution terms for each program are described in the
+    individual files in /usr/share/doc/*/copyright.
+
+    Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+    permitted by applicable law.
+    Last login: Wed Feb 17 07:32:40 2021 from 10.0.1.5
+    debian@freston:~$
+</code></pre>
+
+<h3 id="quijote">Quijote</h3>
+
+<pre><code>    debian@dulcinea:~$ ssh centos@10.0.2.2
+    Last login: Wed Feb 17 07:34:07 2021 from 10.0.2.11
+    [centos@quijote ~]$
+</code></pre>
+
+<h3 id="sancho">Sancho</h3>
+
+<pre><code>    debian@dulcinea:~$ ssh ubuntu@10.0.1.4
+    Welcome to Ubuntu 20.04.1 LTS (GNU/Linux 5.4.0-48-generic x86_64)
+
+     * Documentation:  https://help.ubuntu.com
+     * Management:     https://landscape.canonical.com
+     * Support:        https://ubuntu.com/advantage
+
+      System information as of Wed Feb 17 07:35:45 UTC 2021
+
+      System load:  0.01              Processes:             101
+      Usage of /:   21.2% of 9.52GB   Users logged in:       0
+      Memory usage: 40%               IPv4 address for ens4: 10.0.1.4
+      Swap usage:   0%
+
+     * Introducing self-healing high availability clusters in MicroK8s.
+       Simple, hardened, Kubernetes for production, from RaspberryPi to DC.
+
+         https://microk8s.io/high-availability
+
+    74 updates can be installed immediately.
+    0 of these updates are security updates.
+    To see these additional updates run: apt list --upgradable
+
+
+    *** System restart required ***
+    Last login: Wed Feb 17 07:33:48 2021 from 10.0.1.5
+    ubuntu@sancho:~$
+</code></pre>
+
+<p><strong>Ahora crearemos los usuarios profesor en todas las máquinas y los añadiremos a sudoers (este proceso es igual en todas las máquinas):</strong></p>
+
+<pre><code>    root@dulcinea:~# useradd profesor -m -s /bin/bash
+
+    root@dulcinea:~# echo &quot;profesor ALL=(ALL) NOPASSWD:ALL&quot; &gt;&gt; /etc/sudoers
+</code></pre>
+
+<p><strong>Para añadir sus claves deberemos crearles una carpeta .ssh en su carpeta personal y un fichero authorized_keys donde añadiremos las claves necesarias:</strong></p>
+
+<pre><code>    profesor@dulcinea:~$ mkdir .ssh
+    profesor@dulcinea:~$ nano .ssh/authorized_keys
+</code></pre>
+
+<p><strong>Por supuesto cambiamos los permisos por seguridad:</strong></p>
+
+<pre><code>    profesor@dulcinea:~$ chmod 700 .ssh/
+    profesor@dulcinea:~$ chmod 600 .ssh/authorized_keys 
 </code></pre>
 
                 </div>
