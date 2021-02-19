@@ -6,10 +6,22 @@
     <description>Recent content in Practicas on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 15 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 19 Feb 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Actualización de CentOS 7 a CentOS 8</title>
+      <link>https://alepeteporico.github.io/practicas/centos8/</link>
+      <pubDate>Fri, 19 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/centos8/</guid>
+      <description>Antes de comenzar debemos instalar si no las tenemos ya las siguientes herramientas:
+ [centos@quijote ~]$ sudo yum install epel-release -y [centos@quijote ~]$ sudo yum install yum-utils -y [centos@quijote ~]$ sudo yum install rpmconf -y  Ahora usaremos rpmconf para verificar conflictos en ficheros de configuración:
+ [centos@quijote ~]$ sudo rpmconf -a  Limpiamos los paquetes innecesarios:
+ [centos@quijote ~]$ sudo package-cleanup --leaves [centos@quijote ~]$ sudo package-cleanup --orphans  Instalamos el nuevo gestor de paquetes que usa CentOS 8, dnf:</description>
+    </item>
     
     <item>
       <title>Configuración del escenario en OpenStack</title>
