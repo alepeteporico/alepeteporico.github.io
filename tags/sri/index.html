@@ -2,7 +2,7 @@
 <html lang="en">
 
 	<head>
-		<title> Practicas &middot; Alepetepórico Blog </title>
+		<title> Sri &middot; Alepetepórico Blog </title>
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -81,27 +81,11 @@
 			<div class="container wrapper">
 				<div class="row">
 					<div class="col-xs-12 text-center">
-						<h1 id=>Practicas</h1>
+						<h1 id=>Sri</h1>
 					</div>
 				</div>
 				<ul id="post-list">
 						
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/centos8/">Actualización de CentOS 7 a CentOS 8</a></h4>
-								<h4 class="post-date">2021-02-19</h4>
-							</div>
-							<div class="post-summary"><p>Antes de comenzar debemos instalar si no las tenemos ya las siguientes herramientas:
- [centos@quijote ~]$ sudo yum install epel-release -y [centos@quijote ~]$ sudo yum install yum-utils -y [centos@quijote ~]$ sudo yum install rpmconf -y  Ahora usaremos rpmconf para verificar conflictos en ficheros de configuración:
- [centos@quijote ~]$ sudo rpmconf -a  Limpiamos los paquetes innecesarios:
- [centos@quijote ~]$ sudo package-cleanup --leaves [centos@quijote ~]$ sudo package-cleanup --orphans  Instalamos el nuevo gestor de paquetes que usa CentOS 8, dnf:</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/centos8/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
@@ -114,37 +98,6 @@ listen-on { any }; allow-transfer { none }; recursion yes; allow-recursion { any
  view interna { match-clients { 10.0.1.0/24; localhost; }; zone &quot;alegv.gonzalonazareno.org&quot; { type master; file &quot;db.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/server_web_bbdd_dns/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/escenearioos/">Configuración del escenario en OpenStack</a></h4>
-								<h4 class="post-date">2021-02-15</h4>
-							</div>
-							<div class="post-summary"><p>El escenario que debemos montar es el siguiente:
-Nosotros tenemos nuestra propia red, pero debemos crear dos nuevas para el escenario y añadir las redes conrrespondientes a sus máquinas
-Nuestro siguiente paso será deshabilitar los puertos de Dulcinea que será la máquina que usaremos para conectarnos a las demás y salir al exterior Para este proposito usaremos OpenStack Client alejandrogv@AlejandroGV:~$ source Escritorio/ASIR/hlc/openstackclient/bin/activate source ~/Descargas/Proyecto\ de\ a.gutierrez-openrc.sh
-Ahora listaremos las interfaces que tenemos en nuestro proyecto</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/escenearioos/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/pagina_est%C3%A1tica/">Implantanción y despliegue de una web estática</a></h4>
-								<h4 class="post-date">2021-02-15</h4>
-							</div>
-							<div class="post-summary"><p>La instalación es tan sencilla como usar apt:
-sudo apt install hugo  Una vez instalado el siguiente paso sería crear un sitio web:
-hugo new site [nombre]  Esto creará una carpeta donde podremos configurar nuestra página, para ello primero descargaremos desde la página oficial de hugo un tema. Debemos fijarnos que se corresponde con nuestra versión de hugo o es inferior, si elegimos una plantilla que necesite una versión de hugo superior dará problemas.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/pagina_est%C3%A1tica/">Read More</a>
 							</div>
 						</div>
 					</li>

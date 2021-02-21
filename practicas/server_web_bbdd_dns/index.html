@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Servidor web, Base de datos y DNS &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.54.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://alepeteporico.github.io/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/practicas/server_web_bbdd_dns/">Servidor web, Base de datos y DNS</a></h1>
+                <span class="post-date">2021-02-19 </span>
+                <div class="post-content">
+                    
+
+<p><strong>El servidor DNS estará instalado en freston, por ello instalaremos bind en esta máquina</strong></p>
+
+<pre><code>    root@freston:~# apt install bind9
+</code></pre>
+
+<p><strong>Configuramos el fichero &ldquo;/etc/bind/named.conf.options&rdquo; y añadimos las siguientes líneas:</strong></p>
+
+<pre><code>listen-on { any };
+allow-transfer { none };
+recursion yes;
+allow-recursion { any; };
+</code></pre>
+
+<p><strong>Configuramos el DNS local, la DMZ y externa en el fichero de configuración /etc/bind/named.conf.local:</strong></p>
+
+<pre><code>    view interna {
+            match-clients { 10.0.1.0/24; localhost; };
+
+            zone &quot;alegv.gonzalonazareno.org&quot; {
+                    type master;
+                    file &quot;db.alegv.interna&quot;;
+            };
+
+            zone &quot;1.0.10.in-addr.arpa&quot; {
+                    type master;
+                    file &quot;db.1.0.10&quot;;
+            };
+
+            zone &quot;2.0.10.in-addr.arpa&quot; {
+                    type master;
+                    file &quot;db.2.0.10&quot;;
+            };
+
+            include &quot;/etc/bind/zones.rfc1918&quot;;
+            include &quot;/etc/bind/named.conf.default-zones&quot;;
+    };
+    view dmz {
+            match-clients { 10.0.2.0/24; };
+
+            zone &quot;alegv.gonzalonazareno.org&quot; {
+                    type master;
+                    file &quot;db.alegv.dmz&quot;;
+            };
+
+            zone &quot;1.0.10.in-addr.arpa&quot; {
+                    type master;
+                    file &quot;db.1.0.10&quot;;
+            };
+
+            zone &quot;2.0.10.in-addr.arpa&quot; {
+                    type master;
+                    file &quot;db.2.0.10&quot;;
+            };
+
+            include &quot;/etc/bind/zones.rfc1918&quot;;
+            include &quot;/etc/bind/named.conf.default-zones&quot;;
+    };
+
+    view externa {
+            match-clients { 172.22.0.0/15; 192.168.202.2; };
+
+            zone &quot;alegv.gonzalonazareno.org&quot; {
+                    type master;
+                    file &quot;db.alegv.externa&quot;;
+            };
+
+            include &quot;/etc/bind/zones.rfc1918&quot;;
+            include &quot;/etc/bind/named.conf.default-zones&quot;;
+    };
+</code></pre>
+
+<p><strong>Y en el fichero &ldquo;/etc/bind/named.conf&rdquo; debemos comentar esta línea:</strong></p>
+
+<pre><code>    //include &quot;/etc/bind/named.conf.default-zones&quot;;
+</code></pre>
+
+<p><strong>Crearemos los archivos db, lo hacemos en la carpeta &ldquo;/var/cache/bind/&rdquo;</strong></p>
+
+<h3 id="db-alegv-interna">db.alegv.interna</h3>
+
+<pre><code>    $TTL    86400
+    @       IN      SOA     freston.alegv.gonzalonazareno.org. admin.alegv.gonzalonazareno.org. (
+                                  1         ; Serial
+                             604800         ; Refresh
+                              86400         ; Retry
+                            2419200         ; Expire
+                              86400 )       ; Negative Cache TTL
+    ;
+    @       IN      NS      freston.alegv.gonzalonazareno.org.
+
+    $ORIGIN alegv.gonzalonazareno.org.
+
+    dulcinea        IN      A       10.0.1.5
+    sancho  IN      A       10.0.1.4
+    quijote IN      A       10.0.2.2
+    freston IN      A       10.0.1.9
+    www     IN      CNAME   quijote
+    bd      IN      CNAME   sancho
+</code></pre>
+
+<h3 id="db-alegv-dmz">db.alegv.dmz</h3>
+
+<pre><code>    $TTL    86400
+    @       IN      SOA     freston.alegv.gonzalonazareno.org. admin.alegv.gonzalonazareno.org. (
+                                  1         ; Serial
+                             604800         ; Refresh
+                              86400         ; Retry
+                            2419200         ; Expire
+                              86400 )       ; Negative Cache TTL
+    ;
+    @       IN      NS      freston.alegv.gonzalonazareno.org.
+
+    $ORIGIN madu.gonzalonazareno.org.
+
+    dulcinea        IN      A       10.0.2.11
+    sancho  IN      A       10.0.1.4
+    quijote IN      A       10.0.2.2
+    freston IN      A       10.0.1.9
+    www     IN      CNAME   quijote
+    bd      IN      CNAME   sancho
+</code></pre>
+
+<h3 id="db-alegv-externa">db.alegv.externa</h3>
+
+<pre><code>    $TTL    86400
+    @       IN      SOA     dulcinea.alegv.gonzalonazareno.org. admin.alegv.gonzalonazareno.org. (
+                                  1         ; Serial
+                             604800         ; Refresh
+                              86400         ; Retry
+                            2419200         ; Expire
+                              86400 )       ; Negative Cache TTL
+    ;
+    @       IN      NS      dulcinea.alegv.gonzalonazareno.org.
+
+    $ORIGIN alegv.gonzalonazareno.org.
+
+    dulcinea        IN      A       172.22.200.87
+    www     IN      CNAME   dulcinea
+    test    IN      CNAME   dulcinea
+</code></pre>
+
+<p><strong>Ahora crearemos los archivos de las resoluciones inversas en la misma ruta</strong></p>
+
+<h3 id="db-1-0-10">db.1.0.10</h3>
+
+<pre><code>    $TTL    86400
+    @       IN      SOA     freston.alegv.gonzalonazareno.org. admin.alegv.gonzalonazareno.org. (
+                                  1         ; Serial
+                             604800         ; Refresh
+                              86400         ; Retry
+                            2419200         ; Expire
+                              86400 )       ; Negative Cache TTL
+    ;
+    @       IN      NS      freston.alegv.gonzalonazareno.org.
+
+
+    $ORIGIN 1.0.10.in-addr.arpa.
+
+    5       IN      PTR     dulcinea
+    4       IN      PTR     sancho
+    9       IN      PTR     freston
+</code></pre>
+
+<h3 id="db-2-0-10">db.2.0.10</h3>
+
+<pre><code>    $TTL    86400
+    @       IN      SOA     freston.alegv.gonzalonazareno.org. admin.alegv.gonzalonazareno.org. (
+                                   1         ; Serial
+                             604800         ; Refresh
+                              86400         ; Retry
+                            2419200         ; Expire
+                              86400 )       ; Negative Cache TTL
+    ;
+    @       IN      NS      freston.alegv.gonzalonazareno.org.
+
+
+    $ORIGIN 2.0.10.in-addr.arpa.
+
+    11      IN      PTR     dulcinea
+    2       IN      PTR     quijote
+</code></pre>
+
+<p><strong>Si quisieramos asegurarnos de que no tenemos ningún error de sintáxis podemos usar esto:</strong></p>
+
+<pre><code>    root@freston:/var/cache/bind# named-checkconf
+</code></pre>
+
+<p><strong>IPV6 da conflictos, así que podemos deshabilitarlo en el fichero &ldquo;/etc/default/bind9&rdquo;</strong></p>
+
+<pre><code>    # run resolvconf?
+    RESOLVCONF=yes
+
+    # startup options for the server
+    OPTIONS=&quot;-4 -u bind&quot;
+</code></pre>
+
+<p><strong>Reiniciamos el servicio de DNS</strong></p>
+
+<pre><code>    root@freston:/var/cache/bind# systemctl restart bind9
+
+    debian@freston:~$ sudo systemctl status bind9
+    ● bind9.service - BIND Domain Name Server
+       Loaded: loaded (/lib/systemd/system/bind9.service; enabled; vendor preset: enabled)
+       Active: active (running) since Fri 2021-02-19 11:38:00 UTC; 1min 37s ago
+         Docs: man:named(8)
+      Process: 14513 ExecStart=/usr/sbin/named $OPTIONS (code=exited, status=0/SUCCESS)
+     Main PID: 14514 (named)
+        Tasks: 4 (limit: 562)
+       Memory: 18.3M
+       CGroup: /system.slice/bind9.service
+               └─14514 /usr/sbin/named -4 -u bind
+
+    Feb 19 11:38:00 freston named[14514]: zone localhost/IN/externa: loaded serial 2
+    Feb 19 11:38:00 freston named[14514]: all zones loaded
+    Feb 19 11:38:00 freston systemd[1]: Started BIND Domain Name Server.
+    Feb 19 11:38:00 freston named[14514]: running
+    Feb 19 11:38:01 freston named[14514]: managed-keys-zone/interna: Key 20326 for zone . acceptance timer co
+    Feb 19 11:38:01 freston named[14514]: resolver priming query complete
+    Feb 19 11:38:01 freston named[14514]: managed-keys-zone/externa: Key 20326 for zone . acceptance timer co
+    Feb 19 11:38:01 freston named[14514]: resolver priming query complete
+    Feb 19 11:38:01 freston named[14514]: managed-keys-zone/dmz: Key 20326 for zone . acceptance timer comple
+    Feb 19 11:38:01 freston named[14514]: resolver priming query complete
+</code></pre>
+
+<p><strong>Vamos a añadir las reglas en Dulcinea, lo haremos para el DNS (puerto 53) y como lo usaremos mas adelante, también para http (puerto 80) y https (puerto 443)</strong></p>
+
+<pre><code>    debian@dulcinea:~$ sudo nft add chain nat prerouting { type nat hook prerouting priority 0 \; }
+    debian@dulcinea:~$ sudo nft add rule ip nat prerouting iifname &quot;eth0&quot; udp dport 53 counter dnat to 10.0.1.9
+    debian@dulcinea:~$ sudo nft add rule ip nat prerouting iifname &quot;eth0&quot; tcp dport 80 counter dnat to 10.0.2.2
+    debian@dulcinea:~$ sudo nft add rule ip nat prerouting iifname &quot;eth0&quot; tcp dport 443 counter dnat to 10.0.2.2
+</code></pre>
+
+<p><strong>Y guardamos los cambios</strong></p>
+
+<pre><code>    root@dulcinea:~# nft list ruleset &gt; /etc/nftables.conf
+</code></pre>
+
+<p><strong>Cambiamos los ficheros de resolv de todas las instanacias:</strong></p>
+
+<h3 id="dulcinea">Dulcinea</h3>
+
+<pre><code>    root@dulcinea:~# cat /etc/resolvconf/resolv.conf.d/head 
+    nameserver 10.0.1.9
+
+    root@dulcinea:~# cat /etc/resolvconf/resolv.conf.d/base 
+    nameserver 192.168.202.2
+    search alegv.gonzalonazareno.org
+
+    root@dulcinea:~# cat /etc/resolv.conf 
+    nameserver 10.0.1.9
+    nameserver 192.168.200.2
+    nameserver 192.168.202.2
+    search alegv.gonzalonazareno.org
+</code></pre>
+
+<h3 id="sancho">Sancho</h3>
+
+<pre><code>    ubuntu@sancho:~$ cat /etc/netplan/50-cloud-init.yaml
+    network:
+        version: 2
+        ethernets:
+            ens4:
+                dhcp4: false
+                match:
+                    macaddress: fa:16:3e:8b:3f:fb
+                mtu: 8950
+                set-name: ens4
+                addresses: [10.0.1.4/24]
+                gateway4: 10.0.1.5
+                nameservers:
+                    addresses: [192.168.202.2, 192.168.200.2, 1.0.1.9]
+            search: [&quot;alegv.gonzalonazareno.org&quot;]
+
+    ubuntu@sancho:~$ cat /etc/resolv.conf 
+    nameserver 127.0.0.53
+    options edns0 trust-ad
+    search alegv.gonzalonazareno.org
+</code></pre>
+
+<h3 id="quijote">Quijote</h3>
+
+<pre><code>    [centos@quijote ~]$ cat /etc/resolv.conf 
+    # Generated by NetworkManager
+    search openstacklocal alegv.gonzalonazareno.org
+    nameserver 10.0.1.9
+    nameserver 192.168.202.2
+    nameserver 192.168.200.2
+</code></pre>
+
+<h3 id="freston">Freston</h3>
+
+<pre><code>    debian@freston:~$ cat /etc/resolv.conf 
+    nameserver 10.0.1.9
+    nameserver 192.168.200.2
+    nameserver 192.168.202.2
+    search alegv.gonzalonazareno.org
+
+    debian@freston:~$ cat /etc/resolvconf/resolv.conf.d/base
+    nameserver 192.168.202.2
+    search alegv.gonzalonazareno.org
+
+    debian@freston:~$ cat /etc/resolvconf/resolv.conf.d/head 
+    nameserver 10.0.1.9
+</code></pre>
+
+<p><strong>Nuestro siguiente paso será deshabilitar la seguirdad de los puertos y las máquinas:</strong></p>
+
+<pre><code>    (openstackclient) alejandrogv@AlejandroGV:~$ openstack server remove security group Quijote default
+    (openstackclient) alejandrogv@AlejandroGV:~$ openstack port set --disable-port-security 3fd1ff15-8a86-4374-ab6b-5e946e9721c0
+
+    (openstackclient) alejandrogv@AlejandroGV:~$ openstack server remove security group Freston default
+    (openstackclient) alejandrogv@AlejandroGV:~$ openstack port set --disable-port-security bb44ccb2-b79e-497c-b271-4d9a8f3dadaa
+
+    (openstackclient) alejandrogv@AlejandroGV:~$ openstack server remove security group Sancho default
+    (openstackclient) alejandrogv@AlejandroGV:~$ openstack port set --disable-port-security a7c4213b-d224-4d2f-8cf1-1f8770ef7823
+</code></pre>
+
+<p><strong>Vamos a hacer las comprobaciones necesarias en cada máquina:</strong></p>
+
+<h3 id="dulcinea-1">Dulcinea</h3>
+
+<pre><code>    debian@dulcinea:~$ dig +short @10.0.1.9 dulcinea.alegv.gonzalonazareno.org
+    10.0.1.5
+    debian@dulcinea:~$ dig +short @10.0.1.9 freston.alegv.gonzalonazareno.org
+    10.0.1.9
+    debian@dulcinea:~$ dig +short @10.0.1.9 quijote.alegv.gonzalonazareno.org
+    10.0.2.2
+    debian@dulcinea:~$ dig +short @10.0.1.9 sancho.alegv.gonzalonazareno.org
+    10.0.1.4
+
+    debian@dulcinea:~$ dig +short @10.0.1.9 bd.alegv.gonzalonazareno.org
+    sancho.alegv.gonzalonazareno.org.
+    10.0.1.4
+    debian@dulcinea:~$ dig +short @10.0.1.9 www.alegv.gonzalonazareno.org
+    quijote.alegv.gonzalonazareno.org.
+    10.0.2.2
+</code></pre>
+
+<h3 id="quijote-1">Quijote</h3>
+
+<pre><code>    [centos@quijote ~]$ dig +short @10.0.1.9 -x 10.0.2.2
+    quijote.2.0.10.in-addr.arpa.
+    [centos@quijote ~]$ dig +short @10.0.1.9 -x 10.0.2.11
+    dulcinea.2.0.10.in-addr.arpa.
+</code></pre>
+
+<h3 id="sancho-1">Sancho</h3>
+
+<pre><code>    ubuntu@sancho:~$ dig +short @10.0.1.9 dulcinea.alegv.gonzalonazareno.org
+    10.0.1.5
+    ubuntu@sancho:~$ dig +short @10.0.1.9 freston.alegv.gonzalonazareno.org
+    10.0.1.9
+</code></pre>
+
+<h3 id="freston-1">Freston</h3>
+
+<pre><code>    debian@freston:~$ dig +short @localhost -x 10.0.1.4
+    sancho.1.0.10.in-addr.arpa.
+
+    debian@freston:~$ dig +short @localhost -x 10.0.1.5
+    dulcinea.1.0.10.in-addr.arpa.
+</code></pre>
+
+<h3 id="desde-fuera">Desde fuera:</h3>
+
+<pre><code>    alejandrogv@AlejandroGV:~$ dig dulcinea.alegv.gonzalonazareno.org
+
+    ; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u2-Debian &lt;&lt;&gt;&gt; dulcinea.alegv.gonzalonazareno.org
+    ;; global options: +cmd
+    ;; Got answer:
+    ;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 48370
+    ;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+
+    ;; OPT PSEUDOSECTION:
+    ; EDNS: version: 0, flags:; udp: 512
+    ;; QUESTION SECTION:
+    ;dulcinea.alegv.gonzalonazareno.org. IN A
+
+    ;; ANSWER SECTION:
+    dulcinea.alegv.gonzalonazareno.org. 900 IN CNAME macaco.gonzalonazareno.org.
+    macaco.gonzalonazareno.org. 900 IN  A   80.59.1.152
+
+    ;; Query time: 66 msec
+    ;; SERVER: 192.168.1.1#53(192.168.1.1)
+    ;; WHEN: dom feb 21 17:47:52 CET 2021
+    ;; MSG SIZE  rcvd: 100
+</code></pre>
+
+<p><strong>Tenemos el servidor DNS, continuemos con el servidor web, este servidor estará situado en Quijote, será un servidor apache capaz de ejecutar php. Lo primero que deberemos hacer es instalar el servidor apache y php (el paquete de apache en CentOS se llama httpd)</strong></p>
+
+<pre><code>    [centos@quijote ~]$ sudo dnf install httpd php php-fpm
+</code></pre>
+
+<p><strong>Tenemos que iniciar y habilitar los servicios httpd y php</strong></p>
+
+<pre><code>    [centos@quijote ~]$ sudo systemctl start php-fpm httpd
+    [centos@quijote ~]$ sudo systemctl enable php-fpm httpd
+    Created symlink /etc/systemd/system/multi-user.target.wants/php-fpm.service → /usr/lib/systemd/system/php-fpm.service.
+    Created symlink /etc/systemd/system/multi-user.target.wants/httpd.service → /usr/lib/systemd/system/httpd.service.
+</code></pre>
+
+<p><strong>Para que podamos acceder debemos habilitar en el firewall los puertos 443 y 80</strong></p>
+
+<pre><code>    [centos@quijote ~]$ sudo firewall-cmd --permanent --add-port=443/tcp
+    success
+    [centos@quijote ~]$ sudo firewall-cmd --permanent --add-port=80/tcp
+    success
+</code></pre>
+
+<p><strong>Para guardarlas debemos hacer un reload y comprobamos las reglas que tenemos:</strong></p>
+
+<pre><code>    [centos@quijote ~]$ sudo firewall-cmd --reload
+    success
+    [centos@quijote ~]$ sudo firewall-cmd --list-all
+    public (active)
+      target: default
+      icmp-block-inversion: no
+      interfaces: eth0
+      sources: 
+      services: dhcpv6-client ssh
+      ports: 443/tcp 80/tcp
+      protocols: 
+      masquerade: no
+      forward-ports: 
+      source-ports: 
+      icmp-blocks: 
+      rich rules:
+</code></pre>
+
+<p><strong>En CentOS los directorios sites-avaiable y sites-enabled no se crean por defecto, los crearemos nosotros:</strong></p>
+
+<pre><code>    [centos@quijote ~]$ sudo mkdir /etc/httpd/sites-enabled /etc/httpd/sites-available
+</code></pre>
+
+<p><strong>Ahora entraremos al fichero de configuración &ldquo;/etc/httpd/conf/httpd.conf&rdquo; para añadir sites-avaiable como nueva ruta comentando la última línea y añadiendo otra</strong></p>
+
+<pre><code>    #IncludeOptional conf.d/*.conf
+    IncludeOptional sites-enabled/*.conf
+</code></pre>
+
+<p><strong>Directamente pasaremos a la configuración de un virtualhost</strong></p>
+
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2021 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>
