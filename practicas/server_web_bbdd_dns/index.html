@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title> Servidor web, Base de datos y DNS &middot; Alepetepórico Blog </title>
+        <title> DNS, servidor web y base de datos &middot; Alepetepórico Blog </title>
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -79,7 +79,7 @@
 
         <div class="flex-wrapper">
             <div class="container wrapper">
-                <h1><a href="https://alepeteporico.github.io/practicas/server_web_bbdd_dns/">Servidor web, Base de datos y DNS</a></h1>
+                <h1><a href="https://alepeteporico.github.io/practicas/server_web_bbdd_dns/">DNS, servidor web y base de datos</a></h1>
                 <span class="post-date">2021-02-19 </span>
                 <div class="post-content">
                     
@@ -196,7 +196,7 @@ allow-recursion { any; };
     ;
     @       IN      NS      freston.alegv.gonzalonazareno.org.
 
-    $ORIGIN madu.gonzalonazareno.org.
+    $ORIGIN alegv.gonzalonazareno.org.
 
     dulcinea        IN      A       10.0.2.11
     sancho  IN      A       10.0.1.4
@@ -525,6 +525,47 @@ allow-recursion { any; };
 </code></pre>
 
 <p><strong>Directamente pasaremos a la configuración de un virtualhost</strong></p>
+
+<pre><code>    [centos@quijote ~]$ cat /etc/httpd/sites-available/pagina.conf
+    &lt;VirtualHost *:80&gt;
+        ServerName www.alegv.gonzalonazareno.org
+        DocumentRoot /var/www/alegv 
+
+        &lt;Directory /var/www/alegv/&gt;
+            Options FollowSymLinks
+            AllowOverride All
+            Order deny,allow
+            Allow from all
+
+            &lt;FilesMatch &quot;\.php&quot;&gt;
+                    SetHandler &quot;proxy:unix:/run/php-fpm/www.sock|fcgi://localhost&quot;
+            &lt;/FilesMatch&gt;
+
+        &lt;/Directory&gt;
+
+        ErrorLog /var/www/alegv/log/error.log
+        CustomLog /var/www/alegv/log/requests.log combined
+    &lt;/VirtualHost&gt;
+</code></pre>
+
+<p><strong>Creamos el vínculo en sites-enabled y las carpetas necesarias en &ldquo;/var/www/&rdquo;</strong></p>
+
+<pre><code>    [centos@quijote sites-available]$ sudo ln -s pagina.conf ../sites-enabled/
+    [centos@quijote ~]$ sudo mkdir -p /var/www/alegv/log
+</code></pre>
+
+<p><strong>Selinux nos dará problemas con los nuevos directorios, por ello debemos ejecutar los siguientes comandos y reiniciar el servicio httpd</strong></p>
+
+<pre><code>    [centos@quijote ~]$ sudo semanage fcontext -a -t httpd_log_t &quot;/var/www/alegv/log(/.*)?&quot;
+    [root@quijote ~]# sudo restorecon -R -v /var/www/alegv/log
+    [centos@quijote ~]$ sudo systemctl restart httpd
+</code></pre>
+
+<p><strong>Creamos el fichero info.php</strong></p>
+
+<pre><code>    [centos@quijote ~]$ cat /var/www/alegv/info.php 
+    echo &quot;&lt;?php phpinfo(); ?&gt;&quot;
+</code></pre>
 
                 </div>
                 
