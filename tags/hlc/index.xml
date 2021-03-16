@@ -6,7 +6,7 @@
     <description>Recent content in Hlc on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 15 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 16 Mar 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://alepeteporico.github.io/tags/hlc/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Configuración del escenario en OpenStack</title>
       <link>https://alepeteporico.github.io/practicas/escenearioos/</link>
-      <pubDate>Mon, 15 Feb 2021 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 16 Mar 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/escenearioos/</guid>
       <description>El escenario que debemos montar es el siguiente:

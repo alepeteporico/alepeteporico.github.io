@@ -6,10 +6,45 @@
     <description>Recent content in Practicas on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 19 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 16 Mar 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Configuración del escenario en OpenStack</title>
+      <link>https://alepeteporico.github.io/practicas/escenearioos/</link>
+      <pubDate>Tue, 16 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/escenearioos/</guid>
+      <description>El escenario que debemos montar es el siguiente:
+Nosotros tenemos nuestra propia red, pero debemos crear dos nuevas para el escenario y añadir las redes conrrespondientes a sus máquinas
+Nuestro siguiente paso será deshabilitar los puertos de Dulcinea que será la máquina que usaremos para conectarnos a las demás y salir al exterior Para este proposito usaremos OpenStack Client alejandrogv@AlejandroGV:~$ source Escritorio/ASIR/hlc/openstackclient/bin/activate source ~/Descargas/Proyecto\ de\ a.gutierrez-openrc.sh
+Ahora listaremos las interfaces que tenemos en nuestro proyecto</description>
+    </item>
+    
+    <item>
+      <title>DNS, servidor web y base de datos</title>
+      <link>https://alepeteporico.github.io/practicas/server_web_bbdd_dns/</link>
+      <pubDate>Tue, 16 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/server_web_bbdd_dns/</guid>
+      <description>El servidor DNS estará instalado en freston, por ello instalaremos bind en esta máquina
+ root@freston:~# apt install bind9  Configuramos el fichero &amp;ldquo;/etc/bind/named.conf.options&amp;rdquo; y añadimos las siguientes líneas:
+listen-on { any }; allow-transfer { none }; recursion yes; allow-recursion { any; };  Configuramos el DNS local, la DMZ y externa en el fichero de configuración /etc/bind/named.conf.local:
+ view interna { match-clients { 10.0.1.0/24; localhost; }; zone &amp;quot;alegv.gonzalonazareno.org&amp;quot; { type master; file &amp;quot;db.</description>
+    </item>
+    
+    <item>
+      <title>Servidor DHCP</title>
+      <link>https://alepeteporico.github.io/practicas/dhcp/</link>
+      <pubDate>Tue, 16 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/dhcp/</guid>
+      <description>Lee el documento Teoría: Servidor DHCP y explica el funcionamiento del servidor DHCP resumido en este gráfico.  En primer lugar el cliente manda una petición para ver si hay un servidor DHCP que pueda darle una dirección.
+El servidor reciviría esa petición y le dice al cliente que hay un servidor DHCP y puede ofrecerle una IP, por tanto el cliente pide una IP al servidor.
+Por último el servidor al recibir esa última petición le concede una IP dentro de su rango.</description>
+    </item>
     
     <item>
       <title>Actualización de CentOS 7 a CentOS 8</title>
@@ -21,30 +56,6 @@
  [centos@quijote ~]$ sudo yum install epel-release -y [centos@quijote ~]$ sudo yum install yum-utils -y [centos@quijote ~]$ sudo yum install rpmconf -y  Ahora usaremos rpmconf para verificar conflictos en ficheros de configuración:
  [centos@quijote ~]$ sudo rpmconf -a  Limpiamos los paquetes innecesarios:
  [centos@quijote ~]$ sudo package-cleanup --leaves [centos@quijote ~]$ sudo package-cleanup --orphans  Instalamos el nuevo gestor de paquetes que usa CentOS 8, dnf:</description>
-    </item>
-    
-    <item>
-      <title>DNS, servidor web y base de datos</title>
-      <link>https://alepeteporico.github.io/practicas/server_web_bbdd_dns/</link>
-      <pubDate>Fri, 19 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/server_web_bbdd_dns/</guid>
-      <description>El servidor DNS estará instalado en freston, por ello instalaremos bind en esta máquina
- root@freston:~# apt install bind9  Configuramos el fichero &amp;ldquo;/etc/bind/named.conf.options&amp;rdquo; y añadimos las siguientes líneas:
-listen-on { any }; allow-transfer { none }; recursion yes; allow-recursion { any; };  Configuramos el DNS local, la DMZ y externa en el fichero de configuración /etc/bind/named.conf.local:
- view interna { match-clients { 10.0.1.0/24; localhost; }; zone &amp;quot;alegv.gonzalonazareno.org&amp;quot; { type master; file &amp;quot;db.</description>
-    </item>
-    
-    <item>
-      <title>Configuración del escenario en OpenStack</title>
-      <link>https://alepeteporico.github.io/practicas/escenearioos/</link>
-      <pubDate>Mon, 15 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/escenearioos/</guid>
-      <description>El escenario que debemos montar es el siguiente:
-Nosotros tenemos nuestra propia red, pero debemos crear dos nuevas para el escenario y añadir las redes conrrespondientes a sus máquinas
-Nuestro siguiente paso será deshabilitar los puertos de Dulcinea que será la máquina que usaremos para conectarnos a las demás y salir al exterior Para este proposito usaremos OpenStack Client alejandrogv@AlejandroGV:~$ source Escritorio/ASIR/hlc/openstackclient/bin/activate source ~/Descargas/Proyecto\ de\ a.gutierrez-openrc.sh
-Ahora listaremos las interfaces que tenemos en nuestro proyecto</description>
     </item>
     
     <item>

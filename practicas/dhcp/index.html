@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Servidor DHCP &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.54.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://alepeteporico.github.io/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/practicas/dhcp/">Servidor DHCP</a></h1>
+                <span class="post-date">2021-03-16 </span>
+                <div class="post-content">
+                    <ul>
+<li>Lee el documento Teoría: Servidor DHCP y explica el funcionamiento del servidor DHCP resumido en este gráfico.</li>
+</ul>
+
+<p><strong>En primer lugar el cliente manda una petición para ver si hay un servidor DHCP que pueda darle una dirección.</strong></p>
+
+<p><strong>El servidor reciviría esa petición y le dice al cliente que hay un servidor DHCP y puede ofrecerle una IP, por tanto el cliente pide una IP al servidor.</strong></p>
+
+<p><strong>Por último el servidor al recibir esa última petición le concede una IP dentro de su rango.</strong></p>
+
+<ul>
+<li><p>Entrega el fichero Vagrantfile que define el escenario.</p>
+
+<pre><code>Vagrant.configure(&quot;2&quot;) do |config|
+  config.vm.define :servidor do |servidor|
+    servidor.vm.box = &quot;debian/buster64&quot;
+    servidor.vm.hostname = &quot;servidor&quot;
+    servidor.vm.network &quot;public_network&quot;,:bridge=&gt;&quot;enp2s0&quot;
+    servidor.vm.network &quot;private_network&quot;, ip: &quot;192.168.100.1&quot;,
+      virtualbox__intnet: &quot;interna&quot;
+  end
+  config.vm.define :nodo_lan1 do |nodo_lan1|
+    nodo_lan1.vm.box = &quot;debian/buster64&quot;
+    nodo_lan1.vm.hostname = &quot;nodolan1&quot;
+    nodo_lan1.vm.network &quot;private_network&quot;, type: &quot;dhcp&quot;,
+      virtualbox__intnet: &quot;interna&quot;
+  end
+end     
+</code></pre></li>
+
+<li><p>Muestra el fichero de configuración del servidor, la lista de concesiones, la modificación en la configuración que has hecho en el cliente para que tome la configuración de forma automática y muestra la salida del comando <code>ip address</code>.</p></li>
+</ul>
+
+<p><strong>Instalamos el servidor dhcp:</strong></p>
+
+<pre><code>sudo apt install isc-dhcp-server
+</code></pre>
+
+<p><strong>Configuramos el fichero &ldquo;/etc/default/isc-dhcp-server&rdquo; y añadimos en INTERFACESv4 la eth2 que es la tarjeta privada.</strong></p>
+
+<pre><code>vagrant@servidor:~$ cat /etc/default/isc-dhcp-server 
+# Defaults for dhcp initscript
+# sourced by /etc/init.d/dhcp
+# installed at /etc/default/isc-dhcp-server by the maintainer scripts
+#
+# This is a POSIX shell fragment
+#
+# On what interfaces showld the DHCP server (dhcpd) serve DHCP requests?
+# Separate multiple interfaces with spaces, e.g. &quot;eh0 eth1&quot;.
+INTERFACES=&quot;eth2&quot;
+</code></pre>
+
+<p><strong>Configuramos el fichero &ldquo;/etc/dhcp/dhcpd.conf&rdquo;, he modificado el max-lease-time y el default-lease-time para que el tiempo de concesión sea de 12 horas, después hemos especificado las direcciones de subnet y el rango de ips que queremos.</strong></p>
+
+<pre><code>subnet 192.168.100.0 netmask 255.255.255.0 {
+  range 192.168.100.2 192.168.100.253;
+  option domain-name-servers 8.8.8.8, 8.8.4.4;
+  option domain-name &quot;servidor.interno&quot;;
+  option routers 192.168.100.1;
+  option broadcast-address 192.168.100.253;
+  default-lease-time 43200;
+  max-lease-time 43200;
+}
+</code></pre>
+
+<p><strong>Después de reiniciar el servicio vemos la salida del comando ip</strong></p>
+
+<pre><code>vagrant@servidor:~$ ip a
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:8d:c0:4d brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic eth0
+       valid_lft 85566sec preferred_lft 85566sec
+    inet6 fe80::a00:27ff:fe8d:c04d/64 scope link 
+       valid_lft forever preferred_lft forever
+3: eth1: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:b5:11:a3 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.1.124/24 brd 192.168.1.255 scope global dynamic eth1
+       valid_lft 85587sec preferred_lft 85587sec
+    inet6 fe80::a00:27ff:feb5:11a3/64 scope link 
+       valid_lft forever preferred_lft forever
+4: eth2: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:06:d7:88 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.100.1/24 brd 192.168.100.255 scope global eth2
+       valid_lft forever preferred_lft forever
+    inet6 fe80::a00:27ff:fe06:d788/64 scope link 
+       valid_lft forever preferred_lft forever
+</code></pre>
+
+<ul>
+<li>Configura el servidor para que funcione como router y NAT, de esta forma los clientes tengan internet. Muestra las rutas por defecto del servidor y el cliente. Realiza una prueba de funcionamiento para comprobar que el cliente tiene acceso a internet (utiliza nombres, para comprobar que tiene resolución DNS).</li>
+</ul>
+
+<p><strong>Ahora debemos configurar esta máquina servidor para que actue como router, para ello descomentaremos la siguiente línea del fichero &ldquo;/etc/sysctl.conf&rdquo;:</strong></p>
+
+<pre><code># Uncomment the next line to enable packet forwarding for IPv4
+net.ipv4.ip_forward=1
+</code></pre>
+
+<p><strong>Para configurar NAT en nuestro servidor debemos modificar el fichero &ldquo;/etc/network/interfaces&rdquo; y añadir la siguiente línea:</strong></p>
+
+<pre><code>up iptables -t nat -A POSTROUTING -s 192.168.100.0/24 -o eth1 -j MASQUERADE
+</code></pre>
+
+<p><strong>Después de reiniciar el servicio de red nuestro siguiente paso deberá ser configurar las rutas de nuestras máquinas, primero hay que borrar la default via, para ello veremos la tabla de enrutamiento con el comando ip r:</strong></p>
+
+<pre><code>vagrant@servidor:~$ ip r
+default via 10.0.2.2 dev eth0 
+10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15 
+192.168.1.0/24 dev eth1 proto kernel scope link src 192.168.1.124 
+192.168.100.0/24 dev eth2 proto kernel scope link src 192.168.100.1
+</code></pre>
+
+<p><strong>Borrariamos el default via con el siguiente comando:</strong></p>
+
+<pre><code>vagrant@servidor:~$ sudo ip route del default via 10.0.2.2 dev eth0
+</code></pre>
+
+<p><strong>Y añadiriamos una nueva con el siguiente:</strong></p>
+
+<pre><code>vagrant@servidor:~$ sudo ip route add default via 192.168.1.1 dev eth1
+</code></pre>
+
+<p><strong>Volvemos a comprobar el comando ip r y veremos que el default via ha cambiado:</strong></p>
+
+<pre><code>vagrant@servidor:~$ ip r
+default via 192.168.1.1 dev eth1 
+10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15 
+192.168.1.0/24 dev eth1 proto kernel scope link src 192.168.1.124 
+192.168.100.0/24 dev eth2 proto kernel scope link src 192.168.100.1
+</code></pre>
+
+<p><strong>Realizaremos el mismo proceso con la tabla de enrutamiento en el cliente:</strong></p>
+
+<pre><code>vagrant@nodolan1:~$ ip r
+default via 10.0.2.2 dev eth0 
+10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15 
+192.168.100.0/24 dev eth1 proto kernel scope link src 192.168.100.2
+
+
+vagrant@nodolan1:~$ sudo ip route del default via 10.0.2.2 dev eth0
+
+
+vagrant@nodolan1:~$ sudo ip route add default via 192.168.100.1 dev eth1
+
+
+vagrant@nodolan1:~$ ip r
+default via 192.168.100.1 dev eth1 
+10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15 
+192.168.100.0/24 dev eth1 proto kernel scope link src 192.168.100.2
+</code></pre>
+
+<p><strong>Hacemos ping a www.google.es y con su funcionamiento comprobaremos que tenemos salida a internet y resuelve nombres de dominio.</strong></p>
+
+<pre><code>vagrant@nodolan1:~$ ping www.google.es
+PING www.google.es (216.58.201.163) 56(84) bytes of data.
+64 bytes from mad08s06-in-f3.1e100.net (216.58.201.163): icmp_seq=1 ttl=63 time=9.58 ms
+64 bytes from mad08s06-in-f3.1e100.net (216.58.201.163): icmp_seq=2 ttl=63 time=9.54 ms
+</code></pre>
+
+<ul>
+<li>Realizar una captura, desde el servidor usando tcpdump, de los cuatro paquetes que corresponden a una concesión: DISCOVER, OFFER, REQUEST, ACK.</li>
+</ul>
+
+<p><strong>Dejaremos el siguiente comando ejecutandose en el servidor para realizar la captura de tcpdump:</strong></p>
+
+<pre><code>vagrant@servidor:~$ sudo tcpdump -i eth2 port 67 or port 68
+</code></pre>
+
+<p><strong>Mientras tanto en el cliente pediremos que se nos renueve la concesión, debemos eliminar la que ya tenemos y pedir una nueva:</strong></p>
+
+<pre><code>vagrant@nodolan1:~$ sudo dhclient -r &amp;&amp; sudo dhclient
+</code></pre>
+
+<p><strong>La salida de tcpdump sería la siguiente:</strong></p>
+
+<pre><code>18:08:06.054194 IP 192.168.100.3.bootpc &gt; 192.168.100.1.bootps: BOOTP/DHCP, Request from 08:00:27:2a:11:2b (oui Unknown), length 300
+18:08:06.140538 IP 0.0.0.0.bootpc &gt; 255.255.255.255.bootps: BOOTP/DHCP, Request from 08:00:27:2a:11:2b (oui Unknown), length 300
+18:08:07.150812 IP 192.168.100.1.bootps &gt; 192.168.100.3.bootpc: BOOTP/DHCP, Reply, length 302
+18:08:07.151785 IP 0.0.0.0.bootpc &gt; 255.255.255.255.bootps: BOOTP/DHCP, Request from 08:00:27:2a:11:2b (oui Unknown), length 300
+18:08:07.154588 IP 192.168.100.1.bootps &gt; 192.168.100.3.bootpc: BOOTP/DHCP, Reply, length 302
+</code></pre>
+
+<p><strong>La primera línea captura el dhcp discover.</strong></p>
+
+<p><strong>En la segunda línea puede verse como el servidor responde a petición con un dhcp offer.</strong></p>
+
+<p><strong>En la tercera se realiza la petición del cliente al servidor con un dhcp request.</strong></p>
+
+<p><strong>Y por úlitmo se realiza la concesión al cliente mediante el paquete dhcp ack.</strong></p>
+
+<ul>
+<li>Los clientes toman una configuración, y a continuación apagamos el servidor dhcp. ¿qué ocurre con el cliente windows? ¿Y con el cliente linux?</li>
+</ul>
+
+<p><a href="https://www.youtube.com/watch?v=XBQpHuai3RA&amp;feature=youtu.be">https://www.youtube.com/watch?v=XBQpHuai3RA&amp;feature=youtu.be</a></p>
+
+<ul>
+<li>Indica las modificaciones realizadas en los ficheros de configuración y entrega una comprobación de que el cliente ha tomado esa dirección.</li>
+</ul>
+
+<p><strong>Para crear una reserva debemos añadir lo siguiente al fichero /etc/dhcp/dhcpd.conf</strong></p>
+
+<pre><code>host nodolan {
+hardware ethernet 08:00:27:2a:11:2b;
+fixed-address 192.168.100.100;
+}
+</code></pre>
+
+<p><strong>Reiniciamos el servicio dhcp y cuando pase el tiempo de concesión o al pedir una nueva ip veremos que cambia la IP de nuestro cliente:</strong></p>
+
+<pre><code>3: eth1: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:2a:11:2b brd ff:ff:ff:ff:ff:ff
+    inet 192.168.100.100/24 brd 192.168.100.253 scope global dynamic eth1
+       valid_lft 23sec preferred_lft 23sec
+    inet6 fe80::a00:27ff:fe2a:112b/64 scope link 
+       valid_lft forever preferred_lft forever
+</code></pre>
+
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2021 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>

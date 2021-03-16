@@ -6,7 +6,7 @@
     <description>Recent content in Sri on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 19 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 16 Mar 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://alepeteporico.github.io/tags/sri/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,13 +14,24 @@
     <item>
       <title>DNS, servidor web y base de datos</title>
       <link>https://alepeteporico.github.io/practicas/server_web_bbdd_dns/</link>
-      <pubDate>Fri, 19 Feb 2021 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 16 Mar 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/server_web_bbdd_dns/</guid>
       <description>El servidor DNS estará instalado en freston, por ello instalaremos bind en esta máquina
  root@freston:~# apt install bind9  Configuramos el fichero &amp;ldquo;/etc/bind/named.conf.options&amp;rdquo; y añadimos las siguientes líneas:
 listen-on { any }; allow-transfer { none }; recursion yes; allow-recursion { any; };  Configuramos el DNS local, la DMZ y externa en el fichero de configuración /etc/bind/named.conf.local:
  view interna { match-clients { 10.0.1.0/24; localhost; }; zone &amp;quot;alegv.gonzalonazareno.org&amp;quot; { type master; file &amp;quot;db.</description>
+    </item>
+    
+    <item>
+      <title>Servidor DHCP</title>
+      <link>https://alepeteporico.github.io/practicas/dhcp/</link>
+      <pubDate>Tue, 16 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/dhcp/</guid>
+      <description>Lee el documento Teoría: Servidor DHCP y explica el funcionamiento del servidor DHCP resumido en este gráfico.  En primer lugar el cliente manda una petición para ver si hay un servidor DHCP que pueda darle una dirección.
+El servidor reciviría esa petición y le dice al cliente que hay un servidor DHCP y puede ofrecerle una IP, por tanto el cliente pide una IP al servidor.
+Por último el servidor al recibir esa última petición le concede una IP dentro de su rango.</description>
     </item>
     
   </channel>
