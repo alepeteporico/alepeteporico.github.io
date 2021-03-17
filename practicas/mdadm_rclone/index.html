@@ -86,144 +86,220 @@
 
 <h1 id="raid-5">RAID 5</h1>
 
-<p>h2. Tarea 1</p>
-
-<pre><code class="shell">
-sudo mdadm --create /dev/md5 -l5 -n3 /dev/sdb /dev/sdc /dev/sdd
-</code></pre>
-
-<p>h3. Diferencias RAID 1 y RAID 5</p>
-
 <ul>
-<li>RAID 1:</li>
-<li>Se necesitan mínimo 2 discos</li>
-<li>Se almacenan los datos en modo espejo</li>
+<li><p>Crea una raid llamado md5 con los discos que hemos conectado a la máquina. ¿Cuantós discos tienes que conectar? ¿Qué diferencia exiiste entre el RAID 5 y el RAID1?</p>
 
-<li><p>Escritura lenta y lectura rápida</p></li>
-
-<li><p>RAID 5:</p></li>
-
-<li><p>Operaciones rápidas, incluso para varios usuarios simultaneamente.</p></li>
-
-<li><p>Para la tolerancia a fallos usa paridad y suma de verificación.</p></li>
-
-<li><p>Sus datos se almacenan de forma aleatoria por sus diferentes discos al igual que su paridad para su reconstrucción.</p></li>
-
-<li><p>Lectura lenta.</p></li>
-
-<li><p>Requiere mínimo 3 discos.</p></li>
-</ul>
-
-<p>h2. Tarea 2</p>
-
-<ul>
-<li><p>Caracteristicas:
-<pre><code class="shell">
-sudo mdadm -D /dev/md5
-</code></pre></p></li>
-
-<li><p>Estado:
-<pre><code class="shell">
-cat /proc/mdstat
-</code></pre></p></li>
-
-<li><p>Nuestro RAID 5 dispone de 3 GB, sin embargo uno se usa para paridad por lo que útiles tenemos 2 GB para almacenar información.</p></li>
-</ul>
-
-<p>h2. Tarea 3</p>
-
-<ul>
-<li><p>Primero creamos el grupo de volumenes
-<pre><code class="shell">
-sudo vgcreate raid5 /dev/md5
-</code></pre></p></li>
-
-<li><p>Y seguidamente el volumen lógico
-<pre><code class="shell">
-sudo lvcreate -L 500M -n disco1 raid5
-</code></pre></p></li>
-</ul>
-
-<p>h2. Tarea 4</p>
-
-<ul>
-<li><p>Primero debemos instalar este paquete para poder montar en xfs con mkfs
-<pre><code class="shell">
-sudo apt-get install xfsprogs
-</code></pre></p></li>
-
-<li><p>Y formateamos
-<pre><code class="shell">
-sudo mkfs.xfs /dev/raid5/disco1
-</code></pre></p></li>
-</ul>
-
-<p>h2. Tarea 5
-<pre><code class="shell">
-sudo mount /dev/raid5/disco1 /mnt/raid5
-</code></pre></p>
-
-<ul>
-<li>Para que este punto de montaje sea permanente necesitamos editar el fichero fstab de la siguiente forma:
-<pre>
-UUID=ffC3KF-As96-HhdY-fjpD-6TG1-7yjG-ZjitFI /mnt/raid5  xfs     defaults        0       1
-</pre></li>
-</ul>
-
-<p>h2. Tarea 6</p>
-
-<ul>
-<li><p>Marcamos uno de los discos como estropeado.
-<pre><code class="shell">
-sudo mdadm -f /dev/md5 /dev/sdb
-</code></pre></p></li>
-
-<li><p>En la siguiente imagen podemos ver que el el sdb falla.
-!2.png!</p></li>
-</ul>
-
-<p>h2. Tarea 7</p>
-
-<ul>
-<li>Retiramos el disco estropeado
-<pre><code class="shell">
-mdadm &ndash;manage /dev/md2 &ndash;remove faulty
+<pre><code>sudo mdadm --create /dev/md5 -l5 -n3 /dev/sdb /dev/sdc /dev/sdd
 </code></pre></li>
 </ul>
 
-<p>h2. Tarea 8</p>
+<h3 id="diferencias-raid-1-y-raid-5">Diferencias RAID 1 y RAID 5</h3>
+
+<h3 id="raid-1">RAID 1:</h3>
+
+<ol>
+<li>Se necesitan mínimo 2 discos</li>
+<li>Se almacenan los datos en modo espejo</li>
+<li>Escritura lenta y lectura rápida</li>
+</ol>
+
+<h3 id="raid-5-1">RAID 5:</h3>
+
+<ol>
+<li>Operaciones rápidas, incluso para varios usuarios simultaneamente.</li>
+<li>Para la tolerancia a fallos usa paridad y suma de verificación.</li>
+<li>Sus datos se almacenan de forma aleatoria por sus diferentes discos al igual que su paridad para su reconstrucción.</li>
+<li>Lectura lenta.</li>
+<li>Requiere mínimo 3 discos.</li>
+</ol>
+
+<hr />
 
 <ul>
-<li><p>Añadimos nuevo dispositivo al raid 5
-<pre><code class="shell">
-sudo mdadm -a /dev/md5 /dev/sde
-</code></pre></p></li>
-
-<li><p>Vemos que todo vuelve a la normalidad
-!3.png!</p></li>
+<li><strong>Comprueba las características del RAID. Comprueba el estado del RAID. ¿Qué capacidad tiene el RAID que hemos creado?</strong></li>
 </ul>
 
-<p>h2. Tarea 9</p>
+<p><strong>Caracteristicas:</strong></p>
+
+<pre><code>    sudo mdadm -D /dev/md5
+</code></pre>
+
+<p><strong>Estado:</strong></p>
+
+<pre><code>    cat /proc/mdstat
+</code></pre>
+
+<p><strong>Nuestro RAID 5 dispone de 3 GB, sin embargo uno se usa para paridad por lo que útiles tenemos 2 GB para almacenar información.</strong></p>
 
 <ul>
-<li><p>Añadimos otro disco de reserva
-<pre><code class="shell">
-sudo mdadm -a /dev/md5 /dev/sdf
-</code></pre></p></li>
-
-<li><p>Si marcamos uno como estropeado veremos que inmediatamente el otro se pondra a trabajar.
-!4.png!</p></li>
+<li>Crea un volumen lógico (LVM) de 500Mb en el raid 5.</li>
 </ul>
 
-<p>h2. Tarea 10</p>
+<p><strong>Primero creamos el grupo de volumenes</strong></p>
+
+<pre><code>    sudo vgcreate raid5 /dev/md5
+</code></pre>
+
+<p><strong>Y seguidamente el volumen lógico</strong></p>
+
+<pre><code>    sudo lvcreate -L 500M -n disco1 raid5
+</code></pre>
 
 <ul>
-<li>Primero aumentamos de tamaño el volumen lógico y después el sistema de ficheros.
-<pre><code class="shell">
-sudo lvresize -l +100%FREE /dev/raid5/disco1
-sudo xfs_growfs /mnt/raid5/
-</pre></code></li>
+<li>Formatea ese volumen con un sistema de archivo xfs.</li>
 </ul>
+
+<p><strong>Primero debemos instalar este paquete para poder montar en xfs con mkfs</strong></p>
+
+<pre><code>    sudo apt-get install xfsprogs
+</code></pre>
+
+<p><strong>Y formateamos</strong></p>
+
+<pre><code>    sudo mkfs.xfs /dev/raid5/disco1
+</code></pre>
+
+<ul>
+<li><p>Monta el volumen en el directorio /mnt/raid5 y crea un fichero. ¿Qué tendríamos que hacer para que este punto de montaje sea permanente?</p>
+
+<pre><code>sudo mount /dev/raid5/disco1 /mnt/raid5
+</code></pre></li>
+</ul>
+
+<p><strong>Para que este punto de montaje sea permanente necesitamos editar el fichero fstab de la siguiente forma:</strong></p>
+
+<pre><code>    UUID=ffC3KF-As96-HhdY-fjpD-6TG1-7yjG-ZjitFI /mnt/raid5  xfs     defaults        0       1
+</code></pre>
+
+<ul>
+<li>Marca un disco como estropeado. Muestra el estado del raid para comprobar que un disco falla. ¿Podemos acceder al fichero?</li>
+</ul>
+
+<p><strong>Marcamos uno de los discos como estropeado.</strong></p>
+
+<pre><code>    sudo mdadm -f /dev/md5 /dev/sdb
+</code></pre>
+
+<p><strong>En la siguiente imagen podemos ver que el sdb falla.</strong>
+!2.png!</p>
+
+<ul>
+<li>Una vez marcado como estropeado, lo tenemos que retirar del raid.</li>
+</ul>
+
+<p><strong>Retiramos el disco estropeado</strong></p>
+
+<pre><code>    mdadm --manage /dev/md2 --remove faulty
+</code></pre>
+
+<ul>
+<li>Imaginemos que lo cambiamos por un nuevo disco nuevo (el dispositivo de bloque se llama igual), añádelo al array y comprueba como se sincroniza con el anterior.</li>
+</ul>
+
+<p><strong>Añadimos nuevo dispositivo al raid 5</strong></p>
+
+<pre><code>    sudo mdadm -a /dev/md5 /dev/sde
+</code></pre>
+
+<p><strong>Vemos que todo vuelve a la normalidad</strong>
+!3.png!</p>
+
+<ul>
+<li>Añade otro disco como reserva. Vuelve a simular el fallo de un disco y comprueba como automática se realiza la sincronización con el disco de reserva.</li>
+</ul>
+
+<p><strong>Añadimos otro disco de reserva</strong></p>
+
+<pre><code>    sudo mdadm -a /dev/md5 /dev/sdf
+</code></pre>
+
+<p><strong>Si marcamos uno como estropeado veremos que inmediatamente el otro se pondra a trabajar.</strong>
+!4.png!</p>
+
+<ul>
+<li>Redimensiona el volumen y el sistema de archivo de 500Mb al tamaño del raid.</li>
+</ul>
+
+<p><strong>Primero aumentamos de tamaño el volumen lógico y después el sistema de ficheros.</strong></p>
+
+<pre><code>    sudo lvresize -l +100%FREE /dev/raid5/disco1
+    sudo xfs_growfs /mnt/raid5/
+</code></pre>
+
+<hr />
+
+<h1 id="rclone">RCLONE</h1>
+
+<ul>
+<li>Instala rclone en tu equipo.</li>
+</ul>
+
+<p><strong>Instalamos rclone simplemente usando apt install.</strong></p>
+
+<ul>
+<li>Configura dos proveedores cloud en rclone (dropbox, google drive, mega, …)</li>
+</ul>
+
+<p><strong>Para configurar este servicio y añadir los clouds usamos este comando:</strong></p>
+
+<pre><code>    rclone config
+</code></pre>
+
+<p><strong>Usamos la opción n para añadir un nuevo servicio, le ponemos un nombre, como drive y elegimos la opción 12.</strong></p>
+
+<p><strong>Dejamos el blanco el client_id y el client_secret.</strong></p>
+
+<p><strong>Elegimos la opción 1 para usar todos los archivos de este servicio.</strong></p>
+
+<p><strong>No configuraremos de forma avanzada y usaremos el autoconfig.</strong></p>
+
+<p><strong>Acto seguido se nos abrirá una ventana en el navegador donde elegiremos la cuenta de drive que queremos enlazar y le daremos permiso.</strong></p>
+
+<p><strong>Volverá a saltarnos la primera opción donde para añadir Dropbox volvermos a usar la opción n y seguiremos los mismos pasos, solo que tendremos que elegir al pricipio la opción 8.</strong></p>
+
+<p><strong>Cuando terminemos usamos q para salir.</strong></p>
+
+<ul>
+<li>Muestra distintos comandos de rclone para gestionar los ficheros de los proveedores cloud: lista los ficheros, copia un fichero local a la nube, sincroniza un directorio local con un directorio en la nube, copia ficheros entre los dos proveedores cloud, muestra alguna funcionalidad más,…</li>
+</ul>
+
+<p><strong>Listamos los ficheros:</strong></p>
+
+<pre><code>    rclone ls drive:
+</code></pre>
+
+<p>!1-1.png!</p>
+
+<p><strong>Subimos un fichero local:</strong></p>
+
+<pre><code>    rclone copy fichero.txt dropbox:
+</code></pre>
+
+<p><strong>Sincronizamos una carpeta:</strong></p>
+
+<pre><code>    rclone sync -P ASIR drive:/ASIR &amp;
+</code></pre>
+
+<p>!2-2.png!</p>
+
+<p><strong>Copiamos un archivo de un servicio a otro:</strong></p>
+
+<pre><code>    rclone copy drive:/volumenes.sh dropbox:
+</code></pre>
+
+<ul>
+<li>Monta en un directorio local de tu ordenador, los ficheros de un proveedor cloud. Comprueba que copiando o borrando ficheros en este directorio se crean o eliminan en el proveedor.</li>
+</ul>
+
+<p><strong>Usamos el siguiente comando para montar el servicio en un directorio local:</strong></p>
+
+<pre><code>    rclone mount --vfs-cache-mode writes drive: GoogleDrive &amp;
+</code></pre>
+
+<p><strong>Usamos el &ndash;vfs para prevenir un error que puede ocasionarse al editar algun archivo del directorio.</strong>
+!3-3.png!</p>
+
+<p><strong>En la foto anterior podemos ver que se ha montado bien. Si crearamos o borraramos algún archivo en el directorio o en el servicio se sincronizarían los cambios.</strong></p>
 
                 </div>
                 

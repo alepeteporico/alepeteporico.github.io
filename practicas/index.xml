@@ -17,13 +17,8 @@
       <pubDate>Wed, 17 Mar 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/mdadm_rclone/</guid>
-      <description>RAID 5 h2. Tarea 1
-sudo mdadm --create /dev/md5 -l5 -n3 /dev/sdb /dev/sdc /dev/sdd  h3. Diferencias RAID 1 y RAID 5
- RAID 1: Se necesitan mínimo 2 discos Se almacenan los datos en modo espejo Escritura lenta y lectura rápida
- RAID 5:
- Operaciones rápidas, incluso para varios usuarios simultaneamente.
- Para la tolerancia a fallos usa paridad y suma de verificación.
- Sus datos se almacenan de forma aleatoria por sus diferentes discos al igual que su paridad para su reconstrucción.</description>
+      <description>RAID 5  Crea una raid llamado md5 con los discos que hemos conectado a la máquina. ¿Cuantós discos tienes que conectar? ¿Qué diferencia exiiste entre el RAID 5 y el RAID1?
+sudo mdadm --create /dev/md5 -l5 -n3 /dev/sdb /dev/sdc /dev/sdd   Diferencias RAID 1 y RAID 5 RAID 1:  Se necesitan mínimo 2 discos Se almacenan los datos en modo espejo Escritura lenta y lectura rápida  RAID 5:  Operaciones rápidas, incluso para varios usuarios simultaneamente.</description>
     </item>
     
     <item>
