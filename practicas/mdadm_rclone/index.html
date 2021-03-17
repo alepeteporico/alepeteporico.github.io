@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Práctica mdadm y rclone &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.54.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://alepeteporico.github.io/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/practicas/mdadm_rclone/">Práctica mdadm y rclone</a></h1>
+                <span class="post-date">2021-03-17 </span>
+                <div class="post-content">
+                    
+
+<h1 id="raid-5">RAID 5</h1>
+
+<p>h2. Tarea 1</p>
+
+<pre><code class="shell">
+sudo mdadm --create /dev/md5 -l5 -n3 /dev/sdb /dev/sdc /dev/sdd
+</code></pre>
+
+<p>h3. Diferencias RAID 1 y RAID 5</p>
+
+<ul>
+<li>RAID 1:</li>
+<li>Se necesitan mínimo 2 discos</li>
+<li>Se almacenan los datos en modo espejo</li>
+
+<li><p>Escritura lenta y lectura rápida</p></li>
+
+<li><p>RAID 5:</p></li>
+
+<li><p>Operaciones rápidas, incluso para varios usuarios simultaneamente.</p></li>
+
+<li><p>Para la tolerancia a fallos usa paridad y suma de verificación.</p></li>
+
+<li><p>Sus datos se almacenan de forma aleatoria por sus diferentes discos al igual que su paridad para su reconstrucción.</p></li>
+
+<li><p>Lectura lenta.</p></li>
+
+<li><p>Requiere mínimo 3 discos.</p></li>
+</ul>
+
+<p>h2. Tarea 2</p>
+
+<ul>
+<li><p>Caracteristicas:
+<pre><code class="shell">
+sudo mdadm -D /dev/md5
+</code></pre></p></li>
+
+<li><p>Estado:
+<pre><code class="shell">
+cat /proc/mdstat
+</code></pre></p></li>
+
+<li><p>Nuestro RAID 5 dispone de 3 GB, sin embargo uno se usa para paridad por lo que útiles tenemos 2 GB para almacenar información.</p></li>
+</ul>
+
+<p>h2. Tarea 3</p>
+
+<ul>
+<li><p>Primero creamos el grupo de volumenes
+<pre><code class="shell">
+sudo vgcreate raid5 /dev/md5
+</code></pre></p></li>
+
+<li><p>Y seguidamente el volumen lógico
+<pre><code class="shell">
+sudo lvcreate -L 500M -n disco1 raid5
+</code></pre></p></li>
+</ul>
+
+<p>h2. Tarea 4</p>
+
+<ul>
+<li><p>Primero debemos instalar este paquete para poder montar en xfs con mkfs
+<pre><code class="shell">
+sudo apt-get install xfsprogs
+</code></pre></p></li>
+
+<li><p>Y formateamos
+<pre><code class="shell">
+sudo mkfs.xfs /dev/raid5/disco1
+</code></pre></p></li>
+</ul>
+
+<p>h2. Tarea 5
+<pre><code class="shell">
+sudo mount /dev/raid5/disco1 /mnt/raid5
+</code></pre></p>
+
+<ul>
+<li>Para que este punto de montaje sea permanente necesitamos editar el fichero fstab de la siguiente forma:
+<pre>
+UUID=ffC3KF-As96-HhdY-fjpD-6TG1-7yjG-ZjitFI /mnt/raid5  xfs     defaults        0       1
+</pre></li>
+</ul>
+
+<p>h2. Tarea 6</p>
+
+<ul>
+<li><p>Marcamos uno de los discos como estropeado.
+<pre><code class="shell">
+sudo mdadm -f /dev/md5 /dev/sdb
+</code></pre></p></li>
+
+<li><p>En la siguiente imagen podemos ver que el el sdb falla.
+!2.png!</p></li>
+</ul>
+
+<p>h2. Tarea 7</p>
+
+<ul>
+<li>Retiramos el disco estropeado
+<pre><code class="shell">
+mdadm &ndash;manage /dev/md2 &ndash;remove faulty
+</code></pre></li>
+</ul>
+
+<p>h2. Tarea 8</p>
+
+<ul>
+<li><p>Añadimos nuevo dispositivo al raid 5
+<pre><code class="shell">
+sudo mdadm -a /dev/md5 /dev/sde
+</code></pre></p></li>
+
+<li><p>Vemos que todo vuelve a la normalidad
+!3.png!</p></li>
+</ul>
+
+<p>h2. Tarea 9</p>
+
+<ul>
+<li><p>Añadimos otro disco de reserva
+<pre><code class="shell">
+sudo mdadm -a /dev/md5 /dev/sdf
+</code></pre></p></li>
+
+<li><p>Si marcamos uno como estropeado veremos que inmediatamente el otro se pondra a trabajar.
+!4.png!</p></li>
+</ul>
+
+<p>h2. Tarea 10</p>
+
+<ul>
+<li>Primero aumentamos de tamaño el volumen lógico y después el sistema de ficheros.
+<pre><code class="shell">
+sudo lvresize -l +100%FREE /dev/raid5/disco1
+sudo xfs_growfs /mnt/raid5/
+</pre></code></li>
+</ul>
+
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2021 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>

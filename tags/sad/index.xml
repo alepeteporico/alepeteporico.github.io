@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sad on Alepetepórico Blog</title>
+    <link>https://alepeteporico.github.io/tags/sad/</link>
+    <description>Recent content in Sad on Alepetepórico Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 17 Mar 2021 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://alepeteporico.github.io/tags/sad/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Práctica mdadm y rclone</title>
+      <link>https://alepeteporico.github.io/practicas/mdadm_rclone/</link>
+      <pubDate>Wed, 17 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/mdadm_rclone/</guid>
+      <description>RAID 5 h2. Tarea 1
+sudo mdadm --create /dev/md5 -l5 -n3 /dev/sdb /dev/sdc /dev/sdd  h3. Diferencias RAID 1 y RAID 5
+ RAID 1: Se necesitan mínimo 2 discos Se almacenan los datos en modo espejo Escritura lenta y lectura rápida
+ RAID 5:
+ Operaciones rápidas, incluso para varios usuarios simultaneamente.
+ Para la tolerancia a fallos usa paridad y suma de verificación.
+ Sus datos se almacenan de forma aleatoria por sus diferentes discos al igual que su paridad para su reconstrucción.</description>
+    </item>
+    
+  </channel>
+</rss>
