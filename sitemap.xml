@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://alepeteporico.github.io/apuntes/apuntes-de-libvirt/</loc>
+    <lastmod>2021-03-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://alepeteporico.github.io/practicas/cmsphp_local/</loc>
     <lastmod>2021-03-22T00:00:00+00:00</lastmod>
   </url>
@@ -43,10 +48,6 @@
   </url>
   
   <url>
-    <loc>https://alepeteporico.github.io/apuntes/apuntes-de-libvirt/</loc>
-  </url>
-  
-  <url>
     <loc>https://alepeteporico.github.io/</loc>
     <lastmod>2021-03-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -54,6 +55,7 @@
   
   <url>
     <loc>https://alepeteporico.github.io/apuntes/</loc>
+    <lastmod>2021-03-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -70,7 +72,7 @@
   
   <url>
     <loc>https://alepeteporico.github.io/tags/hlc/</loc>
-    <lastmod>2021-03-16T00:00:00+00:00</lastmod>
+    <lastmod>2021-03-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

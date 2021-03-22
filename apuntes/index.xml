@@ -6,17 +6,18 @@
     <description>Recent content in Apuntes on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Mon, 22 Mar 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://alepeteporico.github.io/apuntes/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title></title>
+      <title>Apuntes de Libvirt</title>
       <link>https://alepeteporico.github.io/apuntes/apuntes-de-libvirt/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 22 Mar 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/apuntes/apuntes-de-libvirt/</guid>
-      <description>Apuntes de Libvirt Libvirt es una API de virtualizacion que se usa con KVM o Qemu KVM (el sistema de virtualización nativo de Linux).
+      <description>Libvirt es una API de virtualizacion que se usa con KVM o Qemu KVM (el sistema de virtualización nativo de Linux).
 Instalación Para instalar libvirt deberemos instalar los siguientes paquetes
 sudo apt-get install qemu-kvm libvirt-daemon-system  Explicación de los paquetes:
  qemu-kvm: Proporciona la virtualización para x86
