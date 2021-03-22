@@ -6,10 +6,24 @@
     <description>Recent content in Practicas on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 17 Mar 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 22 Mar 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Instalación local de un CMS PHP</title>
+      <link>https://alepeteporico.github.io/practicas/cmsphp_local/</link>
+      <pubDate>Mon, 22 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/cmsphp_local/</guid>
+      <description>Instalamos un servidor LAMP
+Apache Hacemos una instalación sencilla:
+vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla en iptables para permitir la conexión http
+vagrant@cmsalegv:~$ sudo iptables -I INPUT -p tcp --dport 80 -j ACCEPT  Mariadb Instalamos Mariadb
+vagrant@cmsalegv:~$ sudo apt install mariadb-server mariadb-client  PHP Y por últimos realizaremos la instalación de php
+vagrant@cmsalegv:~$ sudo apt install php7.3 libapache2-mod-php7.3 php7.3-mysql php-common php7.3-cli php7.3-common php7.3-json php7.</description>
+    </item>
     
     <item>
       <title>Práctica mdadm y rclone</title>
@@ -42,20 +56,6 @@ Ahora listaremos las interfaces que tenemos en nuestro proyecto</description>
  root@freston:~# apt install bind9  Configuramos el fichero &amp;ldquo;/etc/bind/named.conf.options&amp;rdquo; y añadimos las siguientes líneas:
 listen-on { any }; allow-transfer { none }; recursion yes; allow-recursion { any; };  Configuramos el DNS local, la DMZ y externa en el fichero de configuración /etc/bind/named.conf.local:
  view interna { match-clients { 10.0.1.0/24; localhost; }; zone &amp;quot;alegv.gonzalonazareno.org&amp;quot; { type master; file &amp;quot;db.</description>
-    </item>
-    
-    <item>
-      <title>Instalación local de un CMS PHP</title>
-      <link>https://alepeteporico.github.io/practicas/cmsphp_local/</link>
-      <pubDate>Tue, 16 Mar 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/cmsphp_local/</guid>
-      <description>Instalamos un servidor LAMP
-Apache Hacemos una instalación sencilla:
-vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla en iptables para permitir la conexión http
-vagrant@cmsalegv:~$ sudo iptables -I INPUT -p tcp --dport 80 -j ACCEPT  Mariadb Instalamos Mariadb
-vagrant@cmsalegv:~$ sudo apt install mariadb-server mariadb-client  PHP Y por últimos realizaremos la instalación de php
-vagrant@cmsalegv:~$ sudo apt install php7.3 libapache2-mod-php7.3 php7.3-mysql php-common php7.3-cli php7.3-common php7.3-json php7.</description>
     </item>
     
     <item>

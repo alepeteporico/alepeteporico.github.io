@@ -6,10 +6,24 @@
     <description>Recent content on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 17 Mar 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 22 Mar 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Instalación local de un CMS PHP</title>
+      <link>https://alepeteporico.github.io/practicas/cmsphp_local/</link>
+      <pubDate>Mon, 22 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/cmsphp_local/</guid>
+      <description>Instalamos un servidor LAMP
+Apache Hacemos una instalación sencilla:
+vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla en iptables para permitir la conexión http
+vagrant@cmsalegv:~$ sudo iptables -I INPUT -p tcp --dport 80 -j ACCEPT  Mariadb Instalamos Mariadb
+vagrant@cmsalegv:~$ sudo apt install mariadb-server mariadb-client  PHP Y por últimos realizaremos la instalación de php
+vagrant@cmsalegv:~$ sudo apt install php7.3 libapache2-mod-php7.3 php7.3-mysql php-common php7.3-cli php7.3-common php7.3-json php7.</description>
+    </item>
     
     <item>
       <title>Práctica mdadm y rclone</title>
@@ -42,20 +56,6 @@ Ahora listaremos las interfaces que tenemos en nuestro proyecto</description>
  root@freston:~# apt install bind9  Configuramos el fichero &amp;ldquo;/etc/bind/named.conf.options&amp;rdquo; y añadimos las siguientes líneas:
 listen-on { any }; allow-transfer { none }; recursion yes; allow-recursion { any; };  Configuramos el DNS local, la DMZ y externa en el fichero de configuración /etc/bind/named.conf.local:
  view interna { match-clients { 10.0.1.0/24; localhost; }; zone &amp;quot;alegv.gonzalonazareno.org&amp;quot; { type master; file &amp;quot;db.</description>
-    </item>
-    
-    <item>
-      <title>Instalación local de un CMS PHP</title>
-      <link>https://alepeteporico.github.io/practicas/cmsphp_local/</link>
-      <pubDate>Tue, 16 Mar 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/cmsphp_local/</guid>
-      <description>Instalamos un servidor LAMP
-Apache Hacemos una instalación sencilla:
-vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla en iptables para permitir la conexión http
-vagrant@cmsalegv:~$ sudo iptables -I INPUT -p tcp --dport 80 -j ACCEPT  Mariadb Instalamos Mariadb
-vagrant@cmsalegv:~$ sudo apt install mariadb-server mariadb-client  PHP Y por últimos realizaremos la instalación de php
-vagrant@cmsalegv:~$ sudo apt install php7.3 libapache2-mod-php7.3 php7.3-mysql php-common php7.3-cli php7.3-common php7.3-json php7.</description>
     </item>
     
     <item>
@@ -103,6 +103,19 @@ It makes use of a variety of open source projects including:
  Cobra Viper J Walter Weatherman Cast  Learn more and contribute on GitHub.
 Setup Some fun facts about Hugo:
  Built in Go Loosely inspired by Jekyll Primarily developed by spf13 on the train while commuting to and from Manhattan. Coded in Vim using spf13-vim  Have questions or suggestions?</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://alepeteporico.github.io/apuntes/apuntes-de-libvirt/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/apuntes/apuntes-de-libvirt/</guid>
+      <description>Apuntes de Libvirt Libvirt es una API de virtualizacion que se usa con KVM o Qemu KVM (el sistema de virtualización nativo de Linux).
+Instalación Para instalar libvirt deberemos instalar los siguientes paquetes
+sudo apt-get install qemu-kvm libvirt-daemon-system  Explicación de los paquetes:
+ qemu-kvm: Proporciona la virtualización para x86
+ libvirt-daemon-system: Es el demonio de libvirt, el cual hace accesible la API a través de un socket UNIX (aunque se puede configurar para acceder a través de un socket TCP).</description>
     </item>
     
   </channel>
