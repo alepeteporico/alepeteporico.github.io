@@ -89,7 +89,9 @@
                 <h1><a href="https://alepeteporico.github.io/practicas/dhcp/">Servidor DHCP</a></h1>
                 <span class="post-date">2021-03-16 </span>
                 <div class="post-content">
-                    <ul>
+                    
+
+<ul>
 <li>Lee el documento Teoría: Servidor DHCP y explica el funcionamiento del servidor DHCP resumido en este gráfico.</li>
 </ul>
 
@@ -171,7 +173,7 @@ INTERFACES=&quot;eth2&quot;
        valid_lft forever preferred_lft forever
 3: eth1: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
     link/ether 08:00:27:b5:11:a3 brd ff:ff:ff:ff:ff:ff
-    inet 192.168.1.124/24 brd 192.168.1.255 scope global dynamic eth1
+    inet 172.22.8.212/16 brd 172.22.255.255 scope global dynamic eth1
        valid_lft 85587sec preferred_lft 85587sec
     inet6 fe80::a00:27ff:feb5:11a3/64 scope link 
        valid_lft forever preferred_lft forever
@@ -217,54 +219,44 @@ INTERFACES=&quot;eth2&quot;
 
 <p><strong>Para configurar NAT en nuestro servidor debemos modificar el fichero &ldquo;/etc/network/interfaces&rdquo; y añadir la siguiente línea:</strong></p>
 
-<pre><code>up iptables -t nat -A POSTROUTING -s 192.168.100.0/24 -o eth1 -j MASQUERADE
+<pre><code>up iptables -t nat -A POSTROUTING -s 192.168.100.0/24 -o eth0 -j MASQUERADE
 </code></pre>
 
-<p><strong>Después de reiniciar el servicio de red nuestro siguiente paso deberá ser configurar las rutas de nuestras máquinas, primero hay que borrar la default via, para ello veremos la tabla de enrutamiento con el comando ip r:</strong></p>
+<p><strong>Después de reiniciar el servicio de red visualizaremos la salida del comando <code>ip r</code> tanto en el nodo como en el servidor para ver el direccionamiento:</strong></p>
 
-<pre><code>    vagrant@servidor:~$ ip r
-    default via 10.0.2.2 dev eth0 
-    10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15 
-    192.168.100.0/24 dev eth2 proto kernel scope link src 192.168.100.1
-</code></pre>
-
-<p><strong>Borrariamos el default via con el siguiente comando:</strong></p>
-
-<pre><code>vagrant@servidor:~$ sudo ip route del default via 10.0.2.2 dev eth0
-</code></pre>
-
-<p><strong>Y añadiriamos una nueva con el siguiente:</strong></p>
-
-<pre><code>vagrant@servidor:~$ sudo ip route add default via 192.168.1.1 dev eth1
-</code></pre>
-
-<p><strong>Volvemos a comprobar el comando ip r y veremos que el default via ha cambiado:</strong></p>
+<h5 id="servidor">Servidor</h5>
 
 <pre><code>vagrant@servidor:~$ ip r
-default via 192.168.1.1 dev eth1 
+default via 10.0.2.2 dev eth0 
 10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15 
-192.168.1.0/24 dev eth1 proto kernel scope link src 192.168.1.124 
+172.22.0.0/16 dev eth1 proto kernel scope link src 172.22.8.212 
 192.168.100.0/24 dev eth2 proto kernel scope link src 192.168.100.1
 </code></pre>
 
-<p><strong>Realizaremos el mismo proceso con la tabla de enrutamiento en el cliente:</strong></p>
+<h5 id="nodo-1">Nodo 1</h5>
 
 <pre><code>vagrant@nodolan1:~$ ip r
 default via 10.0.2.2 dev eth0 
 10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15 
-192.168.100.0/24 dev eth1 proto kernel scope link src 192.168.100.2
+192.168.100.0/24 dev eth1 proto kernel scope link src 192.168.100.2 
+</code></pre>
 
+<p><strong>Vemos que el nodo sale por defecto por la 10.0.0.0, vamos a cambiarlo, borrariamos el default via con el siguiente comando:</strong></p>
 
-vagrant@nodolan1:~$ sudo ip route del default via 10.0.2.2 dev eth0
+<pre><code>vagrant@nodolan1:~$ sudo ip route del default via 10.0.2.2 dev eth0
+</code></pre>
 
+<p><strong>Y añadiriamos una nueva con el siguiente:</strong></p>
 
-vagrant@nodolan1:~$ sudo ip route add default via 192.168.100.1 dev eth1
+<pre><code>vagrant@nodolan1:~$ sudo ip route add default via 192.168.100.1 dev eth1
+</code></pre>
 
+<p><strong>Volvemos a comprobar el comando ip r y veremos que el default via ha cambiado:</strong></p>
 
-vagrant@nodolan1:~$ ip r
+<pre><code>vagrant@nodolan1:~$ ip r
 default via 192.168.100.1 dev eth1 
 10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15 
-192.168.100.0/24 dev eth1 proto kernel scope link src 192.168.100.2
+192.168.100.0/24 dev eth1 proto kernel scope link src 192.168.100.2 
 </code></pre>
 
 <p><strong>Hacemos ping a www.google.es y con su funcionamiento comprobaremos que tenemos salida a internet y resuelve nombres de dominio.</strong></p>
@@ -300,11 +292,23 @@ PING www.google.es (216.58.201.163) 56(84) bytes of data.
 
 <p><strong>La primera línea captura el dhcp discover.</strong></p>
 
+<pre><code>12:09:14.604297 IP 0.0.0.0.bootpc &gt; 255.255.255.255.bootps: BOOTP/DHCP, Request from 08:00:27:42:80:3a (oui Unknown), length 300
+</code></pre>
+
 <p><strong>En la segunda línea puede verse como el servidor responde a petición con un dhcp offer.</strong></p>
+
+<pre><code>12:09:15.605343 IP 192.168.100.1.bootps &gt; 192.168.100.4.bootpc: BOOTP/DHCP, Reply, length 302
+</code></pre>
 
 <p><strong>En la tercera se realiza la petición del cliente al servidor con un dhcp request.</strong></p>
 
+<pre><code>12:09:15.605710 IP 0.0.0.0.bootpc &gt; 255.255.255.255.bootps: BOOTP/DHCP, Request from 08:00:27:42:80:3a (oui Unknown), length 300
+</code></pre>
+
 <p><strong>Y por úlitmo se realiza la concesión al cliente mediante el paquete dhcp ack.</strong></p>
+
+<pre><code>12:09:15.607363 IP 192.168.100.1.bootps &gt; 192.168.100.4.bootpc: BOOTP/DHCP, Reply, length 302
+</code></pre>
 
 <ul>
 <li>Los clientes toman una configuración, y a continuación apagamos el servidor dhcp. ¿qué ocurre con el cliente windows? ¿Y con el cliente linux?</li>
