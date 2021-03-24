@@ -6,10 +6,20 @@
     <description>Recent content in Practicas on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 22 Mar 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 24 Mar 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Cifrado asimétrico</title>
+      <link>https://alepeteporico.github.io/practicas/asimetrico/</link>
+      <pubDate>Wed, 24 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/asimetrico/</guid>
+      <description>Tarea 1: Generación de claves  Generamos las claves:
+alejandrogv@AlejandroGV:~$ gpg --gen-key gpg (GnuPG) 2.2.12; Copyright (C) 2018 Free Software Foundation, Inc. This is free software: you are free to change and redistribute it. There is NO WARRANTY, to the extent permitted by law. Nota: Usa &amp;quot;gpg --full-generate-key&amp;quot; para el diálogo completo de generación de clave. GnuPG debe construir un ID de usuario para identificar su clave. Nombre y apellidos: Alejandro Gutiérrez Valencia Dirección de correo electrónico: tojandro@gmail.</description>
+    </item>
     
     <item>
       <title>Instalación local de un CMS PHP</title>

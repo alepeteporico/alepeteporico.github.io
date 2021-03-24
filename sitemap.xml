@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://alepeteporico.github.io/practicas/asimetrico/</loc>
+    <lastmod>2021-03-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://alepeteporico.github.io/apuntes/apuntes-de-libvirt/</loc>
     <lastmod>2021-03-22T00:00:00+00:00</lastmod>
   </url>
@@ -49,7 +54,7 @@
   
   <url>
     <loc>https://alepeteporico.github.io/</loc>
-    <lastmod>2021-03-22T00:00:00+00:00</lastmod>
+    <lastmod>2021-03-24T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -84,13 +89,13 @@
   
   <url>
     <loc>https://alepeteporico.github.io/practicas/</loc>
-    <lastmod>2021-03-22T00:00:00+00:00</lastmod>
+    <lastmod>2021-03-24T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://alepeteporico.github.io/tags/sad/</loc>
-    <lastmod>2021-03-17T00:00:00+00:00</lastmod>
+    <lastmod>2021-03-24T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
