@@ -322,25 +322,34 @@ PING www.google.es (216.58.201.163) 56(84) bytes of data.
 
 <li><p>Los clientes toman una configuración, y a continuación <a href="https://youtu.be/Bsoo-1iCjLA">cambiamos la configuración del servidor dhcp</a> (por ejemplo el rango). ¿qué ocurriría con un cliente windows? ¿Y con el cliente linux?</p></li>
 
-<li><p>Indica las modificaciones realizadas en los ficheros de configuración y entrega una comprobación de que el cliente ha tomado esa dirección.</p></li>
+<li><p>Crea una reserva para el que el cliente tome siempre la dirección 192.168.100.100. Indica las modificaciones realizadas en los ficheros de configuración y entrega una comprobación de que el cliente ha tomado esa dirección.</p></li>
 </ul>
 
-<p><strong>Para crear una reserva debemos añadir lo siguiente al fichero /etc/dhcp/dhcpd.conf</strong></p>
+<p><strong>Para realizar esta configuración nuestro primer paso será averiguar la MAC de la tarjeta de red del nodo al que queremos hacer una reserva. podemos verlo con <code>ip a</code></strong></p>
+
+<pre><code>    3: eth1: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+        link/ether 08:00:27:42:80:3a brd ff:ff:ff:ff:ff:ff
+</code></pre>
+
+<p><strong>Para crear una reserva debemos añadir lo siguiente al fichero /etc/dhcp/dhcpd.conf usando por supuesto la MAC que hemos buscado anteriormente.</strong></p>
 
 <pre><code>host nodolan {
-hardware ethernet 08:00:27:2a:11:2b;
+hardware ethernet 08:00:27:42:80:3a;
 fixed-address 192.168.100.100;
 }
 </code></pre>
 
 <p><strong>Reiniciamos el servicio dhcp y cuando pase el tiempo de concesión o al pedir una nueva ip veremos que cambia la IP de nuestro cliente:</strong></p>
 
-<pre><code>3: eth1: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
-    link/ether 08:00:27:2a:11:2b brd ff:ff:ff:ff:ff:ff
-    inet 192.168.100.100/24 brd 192.168.100.253 scope global dynamic eth1
-       valid_lft 23sec preferred_lft 23sec
-    inet6 fe80::a00:27ff:fe2a:112b/64 scope link 
-       valid_lft forever preferred_lft forever
+<pre><code>    vagrant@nodolan1:~$ ip a
+    ...
+    ...
+    3: eth1: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+        link/ether 08:00:27:42:80:3a brd ff:ff:ff:ff:ff:ff
+        inet 192.168.100.100/24 brd 192.168.100.253 scope global dynamic eth1
+           valid_lft 15sec preferred_lft 15sec
+        inet6 fe80::a00:27ff:fe42:803a/64 scope link 
+           valid_lft forever preferred_lft forever
 </code></pre>
 
                 </div>
