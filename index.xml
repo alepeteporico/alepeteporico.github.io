@@ -6,10 +6,20 @@
     <description>Recent content on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 24 Mar 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 04 Apr 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Kernel de Vbox no carga con el kernel</title>
+      <link>https://alepeteporico.github.io/problemas/vagrant_kernel/</link>
+      <pubDate>Sun, 04 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/problemas/vagrant_kernel/</guid>
+      <description>Al intentar encender una máquina vagrant o en Vbox nos da un fallo:
+alejandrogv@AlejandroGV:~/vagrant/servicios/dhcp$ vagrant up The provider &#39;virtualbox&#39; that was requested to back the machine &#39;servidor&#39; is reporting that it isn&#39;t usable on this system. The reason is shown below: VirtualBox is complaining that the kernel module is not loaded. Please run `VBoxManage --version` or open the VirtualBox GUI to see the error message which should contain instructions on how to fix this error.</description>
+    </item>
     
     <item>
       <title>Cifrado asimétrico</title>
