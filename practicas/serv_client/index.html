@@ -94,7 +94,7 @@
         <div class="flex-wrapper">
             <div class="container wrapper">
                 <h1><a href="https://alepeteporico.github.io/practicas/serv_client/">Instalación de servidores y clientes</a></h1>
-                <span class="post-date">2021-03-16 </span>
+                <span class="post-date">2021-04-05 </span>
                 <div class="post-content">
                     
 
@@ -110,7 +110,17 @@
 <h2 id="instalación-servidor-oracle-19c">Instalación servidor Oracle 19c</h2>
 
 <ul>
-<li>Hemos creado una maquina vagrant con centos 8 para instalar nuestro servidor de Oracle 19c, lo descargaremos de la <a href="https://www.oracle.com/es/database/technologies/oracle19c-linux-downloads.html#license-lightbox">página oficial de Oracle</a></li>
+<li><p>Hemos creado una maquina vagrant con centos 8 para instalar nuestro servidor de Oracle 19c, lo descargaremos de la <a href="https://www.oracle.com/es/database/technologies/oracle19c-linux-downloads.html#license-lightbox">página oficial de Oracle</a> y llevamos el fichero de instalación a nuestra máquina usando scp.</p>
+
+<pre><code>[vagrant@oracle ~]$ scp alejandrogv@192.168.1.15:/home/alejandrogv/Descargas/oracle-database-ee-19c-1.0-1.x86_64.rpm .
+</code></pre></li>
+
+<li><p>El siguiente paso será obviamente instalarlo.</p>
+
+<pre><code>[vagrant@oracle ~]$ sudo dnf install https://yum.oracle.com/repo/OracleLinux/OL8/baseos/latest/x86_64/getPackage/oracle-database-preinstall-19c-1.0-1.el8.x86_64.rpm
+
+[vagrant@oracle ~]$ sudo yum -y localinstall oracle-database-ee-19c-1.0-1.x86_64.rpm
+</code></pre></li>
 </ul>
 
                 </div>

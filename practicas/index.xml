@@ -6,10 +6,20 @@
     <description>Recent content in Practicas on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 24 Mar 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 05 Apr 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Instalación de servidores y clientes</title>
+      <link>https://alepeteporico.github.io/practicas/serv_client/</link>
+      <pubDate>Mon, 05 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/serv_client/</guid>
+      <description>Tras la instalación de cada servidor, debe crearse una base de datos con al menos tres tablas o colecciones y poblarse de datos adecuadamente. Debe crearse un usuario y dotarlo de los privilegios necesarios para acceder remotamente a los datos. Se proporcionará esta información al resto de los miembros del grupo.
+ Los clientes deben estar siempre en máquinas diferentes de los respectivos servidores a los que acceden. Se documentará todo el proceso de configuración de los servidores.</description>
+    </item>
     
     <item>
       <title>Cifrado asimétrico</title>
@@ -66,16 +76,6 @@ Ahora listaremos las interfaces que tenemos en nuestro proyecto</description>
  root@freston:~# apt install bind9  Configuramos el fichero &amp;ldquo;/etc/bind/named.conf.options&amp;rdquo; y añadimos las siguientes líneas:
 listen-on { any }; allow-transfer { none }; recursion yes; allow-recursion { any; };  Configuramos el DNS local, la DMZ y externa en el fichero de configuración /etc/bind/named.conf.local:
  view interna { match-clients { 10.0.1.0/24; localhost; }; zone &amp;quot;alegv.gonzalonazareno.org&amp;quot; { type master; file &amp;quot;db.</description>
-    </item>
-    
-    <item>
-      <title>Instalación de servidores y clientes</title>
-      <link>https://alepeteporico.github.io/practicas/serv_client/</link>
-      <pubDate>Tue, 16 Mar 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/serv_client/</guid>
-      <description>Tras la instalación de cada servidor, debe crearse una base de datos con al menos tres tablas o colecciones y poblarse de datos adecuadamente. Debe crearse un usuario y dotarlo de los privilegios necesarios para acceder remotamente a los datos. Se proporcionará esta información al resto de los miembros del grupo.
- Los clientes deben estar siempre en máquinas diferentes de los respectivos servidores a los que acceden. Se documentará todo el proceso de configuración de los servidores.</description>
     </item>
     
     <item>
