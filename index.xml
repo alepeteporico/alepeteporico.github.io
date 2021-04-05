@@ -92,6 +92,16 @@ listen-on { any }; allow-transfer { none }; recursion yes; allow-recursion { any
     </item>
     
     <item>
+      <title>Instalación de servidores y clientes</title>
+      <link>https://alepeteporico.github.io/practicas/serv_client/</link>
+      <pubDate>Tue, 16 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/serv_client/</guid>
+      <description>Tras la instalación de cada servidor, debe crearse una base de datos con al menos tres tablas o colecciones y poblarse de datos adecuadamente. Debe crearse un usuario y dotarlo de los privilegios necesarios para acceder remotamente a los datos. Se proporcionará esta información al resto de los miembros del grupo.
+ Los clientes deben estar siempre en máquinas diferentes de los respectivos servidores a los que acceden. Se documentará todo el proceso de configuración de los servidores.</description>
+    </item>
+    
+    <item>
       <title>Servidor DHCP</title>
       <link>https://alepeteporico.github.io/practicas/dhcp/</link>
       <pubDate>Tue, 16 Mar 2021 00:00:00 +0000</pubDate>
