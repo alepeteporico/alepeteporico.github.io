@@ -164,7 +164,7 @@ vagrant@cmsalegv:~$ tar xvf drupal-8.8.1.tar.gz
 
 <p><strong>Y para amenizar el trabajo podríamos crear un enlace simbólico para no tener que escribir la versión cada vez que queramos hacer una configuración:</strong></p>
 
-<pre><code>vagrant@cmsalegv:~$ sudo ln -s /var/www/html/drupal-8.8.1/ /var/www/html/drupal
+<pre><code>vagrant@cmsalegv:~$ sudo ln -s /var/www/drupal-8.8.1/ /var/www/drupal
 </code></pre>
 
 <p><strong>Debemos activar el modulo rewrite en apache</strong></p>
@@ -176,9 +176,9 @@ vagrant@cmsalegv:~$ tar xvf drupal-8.8.1.tar.gz
 
 <pre><code>&lt;VirtualHost *:80&gt;
 
-        ServerName www.alejandrogv-drupal.org
+        ServerName www.alegv-drupal.org
         ServerAdmin webmaster@localhost
-        DocumentRoot /var/www/html/drupal
+        DocumentRoot /var/www/drupal
         &lt;Directory /var/www/html/drupal/&gt;
                 Options Indexes FollowSymLinks
                 AllowOverride All
@@ -190,6 +190,15 @@ vagrant@cmsalegv:~$ tar xvf drupal-8.8.1.tar.gz
 
 &lt;VirtualHost&gt;
 </code></pre>
+
+<p><strong>Añadimos la IP estática que hemos añadido a nuestro servidor en el <code>/etc/hosts</code> de nuestra máquina anfitriona</strong></p>
+
+<pre><code>    192.168.100.200    www.alegv-drupal.com
+</code></pre>
+
+<p><strong>Y ya podremos acceder a nuetro drupal</strong></p>
+
+<p><img src="/cms_php/1.png" alt="redes" /></p>
 
                 </div>
                 
