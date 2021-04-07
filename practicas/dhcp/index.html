@@ -99,14 +99,24 @@
                     
 
 <ul>
-<li>Lee el documento Teoría: Servidor DHCP y explica el funcionamiento del servidor DHCP resumido en este gráfico.</li>
+<li>Lee el documento Teoría: Servidor DHCP y explica el funcionamiento del servidor DHCP resumido en este <a href="https://fp.josedomingo.org/serviciosgs/u02/img/dhcp.png">gráfico</a>.</li>
 </ul>
 
-<p><strong>En primer lugar el cliente manda una petición para ver si hay un servidor DHCP que pueda darle una dirección.</strong></p>
+<p><strong>En primer lugar el cliente manda una petición <code>DHCPDISCOVER</code> en cuanto se inicia, ya que no tiene configuración de IP usa esta petición para ver si hay un servidor DHCP que pueda darle una dirección.</strong></p>
 
-<p><strong>El servidor reciviría esa petición y le dice al cliente que hay un servidor DHCP y puede ofrecerle una IP, por tanto el cliente pide una IP al servidor.</strong></p>
+<p><strong>Después de esto el cliente esperará en estado <code>SELECTING</code> y recibirá las ofertas <code>DHCPOFFER</code> del servidor o servidores DHCP que pueda haber en nuestra red local.</strong></p>
 
-<p><strong>Por último el servidor al recibir esa última petición le concede una IP dentro de su rango.</strong></p>
+<p><strong>Cuando el cliente toma una decisión en caso de que hubiera mas de un servidor que elegir envía un paquete <code>DHCPREQUEST</code> para avisar a los servidores de que ya ha tomado esta decisión. El servidor por tanto responderá con un <code>DHCPPACK</code> con toda la configuración de red para este cliente</strong></p>
+
+<p><strong>Ahora pueden ocurrir dos cosas</strong></p>
+
+<ol>
+<li><p>La IP que hemos escogido ya está en uso, en este caso se informaría al servidor con un <code>DHCPDECLINE</code> rechazando esta configuración y volviendo al estado inicial.</p></li>
+
+<li><p>La IP está libre y podemos usar la configuración que se nos da. Por lo que pasamos al estado <code>BOUND</code></p></li>
+</ol>
+
+<p><strong>Estando en el estado <code>BOUND</code> el cliente recibe unos temporizadores los cuales entre otras cosas sirven para renovar nuestra dirección IP cada cierto tiempo que podremos establecer.</strong></p>
 
 <ul>
 <li><p>Entrega el fichero Vagrantfile que define el escenario.</p>

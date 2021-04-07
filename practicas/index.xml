@@ -81,9 +81,8 @@ listen-on { any }; allow-transfer { none }; recursion yes; allow-recursion { any
       <pubDate>Tue, 16 Mar 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/dhcp/</guid>
-      <description>Lee el documento Teoría: Servidor DHCP y explica el funcionamiento del servidor DHCP resumido en este gráfico.  En primer lugar el cliente manda una petición para ver si hay un servidor DHCP que pueda darle una dirección.
-El servidor reciviría esa petición y le dice al cliente que hay un servidor DHCP y puede ofrecerle una IP, por tanto el cliente pide una IP al servidor.
-Por último el servidor al recibir esa última petición le concede una IP dentro de su rango.</description>
+      <description>Lee el documento Teoría: Servidor DHCP y explica el funcionamiento del servidor DHCP resumido en este gráfico.  En primer lugar el cliente manda una petición DHCPDISCOVER en cuanto se inicia, ya que no tiene configuración de IP usa esta petición para ver si hay un servidor DHCP que pueda darle una dirección.
+Después de esto el cliente esperará en estado SELECTING y recibirá las ofertas DHCPOFFER del servidor o servidores DHCP que pueda haber en nuestra red local.</description>
     </item>
     
     <item>
