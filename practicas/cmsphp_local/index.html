@@ -98,6 +98,25 @@
                 <div class="post-content">
                     
 
+<h2 id="vagrantfile">VagrantFile</h2>
+
+<pre><code>Vagrant.configure(&quot;2&quot;) do |config|
+    config.vm.define :cmsagv do |cmsagv|
+        cmsagv.vm.box = &quot;debian/buster64&quot;
+        cmsagv.vm.hostname = &quot;cmsagv&quot;
+        cmsagv.vm.network :private_network, ip: &quot;172.22.100.5&quot;,
+          virtualbox__intnet: &quot;interna&quot;
+        cmsagv.vm.network :private_network, ip: &quot;192.168.100.200&quot;
+    end
+    config.vm.define :backup do |backup|
+        backup.vm.box = &quot;debian/buster64&quot;
+        backup.vm.hostname = &quot;backup&quot;
+        backup.vm.network :private_network, ip: &quot;172.22.100.10&quot;,
+                virtualbox__intnet: &quot;interna&quot;
+    end
+end
+</code></pre>
+
 <p><strong>Instalamos un servidor LAMP</strong></p>
 
 <h4 id="apache">Apache</h4>

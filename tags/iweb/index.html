@@ -106,12 +106,9 @@
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cmsphp_local/">Instalación local de un CMS PHP</a></h4>
 								<h4 class="post-date">2021-03-22</h4>
 							</div>
-							<div class="post-summary"><p>Instalamos un servidor LAMP
+							<div class="post-summary"><p>VagrantFile Vagrant.configure(&quot;2&quot;) do |config| config.vm.define :cmsagv do |cmsagv| cmsagv.vm.box = &quot;debian/buster64&quot; cmsagv.vm.hostname = &quot;cmsagv&quot; cmsagv.vm.network :private_network, ip: &quot;172.22.100.5&quot;, virtualbox__intnet: &quot;interna&quot; cmsagv.vm.network :private_network, ip: &quot;192.168.100.200&quot; end config.vm.define :backup do |backup| backup.vm.box = &quot;debian/buster64&quot; backup.vm.hostname = &quot;backup&quot; backup.vm.network :private_network, ip: &quot;172.22.100.10&quot;, virtualbox__intnet: &quot;interna&quot; end end  Instalamos un servidor LAMP
 Apache Hacemos una instalación sencilla:
-vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla en iptables para permitir la conexión http
-vagrant@cmsalegv:~$ sudo iptables -I INPUT -p tcp --dport 80 -j ACCEPT  Mariadb Instalamos Mariadb
-vagrant@cmsalegv:~$ sudo apt install mariadb-server mariadb-client  PHP Y por últimos realizaremos la instalación de php
-vagrant@cmsalegv:~$ sudo apt install php7.3 libapache2-mod-php7.3 php7.3-mysql php-common php7.3-cli php7.3-common php7.3-json php7.</p></div>
+vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla en iptables para permitir la conexión http</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/cmsphp_local/">Read More</a>
 							</div>
