@@ -6,10 +6,19 @@
     <description>Recent content in Practicas on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 05 Apr 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 12 Apr 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Migración de aplicación web PHP</title>
+      <link>https://alepeteporico.github.io/practicas/migracion_durpal/</link>
+      <pubDate>Mon, 12 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/migracion_durpal/</guid>
+      <description> Nos daremos de alta en un hosting gratuito, en mi caso cdmon.  </description>
+    </item>
     
     <item>
       <title>Instalación de servidores y clientes</title>
