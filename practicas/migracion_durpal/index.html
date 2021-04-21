@@ -96,9 +96,114 @@
                 <h1><a href="https://alepeteporico.github.io/practicas/migracion_durpal/">Migración de aplicación web PHP</a></h1>
                 <span class="post-date">2021-04-12 </span>
                 <div class="post-content">
-                    <ul>
-<li>Nos daremos de alta en un hosting gratuito, en mi caso cdmon.</li>
+                    
+
+<ul>
+<li>Nos daremos de alta en un hosting gratuito, en mi caso cdmon. Y crearemos un nuevo hosting.</li>
 </ul>
+
+<p><img src="/migracion_drupal/1.png" alt="hosting" /></p>
+
+<h2 id="migración-de-la-base-de-datos">Migración de la base de datos.</h2>
+
+<ul>
+<li>Lo primero que haremos será restaurar nuestra base de datos en nuestro hosting, para ello entraremos en la pestaña de mysql.</li>
+</ul>
+
+<p><img src="/migracion_drupal/2.png" alt="mysql" /></p>
+
+<ul>
+<li>Creamos una nueva base de datos, en mi caso la llamaré drupalagv.</li>
+</ul>
+
+<p><img src="/migracion_drupal/5.png" alt="nueva bbdd" /></p>
+
+<ul>
+<li>y accederemos a phpMyAdmin con las credenciales que se nos otorgan.</li>
+</ul>
+
+<p><img src="/migracion_drupal/3.png" alt="phpMyAdmin" /></p>
+
+<ul>
+<li>Importaremos el archivo de backup de nuestra base de datos.</li>
+</ul>
+
+<p><img src="/migracion_drupal/4.png" alt="Importar archivos, pues claro que me importan" /></p>
+
+<ul>
+<li>Y ya tendremos nuestra base de datos importada.</li>
+</ul>
+
+<p><img src="/migracion_drupal/6.png" alt="importacion exitosa" /></p>
+
+<h2 id="migración-de-la-aplicación">Migración de la aplicación</h2>
+
+<ul>
+<li><p>Una vez nuestra base de datos importa lo que debemos hacer ahora es migrar nuestra aplicación. Para ello nos conectaremos al servidor ftp del hosting con las credenciales que se nos proporcionan.</p>
+
+<pre><code>vagrant@cmsagv:~$ ftp 185.66.41.58
+Connected to 185.66.41.58.
+220---------------------------------------------------------
+220 This is a private system - No anonymous login
+Name (185.66.41.58:vagrant): portal
+331 User portal OK. Password required
+Password:
+230-OK. Current restricted directory is /
+230 16115 Kbytes used (0%) - authorized: 5242880 Kb
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp&gt; passive
+Passive mode on.
+</code></pre></li>
+
+<li><p>Podemos comprobar todos los directorios que tenemos.</p>
+
+<pre><code>ftp&gt; ls
+227 Entering Passive Mode (185,66,41,58,125,34)
+150 Accepted data connection
+drwxr-xr-x    8 277255055  portal           4096 Apr 13 19:05 .
+drwxr-xr-x    8 277255055  portal           4096 Apr 13 19:05 ..
+-rw-------    1 277255055  portal             11 Apr 14 12:03 .ftpquota
+drwxrwxr-x    2 277255055  portal           4096 Apr 13 18:25 backup_db
+drwxr-xr-x    2 0          portal           4096 Apr 13 23:00 errors
+-rw-r--r--    1 0          0                   0 Apr 13 23:00 errors.log
+drwxrwxr-x    2 277255055  portal           4096 Apr 12 08:11 logs
+-rw-r--r--    1 277255055  portal        1047385 Apr 13 19:05 portal.iesgnag.es-13-04-2021-2005.zip
+drwxr-xr-x    2 277255055  portal           4096 Apr 13 18:34 restores
+drwxrwxr-x    2 277255055  portal           4096 Apr 12 08:11 tmp
+drwxrwxr-x    2 277255055  portal           4096 Apr 13 19:05 web
+226-Options: -a -l 
+226 11 matches total
+</code></pre></li>
+
+<li><p>Una vez sabemos donde tenemos que subir nuestro directorio podemos usar scp:</p>
+
+<pre><code>alejandrogv@AlejandroGV:~$ scp -r drupal/ portal@185.66.41.58:/web/
+</code></pre></li>
+
+<li><p>Ya que tenemos nuestro directorio drupal copiado en nuestro hosting debemos cambiar la ruta de la base de datos y el usuario de drupal, para ello entraremos en el servidor mediante ssh y editaremos el fichero <code>/var/www/drupal/sites/default/settings.php</code> tal y como podemos ver ahora.</p>
+
+<pre><code>$databases['default']['default'] = array (
+  'database' =&gt; 'drupalagv',
+  'username' =&gt; 'myportal',
+  'password' =&gt; 'DzhILZeS',
+  'prefix' =&gt; '',
+  'host' =&gt; 'localhost',
+  'port' =&gt; '3306',
+  'namespace' =&gt; 'Drupal\\Core\\Database\\Driver\\mysql',
+  'driver' =&gt; 'mysql',
+</code></pre></li>
+
+<li><p>Seguidamente en CDMON entraremos en multidominios web y añadiremos un nuevo dominio que será nuestro drupal.</p></li>
+</ul>
+
+<p><img src="/migracion_drupal/7.png" alt="drupal" /></p>
+
+<ul>
+<li>Y ya tenemos nuestro cms subido, aunque sin css debido a un problema quizás referente a la subida de archivos ocultos o probablemente referente al hosting lo cual estaría fuera de nuestro control.</li>
+</ul>
+
+<p><img src="/migracion_drupal/8.png" alt="drupal mal" /></p>
 
                 </div>
                 

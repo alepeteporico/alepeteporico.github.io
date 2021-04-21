@@ -17,7 +17,7 @@
       <pubDate>Mon, 12 Apr 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/migracion_durpal/</guid>
-      <description> Nos daremos de alta en un hosting gratuito, en mi caso cdmon.  </description>
+      <description>Nos daremos de alta en un hosting gratuito, en mi caso cdmon. Y crearemos un nuevo hosting.  Migración de la base de datos.  Lo primero que haremos será restaurar nuestra base de datos en nuestro hosting, para ello entraremos en la pestaña de mysql.   Creamos una nueva base de datos, en mi caso la llamaré drupalagv.   y accederemos a phpMyAdmin con las credenciales que se nos otorgan.</description>
     </item>
     
     <item>
