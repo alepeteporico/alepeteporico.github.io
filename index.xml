@@ -6,10 +6,28 @@
     <description>Recent content on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 21 Apr 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 24 Apr 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Configuración de apache mediante archivo .htaccess </title>
+      <link>https://alepeteporico.github.io/practicas/apache_htaccess/</link>
+      <pubDate>Sat, 24 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/apache_htaccess/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Control de acceso, autentificación y autorización</title>
+      <link>https://alepeteporico.github.io/practicas/control_acceso/</link>
+      <pubDate>Sat, 24 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/control_acceso/</guid>
+      <description>Crea un escenario en Vagrant o reutiliza uno de los que tienes en ejercicios anteriores, que tenga un servidor con una red publica, y una privada y un cliente conectada a la red privada. Crea un host virtual departamentos.iesgn.org  Para está práctica podremos usar la misma máquina de vagrant que usamos para las prácticas del cms y de mapeo.  A la URL departamentos.iesgn.org/intranet sólo se debe tener acceso desde el cliente de la red local, y no se pueda acceder desde la anfitriona por la red pública.</description>
+    </item>
     
     <item>
       <title>Mapear URL a ubicaciones de un sistema de ficheros</title>
