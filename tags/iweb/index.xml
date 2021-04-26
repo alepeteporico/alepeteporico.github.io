@@ -6,10 +6,21 @@
     <description>Recent content in Iweb on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 12 Apr 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 26 Apr 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://alepeteporico.github.io/tags/iweb/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Despliegue de una aplicación python</title>
+      <link>https://alepeteporico.github.io/practicas/despliegue_python/</link>
+      <pubDate>Mon, 26 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/despliegue_python/</guid>
+      <description>Vamos a desarrollar la aplicación del tutorial de django 3.1. Vamos a configurar tu equipo como entorno de desarrollo para trabajar con la aplicación.  Realizamos un fork de la aplicación añadiendola a nuestros repositorios y seguidamente lo clonaremos en nuestra maquina:
+alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python$ git clone git@github.com:alepeteporico/django_tutorial.git  Crearemos el entorno virtual donde instalaremos las dependencias necesarias para hacer funcionar nuestra aplicación.
+alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ python3 -m venv django (django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ pip install -r despliegue_python/django_tutorial/requirements.</description>
+    </item>
     
     <item>
       <title>Migración de aplicación web PHP</title>
