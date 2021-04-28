@@ -503,6 +503,51 @@ Processing triggers for libc-bin (2.28-10) ...
 </code></pre></li>
 </ul>
 
+<h3 id="aplicación-web-para-postgres">Aplicación web para postgres</h3>
+
+<ul>
+<li><p>Por supuesto, primero instalamos postgres</p>
+
+<pre><code>vagrant@postgres:~$ sudo apt install postgresql
+</code></pre></li>
+
+<li><p>Instalaremos phppgadmin para poder administrar nuestra base de datos mediante una aplicación web.</p>
+
+<pre><code>vagrant@postgres:~$ sudo apt install phppgadmin
+</code></pre></li>
+
+<li><p>Ahora configuraremos esta aplicación, para ello lo primero que debemos hacer es permitir que se pueda acceder de forma remota en el archivo de configuración <code>/etc/apache2/conf-available/phppgadmin.conf</code> comentaremos la siguiente línea.</p>
+
+<pre><code>#Require local
+</code></pre></li>
+
+<li><p>Crearemos una base de datos y usuario al que daremos permisos sobre esta base de datos.</p>
+
+<pre><code>postgres=# CREATE DATABASE prueba;
+CREATE DATABASE
+postgres=# CREATE USER usuario1 WITH PASSWORD 'usuario1';
+CREATE ROLE
+postgres=# GRANT ALL PRIVILEGES ON DATABASE prueba to usuario1;
+GRANT
+</code></pre></li>
+
+<li><p>Una vez añadimos contenido a esta base de datos podremos conectarnos desde nuestro navegador.</p></li>
+</ul>
+
+<p><img src="/servidores_bbdd/1.png" alt="phppgadmin" /></p>
+
+<ul>
+<li>Nos identificaremos con el usuario que creamos anteriormente y podremos acceder a las bases de datos sobre las que tiene privilegio y podríamos por ejemplo ver las tablas e información que tenemos en la misma.</li>
+</ul>
+
+<p><img src="/servidores_bbdd/2.png" alt="phppgadmin" /></p>
+
+<p><img src="/servidores_bbdd/3.png" alt="phppgadmin" /></p>
+
+<ul>
+<li></li>
+</ul>
+
                 </div>
                 
                 <div class="post-comments">
