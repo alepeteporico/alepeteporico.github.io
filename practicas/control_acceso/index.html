@@ -107,8 +107,135 @@
 <h3 id="a-la-url-departamentos-iesgn-org-intranet-sólo-se-debe-tener-acceso-desde-el-cliente-de-la-red-local-y-no-se-pueda-acceder-desde-la-anfitriona-por-la-red-pública-a-la-url-departamentos-iesgn-org-internet-sin-embargo-sólo-se-debe-tener-acceso-desde-la-anfitriona-por-la-red-pública-y-no-desde-la-red-local">A la URL departamentos.iesgn.org/intranet sólo se debe tener acceso desde el cliente de la red local, y no se pueda acceder desde la anfitriona por la red pública. A la URL departamentos.iesgn.org/internet, sin embargo, sólo se debe tener acceso desde la anfitriona por la red pública, y no desde la red local.</h3>
 
 <ul>
-<li>Crearemos un nuevo virtual host en sites-avaiable el cual solo tendrá acceso desde la IP interna de nuestro servidor.</li>
+<li><p>Vamos a crear la estructura de directorios que necesitaremos en <code>/var/www/</code></p>
+
+<pre><code>vagrant@cmsagv:~$ sudo mkdir -p /var/www/departamentos/{intranet,internet,secreto}
+</code></pre></li>
+
+<li><p>Crearemos un nuevo virtual host en sites-avaiable y especificaremos que a intranet solo se pueda acceder desde la red interna y a internet solo desde la externa.</p>
+
+<pre><code>&lt;VirtualHost *:80&gt;
+        ServerName departamentos.iesgn.org
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/departamentos
+
+        &lt;Directory /var/www/departamentos/intranet/&gt;
+                    Options Indexes FollowSymLinks MultiViews
+                    &lt;RequireAll&gt;
+                            Require ip 172.22.100
+                            Require all granted
+                    &lt;/RequireAll&gt;
+        &lt;/Directory&gt;
+
+        &lt;Directory /var/www/departamentos/internet/&gt;
+                    Options Indexes FollowSymLinks MultiViews
+                    &lt;RequireAll&gt;
+                            Require ip 192.168.100
+                            Require all granted
+                    &lt;/RequireAll&gt;
+        &lt;/Directory&gt;
+
+        #LogLevel info ssl:warn
+
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+        #Include conf-available/serve-cgi-bin.conf
+
+&lt;/VirtualHost&gt;
+</code></pre></li>
+
+<li><p>Ahora añadiremos nuestro servidor al /etc/hosts de la anfitriona:</p>
+
+<pre><code>192.168.100.200 departamentos.iesgn.org
+</code></pre></li>
+
+<li><p>Y en nuestro cliente de la red local.</p>
+
+<pre><code>172.22.100.5    departamentos.iesgn.org
+</code></pre></li>
+
+<li><p>Comprobemos que funciona desde la anfitriona.</p></li>
 </ul>
+
+<p><img src="/control_acceso/1.png" alt="departamentos" /></p>
+
+<p><img src="/control_acceso/2.png" alt="intranet" /></p>
+
+<ul>
+<li>Y desde nuestro cliente.</li>
+</ul>
+
+<p><img src="/control_acceso/3.png" alt="intranet" /></p>
+
+<p><img src="/control_acceso/4.png" alt="internet" /></p>
+
+<h3 id="limita-el-acceso-a-la-url-departamentos-iesgn-org-secreto">Limita el acceso a la URL departamentos.iesgn.org/secreto.</h3>
+
+<ul>
+<li><p>Nuestro primer paso para realizar esta tarea será crear un archivo con una contraseña, deberíamos crearlo en un directorio seguro.</p>
+
+<pre><code>vagrant@cmsagv:/claves$ sudo htpasswd -c clave.txt root
+New password: 
+Re-type new password: 
+Adding password for user root
+</code></pre></li>
+
+<li><p>En nuestro archivo de configuración debemos añadir lo siguiente.</p>
+
+<pre><code>&lt;Directory /var/www/departamentos/secreto/&gt;
+        AuthUserFile &quot;/claves/clave.txt&quot;
+        AuthName &quot;Solo acceso autorizado&quot;
+        AuthType Basic
+        Require valid-user
+&lt;/Directory&gt;
+</code></pre></li>
+
+<li><p>Comprobemos que funciona.</p></li>
+</ul>
+
+<p><img src="/control_acceso/5.png" alt="secreto" /></p>
+
+<p><img src="/control_acceso/6.png" alt="secreto" /></p>
+
+<h3 id="cómo-hemos-visto-la-autentificación-básica-no-es-segura-modifica-la-autentificación-para-que-sea-del-tipo-digest-y-sólo-sea-accesible-a-los-usuarios-pertenecientes-al-grupo-directivos-comprueba-las-cabeceras-de-los-mensajes-http-que-se-intercambian-entre-el-servidor-y-el-cliente-cómo-funciona-esta-autentificación">Cómo hemos visto la autentificación básica no es segura, modifica la autentificación para que sea del tipo digest, y sólo sea accesible a los usuarios pertenecientes al grupo directivos. Comprueba las cabeceras de los mensajes HTTP que se intercambian entre el servidor y el cliente. ¿Cómo funciona esta autentificación?</h3>
+
+<ul>
+<li><p>Tendremos que cargar el módulo de digest para comenzar esta tarea.</p>
+
+<pre><code>vagrant@cmsagv:/claves$ sudo a2enmod auth_digest
+Considering dependency authn_core for auth_digest:
+Module authn_core already enabled
+Enabling module auth_digest.
+To activate the new configuration, you need to run:
+  systemctl restart apache2
+</code></pre></li>
+
+<li><p>Ahora crearemos una nueva clave que será más segura que la anterior donde podremos especificar un usuario que formará parte de una especie de grupo.</p>
+
+<pre><code>vagrant@cmsagv:/claves$ sudo htdigest -c clave2.txt directivos prueba
+Adding password for contraseña in realm directivos.
+New password: 
+Re-type new password:
+</code></pre></li>
+
+<li><p>Y modificaremos el fichero de configuracion de departamentos, en concreto modificaremos las líneas que añadimos antes sobre el directorio <code>secreto</code> para que quede de la siguiete forma:</p>
+
+<pre><code>&lt;Directory /var/www/departamentos/secreto/&gt;
+        AuthUserFile &quot;/claves/clave2.txt&quot;
+        AuthName &quot;Solo acceso autorizado&quot;
+        AuthType Digest
+        Require valid-user
+&lt;/Directory&gt;
+</code></pre></li>
+
+<li><p>Comprobamos que al introducir las credenciales que acabamos de crear podemos acceder.</p></li>
+</ul>
+
+<p><img src="/control_acceso/7.png" alt="secreto" />
+<img src="/control_acceso/6.png" alt="secreto" /></p>
 
                 </div>
                 

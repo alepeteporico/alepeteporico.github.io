@@ -633,12 +633,39 @@ local   0.000GB
 
 <li><p>Una vez tenemos nuestra base de datos a punto instalaremos nuestro administrador web. He elegido Rockmongo para ello instalaremos las dependencias necesarias.</p>
 
-<pre><code>vagrant@mongo:~$ sudo apt install apache2 gcc php php-gd php-pear unzip wget
+<pre><code>vagrant@mongo:~$ sudo apt install apache2 gcc php php-gd php-pear unzip wget php7.3-dev
 </code></pre></li>
 
 <li><p>Necesitamos modificar el fichero <code>/etc/php/7.3/apache2/php.ini</code> y añadir la siguiente línea:</p>
 
 <pre><code>extension=mongo.so
+</code></pre></li>
+
+<li><p>Debemos clonar el repositorio del modulo de php para mongo.</p>
+
+<pre><code>vagrant@mongo:~ git clone https://github.com/mongodb/mongo-php-driver-legacy.git
+</code></pre></li>
+
+<li><p>Seguidamente entraremos en el repositorio y ejecutaremos el siguiente comando.</p>
+
+<pre><code>vagrant@mongo:~/mongo-php-driver$ phpize
+Configuring for:
+PHP Api Version:         20180731
+Zend Module Api No:      20180731
+Zend Extension Api No:   320180731
+</code></pre></li>
+
+<li><p>Ahora ejecutaremos el script que está dentro del repositorio <code>configure</code>.</p>
+
+<pre><code>vagrant@mongo:~/mongo-php-driver$ ./configure
+</code></pre></li>
+
+<li><p>Y por último instalaremos el módulo.</p>
+
+<pre><code>vagrant@mongo:~/mongo-php-driver$ sudo make all
+
+vagrant@mongo:~/mongo-php-driver$ sudo make install
+Installing shared extensions:     /usr/lib/php/20180731/
 </code></pre></li>
 
 <li><p>Clonaremos el respositorio de github de Rockmongo y añadiremos esta aplicación a un DocumentRoot</p>
