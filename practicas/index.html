@@ -103,6 +103,19 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cms_java/">Despliegue de CMS java</a></h4>
+								<h4 class="post-date">2021-05-04</h4>
+							</div>
+							<div class="post-summary"><p></p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/cms_java/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/despliegue_python/">Despliegue de una aplicación python</a></h4>
 								<h4 class="post-date">2021-04-26</h4>
 							</div>
@@ -121,7 +134,7 @@ alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ python3 -m venv django (django) 
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/apache_htaccess/">Configuración de apache mediante archivo .htaccess </a></h4>
 								<h4 class="post-date">2021-04-24</h4>
 							</div>
-							<div class="post-summary"><p></p></div>
+							<div class="post-summary"><p> Date de alta en un proveedor de hosting. ¿Si necesitamos configurar el servidor web que han configurado los administradores del proveedor?, ¿qué podemos hacer? Explica la directiva AllowOverride de apache2. Utilizando archivos .htaccess realiza las siguientes configuraciones:  El hosting que usaré será 000webhost  Habilita el listado de ficheros en la URL http://host.dominio/nas. </p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/apache_htaccess/">Read More</a>
 							</div>
@@ -220,22 +233,6 @@ vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla 
 							<div class="post-summary"><p>RAID 5 Fichero VagrantFile:  # -*- mode: ruby -*- # vi: set ft=ruby : Vagrant.configure(&quot;2&quot;) do |config| config.vm.box = &quot;debian/buster64&quot; config.vm.hostname = &quot;practica1&quot; config.vm.provider :virtualbox do |v| disco = '.vagrant/disco.vdi' v.customize [&quot;createhd&quot;,&quot;--filename&quot;,disco,&quot;--size&quot;, 1024] v.customize [&quot;storageattach&quot;,:id,&quot;--storagectl&quot;,&quot;SATA Controller&quot;,&quot;--port&quot;,1,&quot;--device&quot;,0,&quot;--type&quot;,&quot;hdd&quot;,&quot;--medium&quot;,disco] disco2 = '.vagrant/disco2.vdi' v.customize [&quot;createhd&quot;,&quot;--filename&quot;,disco2,&quot;--size&quot;, 1024] v.customize [&quot;storageattach&quot;,:id,&quot;--storagectl&quot;,&quot;SATA Controller&quot;,&quot;--port&quot;,2,&quot;--device&quot;,0,&quot;--type&quot;,&quot;hdd&quot;,&quot;--medium&quot;,disco2] disco3 = '.vagrant/disco3.vdi' v.customize [&quot;createhd&quot;,&quot;--filename&quot;,disco3,&quot;--size&quot;, 1024] v.customize [&quot;storageattach&quot;,:id,&quot;--storagectl&quot;,&quot;SATA Controller&quot;,&quot;--port&quot;,3,&quot;--device&quot;,0,&quot;--type&quot;,&quot;hdd&quot;,&quot;--medium&quot;,disco3] disco4 = '.vagrant/disco4.vdi' v.customize [&quot;createhd&quot;,&quot;--filename&quot;,disco4,&quot;--size&quot;, 1024] v.customize [&quot;storageattach&quot;,:id,&quot;--storagectl&quot;,&quot;SATA Controller&quot;,&quot;--port&quot;,4,&quot;--device&quot;,0,&quot;--type&quot;,&quot;hdd&quot;,&quot;--medium&quot;,disco4] disco5 = '.vagrant/disco5.vdi' v.customize [&quot;createhd&quot;,&quot;--filename&quot;,disco5,&quot;--size&quot;, 1024] v.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/mdadm_rclone/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/escenearioos/">Configuración del escenario en OpenStack</a></h4>
-								<h4 class="post-date">2021-03-16</h4>
-							</div>
-							<div class="post-summary"><p>El escenario que debemos montar es el siguiente:
-Nosotros tenemos nuestra propia red, pero debemos crear dos nuevas para el escenario y añadir las redes conrrespondientes a sus máquinas
-Nuestro siguiente paso será deshabilitar los puertos de Dulcinea que será la máquina que usaremos para conectarnos a las demás y salir al exterior Para este proposito usaremos OpenStack Client alejandrogv@AlejandroGV:~$ source Escritorio/ASIR/hlc/openstackclient/bin/activate source ~/Descargas/Proyecto\ de\ a.gutierrez-openrc.sh
-Ahora listaremos las interfaces que tenemos en nuestro proyecto</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/escenearioos/">Read More</a>
 							</div>
 						</div>
 					</li>
