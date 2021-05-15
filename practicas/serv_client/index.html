@@ -627,13 +627,15 @@ vagrant@mongo:~$ sudo systemctl restart mongod
 <pre><code>&gt; show dbs
 admin   0.000GB
 config  0.000GB
-libros  0.000GB
+local   0.000GB
 local   0.000GB
 </code></pre></li>
 
 <li><p>Una vez tenemos nuestra base de datos a punto instalaremos nuestro administrador web. He elegido Rockmongo para ello instalaremos las dependencias necesarias.</p>
 
 <pre><code>vagrant@mongo:~$ sudo apt install apache2 gcc php php-gd php-pear unzip wget php7.3-dev
+
+vagrant@mongo:~$ sudo pecl install mongodb
 </code></pre></li>
 
 <li><p>Necesitamos modificar el fichero <code>/etc/php/7.3/apache2/php.ini</code> y añadir la siguiente línea:</p>
