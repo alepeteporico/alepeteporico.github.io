@@ -24,6 +24,17 @@
     </item>
     
     <item>
+      <title>Interconexión de servidores de bases de datos</title>
+      <link>https://alepeteporico.github.io/practicas/interconexion/</link>
+      <pubDate>Wed, 05 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/interconexion/</guid>
+      <description>Realizar un enlace entre dos servidores de bases de datos ORACLE, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.
+ Realizar un enlace entre dos servidores de bases de datos Postgres, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.
+ Realizar un enlace entre un servidor ORACLE y otro Postgres o MySQL empleando Heterogeneus Services, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.</description>
+    </item>
+    
+    <item>
       <title>Despliegue de CMS java</title>
       <link>https://alepeteporico.github.io/practicas/cms_java/</link>
       <pubDate>Tue, 04 May 2021 00:00:00 +0000</pubDate>

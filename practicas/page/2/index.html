@@ -103,6 +103,21 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cmsphp_local/">Instalación local de un CMS PHP</a></h4>
+								<h4 class="post-date">2021-03-22</h4>
+							</div>
+							<div class="post-summary"><p>VagrantFile Vagrant.configure(&quot;2&quot;) do |config| config.vm.define :cmsagv do |cmsagv| cmsagv.vm.box = &quot;debian/buster64&quot; cmsagv.vm.hostname = &quot;cmsagv&quot; cmsagv.vm.network :private_network, ip: &quot;172.22.100.5&quot;, virtualbox__intnet: &quot;interna&quot; cmsagv.vm.network :private_network, ip: &quot;192.168.100.200&quot; end config.vm.define :backup do |backup| backup.vm.box = &quot;debian/buster64&quot; backup.vm.hostname = &quot;backup&quot; backup.vm.network :private_network, ip: &quot;172.22.100.10&quot;, virtualbox__intnet: &quot;interna&quot; end end  Instalamos un servidor LAMP
+Apache Hacemos una instalación sencilla:
+vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla en iptables para permitir la conexión http</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/cmsphp_local/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/mdadm_rclone/">Práctica mdadm y rclone</a></h4>
 								<h4 class="post-date">2021-03-17</h4>
 							</div>
