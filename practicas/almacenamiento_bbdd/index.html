@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Almacenamiento &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.54.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://alepeteporico.github.io/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/practicas/almacenamiento_bbdd/">Almacenamiento</a></h1>
+                <span class="post-date">2021-05-10 </span>
+                <div class="post-content">
+                    
+
+<h3 id="muestra-los-objetos-a-los-que-pertenecen-las-extensiones-del-tablespace-ts2-creado-por-tí-y-el-tamaño-de-cada-una-de-ellas-tendrás-que-crear-objetos-en-él-previamente-claro">Muestra los objetos a los que pertenecen las extensiones del tablespace TS2 (creado por tí) y el tamaño de cada una de ellas. Tendrás que crear objetos en él previamente, claro.</h3>
+
+<ul>
+<li><p>Vamos a crear este Tablespace.</p>
+
+<pre><code>SQL&gt; CREATE TABLESPACE TS2
+  2  DATAFILE '/home/oracle/ts2.dbf'
+  3  SIZE 200K
+  4  AUTOEXTEND ON
+  5  DEFAULT STORAGE (
+  6  INITIAL 200K
+  7  NEXT 200K
+  8  MAXEXTENTS 3
+  9  PCTINCREASE 100);
+
+Tablespace created.
+</code></pre></li>
+
+<li><p>Vamos a crear una prueba para ver como funciona y añadamos contenido a ver como funciona.</p>
+
+<pre><code>SQL&gt; CREATE TABLE prueba2 (
+  2  clave  VARCHAR(5),
+  3  otra_cosa  VARCHAR2(25)
+  4  )  TABLESPACE TS2;
+
+Table created.
+
+SQL&gt; insert into prueba2 (clave,otra_cosa) values ('1234', 'esto es otra cosa');
+
+1 row created.
+
+SQL&gt; insert into prueba2 (clave,otra_cosa) values ('12345', 'mas cosas');           
+
+1 row created.
+</code></pre></li>
+
+<li><p>Ahora mediante las siguientes instrucciones comprobaremos el espacio libre que tenemos depués de añadir contenido.</p>
+
+<pre><code>SQL&gt; SELECT TABLESPACE_NAME,TO_CHAR(SUM(NVL(BYTES,0))/1024/1024, '99,999,990.99') AS &quot;FREE SPACE(IN MB)&quot;
+  2  FROM USER_FREE_SPACE 
+  3  GROUP BY TABLESPACE_NAME;
+
+TABLESPACE_NAME            FREE SPACE(IN
+------------------------------ --------------
+SYSTEM                   9.50
+SYSAUX                  27.63
+UNDOTBS1                 3.00
+USERS                    1.94
+TS2                  0.06
+</code></pre></li>
+</ul>
+
+<h3 id="borra-la-tabla-que-está-llenando-ts2-consiguiendo-que-vuelvan-a-existir-extensiones-libres-añade-después-otro-fichero-de-datos-a-ts2">Borra la tabla que está llenando TS2 consiguiendo que vuelvan a existir extensiones libres. Añade después otro fichero de datos a TS2.</h3>
+
+<ul>
+<li><p>Borramos la tabla:</p>
+
+<pre><code>SQL&gt; DROP TABLE prueba2;
+
+Table dropped.
+</code></pre></li>
+
+<li><p>Y volvemos a comprobar el espacio, si nos fijamos en TS2 se ha incrementado el espacio libre respecto a anteriormente.</p>
+
+<pre><code>SQL&gt; SELECT TABLESPACE_NAME,TO_CHAR(SUM(NVL(BYTES,0))/1024/1024, '99,999,990.99') AS &quot;FREE SPACE(IN MB)&quot;
+  2  FROM USER_FREE_SPACE 
+  3  GROUP BY TABLESPACE_NAME;
+
+TABLESPACE_NAME            FREE SPACE(IN
+------------------------------ --------------
+SYSTEM                   9.50
+SYSAUX                  27.63
+UNDOTBS1                 3.00
+USERS                    1.94
+TS2                  0.13
+</code></pre></li>
+
+<li><p>Vamos a añadir otro fichero de datos a nuestro tablespace.</p>
+
+<pre><code>SQL&gt; alter tablespace TS2 add datafile '/home/oracle/nuevo.dbf' size 15M;
+
+Tablespace altered.
+</code></pre></li>
+
+<li><p>Y vamos a comprobar los ficheros que están en funcionamiento.</p>
+
+<pre><code>SQL&gt; select file_name,tablespace_name
+  2  from dba_data_files
+  3  where tablespace_name='TS2';
+
+FILE_NAME
+--------------------------------------------------------------------------------
+TABLESPACE_NAME
+------------------------------
+/home/oracle/ts2.dbf
+TS2
+
+/home/oracle/nuevo.dbf
+TS2
+</code></pre></li>
+</ul>
+
+<h3 id="crea-el-tablespace-ts3-gestionado-localmente-con-un-tamaño-de-extension-uniforme-de-128k-y-un-fichero-de-datos-asociado-cambia-la-ubicación-del-fichero-de-datos-y-modifica-la-base-de-datos-para-que-pueda-acceder-al-mismo-crea-en-ts3-dos-tablas-e-inserta-registros-en-las-mismas-comprueba-que-segmentos-tiene-ts3-qué-extensiones-tiene-cada-uno-de-ellos-y-en-qué-ficheros-se-encuentran">Crea el tablespace TS3 gestionado localmente con un tamaño de extension uniforme de 128K y un fichero de datos asociado. Cambia la ubicación del fichero de datos y modifica la base de datos para que pueda acceder al mismo. Crea en TS3 dos tablas e inserta registros en las mismas. Comprueba que segmentos tiene TS3, qué extensiones tiene cada uno de ellos y en qué ficheros se encuentran.</h3>
+
+<ul>
+<li><p>Vamos a crear este nuevo tablespace con el fichero que se nos especifica y la extensión uniforme.</p>
+
+<pre><code>SQL&gt; CREATE TABLESPACE TS3 DATAFILE '/home/oracle/ts3.dbf' SIZE 20M EXTENT MANAGEMENT LOCAL UNIFORM SIZE 128K;
+
+Tablespace created.
+</code></pre></li>
+
+<li><p>Si queremos modificar los archivos de este tablespace debemos apagarlo.</p>
+
+<pre><code>SQL&gt; ALTER TABLESPACE TS3 OFFLINE;
+
+Tablespace altered.
+</code></pre></li>
+
+<li><p>Vamos a salir de oracle y modificar la ubicación de este fichero que estará en nuestro hombre como especificamos al crearlo.</p>
+
+<pre><code>[oracle@oracle ~]$ mv ts3.dbf mod/
+</code></pre></li>
+
+<li><p>Volvemos a entrar en oracle y modificamos el tablespace para especificar la nueva ruta del arhivo.</p>
+
+<pre><code>SQL&gt; alter tablespace TS3 rename datafile '/home/oracle/ts3.dbf' to '/home/oracle/mod/ts3.dbf';
+
+Tablespace altered.
+</code></pre></li>
+
+<li><p>Ahora si podemos activar nuestro tablespace y ver la ruta de nuestro fichero de datos.</p>
+
+<pre><code>SQL&gt; ALTER TABLESPACE TS3 ONLINE;
+
+Tablespace altered.
+
+SQL&gt; select file_name,tablespace_name
+  2  from dba_data_files
+  3  where tablespace_name='TS3';
+
+FILE_NAME
+--------------------------------------------------------------------------------
+TABLESPACE_NAME
+------------------------------
+/home/oracle/mod/ts3.dbf
+TS3
+</code></pre></li>
+
+<li><p>Ahora crearemos contenido dentro de nuestro tablespace, en concreto dos tablas con contenido.</p>
+
+<pre><code>SQL&gt; CREATE TABLE prueba3 (
+  2  clave  VARCHAR(5),
+  3  cosas  VARCHAR(10),
+  4  mascosas   VARCHAR(20)
+  5  ) TABLESPACE TS3;
+
+Table created.
+
+SQL&gt; CREATE TABLE prueba4 (
+  2  clave  VARCHAR(5),
+  3  cosas  VARCHAR(10),
+  4  mascosas   VARCHAR(20)
+  5  ) TABLESPACE TS3;
+
+Table created.
+
+SQL&gt; insert into prueba4 values ('4','cuatro','four');
+
+1 row created.
+
+SQL&gt; insert into prueba4 values ('6','seis','six');
+
+1 row created.
+
+SQL&gt; insert into prueba3 values ('3','quepasa','carapasa');
+
+1 row created.
+
+SQL&gt; insert into prueba3 values ('2','jia','jau');
+
+1 row created.
+
+SQL&gt; insert into prueba3 values ('1','hola','caracola');
+
+1 row created.
+</code></pre></li>
+
+<li><p>Comprobamos los segmentos que tiene TS3, las extensiones y en que fichero se encuentran.</p>
+
+<pre><code>SQL&gt; select de.segment_name,de.extent_id,df.file_name,de.file_id
+  2  from dba_data_files  df, dba_extents de
+  3  where de.file_id = df.file_id
+  4  and de.tablespace_name = 'TS3';
+
+SEGMENT_NAME
+--------------------------------------------------------------------------------
+ EXTENT_ID
+----------
+FILE_NAME
+--------------------------------------------------------------------------------
+   FILE_ID
+----------
+PRUEBA3
+     0
+/home/oracle/mod/ts3.dbf
+    15
+
+
+SEGMENT_NAME
+--------------------------------------------------------------------------------
+ EXTENT_ID
+----------
+FILE_NAME
+--------------------------------------------------------------------------------
+   FILE_ID
+----------
+PRUEBA4
+     0
+/home/oracle/mod/ts3.dbf
+    15
+</code></pre></li>
+</ul>
+
+<h3 id="redimensiona-los-ficheros-asociados-a-los-tres-tablespaces-que-has-creado-de-forma-que-ocupen-el-mínimo-espacio-posible-para-alojar-sus-objetos">Redimensiona los ficheros asociados a los tres tablespaces que has creado de forma que ocupen el mínimo espacio posible para alojar sus objetos.</h3>
+
+<ul>
+<li><p>Comprobemos el espacio que tienen nuestros tablespace para poder compararlos después de redimensionarlos.</p>
+
+<pre><code>SQL&gt; select sum(bytes)/1024||'KB', tablespace_name
+  2  from dba_segments
+  3  where tablespace_name like 'TS%'
+  4  group by tablespace_name;
+
+SUM(BYTES)/1024||'KB'              TABLESPACE_NAME
+------------------------------------------ ------------------------------
+256KB                      TS3
+64KB                       TS2
+</code></pre></li>
+
+<li><p>Vamos a redimensionar nuestros ficheros.</p>
+
+<pre><code>SQL&gt; alter database datafile '/home/oracle/ts2.dbf' resize 1M;
+
+Database altered.
+
+SQL&gt; alter database datafile '/home/oracle/mod/ts3.dbf' resize 20M;
+
+Database altered.
+</code></pre></li>
+
+<li><p>Ahora volvamos a comprobar el espacio de nuestros tablespace.</p>
+
+<pre><code>SQL&gt; select sum(bytes)/1024||'KB', tablespace_name
+  2  from dba_segments
+  3  where tablespace_name like 'TS%'
+  4  group by tablespace_name;
+
+SUM(BYTES)/1024||'KB'              TABLESPACE_NAME
+------------------------------------------ ------------------------------
+256KB                      TS3
+64KB                       TS2
+
+SQL&gt; select file_name,tablespace_name,(bytes/1024)||'KB'
+  2  from dba_data_files
+  3  where tablespace_name like 'TS%';
+
+FILE_NAME
+--------------------------------------------------------------------------------
+TABLESPACE_NAME            (BYTES/1024)||'KB'
+------------------------------ ------------------------------------------
+/home/oracle/ts2.dbf
+TS2                1024KB
+
+/home/oracle/nuevo.dbf
+TS2                15360KB
+
+/home/oracle/mod/ts3.dbf
+TS3                20480KB
+</code></pre></li>
+</ul>
+
+<h3 id="crea-una-secuencia-para-rellenar-el-campo-deptno-de-la-tabla-dept-de-forma-coherente-con-los-datos-ya-existentes-inserta-al-menos-dos-registros-haciendo-uso-de-la-secuencia">Crea una secuencia para rellenar el campo deptno de la tabla dept de forma coherente con los datos ya existentes. Inserta al menos dos registros haciendo uso de la secuencia.</h3>
+
+<h3 id="resuelve-el-siguiente-caso-práctico-en-oracle">Resuelve el siguiente caso práctico en ORACLE:</h3>
+
+<p><strong>En nuestra empresa existen tres departamentos: Informática, Ventas y Producción. En Informática trabajan tres personas: Pepe, Juan y Clara. En Ventas trabajan Ana y Eva y en Producción Jaime y Lidia.</strong></p>
+
+<ol>
+<li>Pepe es el administrador de la base de datos. Juan y Clara son los programadores de la base de datos, que trabajan tanto en la aplicación que usa el departamento de Ventas como en la usada por el departamento de Producción. Ana y Eva tienen permisos para insertar, modificar y borrar registros en las tablas de la aplicación de Ventas que tienes que crear, y se llaman Productos y Ventas, siendo propiedad de Ana. Jaime y Lidia pueden leer la información de esas tablas pero no pueden modificar la información. Crea los usuarios y dale los roles y permisos que creas conveniente.</li>
+</ol>
+
+<ul>
+<li><p>Creamos usuarios y permisos</p>
+
+<pre><code>SQL&gt; CREATE USER Pepe identified by Pepe;
+SQL&gt; GRANT dba to Pepe;
+
+SQL&gt; CREATE USER Juan identified by Juan;
+SQL&gt; GRANT resource to Juan;
+SQL&gt; CREATE USER Clara identified by Clara;
+SQL&gt; GRANT resource to Clara;
+
+SQL&gt; CREATE USER Ana identified by Ana;
+SQL&gt; CREATE USER Eva identified by Eva;
+SQL&gt; GRANT select on Ana.Ventas to Eva;
+SQL&gt; GRANT insert on Ana.Ventas to Eva;
+SQL&gt; GRANT update on Ana.Ventas to Eva;
+SQL&gt; GRANT delete on Ana.Ventas to Eva;
+SQL&gt; GRANT select on Ana.Productos to Eva;
+SQL&gt; GRANT insert on Ana.Productos to Eva;
+SQL&gt; GRANT update on Ana.Productos to Eva;
+SQL&gt; GRANT delete on Ana.Productos to Eva;
+
+SQL&gt; CREATE USER Jaime identified by Jaime;
+SQL&gt; CREATE USER Lidia identified by Lidia;
+SQL&gt; GRANT select on Ana.Ventas to Jaime;
+SQL&gt; GRANT select on Ana.Ventas to Lidia;
+SQL&gt; GRANT select on Ana.Productos to Jaime;
+SQL&gt; GRANT select on Ana.Productos to Lidia;
+</code></pre></li>
+
+<li><p>Y seguidamente creamos los roles.</p>
+
+<pre><code>SQL&gt; CREATE ROLE Produccion;
+SQL&gt; GRANT select on Ana.Ventas to Produccion;
+SQL&gt; GRANT select on Ana.Productos to Produccion;
+
+SQL&gt; GRANT Produccion to Lidia;
+SQL&gt; GRANT Produccion to Jaime;
+
+SQL&gt; CREATE ROLE Ventas;
+SQL&gt; GRANT select, insert, update, delete on Ana.Ventas to Ventas;
+SQL&gt; GRANT select, insert, update, delete on Ana.Productos to Ventas;
+SQL&gt; GRANT Ventas to Eva;
+</code></pre></li>
+</ul>
+
+<ol>
+<li>Los espacios de tablas son System, Producción (ficheros prod1.dbf y prod2.dbf) y Ventas (fichero vent.dbf). Los programadores del departamento de Informática pueden crear objetos en cualquier tablespace de la base de datos, excepto en System. Los demás usuarios solo podrán crear objetos en su tablespace correspondiente teniendo un límite de espacio de 30 M los del departamento de Ventas y 100K los del de Producción. Pepe tiene cuota ilimitada en todos los espacios, aunque el suyo por defecto es System.</li>
+</ol>
+
+<ul>
+<li><p>Creamos la tablespace de producción, system y ventas.</p>
+
+<pre><code>SQL&gt; CREATE TABLESPACE ts_produccion
+  2  DATAFILE 'prod1.dbf' SIZE 100M,
+  3  'prod2.dbf' SIZE 100M AUTOEXTEND ON;
+
+Tablespace created.
+
+SQL&gt; CREATE TABLESPACE ts_venta
+  2  DATAFILE 'vent.dbf'
+  3  SIZE 100M AUTOEXTEND ON;
+
+Tablespace created.
+</code></pre></li>
+
+<li><p>Una vez creadas las tablespace podemos crear las cuotas para los usuarios.</p>
+
+<pre><code>SQL&gt; ALTER USER ANA QUOTA 30M ON ts_venta;
+
+User altered.
+
+SQL&gt; ALTER USER LIDIA QUOTA 100K ON ts_produccion;
+
+User altered.
+
+SQL&gt; ALTER USER EVA QUOTA 30M ON ts_venta;
+
+User altered.
+
+SQL&gt; ALTER USER JAIME QUOTA 100K ON ts_produccion;
+
+User altered.
+</code></pre></li>
+
+<li><p>Pepe tendrá cuota ilimitada, vamos a ponersela</p>
+
+<pre><code>SQL&gt; ALTER USER Pepe DEFAULT TABLESPACE SYSTEM;
+
+User altered.
+
+SQL&gt; GRANT UNLIMITED TABLESPACE TO Pepe;
+
+Grant succeeded.
+</code></pre></li>
+
+<li><p>Y los usuarios Juan y Clara debemos quitarles los privilegios de creación de objetos.</p>
+
+<pre><code>SQL&gt; GRANT UNLIMITED TABLESPACE TO JUAN;
+
+Grant succeeded.
+
+SQL&gt; ALTER USER JUAN QUOTA 0 ON SYSTEM;
+
+User altered.
+
+SQL&gt; GRANT UNLIMITED TABLESPACE TO CLARA;
+
+Grant succeeded.
+
+SQL&gt; ALTER USER CLARA QUOTA 0 ON SYSTEM;
+
+User altered.
+</code></pre></li>
+</ul>
+
+<ol>
+<li><p>Pepe quiere crear una tabla Prueba que ocupe inicialmente 256K en el tablespace Ventas.</p>
+
+<pre><code>SQL&gt; CREATE TABLE pepe.prueba5 (
+  2  clave      VARCHAR(5),
+  3  algo   VARCHAR(10),
+  4  CONSTRAINT pk_codigo PRIMARY KEY(clave),
+  5  STORAGE (INITIAL 256K)
+  6  );
+</code></pre></li>
+
+<li><p>Pepe decide que los programadores tengan acceso a la tabla Prueba antes creada y puedan ceder ese derecho y el de conectarse a la base de datos a los usuarios que ellos quieran.</p>
+
+<pre><code>SQL&gt; GRANT SELECT ON PEPE.PRUEBA TO Juan WITH GRANT OPTION;
+SQL&gt; GRANT SELECT ON PEPE.PRUEBA TO Clara WITH GRANT OPTION;
+SQL&gt; GRANT CONNECT TO Clara WITH ADMIN OPTION;
+SQL&gt; GRANT CONNECT TO Juan WITH ADMIN OPTION;
+</code></pre></li>
+
+<li><p>Lidia y Jaime dejan la empresa, borra los usuarios y el espacio de tablas correspondiente, detalla los pasos necesarios para que no quede rastro del espacio de tablas.</p></li>
+</ol>
+
+<ul>
+<li><p>Borramos en cascada para eliminar toda alteración que hayan hecho en otras tablas</p>
+
+<pre><code>SQL&gt; DROP USER lidia cascade;
+
+User dropped.
+
+SQL&gt; DROP USER jaime cascade;
+
+User dropped.
+</code></pre></li>
+
+<li><p>Y ejecutamos la siguiente instrucción para borrar todo lo que estaba en el tablespace.</p>
+
+<pre><code>SQL&gt; drop tablespace ts_produccion including contents and datafiles;
+
+Tablespace dropped.
+</code></pre></li>
+</ul>
+
+<hr />
+
+<h3 id="averigua-si-es-posible-establecer-cuotas-de-uso-sobre-los-tablespaces-en-postgres">Averigua si es posible establecer cuotas de uso sobre los tablespaces en Postgres.</h3>
+
+<ul>
+<li><p>No existe una opción especifica en postgres para administrar quotas, lo que si podríamos hacer es asignar una cuota en el sistema a un usuario sobre la partición donde se encuentra el tablespace que hayamos creado.</p></li>
+
+<li><p>Instalamos en nuestro sistema el paquete <code>quota</code></p></li>
+</ul>
+
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2021 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>

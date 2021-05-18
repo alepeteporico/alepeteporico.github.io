@@ -17,7 +17,8 @@
       <pubDate>Mon, 10 May 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/almacenamiento_bbdd/</guid>
-      <description> Muestra los objetos a los que pertenecen las extensiones del tablespace TS2 (creado por tí) y el tamaño de cada una de ellas. Tendrás que crear objetos en él previamente, claro.  </description>
+      <description>Muestra los objetos a los que pertenecen las extensiones del tablespace TS2 (creado por tí) y el tamaño de cada una de ellas. Tendrás que crear objetos en él previamente, claro.  Vamos a crear este Tablespace.
+SQL&amp;gt; CREATE TABLESPACE TS2 2 DATAFILE &#39;/home/oracle/ts2.dbf&#39; 3 SIZE 200K 4 AUTOEXTEND ON 5 DEFAULT STORAGE ( 6 INITIAL 200K 7 NEXT 200K 8 MAXEXTENTS 3 9 PCTINCREASE 100); Tablespace created.  Vamos a crear una prueba para ver como funciona y añadamos contenido a ver como funciona.</description>
     </item>
     
     <item>
