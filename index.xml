@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>Almacenamiento</title>
+      <link>https://alepeteporico.github.io/practicas/almacenamiento_bbdd/</link>
+      <pubDate>Mon, 10 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/almacenamiento_bbdd/</guid>
+      <description> Muestra los objetos a los que pertenecen las extensiones del tablespace TS2 (creado por tí) y el tamaño de cada una de ellas. Tendrás que crear objetos en él previamente, claro.  </description>
+    </item>
+    
+    <item>
       <title>Servidor DNS</title>
       <link>https://alepeteporico.github.io/practicas/dns/</link>
       <pubDate>Mon, 10 May 2021 00:00:00 +0000</pubDate>

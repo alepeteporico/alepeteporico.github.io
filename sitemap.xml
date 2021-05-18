@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://alepeteporico.github.io/practicas/almacenamiento_bbdd/</loc>
+    <lastmod>2021-05-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://alepeteporico.github.io/practicas/dns/</loc>
     <lastmod>2021-05-10T00:00:00+00:00</lastmod>
   </url>
@@ -104,7 +109,7 @@
   
   <url>
     <loc>https://alepeteporico.github.io/tags/abd/</loc>
-    <lastmod>2021-05-05T00:00:00+00:00</lastmod>
+    <lastmod>2021-05-10T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -169,7 +174,7 @@
   
   <url>
     <loc>https://alepeteporico.github.io/tags/</loc>
-    <lastmod>2021-05-05T00:00:00+00:00</lastmod>
+    <lastmod>2021-05-10T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
