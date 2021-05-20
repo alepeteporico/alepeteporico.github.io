@@ -98,6 +98,8 @@
                 <div class="post-content">
                     
 
+<h3 id="servidor-dns">Servidor DNS</h3>
+
 <p><strong>El servidor DNS estará instalado en freston, por ello instalaremos bind en esta máquina</strong></p>
 
 <pre><code>    root@freston:~# apt install bind9
@@ -192,7 +194,7 @@ allow-recursion { any; };
 
     dulcinea        IN      A       10.0.1.8
     sancho  IN      A       10.0.1.6
-    quijote IN      A       10.0.2.2
+    quijote IN      A       10.0.2.12
     freston IN      A       10.0.1.9
     www     IN      CNAME   quijote
     bd      IN      CNAME   sancho
@@ -214,7 +216,7 @@ allow-recursion { any; };
 
     dulcinea        IN      A       10.0.2.10
     sancho  IN      A       10.0.1.6
-    quijote IN      A       10.0.2.2
+    quijote IN      A       10.0.2.12
     freston IN      A       10.0.1.9
     www     IN      CNAME   quijote
     bd      IN      CNAME   sancho
@@ -277,7 +279,7 @@ allow-recursion { any; };
     $ORIGIN 2.0.10.in-addr.arpa.
 
     10      IN      PTR     dulcinea
-    2       IN      PTR     quijote
+    12      IN      PTR     quijote
 </code></pre>
 
 <p><strong>Si quisieramos asegurarnos de que no tenemos ningún error de sintáxis podemos usar esto:</strong></p>
@@ -463,7 +465,7 @@ allow-recursion { any; };
 
 <h3 id="quijote-2">Quijote</h3>
 
-<pre><code>    [centos@quijote ~]$ dig +short @10.0.1.9 -x 10.0.2.2
+<pre><code>    [centos@quijote ~]$ dig +short @10.0.1.9 -x 10.0.2.12
     quijote.2.0.10.in-addr.arpa.
     [centos@quijote ~]$ dig +short @10.0.1.9 -x 10.0.2.10
     dulcinea.2.0.10.in-addr.arpa.
@@ -510,6 +512,8 @@ allow-recursion { any; };
     ;; WHEN: dom feb 21 17:47:52 CET 2021
     ;; MSG SIZE  rcvd: 100
 </code></pre>
+
+<h3 id="servidor-web">Servidor web</h3>
 
 <p><strong>Tenemos el servidor DNS, continuemos con el servidor web, este servidor estará situado en Quijote, será un servidor apache capaz de ejecutar php. Lo primero que deberemos hacer es instalar el servidor apache y php (el paquete de apache en CentOS se llama httpd)</strong></p>
 
@@ -599,15 +603,52 @@ allow-recursion { any; };
 
 <pre><code>    [centos@quijote ~]$ sudo semanage fcontext -a -t httpd_log_t &quot;/var/www/alegv/log(/.*)?&quot;
     [root@quijote ~]# sudo restorecon -R -v /var/www/alegv/log
+    [centos@quijote sites-available]$ sudo setsebool -P httpd_unified 1
 
-    [centos@quijote ~]$ sudo systemctl restart httpd
+    [centos@quijote sites-available]$ sudo systemctl restart httpd
 </code></pre>
 
 <p><strong>Creamos el fichero info.php</strong></p>
 
 <pre><code>    [centos@quijote ~]$ cat /var/www/alegv/info.php 
-    echo &quot;&lt;?php phpinfo(); ?&gt;&quot;
+    &lt;?php phpinfo(); ?&gt;
 </code></pre>
+
+<p><strong>Comprobemos que funciona</strong></p>
+
+<p><img src="/dns_web_bbdd/1.png" alt="info" /></p>
+
+<h3 id="servidor-base-de-datos">Servidor Base de datos.</h3>
+
+<p><strong>Usaremos el gestor mariadb</strong></p>
+
+<pre><code>    ubuntu@sancho:~$ sudo apt install mariadb-server
+</code></pre>
+
+<p><strong>Y una vez instalado debemos configurarlo para permitir el uso de usuarios remoto accediendo al fichero <code>/etc/mysql/mariadb.conf.d/50-server.cnf</code> y modificando la línea <code>bind-address</code> tal como aparece a continuación</strong></p>
+
+<pre><code>    bind-address            = 0.0.0.0
+</code></pre>
+
+<p><strong>Ahora vamos a entrar y crear un usuario que usaremos remotamente.</strong></p>
+
+<pre><code>    ubuntu@sancho:~$ sudo mysql -u root -p
+
+    MariaDB [(none)]&gt; CREATE USER 'ale'@'10.0.2.12' IDENTIFIED BY 'ale';
+    Query OK, 0 rows affected (0.009 sec)
+</code></pre>
+
+<p><strong>Crearemos una base de datos y daremos a nuestro usuario remoto privilegios sobre ella</strong></p>
+
+<pre><code>    MariaDB [(none)]&gt; CREATE DATABASE prueba;
+    Query OK, 1 row affected (0.010 sec)
+
+    MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON *.* TO 'ale'@'10.0.2.12'
+        -&gt; ;
+    Query OK, 0 rows affected (0.001 sec)
+</code></pre>
+
+<p><strong>Ahora vayamos a centos, y lo primero que haremos será instalar el cliente de mariadb</strong></p>
 
                 </div>
                 

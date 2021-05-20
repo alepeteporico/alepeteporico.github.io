@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
-	<head>
-		<title> Aso &middot; Alepetepórico Blog </title>
+    <head>
+        <title> Instalación y configuración de LDAP &middot; Alepetepórico Blog </title>
 
-		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <meta name="generator" content="Hugo 0.54.0" />
 
@@ -37,10 +37,10 @@
 
 
 
-	</head>
+    </head>
 
-	<body>
-		<header>
+    <body>
+        <header>
 <nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -91,51 +91,39 @@
 </nav>
 </header>
 
-		<div class="flex-wrapper">
-			<div class="container wrapper">
-				<div class="row">
-					<div class="col-xs-12 text-center">
-						<h1 id=>Aso</h1>
-					</div>
-				</div>
-				<ul id="post-list">
-						
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/centos8/">Actualización de CentOS 7 a CentOS 8</a></h4>
-								<h4 class="post-date">2021-02-19</h4>
-							</div>
-							<div class="post-summary"><p>Antes de comenzar debemos instalar si no las tenemos ya las siguientes herramientas:
- [centos@quijote ~]$ sudo yum install epel-release -y [centos@quijote ~]$ sudo yum install yum-utils -y [centos@quijote ~]$ sudo yum install rpmconf -y  Ahora usaremos rpmconf para verificar conflictos en ficheros de configuración:
- [centos@quijote ~]$ sudo rpmconf -a  Limpiamos los paquetes innecesarios:
- [centos@quijote ~]$ sudo package-cleanup --leaves [centos@quijote ~]$ sudo package-cleanup --orphans  Instalamos el nuevo gestor de paquetes que usa CentOS 8, dnf:</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/centos8/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/ldap/">Instalación y configuración de LDAP</a></h4>
-								<h4 class="post-date">0001-01-01</h4>
-							</div>
-							<div class="post-summary"><p></p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/ldap/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-				</ul>
-				
-
-
-
-			</div>
-			<footer class="footer text-center">
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/practicas/ldap/">Instalación y configuración de LDAP</a></h1>
+                <span class="post-date">0001-01-01 </span>
+                <div class="post-content">
+                    
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
 <p>Copyright &copy; 2021 Alepetepórico Blog -
 <span class="credit">
 	Powered by
@@ -146,6 +134,5 @@
 </p>
 </footer>
 
-		</div>
-	</body>
-</html>
+        </div>
+    </body>

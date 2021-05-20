@@ -23,5 +23,14 @@
  [centos@quijote ~]$ sudo package-cleanup --leaves [centos@quijote ~]$ sudo package-cleanup --orphans  Instalamos el nuevo gestor de paquetes que usa CentOS 8, dnf:</description>
     </item>
     
+    <item>
+      <title>Instalación y configuración de LDAP</title>
+      <link>https://alepeteporico.github.io/practicas/ldap/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/ldap/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>
