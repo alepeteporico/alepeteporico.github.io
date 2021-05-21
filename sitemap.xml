@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://alepeteporico.github.io/practicas/ldap/</loc>
+    <lastmod>2021-05-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://alepeteporico.github.io/practicas/almacenamiento_bbdd/</loc>
     <lastmod>2021-05-10T00:00:00+00:00</lastmod>
   </url>
@@ -115,7 +120,7 @@
   
   <url>
     <loc>https://alepeteporico.github.io/</loc>
-    <lastmod>2021-05-10T00:00:00+00:00</lastmod>
+    <lastmod>2021-05-15T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -127,7 +132,7 @@
   
   <url>
     <loc>https://alepeteporico.github.io/tags/aso/</loc>
-    <lastmod>2021-02-19T00:00:00+00:00</lastmod>
+    <lastmod>2021-05-15T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -143,10 +148,6 @@
   </url>
   
   <url>
-    <loc>https://alepeteporico.github.io/practicas/ldap/</loc>
-  </url>
-  
-  <url>
     <loc>https://alepeteporico.github.io/tags/iweb/</loc>
     <lastmod>2021-05-04T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -154,7 +155,7 @@
   
   <url>
     <loc>https://alepeteporico.github.io/practicas/</loc>
-    <lastmod>2021-05-10T00:00:00+00:00</lastmod>
+    <lastmod>2021-05-15T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

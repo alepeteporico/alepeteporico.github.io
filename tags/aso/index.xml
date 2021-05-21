@@ -6,10 +6,22 @@
     <description>Recent content in Aso on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 19 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 15 May 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://alepeteporico.github.io/tags/aso/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Instalación y configuración de LDAP</title>
+      <link>https://alepeteporico.github.io/practicas/ldap/</link>
+      <pubDate>Sat, 15 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/ldap/</guid>
+      <description>LDAP es un protocolo de tipo cliente-servidor para acceder a un servicio de directorio. Un directorio es como una base de datos, pero en general contiene información más descriptiva y más basada en atributos.
+ Lo primero que debemos hacer es verificar nuestro FQDN (Fully Qualified Domain Name) que usaremos mas tarde para la configuración.
+debian@freston:~$ hostname -f freston.alegv.gonzalonazareno.org  Instalaremos el paquete de LDAP
+debian@freston:~$ sudo apt install slapd  Durante esta instalación tendremos que introducir una contraseña para el administrador.</description>
+    </item>
     
     <item>
       <title>Actualización de CentOS 7 a CentOS 8</title>
@@ -21,15 +33,6 @@
  [centos@quijote ~]$ sudo yum install epel-release -y [centos@quijote ~]$ sudo yum install yum-utils -y [centos@quijote ~]$ sudo yum install rpmconf -y  Ahora usaremos rpmconf para verificar conflictos en ficheros de configuración:
  [centos@quijote ~]$ sudo rpmconf -a  Limpiamos los paquetes innecesarios:
  [centos@quijote ~]$ sudo package-cleanup --leaves [centos@quijote ~]$ sudo package-cleanup --orphans  Instalamos el nuevo gestor de paquetes que usa CentOS 8, dnf:</description>
-    </item>
-    
-    <item>
-      <title>Instalación y configuración de LDAP</title>
-      <link>https://alepeteporico.github.io/practicas/ldap/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/ldap/</guid>
-      <description></description>
     </item>
     
   </channel>

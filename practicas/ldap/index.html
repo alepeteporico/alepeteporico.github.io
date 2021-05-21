@@ -94,9 +94,181 @@
         <div class="flex-wrapper">
             <div class="container wrapper">
                 <h1><a href="https://alepeteporico.github.io/practicas/ldap/">Instalación y configuración de LDAP</a></h1>
-                <span class="post-date">0001-01-01 </span>
+                <span class="post-date">2021-05-15 </span>
                 <div class="post-content">
-                    
+                    <p><strong>LDAP es un protocolo de tipo cliente-servidor para acceder a un servicio de directorio. Un directorio es como una base de datos, pero en general contiene información más descriptiva y más basada en atributos.</strong></p>
+
+<ul>
+<li><p>Lo primero que debemos hacer es verificar nuestro FQDN (Fully Qualified Domain Name) que usaremos mas tarde para la configuración.</p>
+
+<pre><code>debian@freston:~$ hostname -f
+freston.alegv.gonzalonazareno.org
+</code></pre></li>
+
+<li><p>Instalaremos el paquete de LDAP</p>
+
+<pre><code>debian@freston:~$ sudo apt install slapd
+</code></pre></li>
+
+<li><p>Durante esta instalación tendremos que introducir una contraseña para el administrador.</p></li>
+</ul>
+
+<p><img src="/ldap/1.png" alt="contraseña" /></p>
+
+<ul>
+<li><p>Una vez instalado se habrá abierto un socket en el puerto 389 que usa por defecto LDAP y está escuchando todas las peticiones desde la <code>0.0.0.0</code>, comprobemoslo</p>
+
+<pre><code>debian@freston:~$ sudo netstat -tlnp
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+tcp        0      0 0.0.0.0:389             0.0.0.0:*               LISTEN      13740/slapd
+...
+...
+</code></pre></li>
+
+<li><p>Ahora instalaremos el paquete <code>ldap-utils</code> que nos permitirá interactuar de muchas formas que veremos a continuación con el servidor.</p>
+
+<pre><code>debian@freston:~$ sudo apt install ldap-utils
+</code></pre></li>
+
+<li><p>Una vez instalado usemos <code>ldapsearch</code> para ejecutar una busqueda sobre el directorio. Vamos a listar todos los objetos existentes de la estructura que tenemos.</p>
+
+<pre><code>debian@freston:~$ sudo ldapsearch -x -b &quot;dc=alegv,dc=gonzalonazareno,dc=org&quot;
+# extended LDIF
+#
+# LDAPv3
+# base &lt;dc=alegv,dc=gonzalonazareno,dc=org&gt; with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# alegv.gonzalonazareno.org
+dn: dc=alegv,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: alegv.gonzalonazareno.org
+dc: alegv
+
+# admin, alegv.gonzalonazareno.org
+dn: cn=admin,dc=alegv,dc=gonzalonazareno,dc=org
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: admin
+description: LDAP administrator
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 3
+# numEntries: 2
+</code></pre></li>
+
+<li><p>Ahora vamos a hacer una busqueda completa, necesitaremos autentificarnos ya que se muestra información delicada como contraseñas, aunque aparecen encriptadas.</p>
+
+<pre><code>debian@freston:~$ ldapsearch -x -D &quot;cn=admin,dc=alegv,dc=gonzalonazareno,dc=org&quot; -b &quot;dc=alegv,dc=gonzalonazareno,dc=org&quot; -W
+Enter LDAP Password: 
+# extended LDIF
+#
+# LDAPv3
+# base &lt;dc=alegv,dc=gonzalonazareno,dc=org&gt; with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# alegv.gonzalonazareno.org
+dn: dc=alegv,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: alegv.gonzalonazareno.org
+dc: alegv
+
+# admin, alegv.gonzalonazareno.org
+dn: cn=admin,dc=alegv,dc=gonzalonazareno,dc=org
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: admin
+description: LDAP administrator
+userPassword:: e1NTSEF9R24zTkFQL1RlaVFVOW5NOW1YNTJNUXhuMHBuaGZ0Um0=
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 3
+# numEntries: 2
+</code></pre></li>
+
+<li><p>Podemos crear grupos y unidades organizativas usando un fichero con extensión <code>.ldif</code>, veamos un ejemplo de uno de ellos en el que definiremos dos objetos, uno para almacenar usuarios y otro para grupos</p>
+
+<pre><code>debian@freston:~$ cat prueba.ldif 
+dn: ou=Usuarios,dc=alegv,dc=gonzalonazareno,dc=org
+objectClass: organizationalUnit
+ou: Usuarios 
+
+dn: ou=Grupos,dc=alegv,dc=gonzalonazareno,dc=org
+objectClass: organizationalUnit
+ou: Grupos
+</code></pre></li>
+
+<li><p>Ahora mediante el comando <code>ldapadd</code> importaremos el fichero con sus unidades organizativas.</p>
+
+<pre><code>debian@freston:~$ ldapadd -x -D &quot;cn=admin,dc=alegv,dc=gonzalonazareno,dc=org&quot; -f prueba.ldif -W
+Enter LDAP Password: 
+adding new entry &quot;ou=Usuarios,dc=alegv,dc=gonzalonazareno,dc=org&quot;
+
+adding new entry &quot;ou=Grupos,dc=alegv,dc=gonzalonazareno,dc=org&quot;
+</code></pre></li>
+
+<li><p>Vamos a realizar una busqueda anonima simplemente para comprobar que se han añadido estas nuevas unidades organizativas.</p>
+
+<pre><code>debian@freston:~$ sudo ldapsearch -x -b &quot;dc=alegv,dc=gonzalonazareno,dc=org&quot;
+# extended LDIF
+#
+# LDAPv3
+# base &lt;dc=alegv,dc=gonzalonazareno,dc=org&gt; with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# alegv.gonzalonazareno.org
+dn: dc=alegv,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: alegv.gonzalonazareno.org
+dc: alegv
+
+# admin, alegv.gonzalonazareno.org
+dn: cn=admin,dc=alegv,dc=gonzalonazareno,dc=org
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: admin
+description: LDAP administrator
+
+# Usuarios, alegv.gonzalonazareno.org
+dn: ou=Usuarios,dc=alegv,dc=gonzalonazareno,dc=org
+objectClass: organizationalUnit
+ou:: VXN1YXJpb3Mg
+
+# Grupos, alegv.gonzalonazareno.org
+dn: ou=Grupos,dc=alegv,dc=gonzalonazareno,dc=org
+objectClass: organizationalUnit
+ou: Grupos
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 5
+# numEntries: 4
+</code></pre></li>
+
+<li><p>Podemos ver que se han creado las dos nuevas unidades organizativas tal y como especificamos el fichero.</p></li>
+</ul>
+
                 </div>
                 
                 <div class="post-comments">
