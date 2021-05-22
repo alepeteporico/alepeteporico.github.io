@@ -12,12 +12,15 @@
     
     
     <item>
-      <title>Apuntes de SSH avanzado</title>
+      <title>Apuntes de SSH</title>
       <link>https://alepeteporico.github.io/apuntes/apuntes-de-ssh-avanzado/</link>
       <pubDate>Sat, 22 May 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/apuntes/apuntes-de-ssh-avanzado/</guid>
-      <description></description>
+      <description> ssh-agent  Tenemos un par de claves, para añadir a nuestro ssh-agent:
+ssh-add .ssh/clave  Nos pedirá la frase de paso y se añadiría la identidad, para comprobarlo:
+ssh-add -l  Pero necesitamos añadir esa clave a la máquina que nos queremos conectar.
+ssh-copy-id -i .ssh/clave usuario@172.22.100.10   </description>
     </item>
     
     <item>

@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title> Apuntes de SSH avanzado &middot; Alepetepórico Blog </title>
+        <title> Apuntes de SSH &middot; Alepetepórico Blog </title>
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -93,10 +93,30 @@
 
         <div class="flex-wrapper">
             <div class="container wrapper">
-                <h1><a href="https://alepeteporico.github.io/apuntes/apuntes-de-ssh-avanzado/">Apuntes de SSH avanzado</a></h1>
+                <h1><a href="https://alepeteporico.github.io/apuntes/apuntes-de-ssh-avanzado/">Apuntes de SSH</a></h1>
                 <span class="post-date">2021-05-22 </span>
                 <div class="post-content">
                     
+
+<h3 id="ssh-agent">ssh-agent</h3>
+
+<ul>
+<li><p>Tenemos un par de claves, para añadir a nuestro ssh-agent:</p>
+
+<pre><code>ssh-add .ssh/clave
+</code></pre></li>
+
+<li><p>Nos pedirá la frase de paso y se añadiría la identidad, para comprobarlo:</p>
+
+<pre><code>ssh-add -l
+</code></pre></li>
+
+<li><p>Pero necesitamos añadir esa clave a la máquina que nos queremos conectar.</p>
+
+<pre><code>ssh-copy-id -i .ssh/clave usuario@172.22.100.10
+</code></pre></li>
+</ul>
+
                 </div>
                 
                 <div class="post-comments">

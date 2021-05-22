@@ -103,10 +103,13 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/apuntes/apuntes-de-ssh-avanzado/">Apuntes de SSH avanzado</a></h4>
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/apuntes/apuntes-de-ssh-avanzado/">Apuntes de SSH</a></h4>
 								<h4 class="post-date">2021-05-22</h4>
 							</div>
-							<div class="post-summary"><p></p></div>
+							<div class="post-summary"><p> ssh-agent  Tenemos un par de claves, para añadir a nuestro ssh-agent:
+ssh-add .ssh/clave  Nos pedirá la frase de paso y se añadiría la identidad, para comprobarlo:
+ssh-add -l  Pero necesitamos añadir esa clave a la máquina que nos queremos conectar.
+ssh-copy-id -i .ssh/clave usuario@172.22.100.10   </p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/apuntes/apuntes-de-ssh-avanzado/">Read More</a>
 							</div>
