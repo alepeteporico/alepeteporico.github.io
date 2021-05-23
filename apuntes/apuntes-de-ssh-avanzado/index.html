@@ -117,6 +117,24 @@
 </code></pre></li>
 </ul>
 
+<h3 id="túneles-ssh">Túneles ssh</h3>
+
+<ul>
+<li><p>Se usa para saltarnos un cortafuegos o para acceder por un canal abierto y más seguro, entre otras útilidades.</p></li>
+
+<li><p>Para crear el túnel usamos el comando que vemos a continuación, usando el puerto que queramos y este libre, y poniendo primero la IP de la máquina a la que queremos acceder y segundo desde la que accedemos.</p>
+
+<pre><code>ssh -f -L 1080:192.168.100.10:.80 192.168.100.20 -N
+</code></pre></li>
+
+<li><p>Si quisieramos eliminarlo es simplemente eliminar un proceso, comprobamos el PID y lo eliminamos:</p>
+
+<pre><code>ss -lntp | grep 1080
+
+kill 'pid'
+</code></pre></li>
+</ul>
+
                 </div>
                 
                 <div class="post-comments">
