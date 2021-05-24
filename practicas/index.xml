@@ -12,13 +12,14 @@
     
     
     <item>
-      <title>Copias de seguridad con rsync</title>
+      <title>Copias de seguridad con bacula</title>
       <link>https://alepeteporico.github.io/practicas/copias/</link>
       <pubDate>Sat, 22 May 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/copias/</guid>
-      <description> Usaremos la herramienta rsync para realizar nuestro sistema de copias de seguridad, por supuesto el primer paso que debemos tomar es instalar el paquete de rsync, lo haremos en Dulcinea, usaremos esta máquina para alojar las copias de seguridad.
-debian@dulcinea:~$ sudo apt install rsync   </description>
+      <description>Usaremos la herramienta bacula para realizar nuestro sistema de copias de seguridad, por supuesto el primer paso que debemos tomar es instalar el paquete de bacula, lo haremos en Dulcinea, usaremos esta máquina para alojar las copias de seguridad.
+debian@dulcinea:~$ sudo apt-get install bacula-server bacula-client  Cambiamos los permisos de unos de los scripts que usa bacula
+debian@dulcinea:~$ sudo chmod 755 /etc/bacula/scripts/delete_catalog_backup  En nuestro Openstack vamos a crear un volumen que asociaremos a Dulcinea y donde almacenaremos nuestras copias de seguridad.</description>
     </item>
     
     <item>

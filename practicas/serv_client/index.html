@@ -646,6 +646,7 @@ vagrant@mongo:~$ sudo pecl install mongodb
 <li><p>Debemos clonar el repositorio del modulo de php para mongo.</p>
 
 <pre><code>vagrant@mongo:~ git clone https://github.com/mongodb/mongo-php-driver-legacy.git
+vagrant@mongo:~/mongo-php-driver$ git submodule sync &amp;&amp; git submodule update --init
 </code></pre></li>
 
 <li><p>Seguidamente entraremos en el repositorio y ejecutaremos el siguiente comando.</p>
@@ -681,6 +682,8 @@ vagrant@mongo:~$ sudo mv rockmongo/ /var/www/
 
 <pre><code>$MONGO[&quot;servers&quot;][$i][&quot;mongo_host&quot;] = &quot;0.0.0.0&quot;;//mongo host
 </code></pre></li>
+
+<li><p>Y ya tendriamos instalado rockmongo.</p></li>
 </ul>
 
                 </div>
