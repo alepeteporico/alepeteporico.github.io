@@ -96,7 +96,130 @@
                 <h1><a href="https://alepeteporico.github.io/practicas/cms_java/">Despliegue de CMS java</a></h1>
                 <span class="post-date">2021-05-04 </span>
                 <div class="post-content">
-                    
+                    <ul>
+<li><p>Elegiremos instalar la aplicación con Guacamole, para empezar instalaremos la paquetería necesaria.</p>
+
+<pre><code>vagrant@cmsjava:~$ sudo apt install build-essential libcairo2-dev libjpeg62-turbo-dev libpng-dev libtool-bin libossp-uuid-dev libavcodec-dev libavformat-dev libswscale-dev freerdp2-dev libpango1.0-dev libssh2-1-dev libtelnet-dev libvncserver-dev libwebsockets-dev libpulse-dev libvorbis-dev libwebp-dev
+</code></pre></li>
+
+<li><p>Descargaremos la aplicación del sitio oficial.</p>
+
+<pre><code>vagrant@cmsjava:~$ wget http://archive.apache.org/dist/guacamole/1.2.0/source/guacamole-server-1.2.0.tar.gz
+</code></pre></li>
+
+<li><p>Descomprimimos la carpeta que acabamos de descargar.</p>
+
+<pre><code>vagrant@cmsjava:~$ tar -zxf guacamole-server-1.2.0.tar.gz
+vagrant@cmsjava:~$ ls
+guacamole-server-1.2.0
+</code></pre></li>
+
+<li><p>Entraremos y lo instalaremos siguiendo los siguientes pasos.</p>
+
+<pre><code>vagrant@cmsjava:~/guacamole-server-1.2.0$ ./configure --with-init-dir=/etc/init.d
+
+vagrant@cmsjava:~/guacamole-server-1.2.0$ make
+
+vagrant@cmsjava:~/guacamole-server-1.2.0$ sudo make install
+
+vagrant@cmsjava:~/guacamole-server-1.2.0$ sudo ldconfig
+</code></pre></li>
+
+<li><p>Reiniciamos el sistema y hablitamos el servicio de guacamole.</p>
+
+<pre><code>vagrant@cmsjava:~/guacamole-server-1.2.0$ sudo systemctl daemon-reload 
+
+vagrant@cmsjava:~/guacamole-server-1.2.0$ sudo systemctl start guacd.service 
+
+vagrant@cmsjava:~/guacamole-server-1.2.0$ sudo systemctl enable guacd.service 
+guacd.service is not a native service, redirecting to systemd-sysv-install.
+Executing: /lib/systemd/systemd-sysv-install enable guacd
+</code></pre></li>
+
+<li><p>Debemos descargar también un fichero para apache y moverlo a la carpeta que especifico abajo.</p>
+
+<pre><code>vagrant@cmsjava:~$ wget -O 'guacamole.war' 'http://archive.apache.org/dist/guacamole/1.2.0/binary/guacamole-1.2.0.war'
+
+vagrant@cmsjava:~$ sudo mv guacamole.war /var/lib/tomcat9/webapps/
+</code></pre></li>
+
+<li><p>Reiniciamos los servicios de tomcat y guacamole.</p>
+
+<pre><code>vagrant@cmsjava:~$ sudo systemctl restart tomcat9 guacd
+</code></pre></li>
+
+<li><p>Crearemos un fichero dentro de <code>/etc/guacamole</code> llamado <code>guacamole.properties</code> al que daremos la siguiente configuración y creamos un enlace simbólico.</p>
+
+<pre><code># Hostname and port of guacamole proxy
+guacd-hostname: localhost
+guacd-port:     4822
+# Auth provider class (authenticates user/pass combination, needed if using the provided $
+user-mapping: /etc/guacamole/user-mapping.xml
+auth-provider: net.sourceforge.guacamole.net.basic.BasicFileAuthenticationProvider
+basic-user-mapping: /etc/guacamole/user-mapping.xml
+
+vagrant@cmsjava:~$ sudo ln -s /etc/guacamole/guacamole.properties /usr/share/tomcat9/.guacamole
+</code></pre></li>
+
+<li><p>Crearemos el fichero <code>user-mapping.xml</code> en la misma ubicación donde especificaremos el usuario y contraseña de la aplicación y una maquina de prueba con protocolo ssh.</p>
+
+<pre><code>&lt;user-mapping&gt;
+        &lt;authorize 
+         username=&quot;admin&quot; 
+         password=&quot;admin&quot;
+         encoding=&quot;md5&quot;&gt;
+                &lt;connection name=&quot;remoto&quot;&gt;
+                        &lt;protocol&gt;ssh&lt;/protocol&gt;
+                        &lt;param name=&quot;hostname&quot;&gt;192.168.100.140&lt;/param&gt;
+                        &lt;param name=&quot;port&quot;&gt;22&lt;/param&gt;
+                        &lt;param name=&quot;username&quot;&gt;alegv&lt;/param&gt;
+                        &lt;param name=&quot;password&quot;&gt;prueba&lt;/param&gt;
+                &lt;/connection&gt;
+        &lt;/authorize&gt;
+&lt;/user-mapping&gt;
+</code></pre></li>
+
+<li><p>Cambiaremos los permisos necesarios y volveremos a reiniciar el servicio.</p>
+
+<pre><code>vagrant@cmsjava:~$ sudo chmod 600 /etc/guacamole/user-mapping.xml
+vagrant@cmsjava:~$ sudo chown tomcat:tomcat /etc/guacamole/user-mapping.xml
+vagrant@cmsjava:~$ sudo systemctl restart tomcat9 guacd
+</code></pre></li>
+
+<li><p>Ahora activaremos varios modulos de apache.</p>
+
+<pre><code>vagrant@cmsjava:~$ sudo a2enmod proxy proxy_http headers proxy_wstunnel
+</code></pre></li>
+
+<li><p>Y por último crearemos un virtual host cuyo fichero de configuración tendrá el siguiente aspecto.</p>
+
+<pre><code>&lt;VirtualHost *:80&gt;
+      ServerName guacamole.alegv.com
+
+      ErrorLog ${APACHE_LOG_DIR}/guacamole_error.log
+      CustomLog ${APACHE_LOG_DIR}/guacamole_access.log combined
+
+      &lt;Location /&gt;
+          Require all granted
+          ProxyPass http://localhost:8080/guacamole/ flushpackets=on
+          ProxyPassReverse http://localhost:8080/guacamole/
+      &lt;/Location&gt;
+
+     &lt;Location /websocket-tunnel&gt;
+         Require all granted
+         ProxyPass ws://localhost:8080/guacamole/websocket-tunnel
+         ProxyPassReverse ws://localhost:8080/guacamole/websocket-tunnel
+     &lt;/Location&gt;
+
+     Header always unset X-Frame-Options
+&lt;/VirtualHost&gt;
+</code></pre></li>
+
+<li><p>Después de añadir a nuestro <code>/etc/hosts</code> la ip podremos entrar.</p></li>
+</ul>
+
+<p><img src="/iscsi/1.png" alt="guacamole" /></p>
+
                 </div>
                 
                 <div class="post-comments">
