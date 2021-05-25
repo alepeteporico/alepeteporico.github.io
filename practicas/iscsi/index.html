@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> iSCSI &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.54.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://alepeteporico.github.io/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/practicas/iscsi/">iSCSI</a></h1>
+                <span class="post-date">2021-05-25 </span>
+                <div class="post-content">
+                    
+
+<h4 id="configura-un-escenario-con-vagrant-o-similar-que-incluya-varias-máquinas-que-permita-realizar-la-configuración-de-un-servidor-iscsi-y-dos-clientes-uno-linux-y-otro-windows-explica-de-forma-detallada-en-la-tarea-los-pasos-realizados">Configura un escenario con vagrant o similar que incluya varias máquinas que permita realizar la configuración de un servidor iSCSI y dos clientes (uno linux y otro windows). Explica de forma detallada en la tarea los pasos realizados.</h4>
+
+<ul>
+<li><p>Crea un target con una LUN y conéctala a un cliente GNU/Linux. Explica cómo escaneas desde el cliente buscando los targets disponibles y utiliza la unidad lógica proporcionada, formateándola si es necesario y montándola.</p></li>
+
+<li><p>Utiliza systemd mount para que el target se monte automáticamente al arrancar el cliente</p></li>
+
+<li><p>Crea un target con 2 LUN y autenticación por CHAP y conéctala a un cliente windows. Explica cómo se escanea la red en windows y cómo se utilizan las unidades nuevas (formateándolas con NTFS)</p></li>
+</ul>
+
+<hr />
+
+<ul>
+<li><p>Tendremos tres máquinas, una debian que actuará como servidor con 3 discos adicionales de 1 GB cada uno, y dos clientes conectados, uno será debian y otro windows.</p></li>
+
+<li><p>Ahora en el servidor instalaremos el paqute tgt.</p>
+
+<pre><code>vagrant@maquina1:~$ sudo apt install tgt
+</code></pre></li>
+
+<li><p>Ahora realizaremos nuestra configuración, si lo hicieramos desde línea de comandos al cerrar la sesión se eliminaria nuestra configuración, por ello vamos a configurarlo mediante los ficheros de configuración empezaremos con <code>/etc/tgt/conf.d/target1.conf</code> para definir dos targets, uno para el cliente windows y otro para el cliente debian, notaremos que el target 2 tiene una línea que no está en el primero, esto es porque lo usaremos para windows y necesitaremos un usuario y una contraseña para el mismo.</p>
+
+<pre><code>&lt;target iqn.2021-05.es.alegv:target1&gt;
+        backing-store /dev/sdb
+&lt;/target&gt;
+&lt;target iqn.2021-05.es.alegv:target2&gt;
+        backing-store /dev/sdc
+        incominguser admin admin
+&lt;/target&gt;
+</code></pre></li>
+
+<li><p>Después de reiniciar el servicio vamos a ver las targets que acabamos de configurar.</p>
+
+<pre><code>vagrant@maquina1:~$ sudo systemctl restart tgt
+
+vagrant@maquina1:~$ sudo tgtadm --op show --mode target
+Target 1: iqn.2021-05.es.alegv:target1
+    System information:
+        Driver: iscsi
+        State: ready
+    I_T nexus information:
+    LUN information:
+        LUN: 0
+            Type: controller
+            SCSI ID: IET     00010000
+            SCSI SN: beaf10
+            Size: 0 MB, Block size: 1
+            Online: Yes
+            Removable media: No
+            Prevent removal: No
+            Readonly: No
+            SWP: No
+            Thin-provisioning: No
+            Backing store type: null
+            Backing store path: None
+            Backing store flags: 
+        LUN: 1
+            Type: disk
+            SCSI ID: IET     00010001
+            SCSI SN: beaf11
+            Size: 1074 MB, Block size: 512
+            Online: Yes
+            Removable media: No
+            Prevent removal: No
+            Readonly: No
+            SWP: No
+            Thin-provisioning: No
+            Backing store type: rdwr
+            Backing store path: /dev/sdb
+            Backing store flags: 
+    Account information:
+    ACL information:
+        ALL
+Target 2: iqn.2021-05.es.alegv:target2
+    System information:
+        Driver: iscsi
+        State: ready
+    I_T nexus information:
+    LUN information:
+        LUN: 0
+            Type: controller
+            SCSI ID: IET     00020000
+            SCSI SN: beaf20
+            Size: 0 MB, Block size: 1
+            Online: Yes
+            Removable media: No
+            Prevent removal: No
+            Readonly: No
+            SWP: No
+            Thin-provisioning: No
+            Backing store type: null
+            Backing store path: None
+            Backing store flags: 
+        LUN: 1
+            Type: disk
+            SCSI ID: IET     00020001
+            SCSI SN: beaf21
+            Size: 1074 MB, Block size: 512
+            Online: Yes
+            Removable media: No
+            Prevent removal: No
+            Readonly: No
+            SWP: No
+            Thin-provisioning: No
+            Backing store type: rdwr
+            Backing store path: /dev/sdc
+            Backing store flags: 
+    Account information:
+    ACL information:
+        ALL
+</code></pre></li>
+
+<li><p>Vamos a dirigirnos al cliente linux ahora e instalar el paquete <code>open-iscsi</code>.</p>
+
+<pre><code>vagrant@maquina2:~$ sudo apt-get install open-iscsi
+</code></pre></li>
+
+<li><p>Podemos comprobar que esta máquina solo tiene un disco duro.</p>
+
+<pre><code>NAME   MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+sda      8:0    0  20G  0 disk 
+└─sda1   8:1    0  20G  0 part /
+</code></pre></li>
+
+<li><p>Vamos a ver las targets que tenemos disponibles.</p>
+
+<pre><code>root@maquina2:~# iscsiadm --mode discovery --type sendtargets --portal 172.22.100.15
+172.22.100.15:3260,1 iqn.2021-05.es.alegv:target1
+172.22.100.15:3260,1 iqn.2021-05.es.alegv:target2
+</code></pre></li>
+
+<li><p>Vamos a conectarnos a la que queramos.</p>
+
+<pre><code>root@maquina2:~# sudo iscsiadm --mode node -T iqn.2021-05.es.alegv:target1 --portal 172.22.100.15 --login
+Logging in to [iface: default, target: iqn.2021-05.es.     alegv:target1, portal: 172.22.100.15,3260] (multiple)
+Login to [iface: default, target: iqn.2021-05.es.alegv:target1, portal: 172.22.100.15,3260] successful.
+</code></pre></li>
+
+<li><p>Si ahora listamos nuestros dispositivos veremos que se ha añadido un nuevo volumen.</p>
+
+<pre><code>root@maquina2:~# lsblk
+NAME   MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+sda      8:0    0  20G  0 disk 
+└─sda1   8:1    0  20G  0 part /
+sdb      8:16   0   1G  0 disk 
+</code></pre></li>
+
+<li><p>Vamos a darle formato y montarlo.</p>
+
+<pre><code>root@maquina2:~# mkfs.ext4 /dev/sdb
+root@maquina2:~# mount /dev/sdb /mnt/prueba
+
+root@maquina2:~# lsblk
+NAME   MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+sda      8:0    0  20G  0 disk 
+└─sda1   8:1    0  20G  0 part /
+sdb      8:16   0   1G  0 disk /mnt/prueba
+</code></pre></li>
+</ul>
+
+<h3 id="systemd-mount">systemd mount</h3>
+
+<ul>
+<li><p>Ahora mismo está montado pero no permanentemente, modificamos el fichero <code>/etc/iscsi/iscsid.conf</code> y cambiamos la línea que veremos a continuación de manual a automatic.</p>
+
+<pre><code>node.startup = automatic
+</code></pre></li>
+
+<li><p>Vamos a crear en <code>/etc/systemd/system/</code> un fichero al que llamaremos <code>prueba1.mount</code> y servirá para crear la unidad.</p>
+
+<pre><code>[Unit]
+Description= Montaje del target1         
+
+[Mount]
+What=/dev/sdb
+Where=/prueba1  
+Type=ext4
+Options=_netdev
+
+[Install]
+WantedBy=multi-user.target
+</code></pre></li>
+
+<li><p>Ahora reiniciamos el servicio.</p>
+
+<pre><code>root@maquina2:~# sudo systemctl daemon-reload
+</code></pre></li>
+
+<li><p>Montaremos nuestro disco y crearemos un enlace simbólico.</p>
+
+<pre><code>root@maquina2:~# systemctl start prueba1.mount
+root@maquina2:~# systemctl enable prueba1.mount
+Created symlink /etc/systemd/system/multi-user.target.wants/prueba1.mount → /etc/systemd/system/prueba1.mount.
+</code></pre></li>
+
+<li><p>Vamos a ver que se ha realizado el cambio, podremos comprobarlo porque hemos cambiado el punto de montaje, ahora está en <code>/prueba1</code>.</p>
+
+<pre><code>root@maquina2:~# lsblk
+NAME   MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+sda      8:0    0  20G  0 disk 
+└─sda1   8:1    0  20G  0 part /
+sdb      8:16   0   1G  0 disk /prueba1
+</code></pre></li>
+
+<li><p>Ahora si podremos abrir nuestro cliente windows y nos dirigiremos a <code>panel de control &gt; sistema y seguridad &gt; herramientas administrativas &gt; iniciador iSCSI</code></p></li>
+</ul>
+
+<p><img src="/iscsi/1.png" alt="escenario" /></p>
+
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2021 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>
