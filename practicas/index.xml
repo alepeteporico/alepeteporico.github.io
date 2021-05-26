@@ -6,10 +6,19 @@
     <description>Recent content in Practicas on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 25 May 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 26 May 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Certificados Digitales</title>
+      <link>https://alepeteporico.github.io/practicas/certficiados/</link>
+      <pubDate>Wed, 26 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/certficiados/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>iSCSI</title>
