@@ -17,7 +17,8 @@
       <pubDate>Wed, 26 May 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/certficiados/</guid>
-      <description></description>
+      <description>Primero obtendremos nuestro certificado digital en la sede electrónica siguiendo todos los pasos que se nos indican.
+ Una vez tengamos nuestro certificado digital podemos importarlo a cualquier navegador, en mi caso quiero importarlo a un navegador firefox que tengo en mi sistema debian 10. Para ello nos dirigiremos a preferencias &amp;gt; Privaciad y Seguridad &amp;gt; Certificados &amp;gt; Ver certificados aquí aparecerá una vetana emergente donde podremos ver todos los certificados guardados que tenemos.</description>
     </item>
     
     <item>

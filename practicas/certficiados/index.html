@@ -97,6 +97,112 @@
                 <span class="post-date">2021-05-26 </span>
                 <div class="post-content">
                     
+
+<ul>
+<li><p>Primero obtendremos nuestro certificado digital en <a href="https://www.sede.fnmt.gob.es/certificados/persona-fisica">la sede electrónica</a> siguiendo todos los pasos que se nos indican.</p></li>
+
+<li><p>Una vez tengamos nuestro certificado digital podemos importarlo a cualquier navegador, en mi caso quiero importarlo a un navegador firefox que tengo en mi sistema debian 10. Para ello nos dirigiremos a <code>preferencias &gt; Privaciad y Seguridad &gt; Certificados &gt; Ver certificados</code> aquí aparecerá una vetana emergente donde podremos ver todos los certificados guardados que tenemos.</p></li>
+</ul>
+
+<p><img src="/certificados/1.png" alt="todos" /></p>
+
+<ul>
+<li>Debemos dirigirnos a la pestaña de <code>sus certificados</code> e importar el nuestro.</li>
+</ul>
+
+<p><img src="/certificados/2.png" alt="mios" /></p>
+
+<ul>
+<li>Tendremos que escribir una contraseña que especificamos al exportarlo y ya estará añadido.</li>
+</ul>
+
+<p><img src="/certificados/3.png" alt="password" /></p>
+
+<p><img src="/certificados/4.png" alt="certificado" /></p>
+
+<h4 id="cómo-puedes-hacer-una-copia-de-tu-certificado-como-vas-a-realizar-la-copia-de-seguridad-de-tu-certificado-razona-la-respuesta">¿Cómo puedes hacer una copia de tu certificado?, ¿Como vas a realizar la copia de seguridad de tu certificado?. Razona la respuesta.</h4>
+
+<ul>
+<li>En las imagenes anteriores podemos ver que existe la opción de <code>copiar todo</code>, esto copiaría nuestro certificado. Automáticamente nuestro navegador nos pedirá que protejamos el certificado copiado con una clave, ponemos una clave segura y como vimos antes al importar este certificado siempre necesitaremos introducir esa contraseña. Así es como exportariamos nuestra clave desde firefox.</li>
+</ul>
+
+<h4 id="validacion-del-certificado">Validacion del certificado.</h4>
+
+<ul>
+<li><p>Vamos a validar nuestro certificado usando autofirma, un software que nos permite firmar nuestros certificados. Para hacerlo primero debemos descargar el paquete.</p>
+
+<pre><code>alejandrogv@AlejandroGV:~$ wget https://estaticos.redsara.es/comunes/autofirma/currentversion/AutoFirma_Linux.zip
+</code></pre></li>
+
+<li><p>También debemos, antes de instalar este software, instalar las dependencias necesarias.</p>
+
+<pre><code>alejandrogv@AlejandroGV:~$ sudo apt install default-jdk libnss3-tools
+</code></pre></li>
+
+<li><p>Ahora descomprimimos el paquete que descargamos antes e instalamos el <code>.deb</code> que dejará.</p>
+
+<pre><code>alejandrogv@AlejandroGV:~$ unzip AutoFirma_Linux.zip
+
+alejandrogv@AlejandroGV:~$ sudo dpkg -i AutoFirma_1_6_5.deb
+</code></pre></li>
+
+<li><p>Ahora iremos a la web que nos ofrece el gobierno español <a href="https://valide.redsara.es/valide/validarCertificado/ejecutar.html">VALIDe</a> para validar nuestro certificado, clicariamos en <code>seleccionar certficado</code>, elegimos el programa de autofirma, seleccionamos nuestro certificado importado y le damos a aceptar.</p></li>
+</ul>
+
+<p><img src="/certificados/5.png" alt="valide" /></p>
+
+<p><img src="/certificados/6.png" alt="autofirma" /></p>
+
+<p><img src="/certificados/7.png" alt="valide" /></p>
+
+<p><img src="/certificados/8.png" alt="contraseña" /></p>
+
+<p><img src="/certificados/9.png" alt="certificado" /></p>
+
+<ul>
+<li>Y ya tendriamos nuestro certificado validado.</li>
+</ul>
+
+<p><img src="/certificados/10.png" alt="bien" /></p>
+
+<h4 id="firma-electrónica">Firma electrónica</h4>
+
+<ul>
+<li><p>Vamos a crear dos ficheros que firmaremos con nuestro certificado digital.</p>
+
+<pre><code>alejandrogv@AlejandroGV:~/prueba$ ls
+firmado1.txt  firmado2.txt
+</code></pre></li>
+
+<li><p>Volveremos a VALIDe, pero esta vez nos dirigiremos al apartado <code>realizar firma</code>.</p></li>
+</ul>
+
+<p><img src="/certificados/11.png" alt="realizar" /></p>
+
+<ul>
+<li>Seleccionaremos el fichero a firmar y nuestro certificado para firmarlo.</li>
+</ul>
+
+<p><img src="/certificados/12.png" alt="fichero" /></p>
+
+<p><img src="/certificados/13.png" alt="certificado" /></p>
+
+<ul>
+<li>Comprobamos que la firma se ha realiado correctamente.</li>
+</ul>
+
+<p><img src="/certificados/14.png" alt="bien" /></p>
+
+<h4 id="autentificación">Autentificación</h4>
+
+<ul>
+<li>Podemos entrar en la pagina de la DGT para usar nuestro certificado.</li>
+</ul>
+
+<p><img src="/certificados/15.png" alt="puntos" /></p>
+
+<p><img src="/certificados/16.png" alt="bien" /></p>
+
                 </div>
                 
                 <div class="post-comments">
