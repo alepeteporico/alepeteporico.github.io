@@ -12,6 +12,18 @@
     
     
     <item>
+      <title>Despliegue de un cluster de kubernetes</title>
+      <link>https://alepeteporico.github.io/practicas/cluster_kubernetes/</link>
+      <pubDate>Thu, 27 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/cluster_kubernetes/</guid>
+      <description>Crearemos 3 máquinas Vagrant que nos servirán, una de controlador y las otras dos de workers.
+ En la máquina que usaremos como controlador descargaremos e instalaremos usando curl el script que instalará el servicio de k3.
+root@servidor:/usr/local/bin# curl -sfL https://get.k3s.io | sh -  Podemos comprobar mediante netstat que se ha abierto un puerto 6443 que es el que usa k3s por defecto.
+root@servidor:/usr/local/bin# netstat -tlnp | egrep &#39;6443&#39; tcp6 0 0 :::6443 :::* LISTEN 1577/k3s server  Vamos a listar todos los nodos que tenemos, así comprobaremos que la instalación se ha realizado correctamente.</description>
+    </item>
+    
+    <item>
       <title>OpenStack: Configuración HTTPS</title>
       <link>https://alepeteporico.github.io/practicas/https_openstack/</link>
       <pubDate>Thu, 27 May 2021 00:00:00 +0000</pubDate>

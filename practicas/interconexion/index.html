@@ -156,7 +156,7 @@ OracleServer =
 </code></pre></li>
 </ul>
 
-<h3 id="conexión-entre-postgres">Conexión entre Postgres.</h3>
+<h2 id="conexión-entre-postgres">Conexión entre Postgres.</h2>
 
 <ul>
 <li><p>Usaremos dos máquinas vagrant con debian buster.</p></li>
@@ -311,6 +311,85 @@ prueba2=&gt; SELECT * FROM dblink('dbname=prueba1 host=172.22.100.25 user=postgr
  X4164637G | Christian | Lopez Reyes         |  50.00
 </code></pre></li>
 </ul>
+
+<h2 id="conexión-oracle-19c-y-postgres">Conexión Oracle 19c y Postgres</h2>
+
+<ul>
+<li><p>Nuestro primer paso será instalar la paquetería necesaria para realizar esta conexión, ya tenemos los dos servidores operativos, así que realizemos este paso, empezemos con Oracle.</p>
+
+<pre><code>[vagrant@oracle ~]$ sudo dnf install unixODBC postgresql-odbc
+</code></pre></li>
+
+<li><p>En el fichero <code>/etc/odbcinst.ini</code> se encuentra la información de todos los drivers que ofrece ODBC para interconectar bases de datos, comentaremos todo menos lo que este relacionado con postgres.</p>
+
+<pre><code>[PostgreSQL]
+Description     = ODBC for PostgreSQL
+Driver          = /usr/lib/psqlodbcw.so
+Setup           = /usr/lib/libodbcpsqlS.so
+Driver64        = /usr/lib64/psqlodbcw.so
+Setup64         = /usr/lib64/libodbcpsqlS.so
+FileUsage   = 1
+</code></pre></li>
+
+<li><p>En el fichero <code>/etc/odbc.ini</code> introduciremos información de nuestro servidor postgres como puede ser la dirección IP donde se aloja o el nombre de usuario y contraseña para acceder entre otros.</p>
+
+<pre><code>[PSQLU]
+Debug           = 0
+CommLog         = 0
+ReadOnly        = 0
+Driver          = PostgreSQL
+Servername  = 172.22.100.25
+Username        = remoto1
+Password        = remoto1
+Port            = 5432
+Database        = prueba
+Trace           = 0
+TraceFile   = /tmp/sql.log
+</code></pre></li>
+
+<li></li>
+</ul>
+
+<h3 id="postgres">postgres</h3>
+
+<ul>
+<li><p>Instalamos la paquetería necesaria</p>
+
+<pre><code>vagrant@postgres:~$ sudo apt install libaio1 postgresql-server-dev-all build-essential
+</code></pre></li>
+
+<li><p>Y descargamos los paquetes de oracle que necesitaremos a lo largo de esta configuración.</p>
+
+<pre><code>postgres@postgres:~$ wget https://download.oracle.com/otn_software/linux/instantclient/211000/instantclient-sdk-linux.x64-21.1.0.0.0.zip
+
+postgres@postgres:~$ wget https://download.oracle.com/otn_software/linux/instantclient/211000/instantclient-sqlplus-linux.x64-21.1.0.0.0.zip
+
+postgres@postgres:~$ wget https://download.oracle.com/otn_software/linux/instantclient/211000/instantclient-basic-linux.x64-21.1.0.0.0.zip
+</code></pre></li>
+
+<li><p>Descomprimiremos usando <code>unzip</code> todos estos archivos y nos quedará una carpeta con todo el contenido.</p>
+
+<pre><code>postgres@postgres:~$ ls -l
+total 8
+drwxr-xr-x 4 postgres postgres 4096 May 28 15:25 instantclient_21_1
+</code></pre></li>
+
+<li><p>Para que este proceso nos sea mas sencillo vamos a definir una serie de variables de rutas sobre archivos que necesitaremos.</p>
+
+<pre><code>vagrant@postgres:~$ export ORACLE_HOME=/home/postgres/instantclient_21_1
+vagrant@postgres:~$ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME
+vagrant@postgres:~$ export PATH=$PATH:$ORACLE_HOME
+</code></pre></li>
+
+<li><p>Realizamos una conexión</p></li>
+</ul>
+
+<p>vagrant@postgres:/home/postgres$ sqlplus c##ale/ale@172.22.100.15/ORCLCDB</p>
+
+<p>SQL*Plus: Release 21.0.0.0.0 - Production on Fri May 28 15:33:56 2021
+Version 21.1.0.0.0</p>
+
+<p>Copyright &copy; 1982, 2020, Oracle.  All rights reserved.</p>
 
                 </div>
                 
