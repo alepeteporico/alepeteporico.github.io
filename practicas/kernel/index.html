@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Compilación de un kérnel linux a medida &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.54.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://alepeteporico.github.io/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/practicas/kernel/">Compilación de un kérnel linux a medida</a></h1>
+                <span class="post-date">2021-05-28 </span>
+                <div class="post-content">
+                    <ul>
+<li><p>Vamos a necesitar instalar cierta paquetería como vemos a continuación.</p>
+
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ sudo apt install build-essential qtbase5-dev
+</code></pre></li>
+
+<li><p>Necesitamos saber que versión del kernel estamos usando.</p>
+
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ uname -r
+4.19.0-16-amd64
+</code></pre></li>
+
+<li><p>Descargaremos la versión de nuestro kernel desde <a href="https://mirrors.edge.kernel.org/pub/linux/kernel/">la página oficial</a></p>
+
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ wget https://mirrors.edge.kernel.org/pub/linux/kernel/v4.x/linux-4.19.16.tar.gz
+
+alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ ls
+linux-4.19.16.tar.gz
+</code></pre></li>
+
+<li><p>Descomprimos este archivo y el resultado será una carpeta con muchisima información.</p>
+
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ tar xzvf linux-4.19.16.tar.gz
+
+alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ cd linux-4.19.16/
+alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel/linux-4.19.16$ ls
+arch   COPYING  Documentation  fs       ipc      kernel    MAINTAINERS  net      scripts   tools
+block  CREDITS  drivers        include  Kbuild   lib       Makefile     README   security  usr
+certs  crypto   firmware       init     Kconfig  LICENSES  mm           samples  sound     virt
+</code></pre></li>
+
+<li><p>Ejecutaremos el comando <code>make oldconfig</code> para generar el fichero <code>.config</code> donde se especifican todos los módulos entre otra información, nos preguntará sobre algunos si queremos quitarlos o no, nosotros los quitaremos todos.</p>
+
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel/linux-4.19.16$ make oldconfig
+</code></pre></li>
+
+<li><p>Vamos a visualizar que módulos hay ahora mismo enlazados estáticamente y dinámicamente.</p>
+
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel/linux-4.19.16$ egrep '=y' .config | wc -l
+2005
+
+alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel/linux-4.19.16$ egrep '=m' .config | wc -l
+3377
+</code></pre></li>
+
+<li><p>Vemos que tenemos 2005 estáticos y 3377 dinámicos, quitar esto a mano sería un proceso bastante largo, en lugar de ello podemos hacer uso de la herramienta <code>make localmodconfig</code> que comprobará que componentes se están usando en nuestro sistema y eliminará el resto. Nuevamente habŕa algunos que nos pregunte especificamente si queremos quitarlos, también los eliminaremos.</p>
+
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel/linux-4.19.16$ make localmodconfig
+</code></pre></li>
+
+<li><p>Volvamos a visualizar los módulos activos y comprobaremos que el número ha bajado considerablemente.</p>
+
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel/linux-4.19.16$ egrep '=y' .config | wc -l
+1424
+alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel/linux-4.19.16$ egrep '=m' .config | wc -l
+201
+</code></pre></li>
+
+<li><p>Para ir quitando los modulos que veamos innecesarios usamos <code>make xconfig</code> nos aparecerá una ventana gráfica donde podremos ir quitando módulos desmarcandolos y ahora veremos como compilar este kernel cuando lo veamos necesario. Este proceso lo realizaremos poco a poco, quitaremos algunos módulos, compilaremos y probaremos que el sistema sigue funcionando.</p>
+
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel/linux-4.19.16$ make xconfig
+  UPD     scripts/kconfig/.qconf-cfg
+  MOC     scripts/kconfig/qconf.moc
+  HOSTCXX scripts/kconfig/qconf.o
+  HOSTLD  scripts/kconfig/qconf
+scripts/kconfig/qconf  Kconfig
+Warning: Ignoring XDG_SESSION_TYPE=wayland on Gnome. Use QT_QPA_PLATFORM=wayland to run on Wayland anyway.
+</code></pre></li>
+</ul>
+
+<p>![xconfig]()</p>
+
+<ul>
+<li><p>Cada vez que realizemos este proceso, sería bueno hacer una copia de seguridad del fichero <code>.config</code> antes, así si el sistema no carga correctamente podríamos usar la configuración anterior. Vamos a comprobar el fichero <code>.config</code> después de quitar algunos módulos.</p>
+
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel/linux-4.19.16$ egrep '=y' .config | wc -l
+1352
+alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel/linux-4.19.16$ egrep '=m' .config | wc -l
+197
+</code></pre></li>
+
+<li><p>Como vemos el número ha disminuido. Ahora vamos a compilar este kernel.</p>
+
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel/linux-4.19.16$ make -j12 bindeb-pkg
+</code></pre></li>
+
+<li><p>Una vez compilado tendremos como resultado un archivo <code>.deb</code>, veamos cuanto pesa para compararlo más adelante con el kernel final.</p>
+
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ ls -lh linux-image-4.19.16_4.19.16-1_amd64.deb 
+-rw-r--r-- 1 alejandrogv alejandrogv 9,2M may 29 18:56 linux-image-4.19.16_4.19.16-1_amd64.deb
+</code></pre></li>
+
+<li><p>Después de haber quitado algunos modulos tenemos un kernel resultante de 9,2 MB ahora solo lo instalariamos con <code>dpkg -i</code> y al reiniciar el sistema entramos con el kernel que acabamos de compilar.</p></li>
+
+<li><p>Después de varias pruebas tenemos nuestro kernel compilado lo mas simple posible, vamos a contar nuevamente los módulos del fichero <code>.config</code></p>
+
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel/linux-4.19.16$ egrep '=y' .config | wc -l
+610
+alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel/linux-4.19.16$ egrep '=m' .config | wc -l
+89
+</code></pre></li>
+
+<li><p>Si vemos también el kernel compilado como vimos anteriormente, notaremos que pesa bastante menos, en concreto 5 MB menos.</p>
+
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ ls -lh linux-image-4.19.16_4.19.16-1_amd64.deb 
+-rw-r--r-- 1 alejandrogv alejandrogv 4,0M may 30 19:45 linux-image-4.19.16_4.19.16-1_amd64.deb
+</code></pre></li>
+</ul>
+
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2021 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>

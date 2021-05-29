@@ -103,6 +103,23 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/kernel/">Compilación de un kérnel linux a medida</a></h4>
+								<h4 class="post-date">2021-05-28</h4>
+							</div>
+							<div class="post-summary"><p>Vamos a necesitar instalar cierta paquetería como vemos a continuación.
+alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ sudo apt install build-essential qtbase5-dev  Necesitamos saber que versión del kernel estamos usando.
+alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ uname -r 4.19.0-16-amd64  Descargaremos la versión de nuestro kernel desde la página oficial
+alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ wget https://mirrors.edge.kernel.org/pub/linux/kernel/v4.x/linux-4.19.16.tar.gz alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ ls linux-4.19.16.tar.gz  Descomprimos este archivo y el resultado será una carpeta con muchisima información.
+alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ tar xzvf linux-4.19.16.tar.gz alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ cd linux-4.19.16/ alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel/linux-4.19.16$ ls arch COPYING Documentation fs ipc kernel MAINTAINERS net scripts tools block CREDITS drivers include Kbuild lib Makefile README security usr certs crypto firmware init Kconfig LICENSES mm samples sound virt  Ejecutaremos el comando make oldconfig para generar el fichero .</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/kernel/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/iscsi/">iSCSI</a></h4>
 								<h4 class="post-date">2021-05-25</h4>
 							</div>
