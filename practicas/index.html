@@ -180,9 +180,8 @@ root@servidor:/usr/local/bin# netstat -tlnp | egrep '6443' tcp6 0 0 :::6443 :::*
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/copias/">Copias de seguridad con bacula</a></h4>
 								<h4 class="post-date">2021-05-22</h4>
 							</div>
-							<div class="post-summary"><p>Usaremos la herramienta bacula para realizar nuestro sistema de copias de seguridad, por supuesto el primer paso que debemos tomar es instalar el paquete de bacula, lo haremos en Dulcinea, usaremos esta máquina para alojar las copias de seguridad.
-debian@dulcinea:~$ sudo apt-get install bacula-server bacula-client  Cambiamos los permisos de unos de los scripts que usa bacula
-debian@dulcinea:~$ sudo chmod 755 /etc/bacula/scripts/delete_catalog_backup  En nuestro Openstack vamos a crear un volumen que asociaremos a Dulcinea y donde almacenaremos nuestras copias de seguridad.</p></div>
+							<div class="post-summary"><p>Usaremos la herramienta bacula para realizar nuestro sistema de copias de seguridad, por supuesto el primer paso que debemos tomar es instalar el paquete de bacula, instalaremos el cliente en todas las máquinas de nuestro escenario de openstack, aunque usaremos Dulcinea para alojar las copias de seguridad.
+debian@dulcinea:~$ sudo apt-get install bacula-client  En nuestro Openstack vamos a crear un volumen que asociaremos a Dulcinea y donde almacenaremos nuestras copias de seguridad.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/copias/">Read More</a>
 							</div>

@@ -96,15 +96,12 @@
                 <h1><a href="https://alepeteporico.github.io/practicas/copias/">Copias de seguridad con bacula</a></h1>
                 <span class="post-date">2021-05-22 </span>
                 <div class="post-content">
-                    <ul>
-<li><p>Usaremos la herramienta bacula para realizar nuestro sistema de copias de seguridad, por supuesto el primer paso que debemos tomar es instalar el paquete de bacula, lo haremos en Dulcinea, usaremos esta máquina para alojar las copias de seguridad.</p>
+                    
 
-<pre><code>debian@dulcinea:~$ sudo apt-get install bacula-server bacula-client
-</code></pre></li>
+<ul>
+<li><p>Usaremos la herramienta bacula para realizar nuestro sistema de copias de seguridad, por supuesto el primer paso que debemos tomar es instalar el paquete de bacula, instalaremos el cliente en todas las máquinas de nuestro escenario de openstack, aunque usaremos Dulcinea para alojar las copias de seguridad.</p>
 
-<li><p>Cambiamos los permisos de unos de los scripts que usa bacula</p>
-
-<pre><code>debian@dulcinea:~$ sudo chmod 755 /etc/bacula/scripts/delete_catalog_backup
+<pre><code>debian@dulcinea:~$ sudo apt-get install bacula-client
 </code></pre></li>
 
 <li><p>En nuestro Openstack vamos a crear un volumen que asociaremos a Dulcinea y donde almacenaremos nuestras copias de seguridad.</p></li>
@@ -191,10 +188,161 @@ UUID=d566f092-68af-4196-90c6-259845be7c4a   /mnt/backups    ext4    errors=remou
 │   └── sancho
 </code></pre></li>
 
-<li><p>Comencemos con el proceso de copias de seguridad, este deberá realizarse de forma completamente automática, para este fin usaremos el fichero que usamos antes configuraremos una serie de scripts que usen <code>tar</code> y realizaremos una copia completa semanalmente, en concreto los viernes y un diferencial diariamente. La hora en que se realizarán las copias serán las 1am, quizás en una empresa es lo mas normal que a esa hora no hay nadie trabajando y el trabajo del día ya se ha realizado y puede realizarse la copia sin que falte nada de ese día.</p></li>
+<li><p>Ahora vamos a dirigirnos a Sancho, donde configuraremos nuestro primer cliente usando el fichero <code>/etc/bacula/bacula-fd.conf</code>, aunque todos tendrán la misma configuración.</p>
 
-<li></li>
+<pre><code>Director {
+  Name = sancho-dir
+  Password = &quot;admin&quot;
+}
+
+#
+# Restricted Director, used by tray-monitor to get the
+#   status of the file daemon
+#
+Director {
+  Name = sancho-mon
+  Password = &quot;admin&quot;
+  Monitor = yes
+}
+
+#
+# &quot;Global&quot; File daemon configuration specifications
+#
+FileDaemon {                          # this is me
+  Name = sancho-fd
+  FDport = 9102                  # where we listen for the director
+  WorkingDirectory = /var/lib/bacula
+  Pid Directory = /run/bacula
+  Maximum Concurrent Jobs = 20
+  Plugin Directory = /usr/lib/bacula
+  FDAddress = 10.0.1.6 #Direccion de este daemon
+}
+
+# Send all messages except skipped files back to Director
+Messages {
+  Name = Standard
+  director = sancho-dir = all, !skipped, !restored
+}
+</code></pre></li>
+
+<li><p>Instalaremos en Dulcinea el servidor.</p>
+
+<pre><code>debian@dulcinea:~$ sudo apt-get install bacula-sd
+</code></pre></li>
+
+<li><p>Vamos a definir alguna información en el servidor.</p>
+
+<pre><code>Storage {                             # definition of myself
+  Name = dulcinea-sd
+  SDPort = 9103                  # Director's port
+  WorkingDirectory = &quot;/var/lib/bacula&quot;
+  Pid Directory = &quot;/run/bacula&quot;
+  Plugin Directory = &quot;/usr/lib/bacula&quot;
+  Maximum Concurrent Jobs = 20
+  SDAddress = 10.0.1.8
+}
+
+Director {
+  Name = dulcinea-dir
+  Password = &quot;admin&quot;
+}
+
+
+Director {
+  Name = dulcinea-mon
+  Password = &quot;admin&quot;
+  Monitor = yes
+}
+
+
+Autochanger {
+  Name = FileAutochanger1
+  Device = Dispositivo
+  Changer Command = &quot;&quot;
+  Changer Device = /dev/null
+}
+
+#Definimos el disco de almacenamiento de las copias
+
+Device {
+  Name = Dispositivo
+  Media Type = File
+  Archive Device = /mnt/backups
+  LabelMedia = yes;                   # lets Bacula label unlabeled media
+  Random Access = Yes;
+  AutomaticMount = yes;               # when device opened, read it
+  RemovableMedia = no;
+  AlwaysOpen = no;
+  Maximum Concurrent Jobs = 5
+}
+
+Messages {
+  Name = Standard
+  director = dulcinea-dir = all
+}
+</code></pre></li>
+
+<li><p>Podemos comprobar que no hay ningún error de sintaxis mediante una herramienta que nos proporciona bacula.</p>
+
+<pre><code>debian@dulcinea:~$ sudo bacula-sd /etc/bacula/bacula-sd.conf
+</code></pre></li>
+
+<li><p>Ahora tenemos que configurar el que es el demonio principal <code>bacula-dir</code> antes de instalarlo tenemos que configurar un servidor mariadb</p>
+
+<pre><code>debian@dulcinea:~$ sudo apt-get install mariadb-server mariadb-client
+
+debian@dulcinea:~$ sudo apt-get install bacula bacula-common-mysql bacula-director-mysql bacula-server
+</code></pre></li>
+
+<li><p>Una vez instalado lo necesario vamos a configurar el fichero <code>/etc/bacula/bacula-dir.conf</code>.</p>
+
+<pre><code>Director {                            # define myself
+  Name = dulcinea-dir
+  DIRport = 9101                # where we listen for UA connections
+  QueryFile = &quot;/etc/bacula/scripts/query.sql&quot;
+  WorkingDirectory = &quot;/var/lib/bacula&quot;
+  PidDirectory = &quot;/run/bacula&quot;
+  Maximum Concurrent Jobs = 20
+  Password = &quot;5aGsxsTfzMQTaN8Vrk8PR2DSBRY29sDOQ&quot;         # Console password
+  Messages = Daemon
+  DirAddress = 10.0.1.8
+}
+</code></pre></li>
 </ul>
+
+<p>Job {
+ Name = &ldquo;restauracion_dulcinea&rdquo;
+ Type = Restore
+ Client=dulcinea-fd
+ FileSet= &ldquo;Copia_Dulcinea&rdquo;
+ Storage = Backup
+ Pool = Res-Backup
+ Messages = Standard
+}</p>
+
+<h1 id="quijote">Quijote</h1>
+
+<p>Job {
+ Name = &ldquo;restauracion_quijote&rdquo;
+ Type = Restore
+ Client=quijote-fd
+ FileSet= &ldquo;Copia_Quijote&rdquo;
+ Storage = Backup
+ Pool = Res-Backup
+ Messages = Standard
+}</p>
+
+<h1 id="freston">Freston</h1>
+
+<p>Job {
+ Name = &ldquo;restauracion_freston&rdquo;
+ Type = Restore
+ Client=freston-fd
+ FileSet= &ldquo;Copia_Freston&rdquo;
+ Storage = VolBackup
+ Pool = Vol-Backup
+ Messages = Standard
+}</p>
 
                 </div>
                 
