@@ -6,10 +6,20 @@
     <description>Recent content in Sad on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 27 May 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 30 May 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://alepeteporico.github.io/tags/sad/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Integridad, firmas y autentificación</title>
+      <link>https://alepeteporico.github.io/practicas/firmas/</link>
+      <pubDate>Sun, 30 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/firmas/</guid>
+      <description>Tarea 1:  He enviado un archivo firmado a un compañero que dispone de mi clave pública, los dos hemos verificado la firma.
+alejandrogv@AlejandroGV:~/Descargas$ gpg --verify firma2.pdf.gpg gpg: Firmado el jue 22 oct 2020 12:11:31 CEST gpg: usando RSA clave 28ED3C3112ED8846BEDFFAF657112B319F2A6170 gpg: emisor &amp;quot;frandh1997@gmail.com&amp;quot; gpg: Firma correcta de &amp;quot;Francisco Javier Madueño Jurado &amp;lt;frandh1997@gmail.com&amp;gt;&amp;quot; [desconocido] gpg: ATENCIÓN: ¡Esta clave no está certificada por una firma de confianza! gpg: No hay indicios de que la firma pertenezca al propietario.</description>
+    </item>
     
     <item>
       <title>OpenStack: Configuración HTTPS</title>
