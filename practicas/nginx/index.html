@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Servidor nginx &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.54.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://alepeteporico.github.io/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/practicas/nginx/">Servidor nginx</a></h1>
+                <span class="post-date">2021-05-31 </span>
+                <div class="post-content">
+                    
+
+<h4 id="crea-una-máquina-del-cloud-con-una-red-pública-añade-la-clave-pública-del-profesor-a-la-máquina-instala-el-servidor-web-nginx-en-la-máquina-modifica-la-página-index-html-que-viene-por-defecto-y-accede-a-ella-desde-un-navegador">Crea una máquina del cloud con una red pública. Añade la clave pública del profesor a la máquina. Instala el servidor web nginx en la máquina. Modifica la página index.html que viene por defecto y accede a ella desde un navegador.</h4>
+
+<ul>
+<li><p>La IP del servidor es la 172.22.201.5</p></li>
+
+<li><p>Una vez añadida la clave pública del profesor instalamos el servidor web nginx.</p>
+
+<pre><code>debian@nginx:~$ sudo apt install nginx
+</code></pre></li>
+
+<li><p>Comprobamos que podemos acceder perfectamente desde fuera.</p></li>
+</ul>
+
+<p><img src="/nginx/1.png" alt="index" /></p>
+
+<ul>
+<li><p>Vamos a modificar el index que se aloja en <code>/var/www/html/index.nginx-debian.html</code> y a comprobar que se realiza esta modificación.</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Bievenido&lt;/title&gt;
+&lt;style&gt;
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Estás en el index de nginx&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre></li>
+</ul>
+
+<p><img src="/nginx/2.png" alt="mod" /></p>
+
+<h4 id="queremos-que-nuestro-servidor-web-ofrezca-dos-sitios-web-teniendo-en-cuenta-lo-siguiente">Queremos que nuestro servidor web ofrezca dos sitios web, teniendo en cuenta lo siguiente:</h4>
+
+<ol>
+<li>Cada sitio web tendrá nombres distintos.</li>
+<li>Cada sitio web compartirán la misma dirección IP y el mismo puerto (80).</li>
+</ol>
+
+<p><strong>Los dos sitios web tendrán las siguientes características:</strong></p>
+
+<ul>
+<li><p><strong>El nombre de dominio del primero será www.iesgn.org, su directorio base será /srv/www/iesgn y contendrá una página llamada index.html, donde sólo se verá una bienvenida a la página del Instituto Gonzalo Nazareno.</strong></p></li>
+
+<li><p><strong>En el segundo sitio vamos a crear una página donde se pondrán noticias por parte de los departamento, el nombre de este sitio será departamentos.iesgn.org, y su directorio base será /srv/www/departamentos. En este sitio sólo tendremos una página inicial index.html, dando la bienvenida a la página de los departamentos del instituto.</strong></p></li>
+
+<li><p>Tal como haríamos en apache en la carpeta <code>/etc/nginx/sites-available</code> crearemos dos ficheros que configuraremos para ser nuestro virtual host.</p>
+
+<pre><code>debian@nginx:/etc/nginx/sites-available$ ls
+default  departamentos  iesgn
+</code></pre></li>
+
+<li><p>Vamos a ver como serían estos ficheros de configuración</p></li>
+</ul>
+
+<h3 id="iesgn">iesgn</h3>
+
+<pre><code>    server {
+            listen 80;
+            listen [::]:80;
+
+            server_name www.iesgn.org;
+
+            root /srv/www/iesgn;
+            index index.html;
+
+            location / {
+                    try_files $uri $uri/ =404;
+            }
+    }
+</code></pre>
+
+<h3 id="departamentos">departamentos</h3>
+
+<pre><code>    server {
+            listen 80;
+            listen [::]:80;
+
+            server_name departamentos.iesgn.org;
+
+            root /srv/www/departamentos;
+            index index.html;
+
+            location / {
+                    try_files $uri $uri/ =404;
+            }
+    }
+</code></pre>
+
+<ul>
+<li><p>Vamos a crear los enlaces simbólicos en <code>sites-enabled</code>.</p>
+
+<pre><code>debian@nginx:/etc/nginx/sites-available$ sudo ln -s /etc/nginx/sites-available/iesgn /etc/nginx/sites-enabled/
+debian@nginx:/etc/nginx/sites-available$ sudo ln -s /etc/nginx/sites-available/departamentos /etc/nginx/sites-enabled/
+</code></pre></li>
+
+<li><p>Añadimos al <code>/etc/hosts</code> de nuestra anfitriona las líneas correspondientes.</p>
+
+<pre><code>172.22.201.5    www.iesgn.org
+172.22.201.5    departamentos.iesgn.org
+</code></pre></li>
+
+<li><p>Y comprobamos que están en funcionamiento estás páginas.</p></li>
+</ul>
+
+<p><img src="/nginx/3.png" alt="iesgn" /></p>
+
+<p><img src="/nginx/4.png" alt="departamentos" /></p>
+
+<h4 id="cambia-la-configuración-del-sitio-web-www-iesgn-org-para-que-se-comporte-de-la-siguiente-forma">Cambia la configuración del sitio web www.iesgn.org para que se comporte de la siguiente forma:</h4>
+
+<ol>
+<li><p>Cuando se entre a la dirección www.iesgn.org se redireccionará automáticamente a www.iesgn.org/principal, donde se mostrará el mensaje de bienvenida. En el directorio principal no se permite ver la lista de los ficheros, no se permite que se siga los enlaces simbólicos y no se permite negociación de contenido. Muestra al profesor el funcionamiento.</p></li>
+
+<li><p>Si accedes a la página www.iesgn.org/principal/documentos se visualizarán los documentos que hay en /srv/doc. Por lo tanto se permitirá el listado de fichero y el seguimiento de enlaces simbólicos siempre que sean a ficheros o directorios cuyo dueño sea el usuario. Muestra al profesor el funcionamiento.</p></li>
+
+<li><p>En todo el host virtual se debe redefinir los mensajes de error de objeto no encontrado y no permitido. Para el ello se crearan dos ficheros html dentro del directorio error. Entrega las modificaciones necesarias en la configuración y una comprobación del buen funcionamiento.</p></li>
+</ol>
+
+<ul>
+<li>Vamos a crear la carpeta principal dentro de iesgn.</li>
+</ul>
+
+<p>debian@nginx:/srv/www/iesgn$ ls
+index.html  principal</p>
+
+<ul>
+<li><p>Modificamos la parte de <code>location</code> de nuestro fichero de configuración de iesgn.</p>
+
+<pre><code>location / {
+                return 301 http://www.iesgn.org/principal;
+                }
+
+                location /principal {
+                try_files $uri $uri/ =404;
+                disable_symlinks on;
+        }
+</code></pre></li>
+
+<li><p>Y comprobamos que al acceder a iesgn nos redirecciona a principal.</p></li>
+</ul>
+
+<p><img src="/nginx/5.png" alt="principal" /></p>
+
+<hr />
+
+<ul>
+<li><p>Crearemos el directorio doc en srv y crearemos contenido para visualizar posteriormente.</p>
+
+<pre><code>debian@nginx:/srv/doc$ ls
+maspruebas  prueba1  prueba2
+</code></pre></li>
+
+<li><p>Y añadiremos una nueva redirección en el fichero de iesgn.</p>
+
+<pre><code>        location /principal/documentos {
+        try_files $uri $uri/ =404;
+        alias /srv/doc;
+        disable_symlinks if_not_owner;
+        autoindex on;
+}
+</code></pre></li>
+
+<li><p>Comprobamos que funciona la redirección.</p></li>
+</ul>
+
+<p><img src="/nginx/6.png" alt="documentos" /></p>
+
+<ul>
+<li><p>Vamos a crear un enlace a <code>/srv/doc</code>.</p>
+
+<pre><code>debian@nginx:~$ sudo ln -s /home/debian/link_prueba /srv/doc/
+</code></pre></li>
+
+<li><p>Y volvemos a comprobar su funcionamiento.</p></li>
+</ul>
+
+<p><img src="/nginx/7.png" alt="link" /></p>
+
+<hr />
+
+<ul>
+<li><p>Crearemos una carpeta <code>error</code> dentro de iesgn donde definiremos dos ficheros html con el mensaje de error de su respectivo código.</p>
+
+<pre><code>debian@nginx:/srv/www/iesgn$ tree error/
+error/
+├── 403.html
+└── 404.html
+</code></pre></li>
+
+<li><p>Definimos los errores en el fichero de iesgn</p>
+
+<pre><code>       error_page 403 /error/403.html;
+                location /error/403.html {
+                        internal;
+                }
+
+        error_page 404 /error/404.html;
+                location /error/404.html {
+                        internal;
+                }
+</code></pre></li>
+
+<li><p>Comprobamos que funciona.</p></li>
+</ul>
+
+<p><img src="/nginx/8.png" alt="404" /></p>
+
+<h4 id="autentificación-autorización-y-control-de-accesopermalink">Autentificación, Autorización, y Control de AccesoPermalink</h4>
+
+<ol>
+<li>Añade al escenario otra máquina conectada por una red interna al servidor. A la URL departamentos.iesgn.org/intranet sólo se debe tener acceso desde el cliente de la red local, y no se pueda acceder desde la anfitriona por la red pública. A la URL departamentos.iesgn.org/internet, sin embargo, sólo se debe tener acceso desde la anfitriona por la red pública, y no desde la red local.</li>
+</ol>
+
+<ul>
+<li><p>Vamos a crear los directorios correspondientes en departamentos.</p>
+
+<pre><code>debian@nginx:/srv/www/departamentos$ tree
+.
+├── index.html
+├── internet
+│   └── fichero1.txt
+└── intranet
+    └── fichero2.txt
+</code></pre></li>
+
+<li><p>Añadimos algunas localizaciones a nuestro fichero de configuración de departamentos.</p>
+
+<pre><code>        location / {
+                try_files $uri $uri/ =404;
+
+        location /intranet {
+                allow 172.22.200.0/24;
+                deny all;
+        }
+        location /internet {
+                deny 172.22.200.0/24;
+                allow all;
+                }
+        }
+</code></pre></li>
+</ul>
+
+<p><img src="/nginx/9.png" alt="403" /></p>
+
+<ol>
+<li>Autentificación básica. Limita el acceso a la URL departamentos.iesgn.org/secreto. Comprueba las cabeceras de los mensajes HTTP que se intercambian entre el servidor y el cliente.</li>
+</ol>
+
+<ul>
+<li><p>Debemos descargar esta herramienta.</p>
+
+<pre><code>debian@nginx:/srv/www/departamentos$ sudo apt install apache2-utils
+</code></pre></li>
+
+<li><p>Añadimos una nueva localización en nuestro fichero de departamentos.</p>
+
+<pre><code>                location /secreto {
+                        auth_basic &quot;Acceso restringido&quot;;
+                        auth_basic_user_file /etc/nginx/.htpasswd;
+                }
+</code></pre></li>
+
+<li><p>Añadimos el fichero de la contraseña.</p>
+
+<pre><code>debian@nginx:/srv/www/departamentos$ sudo htpasswd -c /etc/nginx/.htpasswd user
+New password: 
+Re-type new password: 
+Adding password for user user
+</code></pre></li>
+
+<li><p>Comprobamos su funcionamiento</p></li>
+</ul>
+
+<p><img src="/nginx/10.png" alt="secreto" /></p>
+
+<p><img src="/nginx/11.png" alt="secreto" /></p>
+
+<hr />
+
+<ol>
+<li>Vamos a combinar el control de acceso (tarea 6) y la autentificación (tarea 7), y vamos a configurar el virtual host para que se comporte de la siguiente manera: el acceso a la URL departamentos.iesgn.org/secreto se hace forma directa desde la intranet, desde la red pública te pide la autentificación. Muestra el resultado al profesor.</li>
+</ol>
+
+<ul>
+<li><p>solo debemos añadir algunas cosas a la location de secreto:</p>
+
+<pre><code>         location /secreto {
+        auth_basic &quot;Acceso restringido&quot;;
+        auth_basic_user_file /etc/nginx/.htpasswd;
+        allow 172.22.200.0/24;
+        deny all;
+        }
+</code></pre></li>
+</ul>
+
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2021 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>
