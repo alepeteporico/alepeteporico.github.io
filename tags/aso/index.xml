@@ -6,10 +6,21 @@
     <description>Recent content in Aso on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 28 May 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 31 May 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://alepeteporico.github.io/tags/aso/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>LDAP</title>
+      <link>https://alepeteporico.github.io/practicas/ldap_openstack/</link>
+      <pubDate>Mon, 31 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/ldap_openstack/</guid>
+      <description>Para esta práctica vamos a usar las claves y certificados que generamos en la práctica de seguridad de https
+[root@quijote ~]# scp /etc/ssl/certs/gonzalonazareno.crt debian@10.0.1.9 [root@quijote ~]# scp /etc/ssl/certs/openstack.crt debian@10.0.1.9 [root@quijote ~]# scp /etc/ssl/private/openstack.key debian@10.0.1.9  Vamos a mover estos certificados a un sitio apropiado.
+debian@freston:~$ sudo mv gonzalonazareno.crt /etc/ssl/certs/ debian@freston:~$ sudo mv openstack.crt /etc/ssl/certs/ debian@freston:~$ sudo mv openstack.key /etc/ssl/private/  Vamos a crear unas acl para que el usuario openldap que es el encargado de ejecutar los servicios de sldap tenga permisos sobre estos certificados.</description>
+    </item>
     
     <item>
       <title>Compilación de un kérnel linux a medida</title>
