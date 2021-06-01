@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Servidor LEMP &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.54.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://alepeteporico.github.io/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/practicas/lemp/">Servidor LEMP</a></h1>
+                <span class="post-date">2021-06-01 </span>
+                <div class="post-content">
+                    <ul>
+<li><p>Vamos a instalar todos los paquetes necesarios.</p>
+
+<pre><code>debian@sputnik:~$ sudo apt install nginx mariadb-client mariadb-server php php-mysql php-fpm
+</code></pre></li>
+
+<li><p>Crearemos el directorio sobre el que trabajaremos en nuestro virtual host.</p>
+
+<pre><code>root@sputnik:~# mkdir /var/www/iesgn06
+</code></pre></li>
+
+<li><p>Crearemos un virtual host en <code>sites-available</code></p>
+
+<pre><code>server {
+        listen 80;
+        listen [::]:80;
+
+        root /var/www/iesgn06;
+
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name www.iesgn06.es;
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+}
+</code></pre></li>
+
+<li><p>Y creamos el enlace simbólico en sites-enabled.</p>
+
+<pre><code>root@sputnik:/etc/nginx/sites-available# ln -s /etc/nginx/sites-available/iesgn06 /etc/nginx/sites-enabled/
+</code></pre></li>
+
+<li><p>Después de añadir la ruta a nuestro <code>etc/hosts</code> comprobaremos que podemos acceder desde el navegador.</p></li>
+</ul>
+
+<p><img src="/lemp/1.png" alt="nginx" /></p>
+
+<ul>
+<li><p>Ahora crearemos una redirección, cuando se acceda a www.iesgn06.es se redireccionará a <code>/principal</code>, para ello añadiremos lo siguiente a nuestro fichero de configuración del virtual host.</p>
+
+<pre><code>location / {
+        try_files $uri $uri/ =404;
+        return 301 /principal/index.html;
+        location /principal {
+                autoindex off;
+        }
+}
+</code></pre></li>
+
+<li><p>Comprobamos su funcionamiento.</p></li>
+</ul>
+
+<p><img src="/lemp/2.png" alt="principal" /></p>
+
+<ul>
+<li><p>Ahora vamos a instalar una plantilla, primero debemos descargarla.</p>
+
+<pre><code>root@sputnik:~# wget https://plantillashtmlgratis.com/wp-content/themes/helium-child/descargas/page267/brunch.zip
+</code></pre></li>
+
+<li><p>Lo descomprimimos y movemos todo el contenido a principal.</p>
+
+<pre><code>root@sputnik:~# mv 2112_brunch/* /var/www/iesgn06/principal/
+</code></pre></li>
+
+<li><p>Reiniciamos el servicio y entramos a nuestra web para comprobar que la plantilla se ha instalado exitosamente.</p></li>
+</ul>
+
+<p><img src="/lemp/3.png" alt="principal" /></p>
+
+<ul>
+<li><p>Ahora configuraremos nuestrovirtual host para que pueda ejectuar php añadiendo de nuevo en nuestro fichero de configuración lo siguiente.</p>
+
+<pre><code>location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php7.3-fpm.sock;
+}
+</code></pre></li>
+
+<li><p>Creamos un fichero info.php en principal.</p>
+
+<pre><code>root@sputnik:~# cat /var/www/iesgn06/principal/info.php
+&lt;?php
+phpinfo();
+?&gt;
+</code></pre></li>
+
+<li><p>Comprobamos que funciona.</p></li>
+</ul>
+
+<p><img src="/lemp/4.png" alt="principal" /></p>
+
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2021 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>

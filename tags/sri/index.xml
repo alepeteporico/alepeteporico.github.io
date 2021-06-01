@@ -6,10 +6,22 @@
     <description>Recent content in Sri on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 31 May 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 01 Jun 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://alepeteporico.github.io/tags/sri/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Servidor LEMP</title>
+      <link>https://alepeteporico.github.io/practicas/lemp/</link>
+      <pubDate>Tue, 01 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/lemp/</guid>
+      <description>Vamos a instalar todos los paquetes necesarios.
+debian@sputnik:~$ sudo apt install nginx mariadb-client mariadb-server php php-mysql php-fpm  Crearemos el directorio sobre el que trabajaremos en nuestro virtual host.
+root@sputnik:~# mkdir /var/www/iesgn06  Crearemos un virtual host en sites-available
+server { listen 80; listen [::]:80; root /var/www/iesgn06; index index.html index.htm index.nginx-debian.html; server_name www.iesgn06.es; location / { try_files $uri $uri/ =404; } }  Y creamos el enlace simbólico en sites-enabled.</description>
+    </item>
     
     <item>
       <title>Servidor nginx</title>
