@@ -258,9 +258,9 @@ allow-recursion { any; };
 
     $ORIGIN 1.0.10.in-addr.arpa.
 
-    8       IN      PTR     dulcinea
-    6       IN      PTR     sancho
-    9       IN      PTR     freston
+    8       IN      PTR     dulcinea.alegv.gonzalonazareno.org.
+    6       IN      PTR     sancho.alegv.gonzalonazareno.org.
+    9       IN      PTR     freston.alegv.gonzalonazareno.org.
 </code></pre>
 
 <h3 id="db-2-0-10">db.2.0.10</h3>
@@ -278,8 +278,8 @@ allow-recursion { any; };
 
     $ORIGIN 2.0.10.in-addr.arpa.
 
-    10      IN      PTR     dulcinea
-    5       IN      PTR     quijote
+    10      IN      PTR     dulcinea.alegv.gonzalonazareno.org.
+    5       IN      PTR     quijote.alegv.gonzalonazareno.org.
 </code></pre>
 
 <p><strong>Si quisieramos asegurarnos de que no tenemos ningún error de sintáxis podemos usar esto:</strong></p>
@@ -492,25 +492,28 @@ allow-recursion { any; };
 
 <pre><code>    alejandrogv@AlejandroGV:~$ dig dulcinea.alegv.gonzalonazareno.org
 
-    ; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u2-Debian &lt;&lt;&gt;&gt; dulcinea.alegv.gonzalonazareno.org
+    ; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u3-Debian &lt;&lt;&gt;&gt; dulcinea.alegv.gonzalonazareno.org
     ;; global options: +cmd
     ;; Got answer:
-    ;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 48370
-    ;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+    ;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 18016
+    ;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 1
 
     ;; OPT PSEUDOSECTION:
-    ; EDNS: version: 0, flags:; udp: 512
+    ; EDNS: version: 0, flags:; udp: 4096
+    ; COOKIE: 0c19b93390596f9a67cc7a1960b76f3f5eee202006b6b4e9 (good)
     ;; QUESTION SECTION:
     ;dulcinea.alegv.gonzalonazareno.org. IN A
 
     ;; ANSWER SECTION:
-    dulcinea.alegv.gonzalonazareno.org. 900 IN CNAME macaco.gonzalonazareno.org.
-    macaco.gonzalonazareno.org. 900 IN  A   80.59.1.152
+    dulcinea.alegv.gonzalonazareno.org. 86400 IN A  172.22.200.87
 
-    ;; Query time: 66 msec
-    ;; SERVER: 192.168.1.1#53(192.168.1.1)
-    ;; WHEN: dom feb 21 17:47:52 CET 2021
-    ;; MSG SIZE  rcvd: 100
+    ;; AUTHORITY SECTION:
+    alegv.gonzalonazareno.org. 86400 IN NS  dulcinea.alegv.gonzalonazareno.org.
+
+    ;; Query time: 3 msec
+    ;; SERVER: 192.168.202.2#53(192.168.202.2)
+    ;; WHEN: mié jun 02 13:45:03 CEST 2021
+    ;; MSG SIZE  rcvd: 121
 </code></pre>
 
 <h3 id="servidor-web">Servidor web</h3>
