@@ -6,10 +6,31 @@
     <description>Recent content in Iweb on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 04 May 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 04 Jun 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://alepeteporico.github.io/tags/iweb/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Introducción a la integración continua </title>
+      <link>https://alepeteporico.github.io/practicas/ic/</link>
+      <pubDate>Fri, 04 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/ic/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Instalación de aplicación web python</title>
+      <link>https://alepeteporico.github.io/practicas/python_openstack/</link>
+      <pubDate>Wed, 02 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/python_openstack/</guid>
+      <description>Vamos a crear el entorno virtual en el cual instalaremos Mezzanine.
+alejandrogv@AlejandroGV:~/entornos/mezzanine$ source despliegue/bin/activate (despliegue) alejandrogv@AlejandroGV:~/entornos/mezzanine$  Ahora instalamos con pip mezzanine y creamos un proyecto.
+(despliegue) alejandrogv@AlejandroGV:~/proyecto$ pip install mezzanine (despliegue) alejandrogv@AlejandroGV:~/proyecto$ mezzanine-project cms  Vamos a modificar uno de los ficheros que se ha generado cms/settings.py para usar la base de datos sqlite ya que estamos en el entorno de pruebas.
+DATABASES = { &amp;quot;default&amp;quot;: { &amp;quot;ENGINE&amp;quot;: &amp;quot;django.</description>
+    </item>
     
     <item>
       <title>Despliegue de CMS java</title>

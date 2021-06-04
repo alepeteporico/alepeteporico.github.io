@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Instalación de aplicación web python &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.54.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://alepeteporico.github.io/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/practicas/python_openstack/">Instalación de aplicación web python</a></h1>
+                <span class="post-date">2021-06-02 </span>
+                <div class="post-content">
+                    
+
+<ul>
+<li><p>Vamos a crear el entorno virtual en el cual instalaremos Mezzanine.</p>
+
+<pre><code>alejandrogv@AlejandroGV:~/entornos/mezzanine$ source despliegue/bin/activate
+(despliegue) alejandrogv@AlejandroGV:~/entornos/mezzanine$
+</code></pre></li>
+
+<li><p>Ahora instalamos con pip mezzanine y creamos un proyecto.</p>
+
+<pre><code>(despliegue) alejandrogv@AlejandroGV:~/proyecto$ pip install mezzanine
+(despliegue) alejandrogv@AlejandroGV:~/proyecto$ mezzanine-project cms
+</code></pre></li>
+
+<li><p>Vamos a modificar uno de los ficheros que se ha generado <code>cms/settings.py</code> para usar la base de datos sqlite ya que estamos en el entorno de pruebas.</p>
+
+<pre><code>DATABASES = {
+    &quot;default&quot;: {
+        &quot;ENGINE&quot;: &quot;django.db.backends.sqlite3&quot;,
+        &quot;NAME&quot;: &quot;&quot;,
+        &quot;USER&quot;: &quot;&quot;,
+        &quot;PASSWORD&quot;: &quot;&quot;,
+        &quot;HOST&quot;: &quot;&quot;,
+        &quot;PORT&quot;: &quot;&quot;,
+    }
+}
+</code></pre></li>
+
+<li><p>Hacemos una migración para generar las tablas de sqlite.</p>
+
+<pre><code>(despliegue) alejandrogv@AlejandroGV:~/proyecto/cms$ python3 manage.py migrate
+</code></pre></li>
+
+<li><p>También necesitaremos crear un usuario para poder gestionarla.</p>
+
+<pre><code>(despliegue) alejandrogv@AlejandroGV:~/proyecto/cms$ python3 manage.py createsuperuser
+Username (leave blank to use 'alejandrogv'): admin
+Email address: tojandro@gmail.com
+Password: 
+Password (again): 
+Superuser created successfully.
+</code></pre></li>
+
+<li><p>Ahora vamos a ejecutar el servidor.</p>
+
+<pre><code>(despliegue) alejandrogv@AlejandroGV:~/proyecto/cms$ python3 manage.py runserver
+              .....
+          _d^^^^^^^^^b_
+       .d''           ``b.
+     .p'                `q.
+    .d'                   `b.
+   .d'                     `b.   * Mezzanine 4.3.1
+   ::                       ::   * Django 1.11.29
+  ::    M E Z Z A N I N E    ::  * Python 3.7.3
+   ::                       ::   * SQLite 3.27.2
+   `p.                     .q'   * Linux 4.19.0-16-amd64
+    `p.                   .q'
+     `b.                 .d'
+       `q..          ..p'
+          ^q........p^
+              ''''
+
+Performing system checks...
+
+System check identified no issues (0 silenced).
+June 02, 2021 - 19:08:04
+Django version 1.11.29, using settings 'cms.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+</code></pre></li>
+
+<li><p>Entramos desde localhost por el puerto 8000 y comprobamos que funciona.</p></li>
+</ul>
+
+<p><img src="/python_openstack/1.png" alt="pagina" /></p>
+
+<ul>
+<li>Ahora nos loggeamos y vemos que podemos cambiar cosas como añadir paginas, cambiar titulos, etc&hellip;</li>
+</ul>
+
+<p><img src="/python_openstack/2.png" alt="pagina" /></p>
+
+<ul>
+<li><p>Ya funciona en nuestro entorno de desarrolo, para migrar al entorno de producción haremos un backup.</p>
+
+<pre><code>(despliegue) alejandrogv@AlejandroGV:~/proyecto/cms$ python3 manage.py dumpdata &gt; backup.json
+</code></pre></li>
+
+<li><p>Nos dirigimos a freston, donde añadiremos un registro nuevo en el DNS para nuestro nuevo sitio.</p></li>
+</ul>
+
+<h4 id="interna">interna</h4>
+
+<pre><code>    dulcinea        IN      A       10.0.1.8
+    sancho  IN      A       10.0.1.6
+    quijote IN      A       10.0.2.5
+    freston IN      A       10.0.1.9
+    www     IN      CNAME   quijote
+    bd      IN      CNAME   sancho
+    python  IN      CNAME   quijote
+</code></pre>
+
+<h4 id="externa">externa</h4>
+
+<pre><code>    dulcinea        IN      A       172.22.200.87
+    www     IN      CNAME   dulcinea
+    python  IN      CNAME   dulcinea
+</code></pre>
+
+<h4 id="dmz">dmz</h4>
+
+<pre><code>    dulcinea        IN      A       10.0.2.10
+    sancho  IN      A       10.0.1.6
+    quijote IN      A       10.0.2.5
+    freston IN      A       10.0.1.9
+    www     IN      CNAME   quijote
+    bd      IN      CNAME   sancho
+    python  IN      CNAME   quijote
+</code></pre>
+
+<ul>
+<li><p>Ahora en sancho vamos a crear una base de datos y un usuario remoto que la administrará.</p>
+
+<pre><code>MariaDB [(none)]&gt; CREATE DATABASE mezzanine;
+Query OK, 1 row affected (0.023 sec)
+
+MariaDB [(none)]&gt; GRANT USAGE ON *.* TO 'quijote'@'10.0.2.5' IDENTIFIED BY 'alegv';
+Query OK, 0 rows affected (0.041 sec)
+
+MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON mezzanine.* to 'ale'@'10.0.2.5';
+Query OK, 0 rows affected (0.009 sec)
+</code></pre></li>
+
+<li><p>Vamos a instalar las dependencias necesarias en quijote.</p>
+
+<pre><code>[centos@quijote ~]$ sudo dnf install virtualenv git python3-mod_wsgi gcc python3-devel mysql-devel
+</code></pre></li>
+
+<li><p>Como hicimos anteriormente crearemos el entorno donde instalaremos las dependencias de la aplicación.</p>
+
+<pre><code>[centos@quijote virtualenv]$ python3 -m venv despliegue
+[centos@quijote virtualenv]$ source despliegue/bin/activate
+</code></pre></li>
+
+<li><p>Una vez tengamos nuestra carpeta <code>cms</code> con todo el contenido incluido el backup en quijote instalamos las dependencias usando el fichero requirements.txt y algunos paquetes mas necesarios</p>
+
+<pre><code>(despliegue) [centos@quijote cms]$ pip install -r requirements.txt
+(despliegue) [centos@quijote cms]$ pip install mysql-connector-python uwsgi mysqlclient
+</code></pre></li>
+
+<li><p>Cambiaremos el fichero settings.py para que use la base de datos de mysql.</p>
+
+<pre><code>DATABASES = {
+    &quot;default&quot;: {
+        # Add &quot;postgresql_psycopg2&quot;, &quot;mysql&quot;, &quot;sqlite3&quot; or &quot;oracle&quot;.
+        &quot;ENGINE&quot;: &quot;django.db.backends.mysql&quot;,
+        # DB name or path to database file if using sqlite3.
+        &quot;NAME&quot;: &quot;mezzanine&quot;,
+        # Not used with sqlite3.
+        &quot;USER&quot;: &quot;quijote&quot;,
+        # Not used with sqlite3.
+        &quot;PASSWORD&quot;: &quot;alegv&quot;,
+        # Set to empty string for localhost. Not used with sqlite3.
+        &quot;HOST&quot;: &quot;bd.alegv.gonzalonazareno.org&quot;,
+        # Set to empty string for default. Not used with sqlite3.
+        &quot;PORT&quot;: &quot;&quot;,
+    }
+}
+</code></pre></li>
+
+<li><p>Migramos para que use la nueva base de datos.</p>
+
+<pre><code>(despliegue) [centos@quijote cms]$ python3 manage.py migrate
+</code></pre></li>
+
+<li></li>
+</ul>
+
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2021 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>
