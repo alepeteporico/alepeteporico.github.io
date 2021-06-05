@@ -103,6 +103,23 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/rendimientoweb/">Aumento de rendimiento de servidores web von Varnish</a></h4>
+								<h4 class="post-date">2021-06-05</h4>
+							</div>
+							<div class="post-summary"><p>Instalamos ansible
+alejandrogv@AlejandroGV:~$ sudo apt install ansible  Ahora clonaremos el repositorio correspondiente con la receta.
+alejandrogv@AlejandroGV:~$ git clone https://github.com/josedom24/ansible_nginx_fpm_php.git  En el interior del respositorio editaremos el fichero hosts añadiendo la dirección de la máquina que usaremos para las pruebas.
+[servidores_web] nodo1 ansible_ssh_host=172.22.100.15 ansible_python_interpreter=/usr/bin/python3  Ejecutamos la funcionalidad playbook de ansible para que se realicen las modificaciones necesarias que usaremos en la máquina de prueba.
+  alejandrogv@AlejandroGV:~/ansible_nginx_fpm_php$ ansible-playbook site.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/rendimientoweb/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/ic/">Introducción a la integración continua </a></h4>
 								<h4 class="post-date">2021-06-04</h4>
 							</div>
@@ -231,22 +248,6 @@ alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ wget https://mirrors.
 alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ tar xzvf linux-4.19.16.tar.gz alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ cd linux-4.19.16/ alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel/linux-4.19.16$ ls arch COPYING Documentation fs ipc kernel MAINTAINERS net scripts tools block CREDITS drivers include Kbuild lib Makefile README security usr certs crypto firmware init Kconfig LICENSES mm samples sound virt  Ejecutaremos el comando make oldconfig para generar el fichero .</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/kernel/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cluster_kubernetes/">Despliegue de un cluster de kubernetes</a></h4>
-								<h4 class="post-date">2021-05-27</h4>
-							</div>
-							<div class="post-summary"><p>Crearemos 3 máquinas Vagrant que nos servirán, una de controlador y las otras dos de workers.
- En la máquina que usaremos como controlador descargaremos e instalaremos usando curl el script que instalará el servicio de k3.
-root@servidor:/usr/local/bin# curl -sfL https://get.k3s.io | sh -  Podemos comprobar mediante netstat que se ha abierto un puerto 6443 que es el que usa k3s por defecto.
-root@servidor:/usr/local/bin# netstat -tlnp | egrep '6443' tcp6 0 0 :::6443 :::* LISTEN 1577/k3s server  Vamos a listar todos los nodos que tenemos, así comprobaremos que la instalación se ha realizado correctamente.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/cluster_kubernetes/">Read More</a>
 							</div>
 						</div>
 					</li>

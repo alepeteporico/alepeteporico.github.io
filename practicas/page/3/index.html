@@ -103,6 +103,21 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/despliegue_python/">Despliegue de una aplicación python</a></h4>
+								<h4 class="post-date">2021-04-26</h4>
+							</div>
+							<div class="post-summary"><p>Vamos a desarrollar la aplicación del tutorial de django 3.1. Vamos a configurar tu equipo como entorno de desarrollo para trabajar con la aplicación.  Realizamos un fork de la aplicación añadiendola a nuestros repositorios y seguidamente lo clonaremos en nuestra maquina:
+alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python$ git clone git@github.com:alepeteporico/django_tutorial.git  Crearemos el entorno virtual donde instalaremos las dependencias necesarias para hacer funcionar nuestra aplicación.
+alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ python3 -m venv django (django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ pip install -r despliegue_python/django_tutorial/requirements.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/despliegue_python/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/apache_htaccess/">Configuración de apache mediante archivo .htaccess </a></h4>
 								<h4 class="post-date">2021-04-24</h4>
 							</div>
@@ -221,22 +236,6 @@ Nuestro siguiente paso será deshabilitar los puertos de Dulcinea que será la m
 Ahora listaremos las interfaces que tenemos en nuestro proyecto</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/escenearioos/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/server_web_bbdd_dns/">DNS, servidor web y base de datos</a></h4>
-								<h4 class="post-date">2021-03-16</h4>
-							</div>
-							<div class="post-summary"><p>Servidor DNS El servidor DNS estará instalado en freston, por ello instalaremos bind en esta máquina
- root@freston:~# apt install bind9  Configuramos el fichero &ldquo;/etc/bind/named.conf.options&rdquo; y añadimos las siguientes líneas:
-listen-on { any }; allow-transfer { none }; recursion yes; allow-recursion { any; };  Configuramos el DNS local, la DMZ y externa en el fichero de configuración /etc/bind/named.conf.local:
- view interna { match-clients { 10.0.1.0/24; localhost; }; zone &quot;alegv.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/server_web_bbdd_dns/">Read More</a>
 							</div>
 						</div>
 					</li>

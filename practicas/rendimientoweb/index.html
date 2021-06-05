@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Aumento de rendimiento de servidores web von Varnish &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.54.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://alepeteporico.github.io/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/practicas/rendimientoweb/">Aumento de rendimiento de servidores web von Varnish</a></h1>
+                <span class="post-date">2021-06-05 </span>
+                <div class="post-content">
+                    
+
+<ul>
+<li><p>Instalamos ansible</p>
+
+<pre><code>alejandrogv@AlejandroGV:~$ sudo apt install ansible
+</code></pre></li>
+
+<li><p>Ahora clonaremos el repositorio correspondiente con la receta.</p>
+
+<pre><code>alejandrogv@AlejandroGV:~$ git clone https://github.com/josedom24/ansible_nginx_fpm_php.git
+</code></pre></li>
+
+<li><p>En el interior del respositorio editaremos el fichero hosts añadiendo la dirección de la máquina que usaremos para las pruebas.</p>
+
+<pre><code>[servidores_web]
+nodo1 ansible_ssh_host=172.22.100.15 ansible_python_interpreter=/usr/bin/python3
+</code></pre></li>
+
+<li><p>Ejecutamos la funcionalidad playbook de ansible para que se realicen las modificaciones necesarias que usaremos en la máquina de prueba.</p></li>
+</ul>
+
+<p>alejandrogv@AlejandroGV:~/ansible_nginx_fpm_php$ ansible-playbook site.yaml</p>
+
+<pre><code>    PLAY [servidores_web] ***********************************************************************************
+
+    TASK [Gathering Facts] **********************************************************************************
+    ok: [nodo1]
+
+    TASK [nginx : install nginx, php-fpm] *******************************************************************
+    changed: [nodo1]
+
+    TASK [nginx : Copy info.php] ****************************************************************************
+    changed: [nodo1]
+
+    TASK [nginx : Copy virtualhost default] *****************************************************************
+    changed: [nodo1]
+
+    RUNNING HANDLER [nginx : restart nginx] *****************************************************************
+    changed: [nodo1]
+
+    PLAY [servidores_web] ***********************************************************************************
+
+    TASK [Gathering Facts] **********************************************************************************
+    ok: [nodo1]
+
+    TASK [mariadb : ensure mariadb is installed] ************************************************************
+    changed: [nodo1]
+
+    TASK [mariadb : ensure mariadb binds to internal interface] *********************************************
+    changed: [nodo1]
+
+    RUNNING HANDLER [mariadb : restart mariadb] *************************************************************
+    changed: [nodo1]
+
+    PLAY [servidores_web] ***********************************************************************************
+
+    TASK [Gathering Facts] **********************************************************************************
+    ok: [nodo1]
+
+    TASK [wordpress : install unzip] ************************************************************************
+    changed: [nodo1]
+
+    TASK [wordpress : download wordpress] *******************************************************************
+    changed: [nodo1]
+
+    TASK [wordpress : unzip wordpress] **********************************************************************
+    changed: [nodo1]
+
+    TASK [wordpress : create database wordpress] ************************************************************
+    changed: [nodo1]
+
+    TASK [wordpress : create user mysql wordpress] **********************************************************
+    changed: [nodo1] =&gt; (item=localhost)
+
+    TASK [wordpress : copy wp-config.php] *******************************************************************
+    changed: [nodo1]
+
+    RUNNING HANDLER [wordpress : restart nginx] *************************************************************
+    changed: [nodo1]
+
+    PLAY RECAP **********************************************************************************************
+    nodo1                      : ok=17   changed=14   unreachable=0    failed=0  
+</code></pre>
+
+<ul>
+<li>Accedemos a la página y vemos que ya tenemos nuestro wordpress que solamente deberemos configurar.</li>
+</ul>
+
+<p><img src="/varnish/1.png" alt="volumen" /></p>
+
+<ul>
+<li><p>En la máquina de pruebas instalaremos la siguiente utilidad de apache</p>
+
+<pre><code>vagrant@varnish:~$ sudo apt install apache2-utils 
+</code></pre></li>
+
+<li><p>Vamos a realizar algunas pruebas de rendimiento, cambiando el nivel de concurrencia en cada una para testear el número de peticiones que puede realizar por segundo.</p>
+
+<pre><code>vagrant@varnish:~$ ab -t 10 -c 50 -k http://127.0.0.1/wordpress/index.php
+This is ApacheBench, Version 2.3 &lt;$Revision: 1843412 $&gt;
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking 127.0.0.1 (be patient)
+Finished 1257 requests
+
+
+Server Software:        nginx/1.14.2
+Server Hostname:        127.0.0.1
+Server Port:            80
+
+Document Path:          /wordpress/index.php
+Document Length:        0 bytes
+
+Concurrency Level:      50
+Time taken for tests:   10.004 seconds
+Complete requests:      1257
+Failed requests:        0
+Non-2xx responses:      1257
+Keep-Alive requests:    0
+Total transferred:      272769 bytes
+HTML transferred:       0 bytes
+Requests per second:    125.65 [#/sec] (mean)
+Time per request:       397.917 [ms] (mean)
+Time per request:       7.958 [ms] (mean, across all concurrent requests)
+Transfer rate:          26.63 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.4      0       2
+Processing:    21  389  48.4    393     501
+Waiting:       21  389  48.4    393     501
+Total:         23  390  48.1    393     501
+
+Percentage of the requests served within a certain time (ms)
+  50%    393
+  66%    400
+  75%    405
+  80%    408
+  90%    417
+  95%    437
+  98%    478
+  99%    487
+ 100%    501 (longest request)
+</code></pre></li>
+</ul>
+
+<hr />
+
+<pre><code>    vagrant@varnish:~$ sudo systemctl restart nginx.service 
+    vagrant@varnish:~$ ab -t 10 -c 100 -k http://127.0.0.1/wordpress/index.php
+    This is ApacheBench, Version 2.3 &lt;$Revision: 1843412 $&gt;
+    Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+    Licensed to The Apache Software Foundation, http://www.apache.org/
+
+    Benchmarking 127.0.0.1 (be patient)
+    Finished 1343 requests
+
+
+    Server Software:        nginx/1.14.2
+    Server Hostname:        127.0.0.1
+    Server Port:            80
+
+    Document Path:          /wordpress/index.php
+    Document Length:        0 bytes
+
+    Concurrency Level:      100
+    Time taken for tests:   10.005 seconds
+    Complete requests:      1343
+    Failed requests:        0
+    Non-2xx responses:      1343
+    Keep-Alive requests:    0
+    Total transferred:      291431 bytes
+    HTML transferred:       0 bytes
+    Requests per second:    134.23 [#/sec] (mean)
+    Time per request:       744.972 [ms] (mean)
+    Time per request:       7.450 [ms] (mean, across all concurrent requests)
+    Transfer rate:          28.45 [Kbytes/sec] received
+
+    Connection Times (ms)
+                  min  mean[+/-sd] median   max
+    Connect:        0    0   0.5      0       3
+    Processing:    19  716 111.3    741     787
+    Waiting:       16  716 111.3    741     787
+    Total:         19  716 110.8    741     787
+
+    Percentage of the requests served within a certain time (ms)
+      50%    741
+      66%    746
+      75%    749
+      80%    751
+      90%    756
+      95%    759
+      98%    764
+      99%    766
+     100%    787 (longest request)
+</code></pre>
+
+<hr />
+
+<pre><code>    vagrant@varnish:~$ sudo systemctl restart nginx.service 
+    vagrant@varnish:~$ ab -t 10 -c 250 -k http://127.0.0.1/wordpress/index.php
+    This is ApacheBench, Version 2.3 &lt;$Revision: 1843412 $&gt;
+    Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+    Licensed to The Apache Software Foundation, http://www.apache.org/
+
+    Benchmarking 127.0.0.1 (be patient)
+    Completed 5000 requests
+    Completed 10000 requests
+    Completed 15000 requests
+    Completed 20000 requests
+    Completed 25000 requests
+    Completed 30000 requests
+    Completed 35000 requests
+    Completed 40000 requests
+    Completed 45000 requests
+    Completed 50000 requests
+    Finished 50000 requests
+
+
+    Server Software:        nginx/1.14.2
+    Server Hostname:        127.0.0.1
+    Server Port:            80
+
+    Document Path:          /wordpress/index.php
+    Document Length:        0 bytes
+
+    Concurrency Level:      250
+    Time taken for tests:   4.719 seconds
+    Complete requests:      50000
+    Failed requests:        49580
+       (Connect: 0, Receive: 0, Length: 49580, Exceptions: 0)
+    Non-2xx responses:      50000
+    Keep-Alive requests:    49254
+    Total transferred:      16450910 bytes
+    HTML transferred:       8577340 bytes
+    Requests per second:    10594.75 [#/sec] (mean)
+    Time per request:       23.597 [ms] (mean)
+    Time per request:       0.094 [ms] (mean, across all concurrent requests)
+    Transfer rate:          3404.17 [Kbytes/sec] received
+
+    Connection Times (ms)
+                  min  mean[+/-sd] median   max
+    Connect:        0    0   1.5      0      25
+    Processing:     0   20 128.8      8    1960
+    Waiting:        0   20 128.8      8    1960
+    Total:          0   20 129.3      8    1972
+
+    Percentage of the requests served within a certain time (ms)
+      50%      8
+      66%     10
+      75%     12
+      80%     13
+      90%     18
+      95%     23
+      98%     29
+      99%     56
+     100%   1972 (longest request)
+</code></pre>
+
+<hr />
+
+<pre><code>    vagrant@varnish:~$ sudo systemctl restart nginx.service 
+    vagrant@varnish:~$ ab -t 10 -c 500 -k http://127.0.0.1/wordpress/index.php
+    This is ApacheBench, Version 2.3 &lt;$Revision: 1843412 $&gt;
+    Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+    Licensed to The Apache Software Foundation, http://www.apache.org/
+
+    Benchmarking 127.0.0.1 (be patient)
+    Completed 5000 requests
+    Completed 10000 requests
+    Completed 15000 requests
+    Completed 20000 requests
+    Completed 25000 requests
+    Completed 30000 requests
+    Completed 35000 requests
+    Completed 40000 requests
+    Completed 45000 requests
+    Completed 50000 requests
+    Finished 50000 requests
+
+
+    Server Software:        nginx/1.14.2
+    Server Hostname:        127.0.0.1
+    Server Port:            80
+
+    Document Path:          /wordpress/index.php
+    Document Length:        0 bytes
+
+    Concurrency Level:      500
+    Time taken for tests:   3.798 seconds
+    Complete requests:      50000
+    Failed requests:        49709
+       (Connect: 0, Receive: 0, Length: 49709, Exceptions: 0)
+    Non-2xx responses:      50000
+    Keep-Alive requests:    49494
+    Total transferred:      16466042 bytes
+    HTML transferred:       8599657 bytes
+    Requests per second:    13163.55 [#/sec] (mean)
+    Time per request:       37.984 [ms] (mean)
+    Time per request:       0.076 [ms] (mean, across all concurrent requests)
+    Transfer rate:          4233.43 [Kbytes/sec] received
+
+    Connection Times (ms)
+                  min  mean[+/-sd] median   max
+    Connect:        0    0   2.7      0      32
+    Processing:     0   29 124.8      8    2497
+    Waiting:        0   29 124.7      8    2494
+    Total:          0   29 125.6      8    2497
+
+    Percentage of the requests served within a certain time (ms)
+      50%      8
+      66%     34
+      75%     40
+      80%     43
+      90%     51
+      95%     57
+      98%     66
+      99%     76
+     100%   2497 (longest request)
+</code></pre>
+
+<hr />
+
+<h4 id="50">50</h4>
+
+<p>125.65 <a href="mean">#/sec</a></p>
+
+<h4 id="100">100</h4>
+
+<p>134.23 <a href="mean">#/sec</a></p>
+
+<h4 id="250">250</h4>
+
+<p>10594.75 <a href="mean">#/sec</a></p>
+
+<h4 id="500">500</h4>
+
+<p>13163.55 <a href="mean">#/sec</a></p>
+
+<ul>
+<li><p>Nuestro siguiente paso será configurar varnish, un proxy inverso que escucha por el puerto 80 y se comunicará por el puerto 8080 con el servidor web.</p>
+
+<pre><code>vagrant@varnish:~$ sudo apt install varnish
+</code></pre></li>
+
+<li><p>Debemos configurar el fichero <code>/etc/nginx/sites-available/default</code> para que escuche por el puerto 8080.</p>
+
+<pre><code>server {
+        listen 8080 default_server;
+        listen [::]:8080 default_server;
+</code></pre></li>
+
+<li><p>Nos dirigimos a los ficheros de configuración necesarios para que varnish escuche por el puerto 80 y redirija el tráfico por el puerto 8080.</p></li>
+</ul>
+
+<h4 id="etc-varnish-default-vcl">/etc/varnish/default.vcl</h4>
+
+<pre><code>    backend default {
+        .host = &quot;127.0.0.1&quot;;
+        .port = &quot;8080&quot;;
+    }
+</code></pre>
+
+<hr />
+
+<h4 id="etc-default-varnish">/etc/default/varnish</h4>
+
+<pre><code>    DAEMON_OPTS=&quot;-a :80 \
+                 -T localhost:6082 \
+                 -f /etc/varnish/default.vcl \
+                 -S /etc/varnish/secret \
+                 -s malloc,256m&quot;
+</code></pre>
+
+<h4 id="lib-systemd-system-varnish-service">/lib/systemd/system/varnish.service</h4>
+
+<pre><code>    ExecStart=/usr/sbin/varnishd -j unix,user=vcache -F -a :80 -T localhost:6082 -f /etc/varnish/default.vcl -S /etc/varnish/secret -s malloc,256m
+</code></pre>
+
+<ul>
+<li><p>Vamos a realizar las mismas pruebas que realizamos anteriormente.</p>
+
+<pre><code>vagrant@varnish:~$ ab -t 10 -c 50 -k http://127.0.0.1/
+Requests per second:    26343.35 [#/sec] (mean)
+
+vagrant@varnish:~$ ab -t 10 -c 100 -k http://127.0.0.1/
+Requests per second:    25893.24 [#/sec] (mean)
+
+vagrant@varnish:~$ ab -t 10 -c 250 -k http://127.0.0.1/
+Requests per second:    22141.36 [#/sec] (mean)
+
+vagrant@varnish:~$ ab -t 10 -c 500 -k http://127.0.0.1/
+Requests per second:    25532.39 [#/sec] (mean)
+</code></pre></li>
+
+<li><p>Comprobamos que ahora se hacen muchas más peticiones gracias a nuestro proxy inverso.</p></li>
+</ul>
+
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2021 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>

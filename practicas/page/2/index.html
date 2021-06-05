@@ -103,6 +103,22 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cluster_kubernetes/">Despliegue de un cluster de kubernetes</a></h4>
+								<h4 class="post-date">2021-05-27</h4>
+							</div>
+							<div class="post-summary"><p>Crearemos 3 máquinas Vagrant que nos servirán, una de controlador y las otras dos de workers.
+ En la máquina que usaremos como controlador descargaremos e instalaremos usando curl el script que instalará el servicio de k3.
+root@servidor:/usr/local/bin# curl -sfL https://get.k3s.io | sh -  Podemos comprobar mediante netstat que se ha abierto un puerto 6443 que es el que usa k3s por defecto.
+root@servidor:/usr/local/bin# netstat -tlnp | egrep '6443' tcp6 0 0 :::6443 :::* LISTEN 1577/k3s server  Vamos a listar todos los nodos que tenemos, así comprobaremos que la instalación se ha realizado correctamente.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/cluster_kubernetes/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/https_openstack/">OpenStack: Configuración HTTPS</a></h4>
 								<h4 class="post-date">2021-05-27</h4>
 							</div>
@@ -229,21 +245,6 @@ vagrant@cmsjava:~$ tar -zxf guacamole-server-1.2.0.tar.gz vagrant@cmsjava:~$ ls 
 vagrant@cmsjava:~/guacamole-server-1.2.0$ .</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/cms_java/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/despliegue_python/">Despliegue de una aplicación python</a></h4>
-								<h4 class="post-date">2021-04-26</h4>
-							</div>
-							<div class="post-summary"><p>Vamos a desarrollar la aplicación del tutorial de django 3.1. Vamos a configurar tu equipo como entorno de desarrollo para trabajar con la aplicación.  Realizamos un fork de la aplicación añadiendola a nuestros repositorios y seguidamente lo clonaremos en nuestra maquina:
-alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python$ git clone git@github.com:alepeteporico/django_tutorial.git  Crearemos el entorno virtual donde instalaremos las dependencias necesarias para hacer funcionar nuestra aplicación.
-alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ python3 -m venv django (django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ pip install -r despliegue_python/django_tutorial/requirements.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/despliegue_python/">Read More</a>
 							</div>
 						</div>
 					</li>
