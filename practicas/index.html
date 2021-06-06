@@ -103,6 +103,21 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/proxy/">Proxy, proxy inverso y balanceadores de carga</a></h4>
+								<h4 class="post-date">2021-06-06</h4>
+							</div>
+							<div class="post-summary"><p>Primero usaremos squid para instalar un proxy.
+vagrant@proxy:~$ sudo apt install squid  Modificamos el fichero /etc/squid/squid.conf para definir las direcciones y puertos que permitiremos y el puerto de funcionamiento.
+acl localnet src 10.0.0.0/24 acl localnet src 172.22.100.0/24 acl SSL_ports port 443 acl Safe_ports port 80 # http acl Safe_ports port 21 # ftp acl Safe_ports port 443 # https acl CONNECT method CONNECT # Deny requests to certain unsafe ports http_access deny !</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/proxy/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/rendimientoweb/">Aumento de rendimiento de servidores web von Varnish</a></h4>
 								<h4 class="post-date">2021-06-05</h4>
 							</div>
@@ -231,23 +246,6 @@ debian@nginx:~$ sudo apt install nginx  Comprobamos que podemos acceder perfecta
 alejandrogv@AlejandroGV:~/Descargas$ gpg --verify firma2.pdf.gpg gpg: Firmado el jue 22 oct 2020 12:11:31 CEST gpg: usando RSA clave 28ED3C3112ED8846BEDFFAF657112B319F2A6170 gpg: emisor &quot;frandh1997@gmail.com&quot; gpg: Firma correcta de &quot;Francisco Javier Madueño Jurado &lt;frandh1997@gmail.com&gt;&quot; [desconocido] gpg: ATENCIÓN: ¡Esta clave no está certificada por una firma de confianza! gpg: No hay indicios de que la firma pertenezca al propietario.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/firmas/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/kernel/">Compilación de un kérnel linux a medida</a></h4>
-								<h4 class="post-date">2021-05-28</h4>
-							</div>
-							<div class="post-summary"><p>Vamos a necesitar instalar cierta paquetería como vemos a continuación.
-alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ sudo apt install build-essential qtbase5-dev  Necesitamos saber que versión del kernel estamos usando.
-alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ uname -r 4.19.0-16-amd64  Descargaremos la versión de nuestro kernel desde la página oficial
-alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ wget https://mirrors.edge.kernel.org/pub/linux/kernel/v4.x/linux-4.19.16.tar.gz alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ ls linux-4.19.16.tar.gz  Descomprimos este archivo y el resultado será una carpeta con muchisima información.
-alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ tar xzvf linux-4.19.16.tar.gz alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ cd linux-4.19.16/ alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel/linux-4.19.16$ ls arch COPYING Documentation fs ipc kernel MAINTAINERS net scripts tools block CREDITS drivers include Kbuild lib Makefile README security usr certs crypto firmware init Kconfig LICENSES mm samples sound virt  Ejecutaremos el comando make oldconfig para generar el fichero .</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/kernel/">Read More</a>
 							</div>
 						</div>
 					</li>
