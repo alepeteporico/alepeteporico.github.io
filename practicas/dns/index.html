@@ -490,24 +490,6 @@ ns4.cdmondns-01.org.    86141   IN  A   52.58.66.183
 
 <h3 id="dns-esclavo">DNS esclavo</h3>
 
-<h4 id="realiza-la-instalación-del-servidor-dns-esclavo-documenta-los-siguientes-apartados">Realiza la instalación del servidor DNS esclavo. Documenta los siguientes apartados:</h4>
-
-<ol>
-<li><strong>Entrega la configuración de las zonas del maestro y del esclavo.</strong></li>
-<li><strong>Comprueba si las zonas definidas en el maestro tienen algún error con el comando adecuado.</strong></li>
-<li><strong>Comprueba si la configuración de named.conf tiene algún error con el comando adecuado.</strong></li>
-<li><strong>Reinicia los servidores y comprueba en los logs si hay algún error. No olvides incrementar el número de serie en el registro SOA si has modificado la zona en el maestro.</strong></li>
-<li><strong>Muestra la salida del log donde se demuestra que se ha realizado la transferencia de zona.</strong></li>
-</ol>
-
-<h4 id="documenta-los-siguientes-apartados">Documenta los siguientes apartados:</h4>
-
-<ol>
-<li><strong>Configura un cliente para que utilice los dos servidores como servidores DNS.</strong></li>
-<li><strong>Realiza una consulta con dig tanto al maestro como al esclavo para comprobar que las respuestas son autorizadas. ¿En qué te tienes que fijar?</strong></li>
-<li><strong>Solicita una copia completa de la zona desde el cliente ¿qué tiene que ocurrir?. Solicita una copia completa desde el esclavo ¿qué tiene que ocurrir?</strong></li>
-</ol>
-
 <ul>
 <li><p>En nuestro <code>/etc/bind/named.conf.options</code> del nuestro servidor maestro añadimos la siguientes líneas apuntando al que será el DNS secundario.</p>
 
