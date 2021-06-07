@@ -488,6 +488,106 @@ ns4.cdmondns-01.org.    86141   IN  A   52.58.66.183
 </code></pre></li>
 </ul>
 
+<h3 id="dns-esclavo">DNS esclavo</h3>
+
+<h4 id="realiza-la-instalación-del-servidor-dns-esclavo-documenta-los-siguientes-apartados">Realiza la instalación del servidor DNS esclavo. Documenta los siguientes apartados:</h4>
+
+<ol>
+<li><strong>Entrega la configuración de las zonas del maestro y del esclavo.</strong></li>
+<li><strong>Comprueba si las zonas definidas en el maestro tienen algún error con el comando adecuado.</strong></li>
+<li><strong>Comprueba si la configuración de named.conf tiene algún error con el comando adecuado.</strong></li>
+<li><strong>Reinicia los servidores y comprueba en los logs si hay algún error. No olvides incrementar el número de serie en el registro SOA si has modificado la zona en el maestro.</strong></li>
+<li><strong>Muestra la salida del log donde se demuestra que se ha realizado la transferencia de zona.</strong></li>
+</ol>
+
+<h4 id="documenta-los-siguientes-apartados">Documenta los siguientes apartados:</h4>
+
+<ol>
+<li><strong>Configura un cliente para que utilice los dos servidores como servidores DNS.</strong></li>
+<li><strong>Realiza una consulta con dig tanto al maestro como al esclavo para comprobar que las respuestas son autorizadas. ¿En qué te tienes que fijar?</strong></li>
+<li><strong>Solicita una copia completa de la zona desde el cliente ¿qué tiene que ocurrir?. Solicita una copia completa desde el esclavo ¿qué tiene que ocurrir?</strong></li>
+</ol>
+
+<ul>
+<li><p>En nuestro <code>/etc/bind/named.conf.options</code> del nuestro servidor maestro añadimos la siguientes líneas apuntando al que será el DNS secundario.</p>
+
+<pre><code>        allow-transfer { 172.22.100.15; };
+        notify yes;
+</code></pre></li>
+
+<li><p>Y en nuestro ficheros <code>db.iesgn.org</code> y <code>db.100.22.172</code> añadimos también el DNS secundario.</p>
+
+<pre><code>secundario      IN      A       172.22.100.15
+</code></pre></li>
+
+<li><p>En la máquina que servira como DNS secundario instalaremos bind9.</p>
+
+<pre><code>vagrant@dnsesclavo:~$ sudo apt install bind9
+</code></pre></li>
+
+<li><p>Añadimos esto a <code>named.conf.options</code></p>
+
+<pre><code>allow-transfer { none; };
+</code></pre></li>
+
+<li><p>Y definimos las zonas que están en el servidor primario en el fichero <code>named.conf.local</code></p>
+
+<pre><code>zone &quot;iesgn.org&quot; {
+        type slave;
+        file &quot;db.iesgn.org&quot;;
+        masters { 172.22.100.10; };
+};
+
+zone &quot;100.22.172.in-addr.arpa&quot; {
+        type slave;
+        file &quot;db.100.22.172&quot;;
+        masters { 172.22.100.10; };
+};
+</code></pre></li>
+
+<li><p>Configuraremos el cliente para que use los dos servidores modificando su <code>/etc/resolv.conf</code></p>
+
+<pre><code>nameserver 172.22.100.10
+nameserver 172.22.100.15
+</code></pre></li>
+
+<li><p>Comprobamos que podemos hacer una consulta a traves del DNS secundario.</p>
+
+<pre><code>vagrant@cliente:~$ dig @172.22.100.15 ftp.iesgn.org
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u5-Debian &lt;&lt;&gt;&gt; @172.22.100.15 ftp.iesgn.org
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 56695
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 2, ADDITIONAL: 3
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: 6ec8f9bfe693967950f7ab1d60bdf891fda2bd761dee9b9b (good)
+;; QUESTION SECTION:
+;ftp.iesgn.org.         IN  A
+
+;; ANSWER SECTION:
+ftp.iesgn.org.      86400   IN  A   172.22.100.201
+
+;; AUTHORITY SECTION:
+iesgn.org.      86400   IN  NS  secundario.iesgn.org.
+iesgn.org.      86400   IN  NS  alegv.iesgn.org.
+
+;; ADDITIONAL SECTION:
+alegv.iesgn.org.    86400   IN  A   172.22.100.10
+secundario.iesgn.org.   86400   IN  A   172.22.100.15
+
+;; Query time: 0 msec
+;; SERVER: 172.22.100.15#53(172.22.100.15)
+;; WHEN: Mon Jun 07 10:44:33 UTC 2021
+;; MSG SIZE  rcvd: 163
+</code></pre></li>
+</ul>
+
+<hr />
+
 <h3 id="delegación-de-dominios">Delegación de dominios.</h3>
 
 <h4 id="realiza-la-instalación-y-configuración-del-nuevo-servidor-dns-con-las-características-anteriormente-señaladas-muestra-el-resultado-al-profesor">Realiza la instalación y configuración del nuevo servidor dns con las características anteriormente señaladas. Muestra el resultado al profesor.</h4>
