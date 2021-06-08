@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Implantación de aplicaciones web PHP en docker &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.54.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://alepeteporico.github.io/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/practicas/php_docker/">Implantación de aplicaciones web PHP en docker</a></h1>
+                <span class="post-date">2021-06-07 </span>
+                <div class="post-content">
+                    <ul>
+<li><p>Vamos a clonar el repositorio necesario para la aplicación.</p>
+
+<pre><code>alejandrogv@AlejandroGV:~/docker/php$ git clone https://github.com/evilnapsis/bookmedik.git
+</code></pre></li>
+
+<li><p>Crearemos un repositorio con la siguiente estructura.</p>
+
+<pre><code>alejandrogv@AlejandroGV:~/docker/php/php_docker$ tree
+.
+├── build
+│   ├── bookmedik
+│   ├── Dockerfile
+│   └── script.sh
+├── deploy
+│   └── docker-compose.yml
+└── README.md
+</code></pre></li>
+
+<li><p>En el fichero docker-compose añadimos lo siguiente.</p>
+
+<pre><code>version: &quot;3.1&quot;
+
+services:
+  db:
+    container_name: mysql
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_DATABASE: bookmedik
+      MYSQL_USER: bookmedik
+      MYSQL_PASSWORD: admin    
+      MYSQL_ROOT_PASSWORD: admin
+    volumes:
+      - /opt/mysql_wp:/var/lib/mysql
+</code></pre></li>
+
+<li><p>Vamos a levantarlo.</p>
+
+<pre><code>alejandrogv@AlejandroGV:~/docker/php/php_docker/deploy$ sudo docker-compose up -d
+Creating network &quot;deploy_default&quot; with the default driver
+Creating mysql ... done
+</code></pre></li>
+
+<li><p>Dentro del primer repositorio que clonamos tenemos un fichero llamado <code>schema.sql</code> debemos acceder y comentar la siguiente línea.</p>
+
+<pre><code>#create database bookmedik;
+</code></pre></li>
+
+<li><p>Cargaremos el contenido de este fichero en nuestra base de datos.</p>
+
+<pre><code>root@AlejandroGV:/home/alejandrogv/docker/php/bookmedik# cat schema.sql | docker exec -i mysql /usr/bin/mysql -u root --password=admin bookmedik
+</code></pre></li>
+
+<li><p>Vamos a configurar un fichero <code>script.sh</code> que estará localizado en <code>/usr/local/bin</code></p>
+
+<pre><code>#!/bin/bash
+
+sed -i &quot;s/$this-&gt;user=\&quot;root\&quot;;/$this-&gt;user=\&quot;$DATABASE_USER\&quot;;/g&quot; /var/www/html/core/controller/Database.php
+sed -i &quot;s/$this-&gt;pass=\&quot;\&quot;;/$this-&gt;pass=\&quot;$DATABASE_PASSWORD\&quot;;/g&quot; /var/www/html/core/controller/Database.php
+sed -i &quot;s/$this-&gt;host=\&quot;localhost\&quot;;/$this-&gt;host=\&quot;$DATABASE_HOST\&quot;;/g&quot; /var/www/html/core/controller/Database.php
+apache2ctl -D FOREGROUND
+</code></pre></li>
+
+<li><p>Vamos a configurar el Dockerfile.</p>
+
+<pre><code>FROM debian
+MAINTAINER Ale Gutierrez &quot;tojandro@gmail.com&quot;
+
+RUN apt-get update &amp;&amp; apt-get install -y apache2 \
+libapache2-mod-php7.3 \
+php7.3 \
+php7.3-mysql \
+&amp;&amp; apt-get clean \
+&amp;&amp; rm -rf /var/lib/apt/lists/*
+
+EXPOSE 80
+
+RUN rm /var/www/html/index.html
+COPY bookmedik /var/www/html/
+ADD script.sh /usr/local/bin/
+
+RUN chmod +x /usr/local/bin/script.sh
+
+ENV DATABASE_USER bookmedik
+ENV DATABASE_PASSWORD admin    
+ENV DATABASE_HOST db
+
+CMD [&quot;script.sh&quot;]
+</code></pre></li>
+
+<li><p>Y a ejecutarlo.</p>
+
+<pre><code>root@AlejandroGV:/home/alejandrogv/docker/php# docker build -t alegv/book_debian .
+</code></pre></li>
+</ul>
+
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2021 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>

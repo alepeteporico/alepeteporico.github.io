@@ -6,10 +6,21 @@
     <description>Recent content in Abd on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 31 May 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 07 Jun 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://alepeteporico.github.io/tags/abd/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>COPIAS DE SEGURIDAD Y RECUPERACIÓN</title>
+      <link>https://alepeteporico.github.io/practicas/copiasbbdd/</link>
+      <pubDate>Mon, 07 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/copiasbbdd/</guid>
+      <description>Primero crearemos el directorio donde almacenaremos las copias.
+SQL&amp;gt; CREATE directory COPIA as &#39;/home/backups/&#39;; Directory created.  Comprobemos que se ha creado correctamente.
+SQL&amp;gt; select directory_name from dba_directories; DIRECTORY_NAME -------------------------------------------------------------------------------- COPIA SDO_DIR_WORK SDO_DIR_ADMIN XMLDIR XSDDIR OPATCH_INST_DIR ORACLE_OCM_CONFIG_DIR2 ORACLE_BASE ORACLE_HOME ORACLE_OCM_CONFIG_DIR DATA_PUMP_DIR DIRECTORY_NAME -------------------------------------------------------------------------------- OPATCH_SCRIPT_DIR OPATCH_LOG_DIR JAVA$JOX$CUJS$DIRECTORY$ 14 rows selected.    expdp ale/ale dumpfile=copia_oracleexport%U.dmp logfile=copia_oracle_export.log directory=CARPETA_EXPORT full=y filesize=100M</description>
+    </item>
     
     <item>
       <title>Auditoria</title>

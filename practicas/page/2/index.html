@@ -103,6 +103,50 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/ldap_openstack/">LDAP</a></h4>
+								<h4 class="post-date">2021-05-31</h4>
+							</div>
+							<div class="post-summary"><p>Para esta práctica vamos a usar las claves y certificados que generamos en la práctica de seguridad de https
+[root@quijote ~]# scp /etc/ssl/certs/gonzalonazareno.crt debian@10.0.1.9 [root@quijote ~]# scp /etc/ssl/certs/openstack.crt debian@10.0.1.9 [root@quijote ~]# scp /etc/ssl/private/openstack.key debian@10.0.1.9  Vamos a mover estos certificados a un sitio apropiado.
+debian@freston:~$ sudo mv gonzalonazareno.crt /etc/ssl/certs/ debian@freston:~$ sudo mv openstack.crt /etc/ssl/certs/ debian@freston:~$ sudo mv openstack.key /etc/ssl/private/  Vamos a crear unas acl para que el usuario openldap que es el encargado de ejecutar los servicios de sldap tenga permisos sobre estos certificados.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/ldap_openstack/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/nginx/">Servidor nginx</a></h4>
+								<h4 class="post-date">2021-05-31</h4>
+							</div>
+							<div class="post-summary"><p>Crea una máquina del cloud con una red pública. Añade la clave pública del profesor a la máquina. Instala el servidor web nginx en la máquina. Modifica la página index.html que viene por defecto y accede a ella desde un navegador.  La IP del servidor es la 172.22.201.5
+ Una vez añadida la clave pública del profesor instalamos el servidor web nginx.
+debian@nginx:~$ sudo apt install nginx  Comprobamos que podemos acceder perfectamente desde fuera.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/nginx/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/firmas/">Integridad, firmas y autentificación</a></h4>
+								<h4 class="post-date">2021-05-30</h4>
+							</div>
+							<div class="post-summary"><p>Tarea 1:  He enviado un archivo firmado a un compañero que dispone de mi clave pública, los dos hemos verificado la firma.
+alejandrogv@AlejandroGV:~/Descargas$ gpg --verify firma2.pdf.gpg gpg: Firmado el jue 22 oct 2020 12:11:31 CEST gpg: usando RSA clave 28ED3C3112ED8846BEDFFAF657112B319F2A6170 gpg: emisor &quot;frandh1997@gmail.com&quot; gpg: Firma correcta de &quot;Francisco Javier Madueño Jurado &lt;frandh1997@gmail.com&gt;&quot; [desconocido] gpg: ATENCIÓN: ¡Esta clave no está certificada por una firma de confianza! gpg: No hay indicios de que la firma pertenezca al propietario.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/firmas/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/kernel/">Compilación de un kérnel linux a medida</a></h4>
 								<h4 class="post-date">2021-05-28</h4>
 							</div>
@@ -200,51 +244,6 @@ debian@freston:~$ hostname -f freston.alegv.gonzalonazareno.org  Instalaremos el
 debian@freston:~$ sudo apt install slapd  Durante esta instalación tendremos que introducir una contraseña para el administrador.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/ldap/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/almacenamiento_bbdd/">Almacenamiento</a></h4>
-								<h4 class="post-date">2021-05-10</h4>
-							</div>
-							<div class="post-summary"><p>Muestra los objetos a los que pertenecen las extensiones del tablespace TS2 (creado por tí) y el tamaño de cada una de ellas. Tendrás que crear objetos en él previamente, claro.  Vamos a crear este Tablespace.
-SQL&gt; CREATE TABLESPACE TS2 2 DATAFILE '/home/oracle/ts2.dbf' 3 SIZE 200K 4 AUTOEXTEND ON 5 DEFAULT STORAGE ( 6 INITIAL 200K 7 NEXT 200K 8 MAXEXTENTS 3 9 PCTINCREASE 100); Tablespace created.  Vamos a crear una prueba para ver como funciona y añadamos contenido a ver como funciona.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/almacenamiento_bbdd/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/dns/">Servidor DNS</a></h4>
-								<h4 class="post-date">2021-05-10</h4>
-							</div>
-							<div class="post-summary"><p>En nuestra red local tenemos un servidor Web que sirve dos páginas web: www.iesgn.org, departamentos.iesgn.org
- Vamos a instalar en nuestra red local un servidor DNS (lo puedes instalar en el mismo equipo que tiene el servidor web)
- Voy a suponer en este documento que el nombre del servidor DNS va a ser pandora.iesgn.org. El nombre del servidor de tu prácticas será tunombre.iesgn.org.
-  DNSmasq Instala el servidor dns dnsmasq en pandora.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/dns/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/interconexion/">Interconexión de servidores de bases de datos</a></h4>
-								<h4 class="post-date">2021-05-05</h4>
-							</div>
-							<div class="post-summary"><p>Realizar un enlace entre dos servidores de bases de datos ORACLE, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.
- Realizar un enlace entre dos servidores de bases de datos Postgres, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.
- Realizar un enlace entre un servidor ORACLE y otro Postgres o MySQL empleando Heterogeneus Services, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/interconexion/">Read More</a>
 							</div>
 						</div>
 					</li>
