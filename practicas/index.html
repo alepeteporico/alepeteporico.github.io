@@ -140,7 +140,7 @@ nft chain inet filter input { policy drop \; } nft chain inet filter forward { p
 							<div class="post-summary"><p>Vamos a clonar el repositorio necesario para la aplicación.
 alejandrogv@AlejandroGV:~/docker/php$ git clone https://github.com/evilnapsis/bookmedik.git  Crearemos un repositorio con la siguiente estructura.
 alejandrogv@AlejandroGV:~/docker/php/php_docker$ tree . ├── build │ ├── bookmedik │ ├── Dockerfile │ └── script.sh ├── deploy │ └── docker-compose.yml └── README.md  En el fichero docker-compose añadimos lo siguiente.
-version: &quot;3.1&quot; services: db: container_name: mysql image: mariadb restart: always environment: MYSQL_DATABASE: bookmedik MYSQL_USER: bookmedik MYSQL_PASSWORD: admin MYSQL_ROOT_PASSWORD: admin volumes: - /opt/mysql_wp:/var/lib/mysql  Vamos a levantarlo.</p></div>
+version: &quot;3.1&quot; services: db: container_name: mysql image: mariadb restart: always environment: MYSQL_DATABASE: bookmedik MYSQL_USER: bookmedik MYSQL_PASSWORD: admin MYSQL_ROOT_PASSWORD: admin volumes: - /opt/mysql_wp:/var/lib/mysql  Y en la carpeta build crearemos un fichero Dockerfile que rellenaremos de la siguiente forma.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/php_docker/">Read More</a>
 							</div>

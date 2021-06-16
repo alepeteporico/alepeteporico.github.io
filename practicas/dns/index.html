@@ -646,7 +646,8 @@ allow-recursion { any; };
 
 listen-on { any; };
 
-allow-transfer { none; };
+allow-transfer { 172.22.100.15; };
+notify yes;
 </code></pre></li>
 
 <li><p>Ahora editaremos el fichero <code>/etc/bind/named.conf.local</code> dejandolo de la siguiente manera.</p>
@@ -664,6 +665,50 @@ zone &quot;100.22.172.in-addr.arpa&quot; {
         file &quot;db.200.22.172&quot;;
         masters { 172.22.100.10; };
 };
+</code></pre></li>
+
+<li><p>Añadiremos un nuevo registro ORIGIN para realizar la delegación de dominio.</p></li>
+
+<li><p>Vamos a añadir un nuevo registro. Para que surta efecto en el dns secundario deberemos cambiar también el valor del serial.</p>
+
+<pre><code>cosa    IN      A       172.22.100.24
+</code></pre></li>
+
+<li><p>Vamos a apagar el DNS primario y a preguntar sobre la nueva zona desde el cliente, comprobando que se ha realizado la delegación</p>
+
+<pre><code>$ORIGIN delegacion.iesgn.org.
+
+@       IN      NS      secundario
+secundario        IN      A       172.22.100.15
+</code></pre></li>
+
+<li><p>Nos dirigimos al DNS secundario y añadimos una nueva zona a nuestro named.conf.local.</p>
+
+<pre><code>zone &quot;delegacion.iesgn.org&quot; {
+        type master;
+        file &quot;db.delegacion.iesgn.org&quot;;
+};
+</code></pre></li>
+
+<li><p>Crearemos el fichero db.delegacion.iesgn.org</p>
+
+<pre><code>$TTL    86400
+@       IN      SOA     delegacion.delegacion.iesgn.org. admin.delegacion.iesgn.org. (
+                       20120401         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                          86400 )       ; Negative Cache TTL
+;
+@       IN      NS      secundario.delegacion.iesgn.org.
+@       IN      MX      10      correo.delegacion.iesgn.org.
+
+$ORIGIN delegacion.iesgn.org.
+
+secundario        IN      A       172.22.100.15
+correo  IN      A       172.22.100.200
+www     IN      A       172.22.100.201
+ftp     IN      CNAME   secundario
 </code></pre></li>
 </ul>
 
