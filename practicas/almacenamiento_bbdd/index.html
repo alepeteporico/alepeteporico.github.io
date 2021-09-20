@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 
 
@@ -96,549 +96,541 @@
                 <h1><a href="https://alepeteporico.github.io/practicas/almacenamiento_bbdd/">Almacenamiento</a></h1>
                 <span class="post-date">2021-05-10 </span>
                 <div class="post-content">
-                    
-
-<h3 id="muestra-los-objetos-a-los-que-pertenecen-las-extensiones-del-tablespace-ts2-creado-por-tí-y-el-tamaño-de-cada-una-de-ellas-tendrás-que-crear-objetos-en-él-previamente-claro">Muestra los objetos a los que pertenecen las extensiones del tablespace TS2 (creado por tí) y el tamaño de cada una de ellas. Tendrás que crear objetos en él previamente, claro.</h3>
-
+                    <h3 id="muestra-los-objetos-a-los-que-pertenecen-las-extensiones-del-tablespace-ts2-creado-por-tí-y-el-tamaño-de-cada-una-de-ellas-tendrás-que-crear-objetos-en-él-previamente-claro">Muestra los objetos a los que pertenecen las extensiones del tablespace TS2 (creado por tí) y el tamaño de cada una de ellas. Tendrás que crear objetos en él previamente, claro.</h3>
 <ul>
-<li><p>Vamos a crear este Tablespace.</p>
+<li>
+<p>Vamos a crear este Tablespace.</p>
+<pre><code>  SQL&gt; CREATE TABLESPACE TS2
+    2  DATAFILE '/home/oracle/ts2.dbf'
+    3  SIZE 200K
+    4  AUTOEXTEND ON
+    5  DEFAULT STORAGE (
+    6  INITIAL 200K
+    7  NEXT 200K
+    8  MAXEXTENTS 3
+    9  PCTINCREASE 100);
 
-<pre><code>SQL&gt; CREATE TABLESPACE TS2
-  2  DATAFILE '/home/oracle/ts2.dbf'
-  3  SIZE 200K
-  4  AUTOEXTEND ON
-  5  DEFAULT STORAGE (
-  6  INITIAL 200K
-  7  NEXT 200K
-  8  MAXEXTENTS 3
-  9  PCTINCREASE 100);
+  Tablespace created.
+</code></pre>
+</li>
+<li>
+<p>Vamos a crear una prueba para ver como funciona y añadamos contenido a ver como funciona.</p>
+<pre><code>  SQL&gt; CREATE TABLE prueba2 (
+    2  clave	VARCHAR(5),
+    3  otra_cosa	VARCHAR2(25)
+    4  )  TABLESPACE TS2;
 
-Tablespace created.
-</code></pre></li>
+  Table created.
 
-<li><p>Vamos a crear una prueba para ver como funciona y añadamos contenido a ver como funciona.</p>
+  SQL&gt; insert into prueba2 (clave,otra_cosa) values ('1234', 'esto es otra cosa');
 
-<pre><code>SQL&gt; CREATE TABLE prueba2 (
-  2  clave  VARCHAR(5),
-  3  otra_cosa  VARCHAR2(25)
-  4  )  TABLESPACE TS2;
+  1 row created.
 
-Table created.
+  SQL&gt; insert into prueba2 (clave,otra_cosa) values ('12345', 'mas cosas');           
 
-SQL&gt; insert into prueba2 (clave,otra_cosa) values ('1234', 'esto es otra cosa');
+  1 row created.
+</code></pre>
+</li>
+<li>
+<p>Ahora mediante las siguientes instrucciones comprobaremos el espacio libre que tenemos depués de añadir contenido.</p>
+<pre><code>  SQL&gt; SELECT TABLESPACE_NAME,TO_CHAR(SUM(NVL(BYTES,0))/1024/1024, '99,999,990.99') AS &quot;FREE SPACE(IN MB)&quot;
+    2  FROM USER_FREE_SPACE 
+    3  GROUP BY TABLESPACE_NAME;
 
-1 row created.
-
-SQL&gt; insert into prueba2 (clave,otra_cosa) values ('12345', 'mas cosas');           
-
-1 row created.
-</code></pre></li>
-
-<li><p>Ahora mediante las siguientes instrucciones comprobaremos el espacio libre que tenemos depués de añadir contenido.</p>
-
-<pre><code>SQL&gt; SELECT TABLESPACE_NAME,TO_CHAR(SUM(NVL(BYTES,0))/1024/1024, '99,999,990.99') AS &quot;FREE SPACE(IN MB)&quot;
-  2  FROM USER_FREE_SPACE 
-  3  GROUP BY TABLESPACE_NAME;
-
-TABLESPACE_NAME            FREE SPACE(IN
------------------------------- --------------
-SYSTEM                   9.50
-SYSAUX                  27.63
-UNDOTBS1                 3.00
-USERS                    1.94
-TS2                  0.06
-</code></pre></li>
+  TABLESPACE_NAME 	       FREE SPACE(IN
+  ------------------------------ --------------
+  SYSTEM					 9.50
+  SYSAUX					27.63
+  UNDOTBS1				 3.00
+  USERS					 1.94
+  TS2					 0.06
+</code></pre>
+</li>
 </ul>
-
 <h3 id="borra-la-tabla-que-está-llenando-ts2-consiguiendo-que-vuelvan-a-existir-extensiones-libres-añade-después-otro-fichero-de-datos-a-ts2">Borra la tabla que está llenando TS2 consiguiendo que vuelvan a existir extensiones libres. Añade después otro fichero de datos a TS2.</h3>
-
 <ul>
-<li><p>Borramos la tabla:</p>
+<li>
+<p>Borramos la tabla:</p>
+<pre><code>  SQL&gt; DROP TABLE prueba2;
 
-<pre><code>SQL&gt; DROP TABLE prueba2;
+  Table dropped.
+</code></pre>
+</li>
+<li>
+<p>Y volvemos a comprobar el espacio, si nos fijamos en TS2 se ha incrementado el espacio libre respecto a anteriormente.</p>
+<pre><code>  SQL&gt; SELECT TABLESPACE_NAME,TO_CHAR(SUM(NVL(BYTES,0))/1024/1024, '99,999,990.99') AS &quot;FREE SPACE(IN MB)&quot;
+    2  FROM USER_FREE_SPACE 
+    3  GROUP BY TABLESPACE_NAME;
 
-Table dropped.
-</code></pre></li>
+  TABLESPACE_NAME 	       FREE SPACE(IN
+  ------------------------------ --------------
+  SYSTEM					 9.50
+  SYSAUX					27.63
+  UNDOTBS1				 3.00
+  USERS					 1.94
+  TS2					 0.13
+</code></pre>
+</li>
+<li>
+<p>Vamos a añadir otro fichero de datos a nuestro tablespace.</p>
+<pre><code>  SQL&gt; alter tablespace TS2 add datafile '/home/oracle/nuevo.dbf' size 15M;
 
-<li><p>Y volvemos a comprobar el espacio, si nos fijamos en TS2 se ha incrementado el espacio libre respecto a anteriormente.</p>
+  Tablespace altered.
+</code></pre>
+</li>
+<li>
+<p>Y vamos a comprobar los ficheros que están en funcionamiento.</p>
+<pre><code>  SQL&gt; select file_name,tablespace_name
+    2  from dba_data_files
+    3  where tablespace_name='TS2';
 
-<pre><code>SQL&gt; SELECT TABLESPACE_NAME,TO_CHAR(SUM(NVL(BYTES,0))/1024/1024, '99,999,990.99') AS &quot;FREE SPACE(IN MB)&quot;
-  2  FROM USER_FREE_SPACE 
-  3  GROUP BY TABLESPACE_NAME;
+  FILE_NAME
+  --------------------------------------------------------------------------------
+  TABLESPACE_NAME
+  ------------------------------
+  /home/oracle/ts2.dbf
+  TS2
 
-TABLESPACE_NAME            FREE SPACE(IN
------------------------------- --------------
-SYSTEM                   9.50
-SYSAUX                  27.63
-UNDOTBS1                 3.00
-USERS                    1.94
-TS2                  0.13
-</code></pre></li>
-
-<li><p>Vamos a añadir otro fichero de datos a nuestro tablespace.</p>
-
-<pre><code>SQL&gt; alter tablespace TS2 add datafile '/home/oracle/nuevo.dbf' size 15M;
-
-Tablespace altered.
-</code></pre></li>
-
-<li><p>Y vamos a comprobar los ficheros que están en funcionamiento.</p>
-
-<pre><code>SQL&gt; select file_name,tablespace_name
-  2  from dba_data_files
-  3  where tablespace_name='TS2';
-
-FILE_NAME
---------------------------------------------------------------------------------
-TABLESPACE_NAME
-------------------------------
-/home/oracle/ts2.dbf
-TS2
-
-/home/oracle/nuevo.dbf
-TS2
-</code></pre></li>
+  /home/oracle/nuevo.dbf
+  TS2
+</code></pre>
+</li>
 </ul>
-
 <h3 id="crea-el-tablespace-ts3-gestionado-localmente-con-un-tamaño-de-extension-uniforme-de-128k-y-un-fichero-de-datos-asociado-cambia-la-ubicación-del-fichero-de-datos-y-modifica-la-base-de-datos-para-que-pueda-acceder-al-mismo-crea-en-ts3-dos-tablas-e-inserta-registros-en-las-mismas-comprueba-que-segmentos-tiene-ts3-qué-extensiones-tiene-cada-uno-de-ellos-y-en-qué-ficheros-se-encuentran">Crea el tablespace TS3 gestionado localmente con un tamaño de extension uniforme de 128K y un fichero de datos asociado. Cambia la ubicación del fichero de datos y modifica la base de datos para que pueda acceder al mismo. Crea en TS3 dos tablas e inserta registros en las mismas. Comprueba que segmentos tiene TS3, qué extensiones tiene cada uno de ellos y en qué ficheros se encuentran.</h3>
-
 <ul>
-<li><p>Vamos a crear este nuevo tablespace con el fichero que se nos especifica y la extensión uniforme.</p>
+<li>
+<p>Vamos a crear este nuevo tablespace con el fichero que se nos especifica y la extensión uniforme.</p>
+<pre><code>  SQL&gt; CREATE TABLESPACE TS3 DATAFILE '/home/oracle/ts3.dbf' SIZE 20M EXTENT MANAGEMENT LOCAL UNIFORM SIZE 128K;
 
-<pre><code>SQL&gt; CREATE TABLESPACE TS3 DATAFILE '/home/oracle/ts3.dbf' SIZE 20M EXTENT MANAGEMENT LOCAL UNIFORM SIZE 128K;
+  Tablespace created.
+</code></pre>
+</li>
+<li>
+<p>Si queremos modificar los archivos de este tablespace debemos apagarlo.</p>
+<pre><code>  SQL&gt; ALTER TABLESPACE TS3 OFFLINE;
 
-Tablespace created.
-</code></pre></li>
+  Tablespace altered.
+</code></pre>
+</li>
+<li>
+<p>Vamos a salir de oracle y modificar la ubicación de este fichero que estará en nuestro hombre como especificamos al crearlo.</p>
+<pre><code>  [oracle@oracle ~]$ mv ts3.dbf mod/
+</code></pre>
+</li>
+<li>
+<p>Volvemos a entrar en oracle y modificamos el tablespace para especificar la nueva ruta del arhivo.</p>
+<pre><code>  SQL&gt; alter tablespace TS3 rename datafile '/home/oracle/ts3.dbf' to '/home/oracle/mod/ts3.dbf';
+    
+  Tablespace altered.
+</code></pre>
+</li>
+<li>
+<p>Ahora si podemos activar nuestro tablespace y ver la ruta de nuestro fichero de datos.</p>
+<pre><code>  SQL&gt; ALTER TABLESPACE TS3 ONLINE;
+    
+  Tablespace altered.
+    
+  SQL&gt; select file_name,tablespace_name
+    2  from dba_data_files
+    3  where tablespace_name='TS3';
+    
+  FILE_NAME
+  --------------------------------------------------------------------------------
+  TABLESPACE_NAME
+  ------------------------------
+  /home/oracle/mod/ts3.dbf
+  TS3
+</code></pre>
+</li>
+<li>
+<p>Ahora crearemos contenido dentro de nuestro tablespace, en concreto dos tablas con contenido.</p>
+<pre><code>  SQL&gt; CREATE TABLE prueba3 (
+    2  clave	VARCHAR(5),
+    3  cosas	VARCHAR(10),
+    4  mascosas	VARCHAR(20)
+    5  ) TABLESPACE TS3;
 
-<li><p>Si queremos modificar los archivos de este tablespace debemos apagarlo.</p>
+  Table created.
 
-<pre><code>SQL&gt; ALTER TABLESPACE TS3 OFFLINE;
+  SQL&gt; CREATE TABLE prueba4 (
+    2  clave	VARCHAR(5),
+    3  cosas	VARCHAR(10),
+    4  mascosas	VARCHAR(20)
+    5  ) TABLESPACE TS3;
 
-Tablespace altered.
-</code></pre></li>
+  Table created.
 
-<li><p>Vamos a salir de oracle y modificar la ubicación de este fichero que estará en nuestro hombre como especificamos al crearlo.</p>
+  SQL&gt; insert into prueba4 values ('4','cuatro','four');
 
-<pre><code>[oracle@oracle ~]$ mv ts3.dbf mod/
-</code></pre></li>
+  1 row created.
 
-<li><p>Volvemos a entrar en oracle y modificamos el tablespace para especificar la nueva ruta del arhivo.</p>
+  SQL&gt; insert into prueba4 values ('6','seis','six');
 
-<pre><code>SQL&gt; alter tablespace TS3 rename datafile '/home/oracle/ts3.dbf' to '/home/oracle/mod/ts3.dbf';
+  1 row created.
 
-Tablespace altered.
-</code></pre></li>
+  SQL&gt; insert into prueba3 values ('3','quepasa','carapasa');
 
-<li><p>Ahora si podemos activar nuestro tablespace y ver la ruta de nuestro fichero de datos.</p>
+  1 row created.
 
-<pre><code>SQL&gt; ALTER TABLESPACE TS3 ONLINE;
+  SQL&gt; insert into prueba3 values ('2','jia','jau');
 
-Tablespace altered.
+  1 row created.
 
-SQL&gt; select file_name,tablespace_name
-  2  from dba_data_files
-  3  where tablespace_name='TS3';
+  SQL&gt; insert into prueba3 values ('1','hola','caracola');
 
-FILE_NAME
---------------------------------------------------------------------------------
-TABLESPACE_NAME
-------------------------------
-/home/oracle/mod/ts3.dbf
-TS3
-</code></pre></li>
+  1 row created.
+</code></pre>
+</li>
+<li>
+<p>Comprobamos los segmentos que tiene TS3, las extensiones y en que fichero se encuentran.</p>
+<pre><code>  SQL&gt; select de.segment_name,de.extent_id,df.file_name,de.file_id
+    2  from dba_data_files  df, dba_extents de
+    3  where de.file_id = df.file_id
+    4  and de.tablespace_name = 'TS3';
 
-<li><p>Ahora crearemos contenido dentro de nuestro tablespace, en concreto dos tablas con contenido.</p>
-
-<pre><code>SQL&gt; CREATE TABLE prueba3 (
-  2  clave  VARCHAR(5),
-  3  cosas  VARCHAR(10),
-  4  mascosas   VARCHAR(20)
-  5  ) TABLESPACE TS3;
-
-Table created.
-
-SQL&gt; CREATE TABLE prueba4 (
-  2  clave  VARCHAR(5),
-  3  cosas  VARCHAR(10),
-  4  mascosas   VARCHAR(20)
-  5  ) TABLESPACE TS3;
-
-Table created.
-
-SQL&gt; insert into prueba4 values ('4','cuatro','four');
-
-1 row created.
-
-SQL&gt; insert into prueba4 values ('6','seis','six');
-
-1 row created.
-
-SQL&gt; insert into prueba3 values ('3','quepasa','carapasa');
-
-1 row created.
-
-SQL&gt; insert into prueba3 values ('2','jia','jau');
-
-1 row created.
-
-SQL&gt; insert into prueba3 values ('1','hola','caracola');
-
-1 row created.
-</code></pre></li>
-
-<li><p>Comprobamos los segmentos que tiene TS3, las extensiones y en que fichero se encuentran.</p>
-
-<pre><code>SQL&gt; select de.segment_name,de.extent_id,df.file_name,de.file_id
-  2  from dba_data_files  df, dba_extents de
-  3  where de.file_id = df.file_id
-  4  and de.tablespace_name = 'TS3';
-
-SEGMENT_NAME
---------------------------------------------------------------------------------
- EXTENT_ID
-----------
-FILE_NAME
---------------------------------------------------------------------------------
-   FILE_ID
-----------
-PRUEBA3
-     0
-/home/oracle/mod/ts3.dbf
-    15
+  SEGMENT_NAME
+  --------------------------------------------------------------------------------
+   EXTENT_ID
+  ----------
+  FILE_NAME
+  --------------------------------------------------------------------------------
+     FILE_ID
+  ----------
+  PRUEBA3
+       0
+  /home/oracle/mod/ts3.dbf
+      15
 
 
-SEGMENT_NAME
---------------------------------------------------------------------------------
- EXTENT_ID
-----------
-FILE_NAME
---------------------------------------------------------------------------------
-   FILE_ID
-----------
-PRUEBA4
-     0
-/home/oracle/mod/ts3.dbf
-    15
-</code></pre></li>
+  SEGMENT_NAME
+  --------------------------------------------------------------------------------
+   EXTENT_ID
+  ----------
+  FILE_NAME
+  --------------------------------------------------------------------------------
+     FILE_ID
+  ----------
+  PRUEBA4
+       0
+  /home/oracle/mod/ts3.dbf
+      15
+</code></pre>
+</li>
 </ul>
-
 <h3 id="redimensiona-los-ficheros-asociados-a-los-tres-tablespaces-que-has-creado-de-forma-que-ocupen-el-mínimo-espacio-posible-para-alojar-sus-objetos">Redimensiona los ficheros asociados a los tres tablespaces que has creado de forma que ocupen el mínimo espacio posible para alojar sus objetos.</h3>
-
 <ul>
-<li><p>Comprobemos el espacio que tienen nuestros tablespace para poder compararlos después de redimensionarlos.</p>
+<li>
+<p>Comprobemos el espacio que tienen nuestros tablespace para poder compararlos después de redimensionarlos.</p>
+<pre><code>  SQL&gt; select sum(bytes)/1024||'KB', tablespace_name
+    2  from dba_segments
+    3  where tablespace_name like 'TS%'
+    4  group by tablespace_name;
 
-<pre><code>SQL&gt; select sum(bytes)/1024||'KB', tablespace_name
-  2  from dba_segments
-  3  where tablespace_name like 'TS%'
-  4  group by tablespace_name;
+  SUM(BYTES)/1024||'KB'			   TABLESPACE_NAME
+  ------------------------------------------ ------------------------------
+  256KB					   TS3
+  64KB					   TS2
+</code></pre>
+</li>
+<li>
+<p>Vamos a redimensionar nuestros ficheros.</p>
+<pre><code>  SQL&gt; alter database datafile '/home/oracle/ts2.dbf' resize 1M;
 
-SUM(BYTES)/1024||'KB'              TABLESPACE_NAME
------------------------------------------- ------------------------------
-256KB                      TS3
-64KB                       TS2
-</code></pre></li>
+  Database altered.
 
-<li><p>Vamos a redimensionar nuestros ficheros.</p>
+  SQL&gt; alter database datafile '/home/oracle/mod/ts3.dbf' resize 20M;
 
-<pre><code>SQL&gt; alter database datafile '/home/oracle/ts2.dbf' resize 1M;
+  Database altered.
+</code></pre>
+</li>
+<li>
+<p>Ahora volvamos a comprobar el espacio de nuestros tablespace.</p>
+<pre><code>  SQL&gt; select sum(bytes)/1024||'KB', tablespace_name
+    2  from dba_segments
+    3  where tablespace_name like 'TS%'
+    4  group by tablespace_name;
 
-Database altered.
+  SUM(BYTES)/1024||'KB'			   TABLESPACE_NAME
+  ------------------------------------------ ------------------------------
+  256KB					   TS3
+  64KB					   TS2
 
-SQL&gt; alter database datafile '/home/oracle/mod/ts3.dbf' resize 20M;
+  SQL&gt; select file_name,tablespace_name,(bytes/1024)||'KB'
+    2  from dba_data_files
+    3  where tablespace_name like 'TS%';
 
-Database altered.
-</code></pre></li>
+  FILE_NAME
+  --------------------------------------------------------------------------------
+  TABLESPACE_NAME 	       (BYTES/1024)||'KB'
+  ------------------------------ ------------------------------------------
+  /home/oracle/ts2.dbf
+  TS2			       1024KB
 
-<li><p>Ahora volvamos a comprobar el espacio de nuestros tablespace.</p>
+  /home/oracle/nuevo.dbf
+  TS2			       15360KB
 
-<pre><code>SQL&gt; select sum(bytes)/1024||'KB', tablespace_name
-  2  from dba_segments
-  3  where tablespace_name like 'TS%'
-  4  group by tablespace_name;
-
-SUM(BYTES)/1024||'KB'              TABLESPACE_NAME
------------------------------------------- ------------------------------
-256KB                      TS3
-64KB                       TS2
-
-SQL&gt; select file_name,tablespace_name,(bytes/1024)||'KB'
-  2  from dba_data_files
-  3  where tablespace_name like 'TS%';
-
-FILE_NAME
---------------------------------------------------------------------------------
-TABLESPACE_NAME            (BYTES/1024)||'KB'
------------------------------- ------------------------------------------
-/home/oracle/ts2.dbf
-TS2                1024KB
-
-/home/oracle/nuevo.dbf
-TS2                15360KB
-
-/home/oracle/mod/ts3.dbf
-TS3                20480KB
-</code></pre></li>
+  /home/oracle/mod/ts3.dbf
+  TS3			       20480KB
+</code></pre>
+</li>
 </ul>
-
 <h3 id="crea-una-secuencia-para-rellenar-el-campo-deptno-de-la-tabla-dept-de-forma-coherente-con-los-datos-ya-existentes-inserta-al-menos-dos-registros-haciendo-uso-de-la-secuencia">Crea una secuencia para rellenar el campo deptno de la tabla dept de forma coherente con los datos ya existentes. Inserta al menos dos registros haciendo uso de la secuencia.</h3>
-
 <h3 id="resuelve-el-siguiente-caso-práctico-en-oracle">Resuelve el siguiente caso práctico en ORACLE:</h3>
-
 <p><strong>En nuestra empresa existen tres departamentos: Informática, Ventas y Producción. En Informática trabajan tres personas: Pepe, Juan y Clara. En Ventas trabajan Ana y Eva y en Producción Jaime y Lidia.</strong></p>
-
 <ol>
 <li>Pepe es el administrador de la base de datos. Juan y Clara son los programadores de la base de datos, que trabajan tanto en la aplicación que usa el departamento de Ventas como en la usada por el departamento de Producción. Ana y Eva tienen permisos para insertar, modificar y borrar registros en las tablas de la aplicación de Ventas que tienes que crear, y se llaman Productos y Ventas, siendo propiedad de Ana. Jaime y Lidia pueden leer la información de esas tablas pero no pueden modificar la información. Crea los usuarios y dale los roles y permisos que creas conveniente.</li>
 </ol>
-
 <ul>
-<li><p>Creamos usuarios y permisos</p>
+<li>
+<p>Creamos usuarios y permisos</p>
+<pre><code>  SQL&gt; CREATE USER Pepe identified by Pepe;
+  SQL&gt; GRANT dba to Pepe;
 
-<pre><code>SQL&gt; CREATE USER Pepe identified by Pepe;
-SQL&gt; GRANT dba to Pepe;
+  SQL&gt; CREATE USER Juan identified by Juan;
+  SQL&gt; GRANT resource to Juan;
+  SQL&gt; CREATE USER Clara identified by Clara;
+  SQL&gt; GRANT resource to Clara;
 
-SQL&gt; CREATE USER Juan identified by Juan;
-SQL&gt; GRANT resource to Juan;
-SQL&gt; CREATE USER Clara identified by Clara;
-SQL&gt; GRANT resource to Clara;
+  SQL&gt; CREATE USER Ana identified by Ana;
+  SQL&gt; CREATE USER Eva identified by Eva;
+  SQL&gt; GRANT select on Ana.Ventas to Eva;
+  SQL&gt; GRANT insert on Ana.Ventas to Eva;
+  SQL&gt; GRANT update on Ana.Ventas to Eva;
+  SQL&gt; GRANT delete on Ana.Ventas to Eva;
+  SQL&gt; GRANT select on Ana.Productos to Eva;
+  SQL&gt; GRANT insert on Ana.Productos to Eva;
+  SQL&gt; GRANT update on Ana.Productos to Eva;
+  SQL&gt; GRANT delete on Ana.Productos to Eva;
 
-SQL&gt; CREATE USER Ana identified by Ana;
-SQL&gt; CREATE USER Eva identified by Eva;
-SQL&gt; GRANT select on Ana.Ventas to Eva;
-SQL&gt; GRANT insert on Ana.Ventas to Eva;
-SQL&gt; GRANT update on Ana.Ventas to Eva;
-SQL&gt; GRANT delete on Ana.Ventas to Eva;
-SQL&gt; GRANT select on Ana.Productos to Eva;
-SQL&gt; GRANT insert on Ana.Productos to Eva;
-SQL&gt; GRANT update on Ana.Productos to Eva;
-SQL&gt; GRANT delete on Ana.Productos to Eva;
+  SQL&gt; CREATE USER Jaime identified by Jaime;
+  SQL&gt; CREATE USER Lidia identified by Lidia;
+  SQL&gt; GRANT select on Ana.Ventas to Jaime;
+  SQL&gt; GRANT select on Ana.Ventas to Lidia;
+  SQL&gt; GRANT select on Ana.Productos to Jaime;
+  SQL&gt; GRANT select on Ana.Productos to Lidia;
+</code></pre>
+</li>
+<li>
+<p>Y seguidamente creamos los roles.</p>
+<pre><code>  SQL&gt; CREATE ROLE Produccion;
+  SQL&gt; GRANT select on Ana.Ventas to Produccion;
+  SQL&gt; GRANT select on Ana.Productos to Produccion;
 
-SQL&gt; CREATE USER Jaime identified by Jaime;
-SQL&gt; CREATE USER Lidia identified by Lidia;
-SQL&gt; GRANT select on Ana.Ventas to Jaime;
-SQL&gt; GRANT select on Ana.Ventas to Lidia;
-SQL&gt; GRANT select on Ana.Productos to Jaime;
-SQL&gt; GRANT select on Ana.Productos to Lidia;
-</code></pre></li>
+  SQL&gt; GRANT Produccion to Lidia;
+  SQL&gt; GRANT Produccion to Jaime;
 
-<li><p>Y seguidamente creamos los roles.</p>
-
-<pre><code>SQL&gt; CREATE ROLE Produccion;
-SQL&gt; GRANT select on Ana.Ventas to Produccion;
-SQL&gt; GRANT select on Ana.Productos to Produccion;
-
-SQL&gt; GRANT Produccion to Lidia;
-SQL&gt; GRANT Produccion to Jaime;
-
-SQL&gt; CREATE ROLE Ventas;
-SQL&gt; GRANT select, insert, update, delete on Ana.Ventas to Ventas;
-SQL&gt; GRANT select, insert, update, delete on Ana.Productos to Ventas;
-SQL&gt; GRANT Ventas to Eva;
-</code></pre></li>
+  SQL&gt; CREATE ROLE Ventas;
+  SQL&gt; GRANT select, insert, update, delete on Ana.Ventas to Ventas;
+  SQL&gt; GRANT select, insert, update, delete on Ana.Productos to Ventas;
+  SQL&gt; GRANT Ventas to Eva;
+</code></pre>
+</li>
 </ul>
-
-<ol>
+<ol start="2">
 <li>Los espacios de tablas son System, Producción (ficheros prod1.dbf y prod2.dbf) y Ventas (fichero vent.dbf). Los programadores del departamento de Informática pueden crear objetos en cualquier tablespace de la base de datos, excepto en System. Los demás usuarios solo podrán crear objetos en su tablespace correspondiente teniendo un límite de espacio de 30 M los del departamento de Ventas y 100K los del de Producción. Pepe tiene cuota ilimitada en todos los espacios, aunque el suyo por defecto es System.</li>
 </ol>
-
 <ul>
-<li><p>Creamos la tablespace de producción, system y ventas.</p>
+<li>
+<p>Creamos la tablespace de producción, system y ventas.</p>
+<pre><code>  SQL&gt; CREATE TABLESPACE ts_produccion
+    2  DATAFILE 'prod1.dbf' SIZE 100M,
+    3  'prod2.dbf' SIZE 100M AUTOEXTEND ON;
 
-<pre><code>SQL&gt; CREATE TABLESPACE ts_produccion
-  2  DATAFILE 'prod1.dbf' SIZE 100M,
-  3  'prod2.dbf' SIZE 100M AUTOEXTEND ON;
+  Tablespace created.
 
-Tablespace created.
+  SQL&gt; CREATE TABLESPACE ts_venta
+    2  DATAFILE 'vent.dbf'
+    3  SIZE 100M AUTOEXTEND ON;
 
-SQL&gt; CREATE TABLESPACE ts_venta
-  2  DATAFILE 'vent.dbf'
-  3  SIZE 100M AUTOEXTEND ON;
+  Tablespace created.
+</code></pre>
+</li>
+<li>
+<p>Una vez creadas las tablespace podemos crear las cuotas para los usuarios.</p>
+<pre><code>  SQL&gt; ALTER USER ANA QUOTA 30M ON ts_venta;
 
-Tablespace created.
-</code></pre></li>
+  User altered.
 
-<li><p>Una vez creadas las tablespace podemos crear las cuotas para los usuarios.</p>
+  SQL&gt; ALTER USER LIDIA QUOTA 100K ON ts_produccion;
 
-<pre><code>SQL&gt; ALTER USER ANA QUOTA 30M ON ts_venta;
+  User altered.
 
-User altered.
+  SQL&gt; ALTER USER EVA QUOTA 30M ON ts_venta;
 
-SQL&gt; ALTER USER LIDIA QUOTA 100K ON ts_produccion;
+  User altered.
 
-User altered.
+  SQL&gt; ALTER USER JAIME QUOTA 100K ON ts_produccion;
 
-SQL&gt; ALTER USER EVA QUOTA 30M ON ts_venta;
+  User altered.
+</code></pre>
+</li>
+<li>
+<p>Pepe tendrá cuota ilimitada, vamos a ponersela</p>
+<pre><code>  SQL&gt; ALTER USER Pepe DEFAULT TABLESPACE SYSTEM;
 
-User altered.
+  User altered.
 
-SQL&gt; ALTER USER JAIME QUOTA 100K ON ts_produccion;
+  SQL&gt; GRANT UNLIMITED TABLESPACE TO Pepe;
 
-User altered.
-</code></pre></li>
+  Grant succeeded.
+</code></pre>
+</li>
+<li>
+<p>Y los usuarios Juan y Clara debemos quitarles los privilegios de creación de objetos.</p>
+<pre><code>  SQL&gt; GRANT UNLIMITED TABLESPACE TO JUAN;
 
-<li><p>Pepe tendrá cuota ilimitada, vamos a ponersela</p>
+  Grant succeeded.
 
-<pre><code>SQL&gt; ALTER USER Pepe DEFAULT TABLESPACE SYSTEM;
+  SQL&gt; ALTER USER JUAN QUOTA 0 ON SYSTEM;
 
-User altered.
+  User altered.
 
-SQL&gt; GRANT UNLIMITED TABLESPACE TO Pepe;
+  SQL&gt; GRANT UNLIMITED TABLESPACE TO CLARA;
 
-Grant succeeded.
-</code></pre></li>
+  Grant succeeded.
 
-<li><p>Y los usuarios Juan y Clara debemos quitarles los privilegios de creación de objetos.</p>
+  SQL&gt; ALTER USER CLARA QUOTA 0 ON SYSTEM;
 
-<pre><code>SQL&gt; GRANT UNLIMITED TABLESPACE TO JUAN;
-
-Grant succeeded.
-
-SQL&gt; ALTER USER JUAN QUOTA 0 ON SYSTEM;
-
-User altered.
-
-SQL&gt; GRANT UNLIMITED TABLESPACE TO CLARA;
-
-Grant succeeded.
-
-SQL&gt; ALTER USER CLARA QUOTA 0 ON SYSTEM;
-
-User altered.
-</code></pre></li>
+  User altered.
+</code></pre>
+</li>
 </ul>
-
-<ol>
-<li><p>Pepe quiere crear una tabla Prueba que ocupe inicialmente 256K en el tablespace Ventas.</p>
-
-<pre><code>SQL&gt; CREATE TABLE pepe.prueba5 (
-  2  clave      VARCHAR(5),
-  3  algo   VARCHAR(10),
-  4  CONSTRAINT pk_codigo PRIMARY KEY(clave),
-  5  STORAGE (INITIAL 256K)
-  6  );
-</code></pre></li>
-
-<li><p>Pepe decide que los programadores tengan acceso a la tabla Prueba antes creada y puedan ceder ese derecho y el de conectarse a la base de datos a los usuarios que ellos quieran.</p>
-
-<pre><code>SQL&gt; GRANT SELECT ON PEPE.PRUEBA TO Juan WITH GRANT OPTION;
-SQL&gt; GRANT SELECT ON PEPE.PRUEBA TO Clara WITH GRANT OPTION;
-SQL&gt; GRANT CONNECT TO Clara WITH ADMIN OPTION;
-SQL&gt; GRANT CONNECT TO Juan WITH ADMIN OPTION;
-</code></pre></li>
-
-<li><p>Lidia y Jaime dejan la empresa, borra los usuarios y el espacio de tablas correspondiente, detalla los pasos necesarios para que no quede rastro del espacio de tablas.</p></li>
+<ol start="3">
+<li>
+<p>Pepe quiere crear una tabla Prueba que ocupe inicialmente 256K en el tablespace Ventas.</p>
+<pre><code> SQL&gt; CREATE TABLE pepe.prueba5 (
+   2  clave      VARCHAR(5),
+   3  algo	VARCHAR(10),
+   4  CONSTRAINT pk_codigo PRIMARY KEY(clave),
+   5  STORAGE (INITIAL 256K)
+   6  );
+</code></pre>
+</li>
+<li>
+<p>Pepe decide que los programadores tengan acceso a la tabla Prueba antes creada y puedan ceder ese derecho y el de conectarse a la base de datos a los usuarios que ellos quieran.</p>
+<pre><code> SQL&gt; GRANT SELECT ON PEPE.PRUEBA TO Juan WITH GRANT OPTION;
+ SQL&gt; GRANT SELECT ON PEPE.PRUEBA TO Clara WITH GRANT OPTION;
+ SQL&gt; GRANT CONNECT TO Clara WITH ADMIN OPTION;
+ SQL&gt; GRANT CONNECT TO Juan WITH ADMIN OPTION;
+</code></pre>
+</li>
+<li>
+<p>Lidia y Jaime dejan la empresa, borra los usuarios y el espacio de tablas correspondiente, detalla los pasos necesarios para que no quede rastro del espacio de tablas.</p>
+</li>
 </ol>
-
 <ul>
-<li><p>Borramos en cascada para eliminar toda alteración que hayan hecho en otras tablas</p>
+<li>
+<p>Borramos en cascada para eliminar toda alteración que hayan hecho en otras tablas</p>
+<pre><code>  SQL&gt; DROP USER lidia cascade;
 
-<pre><code>SQL&gt; DROP USER lidia cascade;
+  User dropped.
 
-User dropped.
+  SQL&gt; DROP USER jaime cascade;
 
-SQL&gt; DROP USER jaime cascade;
+  User dropped.
+</code></pre>
+</li>
+<li>
+<p>Y ejecutamos la siguiente instrucción para borrar todo lo que estaba en el tablespace.</p>
+<pre><code>  SQL&gt; drop tablespace ts_produccion including contents and datafiles;
 
-User dropped.
-</code></pre></li>
-
-<li><p>Y ejecutamos la siguiente instrucción para borrar todo lo que estaba en el tablespace.</p>
-
-<pre><code>SQL&gt; drop tablespace ts_produccion including contents and datafiles;
-
-Tablespace dropped.
-</code></pre></li>
+  Tablespace dropped.
+</code></pre>
+</li>
 </ul>
-
-<hr />
-
+<hr>
 <h3 id="averigua-si-es-posible-establecer-cuotas-de-uso-sobre-los-tablespaces-en-postgres">Averigua si es posible establecer cuotas de uso sobre los tablespaces en Postgres.</h3>
-
 <ul>
-<li><p>No existe una opción especifica en postgres para administrar quotas, lo que si podríamos hacer es asignar una cuota en el sistema a un usuario sobre la partición donde se encuentra el tablespace que hayamos creado.</p></li>
-
-<li><p>Instalamos en nuestro sistema el paquete <code>quota</code></p>
-
-<pre><code>vagrant@postgres:~$ sudo apt install quota
-</code></pre></li>
-
-<li><p>Nos dirigimos al fichero <code>/etc/fstab</code> y lo modifcamos de la siguiente forma:</p>
-
-<pre><code>UUID=d3d2a9a3-92f6-4777-bb0f-1d806e57bfec   /   ext4    rw,discard,errors=remount-ro,usrquota,grpquota  0   1
-</code></pre></li>
-
-<li><p>Remontamos el raiz para que los cambios en el disco hagan efecto.</p>
-
-<pre><code>vagrant@postgres:~$ sudo mount -o remount /
-</code></pre></li>
-
-<li><p>Vamos a habilitar las cuotas</p>
-
-<pre><code>vagrant@postgres:~$ sudo quotacheck -ugm /
-
-vagrant@postgres:~$ sudo quotaon -v /
-/dev/sda1 [/]: group quotas turned on
-/dev/sda1 [/]: user quotas turned on
-</code></pre></li>
-
-<li><p>Y para modifcar las cuotas de los usuarios pues simplente usamos el siguiente comando:</p>
-
-<pre><code>vagrant@postgres:~$ sudo edquota -u vagrant
-</code></pre></li>
-
-<li><p>Como postgres crea un usuario &ldquo;real&rdquo; en el sistema por así decirlo cada vez que creamos uno en la base de datos, pues simplemente añadimos uno cuota al usuario al que queremos restringir el almacenamiento.</p></li>
+<li>
+<p>No existe una opción especifica en postgres para administrar quotas, lo que si podríamos hacer es asignar una cuota en el sistema a un usuario sobre la partición donde se encuentra el tablespace que hayamos creado.</p>
+</li>
+<li>
+<p>Instalamos en nuestro sistema el paquete <code>quota</code></p>
+<pre><code>  vagrant@postgres:~$ sudo apt install quota
+</code></pre>
+</li>
+<li>
+<p>Nos dirigimos al fichero <code>/etc/fstab</code> y lo modifcamos de la siguiente forma:</p>
+<pre><code>  UUID=d3d2a9a3-92f6-4777-bb0f-1d806e57bfec	/	ext4	rw,discard,errors=remount-ro,usrquota,grpquota	0	1
+</code></pre>
+</li>
+<li>
+<p>Remontamos el raiz para que los cambios en el disco hagan efecto.</p>
+<pre><code>  vagrant@postgres:~$ sudo mount -o remount /
+</code></pre>
+</li>
+<li>
+<p>Vamos a habilitar las cuotas</p>
+<pre><code>  vagrant@postgres:~$ sudo quotacheck -ugm /
+    
+  vagrant@postgres:~$ sudo quotaon -v /
+  /dev/sda1 [/]: group quotas turned on
+  /dev/sda1 [/]: user quotas turned on
+</code></pre>
+</li>
+<li>
+<p>Y para modifcar las cuotas de los usuarios pues simplente usamos el siguiente comando:</p>
+<pre><code>  vagrant@postgres:~$ sudo edquota -u vagrant
+</code></pre>
+</li>
+<li>
+<p>Como postgres crea un usuario &ldquo;real&rdquo; en el sistema por así decirlo cada vez que creamos uno en la base de datos, pues simplemente añadimos uno cuota al usuario al que queremos restringir el almacenamiento.</p>
+</li>
 </ul>
-
 <h3 id="averigua-si-existe-el-concepto-de-extensión-en-mysql-y-si-coincide-con-el-existente-en-oracle">Averigua si existe el concepto de extensión en MySQL y si coincide con el existente en ORACLE.</h3>
-
 <ul>
-<li><p>Existe lo que se llaman motores de almacenamiento, existen distintos, pero los mas usados son <code>MyISAM</code> e <code>nnoDB</code>.</p></li>
-
-<li><p>Un motor de almacenamiento es el encargado de almacenar, gestionar y recuperar toda la información de una tabla.</p></li>
-
-<li><p>Veamos todos los que existen.</p>
-
-<pre><code>MariaDB [(none)]&gt; SHOW ENGINES;
-+--------------------+---------+----------------------------------------------------------------------------------+--------------+------+------------+
-| Engine             | Support | Comment                                                                          | Transactions | XA   | Savepoints |
-+--------------------+---------+----------------------------------------------------------------------------------+--------------+------+------------+
-| MRG_MyISAM         | YES     | Collection of identical MyISAM tables                                            | NO           | NO   | NO         |
-| CSV                | YES     | Stores tables as CSV files                                                       | NO           | NO   | NO         |
-| MEMORY             | YES     | Hash based, stored in memory, useful for temporary tables                        | NO           | NO   | NO         |
-| MyISAM             | YES     | Non-transactional engine with good performance and small data footprint          | NO           | NO   | NO         |
-| Aria               | YES     | Crash-safe tables with MyISAM heritage                                           | NO           | NO   | NO         |
-| InnoDB             | DEFAULT | Supports transactions, row-level locking, foreign keys and encryption for tables | YES          | YES  | YES        |
-| PERFORMANCE_SCHEMA | YES     | Performance Schema                                                               | NO           | NO   | NO         |
-| SEQUENCE           | YES     | Generated tables filled with sequential values                                   | YES          | NO   | YES        |
-+--------------------+---------+----------------------------------------------------------------------------------+--------------+------+------------+
-8 rows in set (0.001 sec)
-</code></pre></li>
-
-<li><p>Vemos que nos da un listado de los que tenemos a disposición y un poco de las características de los mismos.</p></li>
+<li>
+<p>Existe lo que se llaman motores de almacenamiento, existen distintos, pero los mas usados son <code>MyISAM</code> e <code>nnoDB</code>.</p>
+</li>
+<li>
+<p>Un motor de almacenamiento es el encargado de almacenar, gestionar y recuperar toda la información de una tabla.</p>
+</li>
+<li>
+<p>Veamos todos los que existen.</p>
+<pre><code>  MariaDB [(none)]&gt; SHOW ENGINES;
+  +--------------------+---------+----------------------------------------------------------------------------------+--------------+------+------------+
+  | Engine             | Support | Comment                                                                          | Transactions | XA   | Savepoints |
+  +--------------------+---------+----------------------------------------------------------------------------------+--------------+------+------------+
+  | MRG_MyISAM         | YES     | Collection of identical MyISAM tables                                            | NO           | NO   | NO         |
+  | CSV                | YES     | Stores tables as CSV files                                                       | NO           | NO   | NO         |
+  | MEMORY             | YES     | Hash based, stored in memory, useful for temporary tables                        | NO           | NO   | NO         |
+  | MyISAM             | YES     | Non-transactional engine with good performance and small data footprint          | NO           | NO   | NO         |
+  | Aria               | YES     | Crash-safe tables with MyISAM heritage                                           | NO           | NO   | NO         |
+  | InnoDB             | DEFAULT | Supports transactions, row-level locking, foreign keys and encryption for tables | YES          | YES  | YES        |
+  | PERFORMANCE_SCHEMA | YES     | Performance Schema                                                               | NO           | NO   | NO         |
+  | SEQUENCE           | YES     | Generated tables filled with sequential values                                   | YES          | NO   | YES        |
+  +--------------------+---------+----------------------------------------------------------------------------------+--------------+------+------------+
+  8 rows in set (0.001 sec)
+</code></pre>
+</li>
+<li>
+<p>Vemos que nos da un listado de los que tenemos a disposición y un poco de las características de los mismos.</p>
+</li>
 </ul>
-
 <h3 id="averigua-si-en-mongodb-puede-saberse-el-espacio-disponible-para-almacenar-nuevos-documentos">Averigua si en MongoDB puede saberse el espacio disponible para almacenar nuevos documentos.</h3>
-
 <ul>
-<li><p>Por supuesto, mongo ofrece diferentes opciones para gestionar el almacenamiento y los datos que maneja, veamos algunos de ellos</p></li>
-
-<li><p>Ver el tamaño de los datos en la colección.</p>
-
-<pre><code>db.collection.dataSize(): 
-</code></pre></li>
-
-<li><p>Ver el tamaño de los índices.</p>
-
-<pre><code>db.collection.totalIndexSize():
-</code></pre></li>
-
-<li><p>Ver el tamaño de un índice.</p>
-
-<pre><code>db.collection.index.stats().indexSizes: 
-</code></pre></li>
-
-<li><p>Ver el tamaño de los datos más el de los índices.</p>
-
-<pre><code>db.collection.totalSize():
-</code></pre></li>
+<li>
+<p>Por supuesto, mongo ofrece diferentes opciones para gestionar el almacenamiento y los datos que maneja, veamos algunos de ellos</p>
+</li>
+<li>
+<p>Ver el tamaño de los datos en la colección.</p>
+<pre><code>  db.collection.dataSize(): 
+</code></pre>
+</li>
+<li>
+<p>Ver el tamaño de los índices.</p>
+<pre><code>  db.collection.totalIndexSize():
+</code></pre>
+</li>
+<li>
+<p>Ver el tamaño de un índice.</p>
+<pre><code>  db.collection.index.stats().indexSizes: 
+</code></pre>
+</li>
+<li>
+<p>Ver el tamaño de los datos más el de los índices.</p>
+<pre><code>  db.collection.totalSize():</code></pre>
+</li>
 </ul>
 
                 </div>

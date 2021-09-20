@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>SO on Alepetepórico Blog</title>
+    <link>https://alepeteporico.github.io/tags/so/</link>
+    <description>Recent content in SO on Alepetepórico Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 16 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/so/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Actualización de Debian 10 a Debian 11</title>
+      <link>https://alepeteporico.github.io/practicas/actualizacion_debian11/</link>
+      <pubDate>Thu, 16 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/actualizacion_debian11/</guid>
+      <description>Actualización   Primero debemos actualizar nuestro debian 10 como tenemos por costumbre hacerlo.
+ alejandrogv@AlejandroGV:~$ sudo apt update alejandrogv@AlejandroGV:~$ sudo apt upgrade    Es necesario instalar el paquete gcc-8-base aunque es probable que ya lo tengamos pero nos aseguramos.
+ alejandrogv@AlejandroGV:~$ sudo apt install gcc-8-base    Ahora editamos nuestro etc/apt/sources.list para añadir los repositorios del nuevo debian &amp;ldquo;bullseye&amp;rdquo;
+ deb http://deb.debian.org/debian/ bullseye main contrib non-free # deb-src http://deb.</description>
+    </item>
+    
+    <item>
+      <title>Instalación de debian 11 con LVM</title>
+      <link>https://alepeteporico.github.io/practicas/instalacion_debian11/</link>
+      <pubDate>Thu, 16 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/instalacion_debian11/</guid>
+      <description>Empezamos la instalación y seguimos todos los pasos normalmente hasta llegar a la configuración de los discos, la haremos manualmente y en mi caso he creado una máquina virtual para simular lo que hice en mi máquina anfitriona, para ello he creado una partición sin usar simulando que tengo en ella una partición con Windows 10.    Seguidamente elegiremos la opción de &amp;ldquo;Configurar el gestor de volúmenes lógicos&amp;rdquo; y crearemos un grupo de volúmenes.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 
 
@@ -97,33 +97,36 @@
                 <span class="post-date">2021-05-27 </span>
                 <div class="post-content">
                     <ul>
-<li><p>Crearemos 3 máquinas Vagrant que nos servirán, una de controlador y las otras dos de workers.</p></li>
-
-<li><p>En la máquina que usaremos como controlador descargaremos e instalaremos usando <code>curl</code> el script que instalará el servicio de k3.</p>
-
-<pre><code>root@servidor:/usr/local/bin# curl -sfL https://get.k3s.io | sh -
-</code></pre></li>
-
-<li><p>Podemos comprobar mediante netstat que se ha abierto un puerto <code>6443</code> que es el que usa k3s por defecto.</p>
-
-<pre><code>root@servidor:/usr/local/bin# netstat -tlnp | egrep '6443'
-tcp6       0      0 :::6443                 :::*                    LISTEN      1577/k3s server 
-</code></pre></li>
-
-<li><p>Vamos a listar todos los nodos que tenemos, así comprobaremos que la instalación se ha realizado correctamente.</p>
-
-<pre><code>root@servidor:~# k3s kubectl get nodes
-NAME       STATUS   ROLES                  AGE     VERSION
-servidor   Ready    control-plane,master   5m33s   v1.20.7+k3s1
-</code></pre></li>
-
-<li><p>Vamos a necesitar una cadena llamada <code>token</code> que podremos visualizar en el fichero <code>/var/lib/rancher/k3s/server/node-token</code></p>
-
-<pre><code>root@servidor:~# cat /var/lib/rancher/k3s/server/node-token
-K10011d1572405b0786ba05fe620b91442da52987ce21512d2ae4987bf48b92f163::server:42e92bb7042694445be5a4bc17a05ffb
-</code></pre></li>
-
-<li><p>Ahora nos dirigimos a uno de los nodos y realizaremos el mismo paso que al principio de descargar el script de instalación, sin embargo añadiremos un par de cosas, lo vincularemos mediante una URL añadiendo la IP de nuestro servidor. Y mediante el token que pudimos ver antes.</p></li>
+<li>
+<p>Crearemos 3 máquinas Vagrant que nos servirán, una de controlador y las otras dos de workers.</p>
+</li>
+<li>
+<p>En la máquina que usaremos como controlador descargaremos e instalaremos usando <code>curl</code> el script que instalará el servicio de k3.</p>
+<pre><code>  root@servidor:/usr/local/bin# curl -sfL https://get.k3s.io | sh -
+</code></pre>
+</li>
+<li>
+<p>Podemos comprobar mediante netstat que se ha abierto un puerto <code>6443</code> que es el que usa k3s por defecto.</p>
+<pre><code>  root@servidor:/usr/local/bin# netstat -tlnp | egrep '6443'
+  tcp6       0      0 :::6443                 :::*                    LISTEN      1577/k3s server 
+</code></pre>
+</li>
+<li>
+<p>Vamos a listar todos los nodos que tenemos, así comprobaremos que la instalación se ha realizado correctamente.</p>
+<pre><code>  root@servidor:~# k3s kubectl get nodes
+  NAME       STATUS   ROLES                  AGE     VERSION
+  servidor   Ready    control-plane,master   5m33s   v1.20.7+k3s1
+</code></pre>
+</li>
+<li>
+<p>Vamos a necesitar una cadena llamada <code>token</code> que podremos visualizar en el fichero <code>/var/lib/rancher/k3s/server/node-token</code></p>
+<pre><code>  root@servidor:~# cat /var/lib/rancher/k3s/server/node-token
+  K10011d1572405b0786ba05fe620b91442da52987ce21512d2ae4987bf48b92f163::server:42e92bb7042694445be5a4bc17a05ffb
+</code></pre>
+</li>
+<li>
+<p>Ahora nos dirigimos a uno de los nodos y realizaremos el mismo paso que al principio de descargar el script de instalación, sin embargo añadiremos un par de cosas, lo vincularemos mediante una URL añadiendo la IP de nuestro servidor. Y mediante el token que pudimos ver antes.</p>
+</li>
 </ul>
 
                 </div>

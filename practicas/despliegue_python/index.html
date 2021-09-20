@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 
 
@@ -96,350 +96,332 @@
                 <h1><a href="https://alepeteporico.github.io/practicas/despliegue_python/">Despliegue de una aplicación python</a></h1>
                 <span class="post-date">2021-04-26 </span>
                 <div class="post-content">
-                    
-
-<h2 id="vamos-a-desarrollar-la-aplicación-del-tutorial-de-django-3-1-vamos-a-configurar-tu-equipo-como-entorno-de-desarrollo-para-trabajar-con-la-aplicación">Vamos a desarrollar la aplicación del tutorial de django 3.1. Vamos a configurar tu equipo como entorno de desarrollo para trabajar con la aplicación.</h2>
-
-<hr />
-
+                    <h2 id="vamos-a-desarrollar-la-aplicación-del-tutorial-de-django-31-vamos-a-configurar-tu-equipo-como-entorno-de-desarrollo-para-trabajar-con-la-aplicación">Vamos a desarrollar la aplicación del tutorial de django 3.1. Vamos a configurar tu equipo como entorno de desarrollo para trabajar con la aplicación.</h2>
+<hr>
 <ul>
-<li><p>Realizamos un fork de la aplicación añadiendola a nuestros repositorios y seguidamente lo clonaremos en nuestra maquina:</p>
+<li>
+<p>Realizamos un fork de la aplicación añadiendola a nuestros repositorios y seguidamente lo clonaremos en nuestra maquina:</p>
+<pre><code>  alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python$ git clone git@github.com:alepeteporico/django_tutorial.git
+</code></pre>
+</li>
+<li>
+<p>Crearemos el entorno virtual donde instalaremos las dependencias necesarias para hacer funcionar nuestra aplicación.</p>
+<pre><code>  alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ python3 -m venv django
 
-<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python$ git clone git@github.com:alepeteporico/django_tutorial.git
-</code></pre></li>
+  (django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ pip install -r despliegue_python/django_tutorial/requirements.txt
+</code></pre>
+</li>
+<li>
+<p>En el fichero settings.py podremos comprobar con que base de datos vamos a trabajar. Efectivamente, es una base de datos sqlite con el nombre db.sqlite3</p>
+<pre><code>  (django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python/django_tutorial$ cat django_tutorial/settings.py
 
-<li><p>Crearemos el entorno virtual donde instalaremos las dependencias necesarias para hacer funcionar nuestra aplicación.</p>
-
-<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ python3 -m venv django
-
-(django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ pip install -r despliegue_python/django_tutorial/requirements.txt
-</code></pre></li>
-
-<li><p>En el fichero settings.py podremos comprobar con que base de datos vamos a trabajar. Efectivamente, es una base de datos sqlite con el nombre db.sqlite3</p>
-
-<pre><code>(django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python/django_tutorial$ cat django_tutorial/settings.py
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-</code></pre></li>
-
-<li><p>Crearemos la base de datos.</p>
-
-<pre><code>(django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python/django_tutorial$ python3 manage.py migrate
-Operations to perform:
-  Apply all migrations: admin, auth, contenttypes, polls, sessions
-Running migrations:
-  Applying contenttypes.0001_initial... OK
-  Applying auth.0001_initial... OK
-  Applying admin.0001_initial... OK
-  Applying admin.0002_logentry_remove_auto_add... OK
-  Applying admin.0003_logentry_add_action_flag_choices... OK
-  Applying contenttypes.0002_remove_content_type_name... OK
-  Applying auth.0002_alter_permission_name_max_length... OK
-  Applying auth.0003_alter_user_email_max_length... OK
-  Applying auth.0004_alter_user_username_opts... OK
-  Applying auth.0005_alter_user_last_login_null... OK
-  Applying auth.0006_require_contenttypes_0002... OK
-  Applying auth.0007_alter_validators_add_error_messages... OK
-  Applying auth.0008_alter_user_username_max_length... OK
-  Applying auth.0009_alter_user_last_name_max_length... OK
-  Applying auth.0010_alter_group_name_max_length... OK
-  Applying auth.0011_update_proxy_permissions... OK
-  Applying auth.0012_alter_user_first_name_max_length... OK
-  Applying polls.0001_initial... OK
-  Applying sessions.0001_initial... OK
-</code></pre></li>
-
-<li><p>Y seguidamente tendremos que crear un usuario para administrar dicha base de datos.</p>
-
-<pre><code>(django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python/django_tutorial$ python3 manage.py createsuperuser
-Username (leave blank to use 'alejandrogv'): admin
-Email address: tojandro@gmail.com
-Password: 
-Password (again): 
-The password is too similar to the username.
-This password is too short. It must contain at least 8 characters.
-This password is too common.
-Bypass password validation and create user anyway? [y/N]: y
-Superuser created successfully.
-</code></pre></li>
-
-<li><p>Ahora ejecutaremos el servidor y entraremos en la zona de admin para comprobar su funcionamiento.</p>
-
-<pre><code>(django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python/django_tutorial$ python manage.py runserver
-</code></pre></li>
+  DATABASES = {
+      'default': {
+          'ENGINE': 'django.db.backends.sqlite3',
+          'NAME': BASE_DIR / 'db.sqlite3',
+      }
+  }
+</code></pre>
+</li>
+<li>
+<p>Crearemos la base de datos.</p>
+<pre><code>  (django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python/django_tutorial$ python3 manage.py migrate
+  Operations to perform:
+    Apply all migrations: admin, auth, contenttypes, polls, sessions
+  Running migrations:
+    Applying contenttypes.0001_initial... OK
+    Applying auth.0001_initial... OK
+    Applying admin.0001_initial... OK
+    Applying admin.0002_logentry_remove_auto_add... OK
+    Applying admin.0003_logentry_add_action_flag_choices... OK
+    Applying contenttypes.0002_remove_content_type_name... OK
+    Applying auth.0002_alter_permission_name_max_length... OK
+    Applying auth.0003_alter_user_email_max_length... OK
+    Applying auth.0004_alter_user_username_opts... OK
+    Applying auth.0005_alter_user_last_login_null... OK
+    Applying auth.0006_require_contenttypes_0002... OK
+    Applying auth.0007_alter_validators_add_error_messages... OK
+    Applying auth.0008_alter_user_username_max_length... OK
+    Applying auth.0009_alter_user_last_name_max_length... OK
+    Applying auth.0010_alter_group_name_max_length... OK
+    Applying auth.0011_update_proxy_permissions... OK
+    Applying auth.0012_alter_user_first_name_max_length... OK
+    Applying polls.0001_initial... OK
+    Applying sessions.0001_initial... OK
+</code></pre>
+</li>
+<li>
+<p>Y seguidamente tendremos que crear un usuario para administrar dicha base de datos.</p>
+<pre><code>  (django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python/django_tutorial$ python3 manage.py createsuperuser
+  Username (leave blank to use 'alejandrogv'): admin
+  Email address: tojandro@gmail.com
+  Password: 
+  Password (again): 
+  The password is too similar to the username.
+  This password is too short. It must contain at least 8 characters.
+  This password is too common.
+  Bypass password validation and create user anyway? [y/N]: y
+  Superuser created successfully.
+</code></pre>
+</li>
+<li>
+<p>Ahora ejecutaremos el servidor y entraremos en la zona de admin para comprobar su funcionamiento.</p>
+<pre><code>  (django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python/django_tutorial$ python manage.py runserver
+</code></pre>
+</li>
 </ul>
-
-<p><img src="/despliegue_python/1.png" alt="admin" /></p>
-
-<p><img src="/despliegue_python/2.png" alt="admin" /></p>
-
+<p><img src="/despliegue_python/1.png" alt="admin"></p>
+<p><img src="/despliegue_python/2.png" alt="admin"></p>
 <ul>
 <li>Crearemos dos preguntas con posibles respuestas.</li>
 </ul>
-
-<p><img src="/despliegue_python/3.png" alt="pregunta1" /></p>
-
-<p><img src="/despliegue_python/4.png" alt="pregunta2" /></p>
-
-<p><img src="/despliegue_python/5.png" alt="preguntas" /></p>
-
+<p><img src="/despliegue_python/3.png" alt="pregunta1"></p>
+<p><img src="/despliegue_python/4.png" alt="pregunta2"></p>
+<p><img src="/despliegue_python/5.png" alt="preguntas"></p>
 <ul>
 <li>Comprobaremos que funciona la url <code>/polls</code></li>
 </ul>
-
-<p><img src="/despliegue_python/6.png" alt="polls" /></p>
-
+<p><img src="/despliegue_python/6.png" alt="polls"></p>
 <h3 id="entorno-de-producción">ENTORNO DE PRODUCCIÓN.</h3>
-
 <ul>
-<li><p>Pasemos al entorno de producción, el cual será una maquina que tendremos en nuestro cloud. El primer paso en la misma será instalar los siguiente paquetes.</p>
+<li>
+<p>Pasemos al entorno de producción, el cual será una maquina que tendremos en nuestro cloud. El primer paso en la misma será instalar los siguiente paquetes.</p>
+<pre><code>  debian@python:~$ sudo apt-get install apache2
 
-<pre><code>debian@python:~$ sudo apt-get install apache2
+  debian@python:~$ sudo apt-get install libapache2-mod-wsgi-py3
+</code></pre>
+</li>
+<li>
+<p>Copiaremos nuestro repositorio con la aplicación y la guardaremos en el que se convertirá en nuestro DocumentRoot.</p>
+<pre><code>  debian@python:~$ git clone https://github.com/alepeteporico/django_tutorial.git
 
-debian@python:~$ sudo apt-get install libapache2-mod-wsgi-py3
-</code></pre></li>
+  debian@python:~$ sudo mv django_tutorial/ /var/www/django/
+</code></pre>
+</li>
+<li>
+<p>Seguidamente crearemos un entorno virtual con python para instalar las dependencias de nuestra aplicación, tal como hicimos anteriormente en el entorno de prueba.</p>
+<pre><code>  debian@python:~$ python3 -m venv django
 
-<li><p>Copiaremos nuestro repositorio con la aplicación y la guardaremos en el que se convertirá en nuestro DocumentRoot.</p>
+  (django) debian@python:~$ pip install -r /var/www/django/django_tutorial/requirements.txt 
+  Collecting asgiref==3.3.0 (from -r /var/www/django/django_tutorial/requirements.txt (line 1))
+    Downloading https://files.pythonhosted.org/packages/c0/e8/578887011652048c2d273bf98839a11020891917f3aa638a0bc9ac04d653/asgiref-3.3.0-py3-none-any.whl
+  Collecting Django==3.1.3 (from -r /var/www/django/django_tutorial/requirements.txt (line 2))
+    Downloading https://files.pythonhosted.org/packages/7f/17/16267e782a30ea2ce08a9a452c1db285afb0ff226cfe3753f484d3d65662/Django-3.1.3-py3-none-any.whl (7.8MB)
+      100% |████████████████████████████████| 7.8MB 115kB/s 
+  Collecting pytz==2020.4 (from -r /var/www/django/django_tutorial/requirements.txt (line 3))
+    Downloading https://files.pythonhosted.org/packages/12/f8/ff09af6ff61a3efaad5f61ba5facdf17e7722c4393f7d8a66674d2dbd29f/pytz-2020.4-py2.py3-none-any.whl (509kB)
+      100% |████████████████████████████████| 512kB 694kB/s 
+  Collecting sqlparse==0.4.1 (from -r /var/www/django/django_tutorial/requirements.txt (line 4))
+    Downloading https://files.pythonhosted.org/packages/14/05/6e8eb62ca685b10e34051a80d7ea94b7137369d8c0be5c3b9d9b6e3f5dae/sqlparse-0.4.1-py3-none-any.whl (42kB)
+      100% |████████████████████████████████| 51kB 1.1MB/s 
+  Installing collected packages: asgiref, pytz, sqlparse, Django
+  Successfully installed Django-3.1.3 asgiref-3.3.0 pytz-2020.4 sqlparse-0.4.1
+</code></pre>
+</li>
+<li>
+<p>A parte, instalaremos unos módulos que le permitirán a python trabajar con mysql.</p>
+<pre><code>  (django) debian@python:~$ pip install mysql-connector-python
+  debian@python:~$ sudo apt-get install python3-mysqldb
+</code></pre>
+</li>
+<li>
+<p>Accederemos a la mysql y crearemos una base de datos y un usuario que tendrá permisos sobre esta base de datos.</p>
+<pre><code>  (django) debian@python:~$ sudo mysql -u root -p
 
-<pre><code>debian@python:~$ git clone https://github.com/alepeteporico/django_tutorial.git
+  MariaDB [(none)]&gt; CREATE DATABASE django_bbdd;
+  Query OK, 1 row affected (0.007 sec)
 
-debian@python:~$ sudo mv django_tutorial/ /var/www/django/
-</code></pre></li>
+  MariaDB [(none)]&gt; CREATE USER 'usuario'@'localhost' IDENTIFIED BY 'usuario';
+  Query OK, 0 rows affected (0.010 sec)
 
-<li><p>Seguidamente crearemos un entorno virtual con python para instalar las dependencias de nuestra aplicación, tal como hicimos anteriormente en el entorno de prueba.</p>
+  MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON django_bbdd.* TO 'usuario'@'localhost';
+  Query OK, 0 rows affected (0.001 sec)
+</code></pre>
+</li>
+<li>
+<p>El siguiente paso será modificar el archivo de configuración de django donde teníamos la configuración de la base de datos, veamos como quedaría nuestra configuración:</p>
+<pre><code>  DATABASES = {
+      'default': {
+          'ENGINE': 'mysql.connector.django',
+          'NAME': 'django_bbdd',
+          'USER': 'usuario',
+          'PASSWORD': 'usuario',
+          'HOST': 'localhost',
+          'PORT': '3306',
+      }
+  }
+</code></pre>
+</li>
+<li>
+<p>A parte, en este fichero tendremos que especificar el nombre de dominio por el que vamos a acceder a la aplicación, esto lo configuraremos mas tarde.</p>
+<pre><code>  ALLOWED_HOSTS = ['www.alegvdjango.es']
+</code></pre>
+</li>
+<li>
+<p>Migramos la base de datos.</p>
+<pre><code>  (django) root@python:/var/www/django_tutorial# python3 manage.py migrate
+  Operations to perform:
+    Apply all migrations: admin, auth, contenttypes, polls, sessions
+  Running migrations:
+    Applying contenttypes.0001_initial... OK
+    Applying auth.0001_initial... OK
+    Applying admin.0001_initial... OK
+    Applying admin.0002_logentry_remove_auto_add... OK
+    Applying admin.0003_logentry_add_action_flag_choices... OK
+    Applying contenttypes.0002_remove_content_type_name... OK
+    Applying auth.0002_alter_permission_name_max_length... OK
+    Applying auth.0003_alter_user_email_max_length... OK
+    Applying auth.0004_alter_user_username_opts... OK
+    Applying auth.0005_alter_user_last_login_null... OK
+    Applying auth.0006_require_contenttypes_0002... OK
+    Applying auth.0007_alter_validators_add_error_messages... OK
+    Applying auth.0008_alter_user_username_max_length... OK
+    Applying auth.0009_alter_user_last_name_max_length... OK
+    Applying auth.0010_alter_group_name_max_length... OK
+    Applying auth.0011_update_proxy_permissions... OK
+    Applying auth.0012_alter_user_first_name_max_length... OK
+    Applying polls.0001_initial... OK
+    Applying sessions.0001_initial... OK
+</code></pre>
+</li>
+<li>
+<p>Como hicimos anteriormente crearemos un usuario.</p>
+<pre><code>  (django) root@python:/var/www/django_tutorial# python3 manage.py createsuperuser
+  Username (leave blank to use 'root'): admin
+  Email address: tojandro@gmail.com	
+  Password: 
+  Password (again): 
+  The password is too similar to the username.
+  This password is too short. It must contain at least 8 characters.
+  This password is too common.
+  Bypass password validation and create user anyway? [y/N]: y
+  Superuser created successfully.
+</code></pre>
+</li>
+<li>
+<p>Ahora crearemos un VirtualHost que tendrá la siguiente configuración:</p>
+<pre><code>  &lt;VirtualHost *:80&gt;
 
-<pre><code>debian@python:~$ python3 -m venv django
+          ServerName www.alegvdjango.es
 
-(django) debian@python:~$ pip install -r /var/www/django/django_tutorial/requirements.txt 
-Collecting asgiref==3.3.0 (from -r /var/www/django/django_tutorial/requirements.txt (line 1))
-  Downloading https://files.pythonhosted.org/packages/c0/e8/578887011652048c2d273bf98839a11020891917f3aa638a0bc9ac04d653/asgiref-3.3.0-py3-none-any.whl
-Collecting Django==3.1.3 (from -r /var/www/django/django_tutorial/requirements.txt (line 2))
-  Downloading https://files.pythonhosted.org/packages/7f/17/16267e782a30ea2ce08a9a452c1db285afb0ff226cfe3753f484d3d65662/Django-3.1.3-py3-none-any.whl (7.8MB)
-    100% |████████████████████████████████| 7.8MB 115kB/s 
-Collecting pytz==2020.4 (from -r /var/www/django/django_tutorial/requirements.txt (line 3))
-  Downloading https://files.pythonhosted.org/packages/12/f8/ff09af6ff61a3efaad5f61ba5facdf17e7722c4393f7d8a66674d2dbd29f/pytz-2020.4-py2.py3-none-any.whl (509kB)
-    100% |████████████████████████████████| 512kB 694kB/s 
-Collecting sqlparse==0.4.1 (from -r /var/www/django/django_tutorial/requirements.txt (line 4))
-  Downloading https://files.pythonhosted.org/packages/14/05/6e8eb62ca685b10e34051a80d7ea94b7137369d8c0be5c3b9d9b6e3f5dae/sqlparse-0.4.1-py3-none-any.whl (42kB)
-    100% |████████████████████████████████| 51kB 1.1MB/s 
-Installing collected packages: asgiref, pytz, sqlparse, Django
-Successfully installed Django-3.1.3 asgiref-3.3.0 pytz-2020.4 sqlparse-0.4.1
-</code></pre></li>
+          ServerAdmin webmaster@localhost
+          WSGIDaemonProcess app_python user=www-data group=www-data processes=1 threads=5 python-path=/var$
+          WSGIScriptAlias / /var/www/django_tutorial/django_tutorial/wsgi.py
+          DocumentRoot /var/www/html
 
-<li><p>A parte, instalaremos unos módulos que le permitirán a python trabajar con mysql.</p>
+          Alias /static/ /var/www/django_tutorial/static/
 
-<pre><code>(django) debian@python:~$ pip install mysql-connector-python
-debian@python:~$ sudo apt-get install python3-mysqldb
-</code></pre></li>
+          &lt;Directory /var/www/django_tutorial&gt;
+                  WSGIProcessGroup app_python
+                  WSGIApplicationGroup %{GLOBAL}
+                  Require all granted
+          &lt;/Directory&gt;
 
-<li><p>Accederemos a la mysql y crearemos una base de datos y un usuario que tendrá permisos sobre esta base de datos.</p>
+          ErrorLog ${APACHE_LOG_DIR}/error.log
+          CustomLog ${APACHE_LOG_DIR}/access.log combined
 
-<pre><code>(django) debian@python:~$ sudo mysql -u root -p
+  &lt;/VirtualHost&gt;
+</code></pre>
+</li>
+<li>
+<p>Creamos las carpetas para el contenido estático que tendremos que copiar de los directorios que veremos a continuación:</p>
+<pre><code>  (django) root@python:/var/www/django_tutorial# mkdir -p static/{admin,polls}
 
-MariaDB [(none)]&gt; CREATE DATABASE django_bbdd;
-Query OK, 1 row affected (0.007 sec)
-
-MariaDB [(none)]&gt; CREATE USER 'usuario'@'localhost' IDENTIFIED BY 'usuario';
-Query OK, 0 rows affected (0.010 sec)
-
-MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON django_bbdd.* TO 'usuario'@'localhost';
-Query OK, 0 rows affected (0.001 sec)
-</code></pre></li>
-
-<li><p>El siguiente paso será modificar el archivo de configuración de django donde teníamos la configuración de la base de datos, veamos como quedaría nuestra configuración:</p>
-
-<pre><code>DATABASES = {
-    'default': {
-        'ENGINE': 'mysql.connector.django',
-        'NAME': 'django_bbdd',
-        'USER': 'usuario',
-        'PASSWORD': 'usuario',
-        'HOST': 'localhost',
-        'PORT': '3306',
-    }
-}
-</code></pre></li>
-
-<li><p>A parte, en este fichero tendremos que especificar el nombre de dominio por el que vamos a acceder a la aplicación, esto lo configuraremos mas tarde.</p>
-
-<pre><code>ALLOWED_HOSTS = ['www.alegvdjango.es']
-</code></pre></li>
-
-<li><p>Migramos la base de datos.</p>
-
-<pre><code>(django) root@python:/var/www/django_tutorial# python3 manage.py migrate
-Operations to perform:
-  Apply all migrations: admin, auth, contenttypes, polls, sessions
-Running migrations:
-  Applying contenttypes.0001_initial... OK
-  Applying auth.0001_initial... OK
-  Applying admin.0001_initial... OK
-  Applying admin.0002_logentry_remove_auto_add... OK
-  Applying admin.0003_logentry_add_action_flag_choices... OK
-  Applying contenttypes.0002_remove_content_type_name... OK
-  Applying auth.0002_alter_permission_name_max_length... OK
-  Applying auth.0003_alter_user_email_max_length... OK
-  Applying auth.0004_alter_user_username_opts... OK
-  Applying auth.0005_alter_user_last_login_null... OK
-  Applying auth.0006_require_contenttypes_0002... OK
-  Applying auth.0007_alter_validators_add_error_messages... OK
-  Applying auth.0008_alter_user_username_max_length... OK
-  Applying auth.0009_alter_user_last_name_max_length... OK
-  Applying auth.0010_alter_group_name_max_length... OK
-  Applying auth.0011_update_proxy_permissions... OK
-  Applying auth.0012_alter_user_first_name_max_length... OK
-  Applying polls.0001_initial... OK
-  Applying sessions.0001_initial... OK
-</code></pre></li>
-
-<li><p>Como hicimos anteriormente crearemos un usuario.</p>
-
-<pre><code>(django) root@python:/var/www/django_tutorial# python3 manage.py createsuperuser
-Username (leave blank to use 'root'): admin
-Email address: tojandro@gmail.com   
-Password: 
-Password (again): 
-The password is too similar to the username.
-This password is too short. It must contain at least 8 characters.
-This password is too common.
-Bypass password validation and create user anyway? [y/N]: y
-Superuser created successfully.
-</code></pre></li>
-
-<li><p>Ahora crearemos un VirtualHost que tendrá la siguiente configuración:</p>
-
-<pre><code>&lt;VirtualHost *:80&gt;
-
-        ServerName www.alegvdjango.es
-
-        ServerAdmin webmaster@localhost
-        WSGIDaemonProcess app_python user=www-data group=www-data processes=1 threads=5 python-path=/var$
-        WSGIScriptAlias / /var/www/django_tutorial/django_tutorial/wsgi.py
-        DocumentRoot /var/www/html
-
-        Alias /static/ /var/www/django_tutorial/static/
-
-        &lt;Directory /var/www/django_tutorial&gt;
-                WSGIProcessGroup app_python
-                WSGIApplicationGroup %{GLOBAL}
-                Require all granted
-        &lt;/Directory&gt;
-
-        ErrorLog ${APACHE_LOG_DIR}/error.log
-        CustomLog ${APACHE_LOG_DIR}/access.log combined
-
-&lt;/VirtualHost&gt;
-</code></pre></li>
-
-<li><p>Creamos las carpetas para el contenido estático que tendremos que copiar de los directorios que veremos a continuación:</p>
-
-<pre><code>(django) root@python:/var/www/django_tutorial# mkdir -p static/{admin,polls}
-
-(django) root@python:/var/www/django_tutorial# cp -r /home/debian/django/lib/python3.7/site-packages/django/contrib/admin/static/admin/* static/admin/
-(django) root@python:/var/www/django_tutorial# cp -r polls/static/polls/* static/polls/
-</code></pre></li>
-
-<li><p>añadiremos al <code>/etc/hosts</code> de nuestra anfitriona la dirección de nuestra aplicación y comprobaremos su funcionamiento.</p></li>
+  (django) root@python:/var/www/django_tutorial# cp -r /home/debian/django/lib/python3.7/site-packages/django/contrib/admin/static/admin/* static/admin/
+  (django) root@python:/var/www/django_tutorial# cp -r polls/static/polls/* static/polls/
+</code></pre>
+</li>
+<li>
+<p>añadiremos al <code>/etc/hosts</code> de nuestra anfitriona la dirección de nuestra aplicación y comprobaremos su funcionamiento.</p>
+</li>
 </ul>
-
-<p><img src="/despliegue_python/7.png" alt="exito" /></p>
-
+<p><img src="/despliegue_python/7.png" alt="exito"></p>
 <ul>
 <li>Podemos comprobar que nuestro sitio hace uso de las hojas de estilo</li>
 </ul>
-
-<p><img src="/despliegue_python/8.png" alt="hojas estilo" /></p>
-
+<p><img src="/despliegue_python/8.png" alt="hojas estilo"></p>
 <ul>
-<li><p>Para evitar que se pueda mostrar información sensible configuramos el fichero settings.py y quitamos el debug.</p>
-
-<pre><code>DEBUG = False
-</code></pre></li>
+<li>
+<p>Para evitar que se pueda mostrar información sensible configuramos el fichero settings.py y quitamos el debug.</p>
+<pre><code>  DEBUG = False
+</code></pre>
+</li>
 </ul>
-
 <h3 id="modificación-de-la-aplicación">Modificación de la aplicación.</h3>
-
 <ul>
-<li><p>Primero realizaremos estos cambios en el entorno de desarrollo, el primero de ellos será que nuestro nombre aparezca en la pagina de admin. Para ello modificaremos el fichero <code>django_tutorial/polls/templates/polls/index.html</code>.</p>
+<li>
+<p>Primero realizaremos estos cambios en el entorno de desarrollo, el primero de ellos será que nuestro nombre aparezca en la pagina de admin. Para ello modificaremos el fichero <code>django_tutorial/polls/templates/polls/index.html</code>.</p>
+<pre><code>  {% load static %}
 
-<pre><code>{% load static %}
+  &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;{% static 'polls/style.css' %}&quot;&gt;
 
-&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;{% static 'polls/style.css' %}&quot;&gt;
+  &lt;h1&gt;Alejandro Gutiérrez Valencia&lt;h1&gt;
 
-&lt;h1&gt;Alejandro Gutiérrez Valencia&lt;h1&gt;
-
-{% if latest_question_list %}
-    &lt;ul&gt;
-    {% for question in latest_question_list %}
-    &lt;li&gt;&lt;a href=&quot;{% url 'polls:detail' question.id %}&quot;&gt;{{ question.question_text }}&lt;/a&gt;&lt;/li&gt;
-    {% endfor %}
-    &lt;/ul&gt;
-{% else %}
-    &lt;p&gt;No polls are available.&lt;/p&gt;
-{% endif %}
-</code></pre></li>
+  {% if latest_question_list %}
+      &lt;ul&gt;
+      {% for question in latest_question_list %}
+      &lt;li&gt;&lt;a href=&quot;{% url 'polls:detail' question.id %}&quot;&gt;{{ question.question_text }}&lt;/a&gt;&lt;/li&gt;
+      {% endfor %}
+      &lt;/ul&gt;
+  {% else %}
+      &lt;p&gt;No polls are available.&lt;/p&gt;
+  {% endif %}
+</code></pre>
+</li>
 </ul>
-
-<p><img src="/despliegue_python/8.png" alt="nombre" /></p>
-
+<p><img src="/despliegue_python/8.png" alt="nombre"></p>
 <ul>
-<li><p>Vamos a modificar la imagen que se ve de fondo en la aplicación, para ello modificamos el archivo <code>django/lib/python3.7/site-packages/django/contrib/admin/static/admin/css/base.css</code> y podemos por ejemplo cambiar el color de fondo</p>
-
-<pre><code>body {
-    margin: 0;
-    padding: 0;
-    font-size: 14px;
-    font-family: &quot;Roboto&quot;,&quot;Lucida Grande&quot;,&quot;DejaVu Sans&quot;,&quot;Bitstream Vera Sans&quot;,Verdana,Arial,sans-serif;
-    color: #333;
-    background: #ebe10d;
-}
-</code></pre></li>
+<li>
+<p>Vamos a modificar la imagen que se ve de fondo en la aplicación, para ello modificamos el archivo <code>django/lib/python3.7/site-packages/django/contrib/admin/static/admin/css/base.css</code> y podemos por ejemplo cambiar el color de fondo</p>
+<pre><code>  body {
+      margin: 0;
+      padding: 0;
+      font-size: 14px;
+      font-family: &quot;Roboto&quot;,&quot;Lucida Grande&quot;,&quot;DejaVu Sans&quot;,&quot;Bitstream Vera Sans&quot;,Verdana,Arial,sans-serif;
+      color: #333;
+      background: #ebe10d;
+  }
+</code></pre>
+</li>
 </ul>
-
-<p><img src="/despliegue_python/10.png" alt="fondo" /></p>
-
+<p><img src="/despliegue_python/10.png" alt="fondo"></p>
 <ul>
-<li><p>Añadiremos una nueva tabla en la base de datos, para ello añadimos el siguiente modelo a <code>polls/models.py</code></p>
+<li>
+<p>Añadiremos una nueva tabla en la base de datos, para ello añadimos el siguiente modelo a <code>polls/models.py</code></p>
+<pre><code>    class Categoria(models.Model):
+      Abr = models.CharField(max_length=4)
+      Nombre = models.CharField(max_length=50)
 
-<pre><code>  class Categoria(models.Model):
-    Abr = models.CharField(max_length=4)
-    Nombre = models.CharField(max_length=50)
+      def __str__(self):
+          return self.Abr+&quot; - &quot;+self.Nombre 
+</code></pre>
+</li>
+<li>
+<p>El siguiente paso es crear una nueva migración:</p>
+<pre><code>  (django) alejandrogv@AlejandroGV:~/django_tutorial$ python3 manage.py makemigrations
+  Migrations for 'polls':
+    polls/migrations/0002_categoria.py
+      - Create model Categoria
+</code></pre>
+</li>
+<li>
+<p>Ahora en <code>polls/admin.py</code> debemos añadir el nuevo modelo.</p>
+<pre><code>  from .models import Choice, Question, Categoria
 
-    def __str__(self):
-        return self.Abr+&quot; - &quot;+self.Nombre 
-</code></pre></li>
-
-<li><p>El siguiente paso es crear una nueva migración:</p>
-
-<pre><code>(django) alejandrogv@AlejandroGV:~/django_tutorial$ python3 manage.py makemigrations
-Migrations for 'polls':
-  polls/migrations/0002_categoria.py
-    - Create model Categoria
-</code></pre></li>
-
-<li><p>Ahora en <code>polls/admin.py</code> debemos añadir el nuevo modelo.</p>
-
-<pre><code>from .models import Choice, Question, Categoria
-
-admin.site.register(Categoria)
-</code></pre></li>
-
-<li><p>Y migramos por supuesto.</p>
-
-<pre><code>(django) alejandrogv@AlejandroGV:~/django_tutorial$ python3 manage.py migrate
-Operations to perform:
-  Apply all migrations: admin, auth, contenttypes, polls, sessions
-Running migrations:
-  Applying polls.0002_categoria... OK
-</code></pre></li>
+  admin.site.register(Categoria)
+</code></pre>
+</li>
+<li>
+<p>Y migramos por supuesto.</p>
+<pre><code>  (django) alejandrogv@AlejandroGV:~/django_tutorial$ python3 manage.py migrate
+  Operations to perform:
+    Apply all migrations: admin, auth, contenttypes, polls, sessions
+  Running migrations:
+    Applying polls.0002_categoria... OK
+</code></pre>
+</li>
 </ul>
-
-<p><img src="/despliegue_python/11.png" alt="fondo" /></p>
+<p><img src="/despliegue_python/11.png" alt="fondo"></p>
 
                 </div>
                 

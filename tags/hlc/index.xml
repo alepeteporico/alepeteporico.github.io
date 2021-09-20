@@ -1,16 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Hlc on Alepetepórico Blog</title>
+    <title>HLC on Alepetepórico Blog</title>
     <link>https://alepeteporico.github.io/tags/hlc/</link>
-    <description>Recent content in Hlc on Alepetepórico Blog</description>
+    <description>Recent content in HLC on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 06 Jun 2021 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://alepeteporico.github.io/tags/hlc/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 06 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/hlc/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Proxy, proxy inverso y balanceadores de carga</title>
       <link>https://alepeteporico.github.io/practicas/proxy/</link>
@@ -18,8 +14,8 @@
       
       <guid>https://alepeteporico.github.io/practicas/proxy/</guid>
       <description>Primero usaremos squid para instalar un proxy.
-vagrant@proxy:~$ sudo apt install squid  Modificamos el fichero /etc/squid/squid.conf para definir las direcciones y puertos que permitiremos y el puerto de funcionamiento.
-acl localnet src 10.0.0.0/24 acl localnet src 172.22.100.0/24 acl SSL_ports port 443 acl Safe_ports port 80 # http acl Safe_ports port 21 # ftp acl Safe_ports port 443 # https acl CONNECT method CONNECT # Deny requests to certain unsafe ports http_access deny !</description>
+ vagrant@proxy:~$ sudo apt install squid    Modificamos el fichero /etc/squid/squid.conf para definir las direcciones y puertos que permitiremos y el puerto de funcionamiento.
+ acl localnet src 10.0.0.0/24 acl localnet src 172.22.100.0/24 acl SSL_ports port 443 acl Safe_ports port 80 # http acl Safe_ports port 21 # ftp acl Safe_ports port 443 # https acl CONNECT method CONNECT # Deny requests to certain unsafe ports http_access deny !</description>
     </item>
     
     <item>
@@ -29,10 +25,9 @@ acl localnet src 10.0.0.0/24 acl localnet src 172.22.100.0/24 acl SSL_ports port
       
       <guid>https://alepeteporico.github.io/practicas/rendimientoweb/</guid>
       <description>Instalamos ansible
-alejandrogv@AlejandroGV:~$ sudo apt install ansible  Ahora clonaremos el repositorio correspondiente con la receta.
-alejandrogv@AlejandroGV:~$ git clone https://github.com/josedom24/ansible_nginx_fpm_php.git  En el interior del respositorio editaremos el fichero hosts añadiendo la dirección de la máquina que usaremos para las pruebas.
-[servidores_web] nodo1 ansible_ssh_host=172.22.100.15 ansible_python_interpreter=/usr/bin/python3  Ejecutamos la funcionalidad playbook de ansible para que se realicen las modificaciones necesarias que usaremos en la máquina de prueba.
-  alejandrogv@AlejandroGV:~/ansible_nginx_fpm_php$ ansible-playbook site.</description>
+ alejandrogv@AlejandroGV:~$ sudo apt install ansible    Ahora clonaremos el repositorio correspondiente con la receta.
+ alejandrogv@AlejandroGV:~$ git clone https://github.com/josedom24/ansible_nginx_fpm_php.git    En el interior del respositorio editaremos el fichero hosts añadiendo la dirección de la máquina que usaremos para las pruebas.
+ [servidores_web] nodo1 ansible_ssh_host=172.22.100.15 ansible_python_interpreter=/usr/bin/python3    Ejecutamos la funcionalidad playbook de ansible para que se realicen las modificaciones necesarias que usaremos en la máquina de prueba.</description>
     </item>
     
     <item>
@@ -42,9 +37,8 @@ alejandrogv@AlejandroGV:~$ git clone https://github.com/josedom24/ansible_nginx_
       
       <guid>https://alepeteporico.github.io/practicas/cluster_kubernetes/</guid>
       <description>Crearemos 3 máquinas Vagrant que nos servirán, una de controlador y las otras dos de workers.
- En la máquina que usaremos como controlador descargaremos e instalaremos usando curl el script que instalará el servicio de k3.
-root@servidor:/usr/local/bin# curl -sfL https://get.k3s.io | sh -  Podemos comprobar mediante netstat que se ha abierto un puerto 6443 que es el que usa k3s por defecto.
-root@servidor:/usr/local/bin# netstat -tlnp | egrep &#39;6443&#39; tcp6 0 0 :::6443 :::* LISTEN 1577/k3s server  Vamos a listar todos los nodos que tenemos, así comprobaremos que la instalación se ha realizado correctamente.</description>
+  En la máquina que usaremos como controlador descargaremos e instalaremos usando curl el script que instalará el servicio de k3.
+ root@servidor:/usr/local/bin# curl -sfL https://get.k3s.io | sh -    Podemos comprobar mediante netstat que se ha abierto un puerto 6443 que es el que usa k3s por defecto.</description>
     </item>
     
     <item>
@@ -55,9 +49,9 @@ root@servidor:/usr/local/bin# netstat -tlnp | egrep &#39;6443&#39; tcp6 0 0 :::6
       <guid>https://alepeteporico.github.io/apuntes/apuntes-de-libvirt/</guid>
       <description>Libvirt es una API de virtualizacion que se usa con KVM o Qemu KVM (el sistema de virtualización nativo de Linux).
 Instalación Para instalar libvirt deberemos instalar los siguientes paquetes
-sudo apt-get install qemu-kvm libvirt-daemon-system  Explicación de los paquetes:
- qemu-kvm: Proporciona la virtualización para x86
- libvirt-daemon-system: Es el demonio de libvirt, el cual hace accesible la API a través de un socket UNIX (aunque se puede configurar para acceder a través de un socket TCP).</description>
+sudo apt-get install qemu-kvm libvirt-daemon-system Explicación de los paquetes:
+  qemu-kvm: Proporciona la virtualización para x86
+  libvirt-daemon-system: Es el demonio de libvirt, el cual hace accesible la API a través de un socket UNIX (aunque se puede configurar para acceder a través de un socket TCP).</description>
     </item>
     
     <item>

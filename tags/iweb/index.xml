@@ -1,16 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Iweb on Alepetepórico Blog</title>
+    <title>IWEB on Alepetepórico Blog</title>
     <link>https://alepeteporico.github.io/tags/iweb/</link>
-    <description>Recent content in Iweb on Alepetepórico Blog</description>
+    <description>Recent content in IWEB on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 07 Jun 2021 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://alepeteporico.github.io/tags/iweb/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 07 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/iweb/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Implantación de aplicaciones web PHP en docker</title>
       <link>https://alepeteporico.github.io/practicas/php_docker/</link>
@@ -18,9 +14,9 @@
       
       <guid>https://alepeteporico.github.io/practicas/php_docker/</guid>
       <description>Vamos a clonar el repositorio necesario para la aplicación.
-alejandrogv@AlejandroGV:~/docker/php$ git clone https://github.com/evilnapsis/bookmedik.git  Crearemos un repositorio con la siguiente estructura.
-alejandrogv@AlejandroGV:~/docker/php/php_docker$ tree . ├── build │ ├── bookmedik │ ├── Dockerfile │ └── script.sh ├── deploy │ └── docker-compose.yml └── README.md  En el fichero docker-compose añadimos lo siguiente.
-version: &amp;quot;3.1&amp;quot; services: db: container_name: mysql image: mariadb restart: always environment: MYSQL_DATABASE: bookmedik MYSQL_USER: bookmedik MYSQL_PASSWORD: admin MYSQL_ROOT_PASSWORD: admin volumes: - /opt/mysql_wp:/var/lib/mysql  Y en la carpeta build crearemos un fichero Dockerfile que rellenaremos de la siguiente forma.</description>
+ alejandrogv@AlejandroGV:~/docker/php$ git clone https://github.com/evilnapsis/bookmedik.git    Crearemos un repositorio con la siguiente estructura.
+ alejandrogv@AlejandroGV:~/docker/php/php_docker$ tree . ├── build │ ├── bookmedik │ ├── Dockerfile │ └── script.sh ├── deploy │ └── docker-compose.yml └── README.md    En el fichero docker-compose añadimos lo siguiente.
+ version: &amp;quot;3.1&amp;quot; services: db: container_name: mysql image: mariadb restart: always environment: MYSQL_DATABASE: bookmedik MYSQL_USER: bookmedik MYSQL_PASSWORD: admin MYSQL_ROOT_PASSWORD: admin volumes: - /opt/mysql_wp:/var/lib/mysql    Y en la carpeta build crearemos un fichero Dockerfile que rellenaremos de la siguiente forma.</description>
     </item>
     
     <item>
@@ -29,8 +25,8 @@ version: &amp;quot;3.1&amp;quot; services: db: container_name: mysql image: mari
       <pubDate>Fri, 04 Jun 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/ic/</guid>
-      <description>Integración continúa de aplicación django  Ya tenemos nuestra aplicación y el entorno virtual de la práctica de Despliegue de una aplicación python usaremos la misma, y realizaremos los test.
-(django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python/django_tutorial$ python3 manage.py test Creating test database for alias &#39;default&#39;... System check identified no issues (0 silenced). .......... ---------------------------------------------------------------------- Ran 10 tests in 0.056s OK Destroying test database for alias &#39;default&#39;...  Vamos a modificar el fichero polls/templates/polls/index.html para provocar un error, por ejemplo quitando unas llaves provocando así un error de sintaxis.</description>
+      <description>Integración continúa de aplicación django   Ya tenemos nuestra aplicación y el entorno virtual de la práctica de Despliegue de una aplicación python usaremos la misma, y realizaremos los test.
+ (django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python/django_tutorial$ python3 manage.py test Creating test database for alias &#39;default&#39;... System check identified no issues (0 silenced). .......... ---------------------------------------------------------------------- Ran 10 tests in 0.056s OK Destroying test database for alias &#39;default&#39;...    Vamos a modificar el fichero polls/templates/polls/index.</description>
     </item>
     
     <item>
@@ -40,9 +36,8 @@ version: &amp;quot;3.1&amp;quot; services: db: container_name: mysql image: mari
       
       <guid>https://alepeteporico.github.io/practicas/python_openstack/</guid>
       <description>Vamos a crear el entorno virtual en el cual instalaremos Mezzanine.
-alejandrogv@AlejandroGV:~/entornos/mezzanine$ source despliegue/bin/activate (despliegue) alejandrogv@AlejandroGV:~/entornos/mezzanine$  Ahora instalamos con pip mezzanine y creamos un proyecto.
-(despliegue) alejandrogv@AlejandroGV:~/proyecto$ pip install mezzanine (despliegue) alejandrogv@AlejandroGV:~/proyecto$ mezzanine-project cms  Vamos a modificar uno de los ficheros que se ha generado cms/settings.py para usar la base de datos sqlite ya que estamos en el entorno de pruebas.
-DATABASES = { &amp;quot;default&amp;quot;: { &amp;quot;ENGINE&amp;quot;: &amp;quot;django.</description>
+ alejandrogv@AlejandroGV:~/entornos/mezzanine$ source despliegue/bin/activate (despliegue) alejandrogv@AlejandroGV:~/entornos/mezzanine$    Ahora instalamos con pip mezzanine y creamos un proyecto.
+ (despliegue) alejandrogv@AlejandroGV:~/proyecto$ pip install mezzanine (despliegue) alejandrogv@AlejandroGV:~/proyecto$ mezzanine-project cms    Vamos a modificar uno de los ficheros que se ha generado cms/settings.py para usar la base de datos sqlite ya que estamos en el entorno de pruebas.</description>
     </item>
     
     <item>
@@ -52,10 +47,9 @@ DATABASES = { &amp;quot;default&amp;quot;: { &amp;quot;ENGINE&amp;quot;: &amp;qu
       
       <guid>https://alepeteporico.github.io/practicas/cms_java/</guid>
       <description>Elegiremos instalar la aplicación con Guacamole, para empezar instalaremos la paquetería necesaria.
-vagrant@cmsjava:~$ sudo apt install build-essential libcairo2-dev libjpeg62-turbo-dev libpng-dev libtool-bin libossp-uuid-dev libavcodec-dev libavformat-dev libswscale-dev freerdp2-dev libpango1.0-dev libssh2-1-dev libtelnet-dev libvncserver-dev libwebsockets-dev libpulse-dev libvorbis-dev libwebp-dev  Descargaremos la aplicación del sitio oficial.
-vagrant@cmsjava:~$ wget http://archive.apache.org/dist/guacamole/1.2.0/source/guacamole-server-1.2.0.tar.gz  Descomprimimos la carpeta que acabamos de descargar.
-vagrant@cmsjava:~$ tar -zxf guacamole-server-1.2.0.tar.gz vagrant@cmsjava:~$ ls guacamole-server-1.2.0  Entraremos y lo instalaremos siguiendo los siguientes pasos.
-vagrant@cmsjava:~/guacamole-server-1.2.0$ .</description>
+ vagrant@cmsjava:~$ sudo apt install build-essential libcairo2-dev libjpeg62-turbo-dev libpng-dev libtool-bin libossp-uuid-dev libavcodec-dev libavformat-dev libswscale-dev freerdp2-dev libpango1.0-dev libssh2-1-dev libtelnet-dev libvncserver-dev libwebsockets-dev libpulse-dev libvorbis-dev libwebp-dev    Descargaremos la aplicación del sitio oficial.
+ vagrant@cmsjava:~$ wget http://archive.apache.org/dist/guacamole/1.2.0/source/guacamole-server-1.2.0.tar.gz    Descomprimimos la carpeta que acabamos de descargar.
+ vagrant@cmsjava:~$ tar -zxf guacamole-server-1.2.0.tar.gz vagrant@cmsjava:~$ ls guacamole-server-1.2.0    Entraremos y lo instalaremos siguiendo los siguientes pasos.</description>
     </item>
     
     <item>
@@ -64,9 +58,9 @@ vagrant@cmsjava:~/guacamole-server-1.2.0$ .</description>
       <pubDate>Mon, 26 Apr 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/despliegue_python/</guid>
-      <description>Vamos a desarrollar la aplicación del tutorial de django 3.1. Vamos a configurar tu equipo como entorno de desarrollo para trabajar con la aplicación.  Realizamos un fork de la aplicación añadiendola a nuestros repositorios y seguidamente lo clonaremos en nuestra maquina:
-alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python$ git clone git@github.com:alepeteporico/django_tutorial.git  Crearemos el entorno virtual donde instalaremos las dependencias necesarias para hacer funcionar nuestra aplicación.
-alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ python3 -m venv django (django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ pip install -r despliegue_python/django_tutorial/requirements.</description>
+      <description>Vamos a desarrollar la aplicación del tutorial de django 3.1. Vamos a configurar tu equipo como entorno de desarrollo para trabajar con la aplicación.    Realizamos un fork de la aplicación añadiendola a nuestros repositorios y seguidamente lo clonaremos en nuestra maquina:
+ alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python$ git clone git@github.com:alepeteporico/django_tutorial.git    Crearemos el entorno virtual donde instalaremos las dependencias necesarias para hacer funcionar nuestra aplicación.
+ alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ python3 -m venv django (django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ pip install -r despliegue_python/django_tutorial/requirements.</description>
     </item>
     
     <item>

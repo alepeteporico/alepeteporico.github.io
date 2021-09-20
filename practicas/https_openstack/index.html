@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 
 
@@ -96,125 +96,120 @@
                 <h1><a href="https://alepeteporico.github.io/practicas/https_openstack/">OpenStack: Configuración HTTPS</a></h1>
                 <span class="post-date">2021-05-27 </span>
                 <div class="post-content">
-                    
-
-<h3 id="el-siguiente-paso-de-nuestro-proyecto-es-configurar-de-forma-adecuada-el-protocolo-https-en-nuestro-servidor-web-para-nuestra-aplicaciones-web-para-ello-vamos-a-emitir-un-certificado-wildcard-en-la-ac-gonzalo-nazareno-utilizando-para-la-petición-la-utilidad-gestiona">El siguiente paso de nuestro proyecto es configurar de forma adecuada el protocolo HTTPS en nuestro servidor web para nuestra aplicaciones web. Para ello vamos a emitir un certificado wildcard en la AC Gonzalo Nazareno utilizando para la petición la utilidad &ldquo;gestiona&rdquo;.</h3>
-
+                    <h3 id="el-siguiente-paso-de-nuestro-proyecto-es-configurar-de-forma-adecuada-el-protocolo-https-en-nuestro-servidor-web-para-nuestra-aplicaciones-web-para-ello-vamos-a-emitir-un-certificado-wildcard-en-la-ac-gonzalo-nazareno-utilizando-para-la-petición-la-utilidad-gestiona">El siguiente paso de nuestro proyecto es configurar de forma adecuada el protocolo HTTPS en nuestro servidor web para nuestra aplicaciones web. Para ello vamos a emitir un certificado wildcard en la AC Gonzalo Nazareno utilizando para la petición la utilidad &ldquo;gestiona&rdquo;.</h3>
 <ul>
-<li><p>Lo primero que debemos hacer para llevarlo a cabo es dirigirnos a centos donde crearemos los directorios nesarios y crearemos una clave RSA.</p>
+<li>
+<p>Lo primero que debemos hacer para llevarlo a cabo es dirigirnos a centos donde crearemos los directorios nesarios y crearemos una clave RSA.</p>
+<pre><code>  [centos@quijote ~]$ sudo mkdir /etc/ssl/private
+  [centos@quijote ~]$ sudo chmod 700 /etc/ssl/private
 
-<pre><code>[centos@quijote ~]$ sudo mkdir /etc/ssl/private
-[centos@quijote ~]$ sudo chmod 700 /etc/ssl/private
+  Generating RSA private key, 4096 bit long modulus (2 primes)
+  ..........................++++
+  ...++++
+  e is 65537 (0x010001)
 
-Generating RSA private key, 4096 bit long modulus (2 primes)
-..........................++++
-...++++
-e is 65537 (0x010001)
-
-[root@quijote ~]# chmod 400 /etc/ssl/private/openstack.key
-</code></pre></li>
-
-<li><p>Nuestro siguiente paso será crear un fichero <code>.csr</code> que posteriormente será firmado por la autoridad certificadora de IES Gonzalo Nazareno.</p>
-
-<pre><code>[root@quijote ~]# openssl req -new -key /etc/ssl/private/openstack.key -out /root/openstack.csr
-</code></pre></li>
-
-<li><p>Ahora subiremos nuestro certificado a gestiona para que sea firmado por la unidad certificadora de IES Gonzalo Nazareno.</p></li>
+  [root@quijote ~]# chmod 400 /etc/ssl/private/openstack.key
+</code></pre>
+</li>
+<li>
+<p>Nuestro siguiente paso será crear un fichero <code>.csr</code> que posteriormente será firmado por la autoridad certificadora de IES Gonzalo Nazareno.</p>
+<pre><code>  [root@quijote ~]# openssl req -new -key /etc/ssl/private/openstack.key -out /root/openstack.csr
+</code></pre>
+</li>
+<li>
+<p>Ahora subiremos nuestro certificado a gestiona para que sea firmado por la unidad certificadora de IES Gonzalo Nazareno.</p>
+</li>
 </ul>
-
-<p><img src="/https_openstack/1.png" alt="cert" /></p>
-
+<p><img src="/https_openstack/1.png" alt="cert"></p>
 <ul>
 <li>Cuando esté firmado lo descargamos.</li>
 </ul>
-
-<p><img src="/https_openstack/2.png" alt="cert" /></p>
-
+<p><img src="/https_openstack/2.png" alt="cert"></p>
 <ul>
-<li><p>Copiamos este certificado en Quijote.</p>
-
-<pre><code>[centos@quijote ~]$ scp alejandrogv@172.29.0.34:/home/alejandrogv/Descargas/openstack.crt .
-</code></pre></li>
-
-<li><p>Lo movemos a la carpeta de certificados que creamos anteriormente</p>
-
-<pre><code>[centos@quijote ~]$ sudo mv openstack.crt /etc/ssl/certs/
-</code></pre></li>
-
-<li><p>También debemos descargar en la misma ubicación el CA del Gonzalo Nazareno.</p>
-
-<pre><code>[centos@quijote certs]$ sudo scp alejandrogv@172.29.0.34:/home/alejandrogv/Descargas/gonzalonazareno.crt .
-</code></pre></li>
-
-<li><p>Ahora crearemos un virtual host, la caracteristica principal del mismo es que tendrá dos directivas. Una para acceder desde el puerto 80 y otra desde el 443. Aunque realmente cambiaremos la configuración del primero para solamente definir el ServerName y que directamente se redireccione a la conexión 443 (https) que es la segura.</p></li>
-
-<li><p>En el bloque donde definimos la conexión https añadiremos la ruta de los certificados necesarios, vemos la configuración del virtual host a continuación.</p>
-
-<pre><code>&lt;VirtualHost *:80&gt;
-    ServerName www.alegv.gonzalonazareno.org
-
-        Redirect 301 / https://www.alegv.gonzalonazareno.org/
-
-    ErrorLog /var/www/alegv/log/error.log
-    CustomLog /var/www/alegv/log/requests.log combined
-&lt;/VirtualHost&gt;
-
-&lt;IfModule mod_ssl.c&gt;
-    &lt;VirtualHost _default_:443&gt;
-        ServerName www.alegv.gonzalonazareno.org
-        DocumentRoot /var/www/alegv 
-
-        &lt;Proxy \&quot;unix:/run/php-fpm/www.sock|fcgi://php-fpm\&quot;&gt;
-            ProxySet disablereuse=off
-        &lt;/Proxy&gt;
-
-        &lt;FilesMatch \.php$&gt;
-            SetHandler proxy:fcgi://php-fpm
-        &lt;/FilesMatch&gt;
-
-        ErrorLog /var/www/alegv/log/error.log
-        CustomLog /var/www/alegv/log/requests.log combined
-
-        SSLEngine on
-
-        SSLCertificateFile  /etc/ssl/certs/openstack.crt
-        SSLCertificateKeyFile   /etc/ssl/private/openstack.key
-        SSLCACertificateFile    /etc/ssl/certs/gonzalonazareno.crt
-    &lt;/VirtualHost&gt;
-&lt;/IfModule&gt;
-</code></pre></li>
-
-<li><p>Ahora debemos instalar el módulo de ssl para apache.</p>
-
-<pre><code>[centos@quijote ~]$ sudo dnf install mod_ssl
-</code></pre></li>
-
-<li><p>Para que SELinux no nos de problemas usamos el siguiente comando sobre los certificados que tenemos.</p>
-
-<pre><code>[centos@quijote ~]$ sudo restorecon /etc/ssl/certs/openstack.crt
-[centos@quijote ~]$ sudo restorecon /etc/ssl/certs/gonzalonazareno.crt
-</code></pre></li>
-
-<li><p>Lo que debemos hacer ahora es permitir que apache escuche por el puerto 443, para ello iremos a su fichero de configuración <code>/etc/httpd/conf/httpd.conf</code> y añadimos la siguiente línea.</p>
-
-<pre><code>Listen 443
-</code></pre></li>
-
-<li><p>Ahora podemos reiniciar el servicio.</p>
-
-<pre><code>[centos@quijote ~]$ sudo systemctl restart httpd
-</code></pre></li>
-
-<li><p>Comprobamos que ahora al acceder a nuestro sitio web se accede mediante una conexión segura https.</p></li>
+<li>
+<p>Copiamos este certificado en Quijote.</p>
+<pre><code>  [centos@quijote ~]$ scp alejandrogv@172.29.0.34:/home/alejandrogv/Descargas/openstack.crt .
+</code></pre>
+</li>
+<li>
+<p>Lo movemos a la carpeta de certificados que creamos anteriormente</p>
+<pre><code>  [centos@quijote ~]$ sudo mv openstack.crt /etc/ssl/certs/
+</code></pre>
+</li>
+<li>
+<p>También debemos descargar en la misma ubicación el CA del Gonzalo Nazareno.</p>
+<pre><code>  [centos@quijote certs]$ sudo scp alejandrogv@172.29.0.34:/home/alejandrogv/Descargas/gonzalonazareno.crt .
+</code></pre>
+</li>
+<li>
+<p>Ahora crearemos un virtual host, la caracteristica principal del mismo es que tendrá dos directivas. Una para acceder desde el puerto 80 y otra desde el 443. Aunque realmente cambiaremos la configuración del primero para solamente definir el ServerName y que directamente se redireccione a la conexión 443 (https) que es la segura.</p>
+</li>
+<li>
+<p>En el bloque donde definimos la conexión https añadiremos la ruta de los certificados necesarios, vemos la configuración del virtual host a continuación.</p>
+<pre><code>  &lt;VirtualHost *:80&gt;
+      ServerName www.alegv.gonzalonazareno.org
+    
+          Redirect 301 / https://www.alegv.gonzalonazareno.org/
+    
+      ErrorLog /var/www/alegv/log/error.log
+      CustomLog /var/www/alegv/log/requests.log combined
+  &lt;/VirtualHost&gt;
+    
+  &lt;IfModule mod_ssl.c&gt;
+      &lt;VirtualHost _default_:443&gt;
+          ServerName www.alegv.gonzalonazareno.org
+          DocumentRoot /var/www/alegv 
+    
+          &lt;Proxy \&quot;unix:/run/php-fpm/www.sock|fcgi://php-fpm\&quot;&gt;
+              ProxySet disablereuse=off
+          &lt;/Proxy&gt;
+    
+          &lt;FilesMatch \.php$&gt;
+              SetHandler proxy:fcgi://php-fpm
+          &lt;/FilesMatch&gt;
+    
+          ErrorLog /var/www/alegv/log/error.log
+          CustomLog /var/www/alegv/log/requests.log combined
+    
+          SSLEngine on
+    
+          SSLCertificateFile	/etc/ssl/certs/openstack.crt
+          SSLCertificateKeyFile   /etc/ssl/private/openstack.key
+          SSLCACertificateFile    /etc/ssl/certs/gonzalonazareno.crt
+      &lt;/VirtualHost&gt;
+  &lt;/IfModule&gt;
+</code></pre>
+</li>
+<li>
+<p>Ahora debemos instalar el módulo de ssl para apache.</p>
+<pre><code>  [centos@quijote ~]$ sudo dnf install mod_ssl
+</code></pre>
+</li>
+<li>
+<p>Para que SELinux no nos de problemas usamos el siguiente comando sobre los certificados que tenemos.</p>
+<pre><code>  [centos@quijote ~]$ sudo restorecon /etc/ssl/certs/openstack.crt
+  [centos@quijote ~]$ sudo restorecon /etc/ssl/certs/gonzalonazareno.crt
+</code></pre>
+</li>
+<li>
+<p>Lo que debemos hacer ahora es permitir que apache escuche por el puerto 443, para ello iremos a su fichero de configuración <code>/etc/httpd/conf/httpd.conf</code> y añadimos la siguiente línea.</p>
+<pre><code>  Listen 443
+</code></pre>
+</li>
+<li>
+<p>Ahora podemos reiniciar el servicio.</p>
+<pre><code>  [centos@quijote ~]$ sudo systemctl restart httpd
+</code></pre>
+</li>
+<li>
+<p>Comprobamos que ahora al acceder a nuestro sitio web se accede mediante una conexión segura https.</p>
+</li>
 </ul>
-
-<p><img src="/https_openstack/3.png" alt="https" /></p>
-
+<p><img src="/https_openstack/3.png" alt="https"></p>
 <ul>
 <li>Podemos visualizar información sobre la seguridad de nuestra página y el certificado.</li>
 </ul>
-
-<p><img src="/https_openstack/4.png" alt="cert" /></p>
+<p><img src="/https_openstack/4.png" alt="cert"></p>
 
                 </div>
                 

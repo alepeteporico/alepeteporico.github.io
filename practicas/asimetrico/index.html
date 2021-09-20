@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 
 
@@ -96,225 +96,215 @@
                 <h1><a href="https://alepeteporico.github.io/practicas/asimetrico/">Cifrado asimétrico</a></h1>
                 <span class="post-date">2021-03-24 </span>
                 <div class="post-content">
-                    
-
-<h4 id="tarea-1-generación-de-claves">Tarea 1: Generación de claves</h4>
-
+                    <h4 id="tarea-1-generación-de-claves">Tarea 1: Generación de claves</h4>
 <ul>
-<li><p>Generamos las claves:</p>
+<li>
+<p>Generamos las claves:</p>
+<pre><code>  alejandrogv@AlejandroGV:~$ gpg --gen-key
+  gpg (GnuPG) 2.2.12; Copyright (C) 2018 Free Software Foundation, Inc.
+  This is free software: you are free to change and redistribute it.
+  There is NO WARRANTY, to the extent permitted by law.
 
-<pre><code>alejandrogv@AlejandroGV:~$ gpg --gen-key
-gpg (GnuPG) 2.2.12; Copyright (C) 2018 Free Software Foundation, Inc.
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.
+  Nota: Usa &quot;gpg --full-generate-key&quot; para el diálogo completo de generación de clave.
 
-Nota: Usa &quot;gpg --full-generate-key&quot; para el diálogo completo de generación de clave.
+  GnuPG debe construir un ID de usuario para identificar su clave.
 
-GnuPG debe construir un ID de usuario para identificar su clave.
+  Nombre y apellidos: Alejandro Gutiérrez Valencia
+  Dirección de correo electrónico: tojandro@gmail.com
+  Está usando el juego de caracteres 'utf-8'.
+  Ha seleccionado este ID de usuario:
+      &quot;Alejandro Gutiérrez Valencia &lt;tojandro@gmail.com&gt;&quot;
 
-Nombre y apellidos: Alejandro Gutiérrez Valencia
-Dirección de correo electrónico: tojandro@gmail.com
-Está usando el juego de caracteres 'utf-8'.
-Ha seleccionado este ID de usuario:
-    &quot;Alejandro Gutiérrez Valencia &lt;tojandro@gmail.com&gt;&quot;
+  ¿Cambia (N)ombre, (D)irección o (V)ale/(S)alir? V
+  Es necesario generar muchos bytes aleatorios. Es una buena idea realizar
+  alguna otra tarea (trabajar en otra ventana/consola, mover el ratón, usar
+  la red y los discos) durante la generación de números primos. Esto da al
+  generador de números aleatorios mayor oportunidad de recoger suficiente
+  entropía.
+  Es necesario generar muchos bytes aleatorios. Es una buena idea realizar
+  alguna otra tarea (trabajar en otra ventana/consola, mover el ratón, usar
+  la red y los discos) durante la generación de números primos. Esto da al
+  generador de números aleatorios mayor oportunidad de recoger suficiente
+  entropía.
+  gpg: clave 2DF83E5272EECBAD marcada como de confianza absoluta
+  gpg: certificado de revocación guardado como '/home/alejandrogv/.gnupg/openpgp-revocs.d/30C5525AE9451AE80F2C23242DF83E5272EECBAD.rev'
+  claves pública y secreta creadas y firmadas.
 
-¿Cambia (N)ombre, (D)irección o (V)ale/(S)alir? V
-Es necesario generar muchos bytes aleatorios. Es una buena idea realizar
-alguna otra tarea (trabajar en otra ventana/consola, mover el ratón, usar
-la red y los discos) durante la generación de números primos. Esto da al
-generador de números aleatorios mayor oportunidad de recoger suficiente
-entropía.
-Es necesario generar muchos bytes aleatorios. Es una buena idea realizar
-alguna otra tarea (trabajar en otra ventana/consola, mover el ratón, usar
-la red y los discos) durante la generación de números primos. Esto da al
-generador de números aleatorios mayor oportunidad de recoger suficiente
-entropía.
-gpg: clave 2DF83E5272EECBAD marcada como de confianza absoluta
-gpg: certificado de revocación guardado como '/home/alejandrogv/.gnupg/openpgp-revocs.d/30C5525AE9451AE80F2C23242DF83E5272EECBAD.rev'
-claves pública y secreta creadas y firmadas.
+  pub   rsa3072 2021-03-24 [SC] [caduca: 2023-03-24]
+        30C5525AE9451AE80F2C23242DF83E5272EECBAD
+  uid                      Alejandro Gutiérrez Valencia &lt;tojandro@gmail.com&gt;
+  sub   rsa3072 2021-03-24 [E] [caduca: 2023-03-24]
+</code></pre>
+</li>
+<li>
+<p>Las claves se generan en la carpeta personal en un directorio oculto llamado gnupg</p>
+<pre><code>  alejandrogv@AlejandroGV:~$ ls .gnupg/
+  crls.d            private-keys-v1.d  pubring.kbx~  sshcontrol  trustdb.gpg
+  openpgp-revocs.d  pubring.kbx        random_seed   tofu.db
+</code></pre>
+</li>
+<li>
+<p>Listamos las claves publicas.</p>
+<pre><code>  alejandrogv@AlejandroGV:~$ gpg --list-keys
+  gpg: comprobando base de datos de confianza
+  gpg: marginals needed: 3  completes needed: 1  trust model: pgp
+  gpg: nivel: 0  validez:   2  firmada:   2  confianza: 0-, 0q, 0n, 0m, 0f, 2u
+  gpg: nivel: 1  validez:   2  firmada:   0  confianza: 1-, 0q, 0n, 0m, 1f, 0u
+  gpg: siguiente comprobación de base de datos de confianza el: 2022-10-06
+  /home/alejandrogv/.gnupg/pubring.kbx
+  ------------------------------------
+  pub   rsa3072 2020-10-08 [SC] [caduca: 2022-11-10]
+        443D661D9AAF3ABAEDCA93E1C3B291882C4EE5DF
+  uid        [  absoluta ] Alejandro Gutierrez Valencia &lt;tojandro@gmail.com&gt;
+  sub   rsa3072 2020-10-08 [E] [caduca: 2022-11-10]
 
-pub   rsa3072 2021-03-24 [SC] [caduca: 2023-03-24]
-      30C5525AE9451AE80F2C23242DF83E5272EECBAD
-uid                      Alejandro Gutiérrez Valencia &lt;tojandro@gmail.com&gt;
-sub   rsa3072 2021-03-24 [E] [caduca: 2023-03-24]
-</code></pre></li>
+  pub   rsa3072 2020-10-07 [SC] [caducó: 2020-11-07]
+        DCFB091C5495684E59BC061EA52A681834F0E596
+  uid        [  caducada ] José Miguel Calderón Frutos &lt;josemiguelcalderonfrutos@gamil.com&gt;
 
-<li><p>Las claves se generan en la carpeta personal en un directorio oculto llamado gnupg</p>
+  pub   rsa3072 2020-10-06 [SC] [caduca: 2022-10-06]
+        28ED3C3112ED8846BEDFFAF657112B319F2A6170
+  uid        [   total   ] Francisco Javier Madueño Jurado &lt;frandh1997@gmail.com&gt;
+  sub   rsa3072 2020-10-06 [E] [caduca: 2022-10-06]
 
-<pre><code>alejandrogv@AlejandroGV:~$ ls .gnupg/
-crls.d            private-keys-v1.d  pubring.kbx~  sshcontrol  trustdb.gpg
-openpgp-revocs.d  pubring.kbx        random_seed   tofu.db
-</code></pre></li>
+  pub   rsa3072 2020-10-06 [SC] [caduca: 2022-10-06]
+        547D6FBDF49CD2340F1D5DB6CFCF1D130D5A52C5
+  uid        [   total   ] sergio ibañez &lt;sergio_hd_sony@hotmail.com&gt;
+  sub   rsa3072 2020-10-06 [E] [caduca: 2022-10-06]
 
-<li><p>Listamos las claves publicas.</p>
-
-<pre><code>alejandrogv@AlejandroGV:~$ gpg --list-keys
-gpg: comprobando base de datos de confianza
-gpg: marginals needed: 3  completes needed: 1  trust model: pgp
-gpg: nivel: 0  validez:   2  firmada:   2  confianza: 0-, 0q, 0n, 0m, 0f, 2u
-gpg: nivel: 1  validez:   2  firmada:   0  confianza: 1-, 0q, 0n, 0m, 1f, 0u
-gpg: siguiente comprobación de base de datos de confianza el: 2022-10-06
-/home/alejandrogv/.gnupg/pubring.kbx
-------------------------------------
-pub   rsa3072 2020-10-08 [SC] [caduca: 2022-11-10]
-      443D661D9AAF3ABAEDCA93E1C3B291882C4EE5DF
-uid        [  absoluta ] Alejandro Gutierrez Valencia &lt;tojandro@gmail.com&gt;
-sub   rsa3072 2020-10-08 [E] [caduca: 2022-11-10]
-
-pub   rsa3072 2020-10-07 [SC] [caducó: 2020-11-07]
-      DCFB091C5495684E59BC061EA52A681834F0E596
-uid        [  caducada ] José Miguel Calderón Frutos &lt;josemiguelcalderonfrutos@gamil.com&gt;
-
-pub   rsa3072 2020-10-06 [SC] [caduca: 2022-10-06]
-      28ED3C3112ED8846BEDFFAF657112B319F2A6170
-uid        [   total   ] Francisco Javier Madueño Jurado &lt;frandh1997@gmail.com&gt;
-sub   rsa3072 2020-10-06 [E] [caduca: 2022-10-06]
-
-pub   rsa3072 2020-10-06 [SC] [caduca: 2022-10-06]
-      547D6FBDF49CD2340F1D5DB6CFCF1D130D5A52C5
-uid        [   total   ] sergio ibañez &lt;sergio_hd_sony@hotmail.com&gt;
-sub   rsa3072 2020-10-06 [E] [caduca: 2022-10-06]
-
-pub   rsa3072 2021-03-24 [SC] [caduca: 2023-03-24]
-      30C5525AE9451AE80F2C23242DF83E5272EECBAD
-uid        [  absoluta ] Alejandro Gutiérrez Valencia &lt;tojandro@gmail.com&gt;
-sub   rsa3072 2021-03-24 [E] [caduca: 2023-03-24]
-</code></pre></li>
-
-<li><p>podriamos generar las claves con el siguiente comando para que nos diera la opción de darle un tiempo de validez a las mismas.</p>
-
-<pre><code>alejandrogv@AlejandroGV:~$ gpg --full-generate-key
-...
-...
-...
-Por favor, especifique el período de validez de la clave.
-         0 = la clave nunca caduca
-      &lt;n&gt;  = la clave caduca en n días
-      &lt;n&gt;w = la clave caduca en n semanas
-      &lt;n&gt;m = la clave caduca en n meses
-      &lt;n&gt;y = la clave caduca en n años
-¿Validez de la clave (0)? 5
-La clave caduca lun 29 mar 2021 14:23:34 CEST
-...
-...
-...
-</code></pre></li>
-
-<li><p>Para listar las claves privadas usamos este comando:</p>
-
-<pre><code>alejandrogv@AlejandroGV:~$ gpg --list-secret-keys
-gpg: comprobando base de datos de confianza
-gpg: marginals needed: 3  completes needed: 1  trust model: pgp
-gpg: nivel: 0  validez:   3  firmada:   2  confianza: 0-, 0q, 0n, 0m, 0f, 3u
-gpg: nivel: 1  validez:   2  firmada:   0  confianza: 1-, 0q, 0n, 0m, 1f, 0u
-gpg: siguiente comprobación de base de datos de confianza el: 2021-03-29
-/home/alejandrogv/.gnupg/pubring.kbx
-------------------------------------
-sec   rsa3072 2020-10-08 [SC] [caduca: 2022-11-10]
-      443D661D9AAF3ABAEDCA93E1C3B291882C4EE5DF
-uid        [  absoluta ] Alejandro Gutierrez Valencia &lt;tojandro@gmail.com&gt;
-ssb   rsa3072 2020-10-08 [E] [caduca: 2022-11-10]
-</code></pre></li>
+  pub   rsa3072 2021-03-24 [SC] [caduca: 2023-03-24]
+        30C5525AE9451AE80F2C23242DF83E5272EECBAD
+  uid        [  absoluta ] Alejandro Gutiérrez Valencia &lt;tojandro@gmail.com&gt;
+  sub   rsa3072 2021-03-24 [E] [caduca: 2023-03-24]
+</code></pre>
+</li>
+<li>
+<p>podriamos generar las claves con el siguiente comando para que nos diera la opción de darle un tiempo de validez a las mismas.</p>
+<pre><code>  alejandrogv@AlejandroGV:~$ gpg --full-generate-key
+  ...
+  ...
+  ...
+  Por favor, especifique el período de validez de la clave.
+           0 = la clave nunca caduca
+        &lt;n&gt;  = la clave caduca en n días
+        &lt;n&gt;w = la clave caduca en n semanas
+        &lt;n&gt;m = la clave caduca en n meses
+        &lt;n&gt;y = la clave caduca en n años
+  ¿Validez de la clave (0)? 5
+  La clave caduca lun 29 mar 2021 14:23:34 CEST
+  ...
+  ...
+  ...
+</code></pre>
+</li>
+<li>
+<p>Para listar las claves privadas usamos este comando:</p>
+<pre><code>  alejandrogv@AlejandroGV:~$ gpg --list-secret-keys
+  gpg: comprobando base de datos de confianza
+  gpg: marginals needed: 3  completes needed: 1  trust model: pgp
+  gpg: nivel: 0  validez:   3  firmada:   2  confianza: 0-, 0q, 0n, 0m, 0f, 3u
+  gpg: nivel: 1  validez:   2  firmada:   0  confianza: 1-, 0q, 0n, 0m, 1f, 0u
+  gpg: siguiente comprobación de base de datos de confianza el: 2021-03-29
+  /home/alejandrogv/.gnupg/pubring.kbx
+  ------------------------------------
+  sec   rsa3072 2020-10-08 [SC] [caduca: 2022-11-10]
+        443D661D9AAF3ABAEDCA93E1C3B291882C4EE5DF
+  uid        [  absoluta ] Alejandro Gutierrez Valencia &lt;tojandro@gmail.com&gt;
+  ssb   rsa3072 2020-10-08 [E] [caduca: 2022-11-10]
+</code></pre>
+</li>
 </ul>
-
-<h4 id="importar-exportar-clave-pública">Importar / exportar clave pública</h4>
-
+<h4 id="importar--exportar-clave-pública">Importar / exportar clave pública</h4>
 <ul>
-<li><p>Exportamos la clave en formato ASCII:</p>
+<li>
+<p>Exportamos la clave en formato ASCII:</p>
+<pre><code>  alejandrogv@AlejandroGV:~$ gpg --export -a &quot;Alejandro Gutierrez Valencia&quot; &gt; alejandro_gutierrez.asc
 
-<pre><code>alejandrogv@AlejandroGV:~$ gpg --export -a &quot;Alejandro Gutierrez Valencia&quot; &gt; alejandro_gutierrez.asc
-
-alejandrogv@AlejandroGV:~$ ls -l alejandro_gutierrez.asc 
--rw-r--r-- 1 alejandrogv alejandrogv 4256 mar 24 13:27 alejandro_gutierrez.asc
-</code></pre></li>
-
-<li><p>Importamos la clave de un compañero:</p>
-
-<pre><code>alejandrogv@AlejandroGV:~$ gpg --import clavepublicafran.asc
-</code></pre></li>
-
-<li><p>Comprobamos que se ha añadido a nuestro anillo de llaves:</p></li>
+  alejandrogv@AlejandroGV:~$ ls -l alejandro_gutierrez.asc 
+  -rw-r--r-- 1 alejandrogv alejandrogv 4256 mar 24 13:27 alejandro_gutierrez.asc
+</code></pre>
+</li>
+<li>
+<p>Importamos la clave de un compañero:</p>
+<pre><code>  alejandrogv@AlejandroGV:~$ gpg --import clavepublicafran.asc
+</code></pre>
+</li>
+<li>
+<p>Comprobamos que se ha añadido a nuestro anillo de llaves:</p>
+</li>
 </ul>
-
-<p><img src="/asimetrica/1.png" alt="anillo" /></p>
-
+<p><img src="/asimetrica/1.png" alt="anillo"></p>
 <h4 id="cifrado-asimétrico-con-claves-públicas">Cifrado asimétrico con claves públicas</h4>
-
 <ul>
-<li><p>Encriptamos un archivo, nos pedirá un ID de usuario, pondremos el del destinatario para cifrar con su clave pública que ya habremos importado.</p>
+<li>
+<p>Encriptamos un archivo, nos pedirá un ID de usuario, pondremos el del destinatario para cifrar con su clave pública que ya habremos importado.</p>
+<pre><code>  alejandrogv@AlejandroGV:~$ gpg -e prueba.txt
+  No ha especificado un ID de usuario (puede usar &quot;-r&quot;)
+  Introduzca ID de usuario. Acabe con una línea vacía: Alejandro Gutierrez Valencia
+  gpg: omitida: clave pública ya establecida
 
-<pre><code>alejandrogv@AlejandroGV:~$ gpg -e prueba.txt
-No ha especificado un ID de usuario (puede usar &quot;-r&quot;)
-Introduzca ID de usuario. Acabe con una línea vacía: Alejandro Gutierrez Valencia
-gpg: omitida: clave pública ya establecida
+  Destinatarios actuales:
+  rsa3072/3C5DBE21F6961E37 2020-10-08 &quot;Alejandro Gutierrez Valencia &lt;tojandro@gmail.com&gt;&quot;
 
-Destinatarios actuales:
-rsa3072/3C5DBE21F6961E37 2020-10-08 &quot;Alejandro Gutierrez Valencia &lt;tojandro@gmail.com&gt;&quot;
-
-Introduzca ID de usuario. Acabe con una línea vacía: 
-El fichero 'prueba.txt.gpg' ya existe. ¿Sobreescribir? (s/N) s
-</code></pre></li>
-
-<li><p>Desencriptamos el fichero del compañero:</p>
-
-<pre><code>alejandrogv@AlejandroGV:~$ gpg -d Apuntes.pdf.gpg &gt; apuntes.pdf
-</code></pre></li>
+  Introduzca ID de usuario. Acabe con una línea vacía: 
+  El fichero 'prueba.txt.gpg' ya existe. ¿Sobreescribir? (s/N) s
+</code></pre>
+</li>
+<li>
+<p>Desencriptamos el fichero del compañero:</p>
+<pre><code>  alejandrogv@AlejandroGV:~$ gpg -d Apuntes.pdf.gpg &gt; apuntes.pdf
+</code></pre>
+</li>
 </ul>
-
-<p><img src="/asimetrica/2.png" alt="desesncriptado" /></p>
-
+<p><img src="/asimetrica/2.png" alt="desesncriptado"></p>
 <ul>
 <li>Podemos comprobar que si le enviamos el fichero a alguien que no tiene importada nuestra clave importada no podrá descifrarlo.</li>
 </ul>
-
-<p><img src="/asimetrica/3.png" alt="desesncriptado_mal" /></p>
-
+<p><img src="/asimetrica/3.png" alt="desesncriptado_mal"></p>
 <h4 id="exportar-clave-a-un-servidor-público-de-claves-pgp">Exportar clave a un servidor público de claves PGP</h4>
-
 <ul>
-<li><p>Para crear la clave de revocación usamos el siguiente comando al que deberemos darle el ID de nuestra clave:</p>
-
-<pre><code>alejandrogv@AlejandroGV:~$ gpg --gen-revoke 443D661D9AAF3ABAEDCA93E1C3B291882C4EE5DF
-</code></pre></li>
-
-<li><p>Enviamos nuestra clave pública al servidor pgp.rediris.es</p>
-
-<pre><code>alejandrogv@AlejandroGV:~$ gpg --keyserver pgp.rediris.es --send-key 443D661D9AAF3ABAEDCA93E1C3B291882C4EE5DF
-</code></pre></li>
-
-<li><p>Borramos la clave de un compañero:</p>
-
-<pre><code>alejandrogv@AlejandroGV:~$ gpg --delete-key Álvaro Vaca Ferreras
-</code></pre></li>
-
-<li><p>Ahora cogeremos la clave del servidor que usamos antes, para ello necesitaremos saber la ID del compañero.</p>
-
-<pre><code>alejandrogv@AlejandroGV:~$ gpg --keyserver pgp.rediris.org --recv-keys A0BE5CA7A9DC70AD3D619467CC02797F092855F6
-</code></pre></li>
+<li>
+<p>Para crear la clave de revocación usamos el siguiente comando al que deberemos darle el ID de nuestra clave:</p>
+<pre><code>  alejandrogv@AlejandroGV:~$ gpg --gen-revoke 443D661D9AAF3ABAEDCA93E1C3B291882C4EE5DF
+</code></pre>
+</li>
+<li>
+<p>Enviamos nuestra clave pública al servidor pgp.rediris.es</p>
+<pre><code>  alejandrogv@AlejandroGV:~$ gpg --keyserver pgp.rediris.es --send-key 443D661D9AAF3ABAEDCA93E1C3B291882C4EE5DF
+</code></pre>
+</li>
+<li>
+<p>Borramos la clave de un compañero:</p>
+<pre><code>  alejandrogv@AlejandroGV:~$ gpg --delete-key Álvaro Vaca Ferreras
+</code></pre>
+</li>
+<li>
+<p>Ahora cogeremos la clave del servidor que usamos antes, para ello necesitaremos saber la ID del compañero.</p>
+<pre><code>  alejandrogv@AlejandroGV:~$ gpg --keyserver pgp.rediris.org --recv-keys A0BE5CA7A9DC70AD3D619467CC02797F092855F6
+</code></pre>
+</li>
 </ul>
-
 <h4 id="cifrado-asimétrico-con-openssl">Cifrado asimétrico con openssl</h4>
-
 <ul>
-<li><p>Creamos un par de claves con contraseña en formato PEM usando openssl:</p>
-
-<pre><code>alejandrogv@AlejandroGV:~$ sudo openssl genrsa -aes128 -out clave.pem 2048
-</code></pre></li>
-
-<li><p>Para separar la publica debemos usar el siguiente comando:</p>
-
-<pre><code>alejandrogv@AlejandroGV:~$ sudo openssl rsa -in clave.pem -pubout -out clave.public.pem
-</code></pre></li>
-
-<li><p>Encriptamos el fichero con la clave pública del compañero:</p>
-
-<pre><code>alejandrogv@AlejandroGV:~$ openssl rsautl -encrypt -in secreto.txt -out secreto.enc -inkey key.public.pem -pubin
-</code></pre></li>
-
-<li><p>Desencriptamos el archivo que nos ha enviado nuestro compañero usando nuestra clave.</p>
-
-<pre><code>alejandrogv@AlejandroGV:~$ sudo openssl rsautl -decrypt -inkey clave.pem -in fichero.enc -out fichero.txt
-</code></pre></li>
+<li>
+<p>Creamos un par de claves con contraseña en formato PEM usando openssl:</p>
+<pre><code>  alejandrogv@AlejandroGV:~$ sudo openssl genrsa -aes128 -out clave.pem 2048
+</code></pre>
+</li>
+<li>
+<p>Para separar la publica debemos usar el siguiente comando:</p>
+<pre><code>  alejandrogv@AlejandroGV:~$ sudo openssl rsa -in clave.pem -pubout -out clave.public.pem
+</code></pre>
+</li>
+<li>
+<p>Encriptamos el fichero con la clave pública del compañero:</p>
+<pre><code>  alejandrogv@AlejandroGV:~$ openssl rsautl -encrypt -in secreto.txt -out secreto.enc -inkey key.public.pem -pubin
+</code></pre>
+</li>
+<li>
+<p>Desencriptamos el archivo que nos ha enviado nuestro compañero usando nuestra clave.</p>
+<pre><code>  alejandrogv@AlejandroGV:~$ sudo openssl rsautl -decrypt -inkey clave.pem -in fichero.enc -out fichero.txt</code></pre>
+</li>
 </ul>
 
                 </div>

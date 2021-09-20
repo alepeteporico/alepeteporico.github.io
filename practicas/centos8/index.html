@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 
 
@@ -97,83 +97,54 @@
                 <span class="post-date">2021-02-19 </span>
                 <div class="post-content">
                     <p><strong>Antes de comenzar debemos instalar si no las tenemos ya las siguientes herramientas:</strong></p>
-
 <pre><code>    [centos@quijote ~]$ sudo yum install epel-release -y
 
     [centos@quijote ~]$ sudo yum install yum-utils -y
 
     [centos@quijote ~]$ sudo yum install rpmconf -y
 </code></pre>
-
 <p><strong>Ahora usaremos rpmconf para verificar conflictos en ficheros de configuración:</strong></p>
-
 <pre><code>    [centos@quijote ~]$ sudo rpmconf -a
 </code></pre>
-
 <p><strong>Limpiamos los paquetes innecesarios:</strong></p>
-
 <pre><code>    [centos@quijote ~]$ sudo package-cleanup --leaves
     [centos@quijote ~]$ sudo package-cleanup --orphans
 </code></pre>
-
 <p><strong>Instalamos el nuevo gestor de paquetes que usa CentOS 8, dnf:</strong></p>
-
 <pre><code>    [centos@quijote ~]$ sudo yum install dnf
 </code></pre>
-
 <p><strong>Aunque los dos gestores de paquetes podrían coexistir en el sistema, es mejor que eliminemos yum y usemos unicamente dnf:</strong></p>
-
 <pre><code>    [centos@quijote ~]$ sudo dnf -y remove yum yum-metadata-parser
     [centos@quijote ~]$ sudo rm -Rf /etc/yum
 </code></pre>
-
 <p><strong>Vamos a actualizar los paquetes usando el nuevo gestor:</strong></p>
-
 <pre><code>    [centos@quijote ~]$ sudo dnf upgrade -y
 </code></pre>
-
 <p><strong>Añadimos el paquete para lanzar CentOS 8</strong></p>
-
 <pre><code>    [centos@quijote ~]$ sudo dnf install http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/centos-linux-repos-8-2.el8.noarch.rpm http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/centos-linux-release-8.3-1.2011.el8.noarch.rpm http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/centos-gpg-keys-8-2.el8.noarch.rpm
 </code></pre>
-
 <p><strong>Actualizamos el respositorio EPEL:</strong></p>
-
 <pre><code>    [centos@quijote ~]$ dnf -y upgrade https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 </code></pre>
-
 <p><strong>Eliminamos los fichero temporales:</strong></p>
-
 <pre><code>    [centos@quijote ~]$ sudo dnf clean all
 </code></pre>
-
 <p><strong>Eliminamos el kernel de CentOS 7:</strong></p>
-
 <pre><code>    [centos@quijote ~]$ sudo rpm -e `rpm -q kernel`
 </code></pre>
-
 <p><strong>Y los paquetes conflictivos:</strong></p>
-
 <pre><code>    [centos@quijote ~]$ sudo rpm -e --nodeps sysvinit-tools
 </code></pre>
-
 <p><strong>Ahora al fin, actualizaremos a CentOS 8:</strong></p>
-
 <pre><code>    [centos@quijote ~]$ sudo dnf -y --releasever=8 --allowerasing --setopt=deltarpm=false distro-sync
 </code></pre>
-
 <p><strong>Instalamos el nuevo kernel:</strong></p>
-
 <pre><code>    [centos@quijote ~]$ sudo dnf -y install kernel-core
 </code></pre>
-
 <p><strong>Ahora debemos instalar el paquete minimal de CentOS 8 y actualizar grupos:</strong></p>
-
 <pre><code>    [centos@quijote ~]$ sudo dnf -y groupupdate &quot;Core&quot; &quot;Minimal Install&quot; --allowerasing --skip-broken
 </code></pre>
-
 <p><strong>Finalmente, depués de reiniciar el sistema, comprobamos que la actualización se ha realizado correctamente y tenemos instalado en nuestro sistema CentOS 8</strong></p>
-
 <pre><code>    [centos@quijote ~]$ sudo cat /etc/os-release
     NAME=&quot;CentOS Linux&quot;
     VERSION=&quot;8&quot;
@@ -196,8 +167,7 @@
     Linux quijote.novalocal 4.18.0-240.10.1.el8_3.x86_64 #1 SMP Mon Jan 18 17:05:51 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
 
     [centos@quijote ~]$ uname -r
-    4.18.0-240.10.1.el8_3.x86_64
-</code></pre>
+    4.18.0-240.10.1.el8_3.x86_64</code></pre>
 
                 </div>
                 

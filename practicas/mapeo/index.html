@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 
 
@@ -96,116 +96,108 @@
                 <h1><a href="https://alepeteporico.github.io/practicas/mapeo/">Mapear URL a ubicaciones de un sistema de ficheros</a></h1>
                 <span class="post-date">2021-04-21 </span>
                 <div class="post-content">
-                    
-
-<h3 id="crea-un-nuevo-host-virtual-que-es-accedido-con-el-nombre-www-mapeo-com-cuyo-documentroot-sea-srv-mapeo">Crea un nuevo host virtual que es accedido con el nombre www.mapeo.com, cuyo DocumentRoot sea /srv/mapeo.</h3>
-
+                    <h3 id="crea-un-nuevo-host-virtual-que-es-accedido-con-el-nombre-wwwmapeocom-cuyo-documentroot-sea-srvmapeo">Crea un nuevo host virtual que es accedido con el nombre <a href="http://www.mapeo.com">www.mapeo.com</a>, cuyo DocumentRoot sea /srv/mapeo.</h3>
 <ul>
-<li><p>En primer lugar para que nuestro apache pueda acceder a /srv/ y reconocer esta ruta como DocumentRoot debemos modificar el fichero <code>etc/apache2/apache2.conf</code> y descomentar las siguientes líneas.</p>
+<li>
+<p>En primer lugar para que nuestro apache pueda acceder a /srv/ y reconocer esta ruta como DocumentRoot debemos modificar el fichero <code>etc/apache2/apache2.conf</code> y descomentar las siguientes líneas.</p>
+<pre><code>  &lt;Directory /srv/&gt;
+          Options Indexes FollowSymLinks
+          AllowOverride None
+          Require all granted
+  &lt;/Directory&gt;
+</code></pre>
+</li>
+<li>
+<p>Una vez hecho esto creamos la carpeta mapeo en /srv/ y añadimos el nuevo host virtual en sites-avaiable, veamos como quedaría el fichero de sites-avaiable.</p>
+<pre><code>  vagrant@cmsagv:~$ cat /etc/apache2/sites-available/mapeo.conf
+  &lt;VirtualHost *:80&gt;
 
-<pre><code>&lt;Directory /srv/&gt;
-        Options Indexes FollowSymLinks
-        AllowOverride None
-        Require all granted
-&lt;/Directory&gt;
-</code></pre></li>
+          ServerName www.mapeo.com
 
-<li><p>Una vez hecho esto creamos la carpeta mapeo en /srv/ y añadimos el nuevo host virtual en sites-avaiable, veamos como quedaría el fichero de sites-avaiable.</p>
+          ServerAdmin webmaster@localhost
+          DocumentRoot /srv/mapeo 
 
-<pre><code>vagrant@cmsagv:~$ cat /etc/apache2/sites-available/mapeo.conf
-&lt;VirtualHost *:80&gt;
+          ErrorLog ${APACHE_LOG_DIR}/error.log
+          CustomLog ${APACHE_LOG_DIR}/access.log combined
 
-        ServerName www.mapeo.com
-
-        ServerAdmin webmaster@localhost
-        DocumentRoot /srv/mapeo 
-
-        ErrorLog ${APACHE_LOG_DIR}/error.log
-        CustomLog ${APACHE_LOG_DIR}/access.log combined
-
-&lt;/VirtualHost&gt;
-</code></pre></li>
-
-<li><p>Habilitamos el sitio.</p>
-
-<pre><code>vagrant@cmsagv:/etc/apache2/sites-available$ sudo a2ensite mapeo.conf 
-</code></pre></li>
-
-<li><p>Y por último en la máquina anfitriona añadimos nuestro servidor al <code>/etc/hosts</code></p>
-
-<pre><code>192.168.100.200 www.mapeo.com
-</code></pre></li>
-
-<li><p>comprobamos que funciona</p></li>
+  &lt;/VirtualHost&gt;
+</code></pre>
+</li>
+<li>
+<p>Habilitamos el sitio.</p>
+<pre><code>  vagrant@cmsagv:/etc/apache2/sites-available$ sudo a2ensite mapeo.conf 
+</code></pre>
+</li>
+<li>
+<p>Y por último en la máquina anfitriona añadimos nuestro servidor al <code>/etc/hosts</code></p>
+<pre><code>  192.168.100.200 www.mapeo.com
+</code></pre>
+</li>
+<li>
+<p>comprobamos que funciona</p>
+</li>
 </ul>
-
-<p><img src="/mapeo/1.png" alt="principal" /></p>
-
-<h3 id="cuando-se-entre-a-la-dirección-www-mapeo-com-se-redireccionará-automáticamente-a-www-mapeo-com-principal-donde-se-mostrará-el-mensaje-de-bienvenida">Cuando se entre a la dirección www.mapeo.com se redireccionará automáticamente a www.mapeo.com/principal, donde se mostrará el mensaje de bienvenida.</h3>
-
+<p><img src="/mapeo/1.png" alt="principal"></p>
+<h3 id="cuando-se-entre-a-la-dirección-wwwmapeocom-se-redireccionará-automáticamente-a-wwwmapeocomprincipal-donde-se-mostrará-el-mensaje-de-bienvenida">Cuando se entre a la dirección <a href="http://www.mapeo.com">www.mapeo.com</a> se redireccionará automáticamente a <a href="http://www.mapeo.com/principal,">www.mapeo.com/principal,</a> donde se mostrará el mensaje de bienvenida.</h3>
 <ul>
-<li><p>Para realizar esta tarea primero debemos crear el directorio <code>principal</code> con su correspondiente <code>index.html</code> y seguidamente en el fichero mapeo.conf que hemos configurado anteriormente añadiremos la siguiente línea.</p>
-
-<pre><code>Redirect 301 /index.html        /principal
-</code></pre></li>
+<li>
+<p>Para realizar esta tarea primero debemos crear el directorio <code>principal</code> con su correspondiente <code>index.html</code> y seguidamente en el fichero mapeo.conf que hemos configurado anteriormente añadiremos la siguiente línea.</p>
+<pre><code>  Redirect 301 /index.html        /principal
+</code></pre>
+</li>
 </ul>
-
 <h3 id="en-el-directorio-principal-no-se-permite-ver-la-lista-de-los-ficheros-no-se-permite-que-se-siga-los-enlaces-simbólicos-y-no-se-permite-negociación-de-contenido-muestra-al-profesor-el-funcionamiento-qué-configuración-tienes-que-poner">En el directorio principal no se permite ver la lista de los ficheros, no se permite que se siga los enlaces simbólicos y no se permite negociación de contenido. Muestra al profesor el funcionamiento. ¿Qué configuración tienes que poner?</h3>
-
 <ul>
-<li><p>Volvemos a <code>etc/apache2/apache2.conf</code> y añadimos lo siguiente.</p>
-
-<pre><code>&lt;Directory &quot;/srv/mapeo&quot;&gt;
-        Options -Indexes -FollowSymLinks -Multiviews
-&lt;/Directory&gt;
-</code></pre></li>
+<li>
+<p>Volvemos a <code>etc/apache2/apache2.conf</code> y añadimos lo siguiente.</p>
+<pre><code>  &lt;Directory &quot;/srv/mapeo&quot;&gt;
+          Options -Indexes -FollowSymLinks -Multiviews
+  &lt;/Directory&gt;
+</code></pre>
+</li>
 </ul>
-
-<h3 id="si-accedes-a-la-página-www-mapeo-com-principal-documentos-se-visualizarán-los-documentos-que-hay-en-home-usuario-doc-por-lo-tanto-se-permitirá-el-listado-de-fichero-y-el-seguimiento-de-enlaces-simbólicos-siempre-que-el-propietario-del-enlace-y-del-fichero-al-que-apunta-sean-el-mismo-usuario-explica-bien-y-pon-una-prueba-de-funcionamiento-donde-se-vea-bien-el-seguimiento-de-los-enlaces-simbólicos">Si accedes a la página www.mapeo.com/principal/documentos se visualizarán los documentos que hay en /home/usuario/doc. Por lo tanto se permitirá el listado de fichero y el seguimiento de enlaces simbólicos siempre que el propietario del enlace y del fichero al que apunta sean el mismo usuario. Explica bien y pon una prueba de funcionamiento donde se vea bien el seguimiento de los enlaces simbólicos.</h3>
-
+<h3 id="si-accedes-a-la-página-wwwmapeocomprincipaldocumentos-se-visualizarán-los-documentos-que-hay-en-homeusuariodoc-por-lo-tanto-se-permitirá-el-listado-de-fichero-y-el-seguimiento-de-enlaces-simbólicos-siempre-que-el-propietario-del-enlace-y-del-fichero-al-que-apunta-sean-el-mismo-usuario-explica-bien-y-pon-una-prueba-de-funcionamiento-donde-se-vea-bien-el-seguimiento-de-los-enlaces-simbólicos">Si accedes a la página <a href="http://www.mapeo.com/principal/documentos">www.mapeo.com/principal/documentos</a> se visualizarán los documentos que hay en /home/usuario/doc. Por lo tanto se permitirá el listado de fichero y el seguimiento de enlaces simbólicos siempre que el propietario del enlace y del fichero al que apunta sean el mismo usuario. Explica bien y pon una prueba de funcionamiento donde se vea bien el seguimiento de los enlaces simbólicos.</h3>
 <ul>
-<li><p>El primer paso para realizar esta tarea será crear un alias dentro del archivo de configuración de mapeo.</p>
-
-<pre><code>Alias &quot;/documentos&quot; &quot;/home/vagrant/Documentos&quot;
-</code></pre></li>
-
-<li><p>Y seguidamente daremos permisos a este virtual host para acceder a la carpeta documentos de nuestro usuario vagrant.</p>
-
-<pre><code>&lt;Directory &quot;/home/vagrant/Documentos&quot;&gt;
-        Options Indexes FollowSymLinks
-        AllowOverride None
-        Require all granted
-&lt;/Directory&gt;
-</code></pre></li>
-
-<li><p>Nuevamente comprobamos su funcionamiento:</p></li>
+<li>
+<p>El primer paso para realizar esta tarea será crear un alias dentro del archivo de configuración de mapeo.</p>
+<pre><code>  Alias &quot;/documentos&quot; &quot;/home/vagrant/Documentos&quot;
+</code></pre>
+</li>
+<li>
+<p>Y seguidamente daremos permisos a este virtual host para acceder a la carpeta documentos de nuestro usuario vagrant.</p>
+<pre><code>  &lt;Directory &quot;/home/vagrant/Documentos&quot;&gt;
+          Options Indexes FollowSymLinks
+          AllowOverride None
+          Require all granted
+  &lt;/Directory&gt;
+</code></pre>
+</li>
+<li>
+<p>Nuevamente comprobamos su funcionamiento:</p>
+</li>
 </ul>
-
-<p><img src="/mapeo/2.png" alt="documentos" /></p>
-
+<p><img src="/mapeo/2.png" alt="documentos"></p>
 <h3 id="en-todo-el-host-virtual-se-debe-redefinir-los-mensajes-de-error-de-objeto-no-encontrado-y-no-permitido-para-el-ello-se-crearan-dos-ficheros-html-dentro-del-directorio-error-entrega-las-modificaciones-necesarias-en-la-configuración-y-una-comprobación-del-buen-funcionamiento">En todo el host virtual se debe redefinir los mensajes de error de objeto no encontrado y no permitido. Para el ello se crearan dos ficheros html dentro del directorio error. Entrega las modificaciones necesarias en la configuración y una comprobación del buen funcionamiento.</h3>
-
 <ul>
-<li><p>Crearemos una carpeta error en mapeo y añadiremos 2 html uno para un error 404 y otro para 403.</p>
-
-<pre><code>vagrant@cmsagv:/srv/mapeo/error$ ls
-403.html  404.html
-</code></pre></li>
-
-<li><p>Ahora añadiremos unas línas de configuración a nuestro archivo de configuración de mapeo las cuales especificarán que al producirse uno de estos dos errores debe mostrar su correspondiente html que hemos creado.</p>
-
-<pre><code>ErrorDocument 403 /error/403.html
-ErrorDocument 404 /error/404.html
-</code></pre></li>
-
-<li><p>Comprobamos su funcionamiento.</p></li>
+<li>
+<p>Crearemos una carpeta error en mapeo y añadiremos 2 html uno para un error 404 y otro para 403.</p>
+<pre><code>  vagrant@cmsagv:/srv/mapeo/error$ ls
+  403.html  404.html
+</code></pre>
+</li>
+<li>
+<p>Ahora añadiremos unas línas de configuración a nuestro archivo de configuración de mapeo las cuales especificarán que al producirse uno de estos dos errores debe mostrar su correspondiente html que hemos creado.</p>
+<pre><code>  ErrorDocument 403 /error/403.html
+  ErrorDocument 404 /error/404.html
+</code></pre>
+</li>
+<li>
+<p>Comprobamos su funcionamiento.</p>
+</li>
 </ul>
-
-<p><img src="/mapeo/3.png" alt="403" /></p>
-
-<hr />
-
-<p><img src="/mapeo/4.png" alt="404" /></p>
+<p><img src="/mapeo/3.png" alt="403"></p>
+<hr>
+<p><img src="/mapeo/4.png" alt="404"></p>
 
                 </div>
                 

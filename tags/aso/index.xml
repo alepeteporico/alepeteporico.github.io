@@ -1,15 +1,23 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Aso on Alepetepórico Blog</title>
+    <title>ASO on Alepetepórico Blog</title>
     <link>https://alepeteporico.github.io/tags/aso/</link>
-    <description>Recent content in Aso on Alepetepórico Blog</description>
+    <description>Recent content in ASO on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 01 Jun 2021 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://alepeteporico.github.io/tags/aso/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Fri, 17 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/aso/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Compilación de un kérnel linux a medida</title>
+      <link>https://alepeteporico.github.io/practicas/kernel/</link>
+      <pubDate>Fri, 17 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/kernel/</guid>
+      <description>Vamos a necesitar instalar cierta paquetería como vemos a continuación.
+ alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ sudo apt install build-essential qtbase5-dev    Necesitamos saber que versión del kernel estamos usando.
+ alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ uname -r 5.10.0-8-amd64    Descargaremos la versión de nuestro kernel desde la página oficial
+ alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ wget https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.10.tar.gz alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ ls linux-5.10.tar.gz    Descomprimos este archivo y el resultado será una carpeta con muchisima información.</description>
+    </item>
     
     <item>
       <title>HTTPS OVH</title>
@@ -17,7 +25,7 @@
       <pubDate>Tue, 01 Jun 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/https_ovh/</guid>
-      <description>Explica los pasos fundamentales para la creación del certificado. Especificando los campos que has rellenado en el fichero CSR.  Para este cometido usaremos el servicio letsencrypt, esta unidad certificadora hace use del protocolo ACME que lleva a cabo dos sencillos pasos mediante un agente llamadao certbot los pasos son:   Validación del dominio. Tenemos que demostrar que somos administradores del dominio en el que queremos generar este certificado, esto se puede hacer de dos formas:   Creando un fichero de configuración en una ruta determinada, si la autoridad certificadora puede acceder por el puerto 80 y verificar este fichero y validar las firmas de las claves que se generarían para hacer dicha conexión, entonces verificará que somos administradores del dominio.</description>
+      <description>Explica los pasos fundamentales para la creación del certificado. Especificando los campos que has rellenado en el fichero CSR.  Para este cometido usaremos el servicio letsencrypt, esta unidad certificadora hace use del protocolo ACME que lleva a cabo dos sencillos pasos mediante un agente llamadao certbot los pasos son:   Validación del dominio. Tenemos que demostrar que somos administradores del dominio en el que queremos generar este certificado, esto se puede hacer de dos formas:    Creando un fichero de configuración en una ruta determinada, si la autoridad certificadora puede acceder por el puerto 80 y verificar este fichero y validar las firmas de las claves que se generarían para hacer dicha conexión, entonces verificará que somos administradores del dominio.</description>
     </item>
     
     <item>
@@ -27,21 +35,8 @@
       
       <guid>https://alepeteporico.github.io/practicas/ldap_openstack/</guid>
       <description>Para esta práctica vamos a usar las claves y certificados que generamos en la práctica de seguridad de https
-[root@quijote ~]# scp /etc/ssl/certs/gonzalonazareno.crt debian@10.0.1.9 [root@quijote ~]# scp /etc/ssl/certs/openstack.crt debian@10.0.1.9 [root@quijote ~]# scp /etc/ssl/private/openstack.key debian@10.0.1.9  Vamos a mover estos certificados a un sitio apropiado.
-debian@freston:~$ sudo mv gonzalonazareno.crt /etc/ssl/certs/ debian@freston:~$ sudo mv openstack.crt /etc/ssl/certs/ debian@freston:~$ sudo mv openstack.key /etc/ssl/private/  Vamos a crear unas acl para que el usuario openldap que es el encargado de ejecutar los servicios de sldap tenga permisos sobre estos certificados.</description>
-    </item>
-    
-    <item>
-      <title>Compilación de un kérnel linux a medida</title>
-      <link>https://alepeteporico.github.io/practicas/kernel/</link>
-      <pubDate>Fri, 28 May 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/kernel/</guid>
-      <description>Vamos a necesitar instalar cierta paquetería como vemos a continuación.
-alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ sudo apt install build-essential qtbase5-dev  Necesitamos saber que versión del kernel estamos usando.
-alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ uname -r 4.19.0-16-amd64  Descargaremos la versión de nuestro kernel desde la página oficial
-alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ wget https://mirrors.edge.kernel.org/pub/linux/kernel/v4.x/linux-4.19.16.tar.gz alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ ls linux-4.19.16.tar.gz  Descomprimos este archivo y el resultado será una carpeta con muchisima información.
-alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ tar xzvf linux-4.19.16.tar.gz alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ cd linux-4.19.16/ alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel/linux-4.19.16$ ls arch COPYING Documentation fs ipc kernel MAINTAINERS net scripts tools block CREDITS drivers include Kbuild lib Makefile README security usr certs crypto firmware init Kconfig LICENSES mm samples sound virt  Ejecutaremos el comando make oldconfig para generar el fichero .</description>
+ [root@quijote ~]# scp /etc/ssl/certs/gonzalonazareno.crt debian@10.0.1.9 [root@quijote ~]# scp /etc/ssl/certs/openstack.crt debian@10.0.1.9 [root@quijote ~]# scp /etc/ssl/private/openstack.key debian@10.0.1.9    Vamos a mover estos certificados a un sitio apropiado.
+ debian@freston:~$ sudo mv gonzalonazareno.crt /etc/ssl/certs/ debian@freston:~$ sudo mv openstack.crt /etc/ssl/certs/ debian@freston:~$ sudo mv openstack.key /etc/ssl/private/    Vamos a crear unas acl para que el usuario openldap que es el encargado de ejecutar los servicios de sldap tenga permisos sobre estos certificados.</description>
     </item>
     
     <item>
@@ -50,7 +45,7 @@ alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ tar xzvf linux-4.19.1
       <pubDate>Tue, 25 May 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/iscsi/</guid>
-      <description>Configura un escenario con vagrant o similar que incluya varias máquinas que permita realizar la configuración de un servidor iSCSI y dos clientes (uno linux y otro windows). Explica de forma detallada en la tarea los pasos realizados.  Crea un target con una LUN y conéctala a un cliente GNU/Linux. Explica cómo escaneas desde el cliente buscando los targets disponibles y utiliza la unidad lógica proporcionada, formateándola si es necesario y montándola.</description>
+      <description>Configura un escenario con vagrant o similar que incluya varias máquinas que permita realizar la configuración de un servidor iSCSI y dos clientes (uno linux y otro windows). Explica de forma detallada en la tarea los pasos realizados.   Crea un target con una LUN y conéctala a un cliente GNU/Linux. Explica cómo escaneas desde el cliente buscando los targets disponibles y utiliza la unidad lógica proporcionada, formateándola si es necesario y montándola.</description>
     </item>
     
     <item>
@@ -59,10 +54,10 @@ alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ tar xzvf linux-4.19.1
       <pubDate>Sat, 22 May 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/apuntes/apuntes-de-ssh-avanzado/</guid>
-      <description>ssh-agent  Tenemos un par de claves, para añadir a nuestro ssh-agent:
-ssh-add .ssh/clave  Nos pedirá la frase de paso y se añadiría la identidad, para comprobarlo:
-ssh-add -l  Pero necesitamos añadir esa clave a la máquina que nos queremos conectar.
-ssh-copy-id -i .ssh/clave usuario@172.22.100.10   Túneles ssh  Se usa para saltarnos un cortafuegos o para acceder por un canal abierto y más seguro, entre otras útilidades.</description>
+      <description>ssh-agent   Tenemos un par de claves, para añadir a nuestro ssh-agent:
+ ssh-add .ssh/clave    Nos pedirá la frase de paso y se añadiría la identidad, para comprobarlo:
+ ssh-add -l    Pero necesitamos añadir esa clave a la máquina que nos queremos conectar.
+ ssh-copy-id -i .ssh/clave usuario@172.22.100.10    Túneles ssh   Se usa para saltarnos un cortafuegos o para acceder por un canal abierto y más seguro, entre otras útilidades.</description>
     </item>
     
     <item>
@@ -72,7 +67,7 @@ ssh-copy-id -i .ssh/clave usuario@172.22.100.10   Túneles ssh  Se usa para salt
       
       <guid>https://alepeteporico.github.io/practicas/copias/</guid>
       <description>Usaremos la herramienta bacula para realizar nuestro sistema de copias de seguridad, por supuesto el primer paso que debemos tomar es instalar el paquete de bacula, instalaremos el cliente en todas las máquinas de nuestro escenario de openstack, aunque usaremos Dulcinea para alojar las copias de seguridad.
-debian@dulcinea:~$ sudo apt-get install bacula-client  En nuestro Openstack vamos a crear un volumen que asociaremos a Dulcinea y donde almacenaremos nuestras copias de seguridad.</description>
+ debian@dulcinea:~$ sudo apt-get install bacula-client    En nuestro Openstack vamos a crear un volumen que asociaremos a Dulcinea y donde almacenaremos nuestras copias de seguridad.</description>
     </item>
     
     <item>
@@ -82,9 +77,9 @@ debian@dulcinea:~$ sudo apt-get install bacula-client  En nuestro Openstack vamo
       
       <guid>https://alepeteporico.github.io/practicas/ldap/</guid>
       <description>LDAP es un protocolo de tipo cliente-servidor para acceder a un servicio de directorio. Un directorio es como una base de datos, pero en general contiene información más descriptiva y más basada en atributos.
- Lo primero que debemos hacer es verificar nuestro FQDN (Fully Qualified Domain Name) que usaremos mas tarde para la configuración.
-debian@freston:~$ hostname -f freston.alegv.gonzalonazareno.org  Instalaremos el paquete de LDAP
-debian@freston:~$ sudo apt install slapd  Durante esta instalación tendremos que introducir una contraseña para el administrador.</description>
+  Lo primero que debemos hacer es verificar nuestro FQDN (Fully Qualified Domain Name) que usaremos mas tarde para la configuración.
+ debian@freston:~$ hostname -f freston.alegv.gonzalonazareno.org    Instalaremos el paquete de LDAP
+ debian@freston:~$ sudo apt install slapd    Durante esta instalación tendremos que introducir una contraseña para el administrador.</description>
     </item>
     
     <item>

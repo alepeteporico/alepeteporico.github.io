@@ -2,11 +2,11 @@
 <html lang="en">
 
 	<head>
-		<title> Abd &middot; Alepetepórico Blog </title>
+		<title> ABD &middot; Alepetepórico Blog </title>
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 
 
@@ -95,7 +95,7 @@
 			<div class="container wrapper">
 				<div class="row">
 					<div class="col-xs-12 text-center">
-						<h1 id=>Abd</h1>
+						<h1 id=>ABD</h1>
 					</div>
 				</div>
 				<ul id="post-list">
@@ -107,8 +107,8 @@
 								<h4 class="post-date">2021-06-07</h4>
 							</div>
 							<div class="post-summary"><p>Primero crearemos el directorio donde almacenaremos las copias.
-SQL&gt; CREATE directory COPIA as '/home/backups/'; Directory created.  Comprobemos que se ha creado correctamente.
-SQL&gt; select directory_name from dba_directories; DIRECTORY_NAME -------------------------------------------------------------------------------- COPIA SDO_DIR_WORK SDO_DIR_ADMIN XMLDIR XSDDIR OPATCH_INST_DIR ORACLE_OCM_CONFIG_DIR2 ORACLE_BASE ORACLE_HOME ORACLE_OCM_CONFIG_DIR DATA_PUMP_DIR DIRECTORY_NAME -------------------------------------------------------------------------------- OPATCH_SCRIPT_DIR OPATCH_LOG_DIR JAVA$JOX$CUJS$DIRECTORY$ 14 rows selected.    expdp ale/ale dumpfile=copia_oracleexport%U.dmp logfile=copia_oracle_export.log directory=CARPETA_EXPORT full=y filesize=100M</p></div>
+ SQL&gt; CREATE directory COPIA as '/home/backups/'; Directory created.    Comprobemos que se ha creado correctamente.
+ SQL&gt; select directory_name from dba_directories; DIRECTORY_NAME -------------------------------------------------------------------------------- COPIA SDO_DIR_WORK SDO_DIR_ADMIN XMLDIR XSDDIR OPATCH_INST_DIR ORACLE_OCM_CONFIG_DIR2 ORACLE_BASE ORACLE_HOME ORACLE_OCM_CONFIG_DIR DATA_PUMP_DIR DIRECTORY_NAME -------------------------------------------------------------------------------- OPATCH_SCRIPT_DIR OPATCH_LOG_DIR JAVA$JOX$CUJS$DIRECTORY$ 14 rows selected.     expdp ale/ale dumpfile=copia_oracle_export_%U.dmp logfile=copia_oracle_export.log directory=CARPETA_EXPORT full=y filesize=100M</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/copiasbbdd/">Read More</a>
 							</div>
@@ -121,9 +121,9 @@ SQL&gt; select directory_name from dba_directories; DIRECTORY_NAME -------------
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/auditoria/">Auditoria</a></h4>
 								<h4 class="post-date">2021-05-31</h4>
 							</div>
-							<div class="post-summary"><p>Activa desde SQL*Plus la auditoría de los intentos de acceso fallidos al sistema. Comprueba su funcionamiento.  Primero vamos a visualizar los diferentes parametros de auditorias de los que disponemos.
-SQL&gt; SHOW PARAMETER AUDIT NAME TYPE VALUE ------------------------------------ ----------- ------------------------------ audit_file_dest string /opt/oracle/admin/ORCLCDB/adum p audit_sys_operations boolean TRUE audit_syslog_level string audit_trail string DB unified_audit_common_systemlog string unified_audit_sga_queue_size integer 1048576 unified_audit_systemlog string  Nosotros usaremos audit_trail
-SQL&gt; ALTER SYSTEM SET audit_trail=db scope=spfile; System altered.</p></div>
+							<div class="post-summary"><p>Activa desde SQL*Plus la auditoría de los intentos de acceso fallidos al sistema. Comprueba su funcionamiento.   Primero vamos a visualizar los diferentes parametros de auditorias de los que disponemos.
+ SQL&gt; SHOW PARAMETER AUDIT NAME	TYPE	VALUE ------------------------------------ ----------- ------------------------------ audit_file_dest string	/opt/oracle/admin/ORCLCDB/adum p audit_sys_operations	boolean	TRUE audit_syslog_level	string audit_trail	string	DB unified_audit_common_systemlog	string unified_audit_sga_queue_size	integer	1048576 unified_audit_systemlog string    Nosotros usaremos audit_trail
+ SQL&gt; ALTER SYSTEM SET audit_trail=db scope=spfile; System altered.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/auditoria/">Read More</a>
 							</div>
@@ -137,7 +137,7 @@ SQL&gt; ALTER SYSTEM SET audit_trail=db scope=spfile; System altered.</p></div>
 								<h4 class="post-date">2021-05-26</h4>
 							</div>
 							<div class="post-summary"><p>Primero obtendremos nuestro certificado digital en la sede electrónica siguiendo todos los pasos que se nos indican.
- Una vez tengamos nuestro certificado digital podemos importarlo a cualquier navegador, en mi caso quiero importarlo a un navegador firefox que tengo en mi sistema debian 10. Para ello nos dirigiremos a preferencias &gt; Privaciad y Seguridad &gt; Certificados &gt; Ver certificados aquí aparecerá una vetana emergente donde podremos ver todos los certificados guardados que tenemos.</p></div>
+  Una vez tengamos nuestro certificado digital podemos importarlo a cualquier navegador, en mi caso quiero importarlo a un navegador firefox que tengo en mi sistema debian 10. Para ello nos dirigiremos a preferencias &gt; Privaciad y Seguridad &gt; Certificados &gt; Ver certificados aquí aparecerá una vetana emergente donde podremos ver todos los certificados guardados que tenemos.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/certficiados/">Read More</a>
 							</div>
@@ -150,8 +150,8 @@ SQL&gt; ALTER SYSTEM SET audit_trail=db scope=spfile; System altered.</p></div>
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/almacenamiento_bbdd/">Almacenamiento</a></h4>
 								<h4 class="post-date">2021-05-10</h4>
 							</div>
-							<div class="post-summary"><p>Muestra los objetos a los que pertenecen las extensiones del tablespace TS2 (creado por tí) y el tamaño de cada una de ellas. Tendrás que crear objetos en él previamente, claro.  Vamos a crear este Tablespace.
-SQL&gt; CREATE TABLESPACE TS2 2 DATAFILE '/home/oracle/ts2.dbf' 3 SIZE 200K 4 AUTOEXTEND ON 5 DEFAULT STORAGE ( 6 INITIAL 200K 7 NEXT 200K 8 MAXEXTENTS 3 9 PCTINCREASE 100); Tablespace created.  Vamos a crear una prueba para ver como funciona y añadamos contenido a ver como funciona.</p></div>
+							<div class="post-summary"><p>Muestra los objetos a los que pertenecen las extensiones del tablespace TS2 (creado por tí) y el tamaño de cada una de ellas. Tendrás que crear objetos en él previamente, claro.   Vamos a crear este Tablespace.
+ SQL&gt; CREATE TABLESPACE TS2 2 DATAFILE '/home/oracle/ts2.dbf' 3 SIZE 200K 4 AUTOEXTEND ON 5 DEFAULT STORAGE ( 6 INITIAL 200K 7 NEXT 200K 8 MAXEXTENTS 3 9 PCTINCREASE 100); Tablespace created.    Vamos a crear una prueba para ver como funciona y añadamos contenido a ver como funciona.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/almacenamiento_bbdd/">Read More</a>
 							</div>
@@ -165,8 +165,8 @@ SQL&gt; CREATE TABLESPACE TS2 2 DATAFILE '/home/oracle/ts2.dbf' 3 SIZE 200K 4 AU
 								<h4 class="post-date">2021-05-05</h4>
 							</div>
 							<div class="post-summary"><p>Realizar un enlace entre dos servidores de bases de datos ORACLE, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.
- Realizar un enlace entre dos servidores de bases de datos Postgres, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.
- Realizar un enlace entre un servidor ORACLE y otro Postgres o MySQL empleando Heterogeneus Services, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.</p></div>
+  Realizar un enlace entre dos servidores de bases de datos Postgres, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.
+  Realizar un enlace entre un servidor ORACLE y otro Postgres o MySQL empleando Heterogeneus Services, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/interconexion/">Read More</a>
 							</div>

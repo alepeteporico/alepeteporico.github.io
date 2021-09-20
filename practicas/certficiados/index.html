@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 
 
@@ -96,267 +96,242 @@
                 <h1><a href="https://alepeteporico.github.io/practicas/certficiados/">Certificados Digitales</a></h1>
                 <span class="post-date">2021-05-26 </span>
                 <div class="post-content">
-                    
-
-<ul>
-<li><p>Primero obtendremos nuestro certificado digital en <a href="https://www.sede.fnmt.gob.es/certificados/persona-fisica">la sede electrónica</a> siguiendo todos los pasos que se nos indican.</p></li>
-
-<li><p>Una vez tengamos nuestro certificado digital podemos importarlo a cualquier navegador, en mi caso quiero importarlo a un navegador firefox que tengo en mi sistema debian 10. Para ello nos dirigiremos a <code>preferencias &gt; Privaciad y Seguridad &gt; Certificados &gt; Ver certificados</code> aquí aparecerá una vetana emergente donde podremos ver todos los certificados guardados que tenemos.</p></li>
+                    <ul>
+<li>
+<p>Primero obtendremos nuestro certificado digital en <a href="https://www.sede.fnmt.gob.es/certificados/persona-fisica">la sede electrónica</a> siguiendo todos los pasos que se nos indican.</p>
+</li>
+<li>
+<p>Una vez tengamos nuestro certificado digital podemos importarlo a cualquier navegador, en mi caso quiero importarlo a un navegador firefox que tengo en mi sistema debian 10. Para ello nos dirigiremos a <code>preferencias &gt; Privaciad y Seguridad &gt; Certificados &gt; Ver certificados</code> aquí aparecerá una vetana emergente donde podremos ver todos los certificados guardados que tenemos.</p>
+</li>
 </ul>
-
-<p><img src="/certificados/1.png" alt="todos" /></p>
-
+<p><img src="/certificados/1.png" alt="todos"></p>
 <ul>
 <li>Debemos dirigirnos a la pestaña de <code>sus certificados</code> e importar el nuestro.</li>
 </ul>
-
-<p><img src="/certificados/2.png" alt="mios" /></p>
-
+<p><img src="/certificados/2.png" alt="mios"></p>
 <ul>
 <li>Tendremos que escribir una contraseña que especificamos al exportarlo y ya estará añadido.</li>
 </ul>
-
-<p><img src="/certificados/3.png" alt="password" /></p>
-
-<p><img src="/certificados/4.png" alt="certificado" /></p>
-
+<p><img src="/certificados/3.png" alt="password"></p>
+<p><img src="/certificados/4.png" alt="certificado"></p>
 <h4 id="cómo-puedes-hacer-una-copia-de-tu-certificado-como-vas-a-realizar-la-copia-de-seguridad-de-tu-certificado-razona-la-respuesta">¿Cómo puedes hacer una copia de tu certificado?, ¿Como vas a realizar la copia de seguridad de tu certificado?. Razona la respuesta.</h4>
-
 <ul>
 <li>En las imagenes anteriores podemos ver que existe la opción de <code>copiar todo</code>, esto copiaría nuestro certificado. Automáticamente nuestro navegador nos pedirá que protejamos el certificado copiado con una clave, ponemos una clave segura y como vimos antes al importar este certificado siempre necesitaremos introducir esa contraseña. Así es como exportariamos nuestra clave desde firefox.</li>
 </ul>
-
 <h4 id="validacion-del-certificado">Validacion del certificado.</h4>
-
 <ul>
-<li><p>Vamos a validar nuestro certificado usando autofirma, un software que nos permite firmar nuestros certificados. Para hacerlo primero debemos descargar el paquete.</p>
+<li>
+<p>Vamos a validar nuestro certificado usando autofirma, un software que nos permite firmar nuestros certificados. Para hacerlo primero debemos descargar el paquete.</p>
+<pre><code>  alejandrogv@AlejandroGV:~$ wget https://estaticos.redsara.es/comunes/autofirma/currentversion/AutoFirma_Linux.zip
+</code></pre>
+</li>
+<li>
+<p>También debemos, antes de instalar este software, instalar las dependencias necesarias.</p>
+<pre><code>  alejandrogv@AlejandroGV:~$ sudo apt install default-jdk libnss3-tools
+</code></pre>
+</li>
+<li>
+<p>Ahora descomprimimos el paquete que descargamos antes e instalamos el <code>.deb</code> que dejará.</p>
+<pre><code>  alejandrogv@AlejandroGV:~$ unzip AutoFirma_Linux.zip
 
-<pre><code>alejandrogv@AlejandroGV:~$ wget https://estaticos.redsara.es/comunes/autofirma/currentversion/AutoFirma_Linux.zip
-</code></pre></li>
-
-<li><p>También debemos, antes de instalar este software, instalar las dependencias necesarias.</p>
-
-<pre><code>alejandrogv@AlejandroGV:~$ sudo apt install default-jdk libnss3-tools
-</code></pre></li>
-
-<li><p>Ahora descomprimimos el paquete que descargamos antes e instalamos el <code>.deb</code> que dejará.</p>
-
-<pre><code>alejandrogv@AlejandroGV:~$ unzip AutoFirma_Linux.zip
-
-alejandrogv@AlejandroGV:~$ sudo dpkg -i AutoFirma_1_6_5.deb
-</code></pre></li>
-
-<li><p>Ahora iremos a la web que nos ofrece el gobierno español <a href="https://valide.redsara.es/valide/validarCertificado/ejecutar.html">VALIDe</a> para validar nuestro certificado, clicariamos en <code>seleccionar certficado</code>, elegimos el programa de autofirma, seleccionamos nuestro certificado importado y le damos a aceptar.</p></li>
+  alejandrogv@AlejandroGV:~$ sudo dpkg -i AutoFirma_1_6_5.deb
+</code></pre>
+</li>
+<li>
+<p>Ahora iremos a la web que nos ofrece el gobierno español <a href="https://valide.redsara.es/valide/validarCertificado/ejecutar.html">VALIDe</a> para validar nuestro certificado, clicariamos en <code>seleccionar certficado</code>, elegimos el programa de autofirma, seleccionamos nuestro certificado importado y le damos a aceptar.</p>
+</li>
 </ul>
-
-<p><img src="/certificados/5.png" alt="valide" /></p>
-
-<p><img src="/certificados/6.png" alt="autofirma" /></p>
-
-<p><img src="/certificados/7.png" alt="valide" /></p>
-
-<p><img src="/certificados/8.png" alt="contraseña" /></p>
-
-<p><img src="/certificados/9.png" alt="certificado" /></p>
-
+<p><img src="/certificados/5.png" alt="valide"></p>
+<p><img src="/certificados/6.png" alt="autofirma"></p>
+<p><img src="/certificados/7.png" alt="valide"></p>
+<p><img src="/certificados/8.png" alt="contraseña"></p>
+<p><img src="/certificados/9.png" alt="certificado"></p>
 <ul>
 <li>Y ya tendriamos nuestro certificado validado.</li>
 </ul>
-
-<p><img src="/certificados/10.png" alt="bien" /></p>
-
+<p><img src="/certificados/10.png" alt="bien"></p>
 <h4 id="firma-electrónica">Firma electrónica</h4>
-
 <ul>
-<li><p>Vamos a crear dos ficheros que firmaremos con nuestro certificado digital.</p>
-
-<pre><code>alejandrogv@AlejandroGV:~/prueba$ ls
-firmado1.txt  firmado2.txt
-</code></pre></li>
-
-<li><p>Volveremos a VALIDe, pero esta vez nos dirigiremos al apartado <code>realizar firma</code>.</p></li>
+<li>
+<p>Vamos a crear dos ficheros que firmaremos con nuestro certificado digital.</p>
+<pre><code>  alejandrogv@AlejandroGV:~/prueba$ ls
+  firmado1.txt  firmado2.txt
+</code></pre>
+</li>
+<li>
+<p>Volveremos a VALIDe, pero esta vez nos dirigiremos al apartado <code>realizar firma</code>.</p>
+</li>
 </ul>
-
-<p><img src="/certificados/11.png" alt="realizar" /></p>
-
+<p><img src="/certificados/11.png" alt="realizar"></p>
 <ul>
 <li>Seleccionaremos el fichero a firmar y nuestro certificado para firmarlo.</li>
 </ul>
-
-<p><img src="/certificados/12.png" alt="fichero" /></p>
-
-<p><img src="/certificados/13.png" alt="certificado" /></p>
-
+<p><img src="/certificados/12.png" alt="fichero"></p>
+<p><img src="/certificados/13.png" alt="certificado"></p>
 <ul>
 <li>Comprobamos que la firma se ha realiado correctamente.</li>
 </ul>
-
-<p><img src="/certificados/14.png" alt="bien" /></p>
-
+<p><img src="/certificados/14.png" alt="bien"></p>
 <h4 id="autentificación">Autentificación</h4>
-
 <ul>
 <li>Podemos entrar en la pagina de la DGT para usar nuestro certificado.</li>
 </ul>
-
-<p><img src="/certificados/15.png" alt="puntos" /></p>
-
-<p><img src="/certificados/16.png" alt="bien" /></p>
-
+<p><img src="/certificados/15.png" alt="puntos"></p>
+<p><img src="/certificados/16.png" alt="bien"></p>
 <h4 id="https">HTTPS</h4>
-
 <ul>
-<li><p>Crearemos una clave privada que asociaremos a nuestra solicitud de firma.</p>
+<li>
+<p>Crearemos una clave privada que asociaremos a nuestra solicitud de firma.</p>
+<pre><code>  root@https:~# openssl genrsa 4096 &gt; /etc/ssl/private/alegv.key
+  Generating RSA private key, 4096 bit long modulus (2 primes)
+  ............++++
+  ......++++
+  e is 65537 (0x010001)
+</code></pre>
+</li>
+<li>
+<p>Con esta clave generaremos un fichero csr.</p>
+<pre><code>  openssl req -new -key /etc/ssl/private/alegv.key -out alegv.csr      
+</code></pre>
+</li>
+<li>
+<p>Una vez se nos firme nuestro certificado como veremos posteriormente podemos añadirlo a nuestra página, primero debemos configurar el módulo de ssl de apache configurando el fichero <code>/etc/apache2/sites-available/default-ssl.conf</code>.</p>
+<pre><code>  &lt;IfModule mod_ssl.c&gt;
+          &lt;VirtualHost _default_:443&gt;
+                  ServerAdmin webmaster@localhost
+                  ServerName alegv.iesgn.org
+                  DocumentRoot /var/www/iesgn
 
-<pre><code>root@https:~# openssl genrsa 4096 &gt; /etc/ssl/private/alegv.key
-Generating RSA private key, 4096 bit long modulus (2 primes)
-............++++
-......++++
-e is 65537 (0x010001)
-</code></pre></li>
+                  ErrorLog ${APACHE_LOG_DIR}/error.log
+                  CustomLog ${APACHE_LOG_DIR}/access.log combined
 
-<li><p>Con esta clave generaremos un fichero csr.</p>
+                  SSLEngine on
 
-<pre><code>openssl req -new -key /etc/ssl/private/alegv.key -out alegv.csr      
-</code></pre></li>
+                  SSLCertificateFile      /etc/ssl/certs/alegv.crt
+                  SSLCertificateKeyFile /etc/ssl/private/alegv.key
+                  SSLCACertificateFile /etc/ssl/certs/prueba.pem
 
-<li><p>Una vez se nos firme nuestro certificado como veremos posteriormente podemos añadirlo a nuestra página, primero debemos configurar el módulo de ssl de apache configurando el fichero <code>/etc/apache2/sites-available/default-ssl.conf</code>.</p>
-
-<pre><code>&lt;IfModule mod_ssl.c&gt;
-        &lt;VirtualHost _default_:443&gt;
-                ServerAdmin webmaster@localhost
-                ServerName alegv.iesgn.org
-                DocumentRoot /var/www/iesgn
-
-                ErrorLog ${APACHE_LOG_DIR}/error.log
-                CustomLog ${APACHE_LOG_DIR}/access.log combined
-
-                SSLEngine on
-
-                SSLCertificateFile      /etc/ssl/certs/alegv.crt
-                SSLCertificateKeyFile /etc/ssl/private/alegv.key
-                SSLCACertificateFile /etc/ssl/certs/prueba.pem
-
-                &lt;FilesMatch \&quot;\.\(cgi|shtml|phtml|php)\$\&quot;&gt;
-                                SSLOptions +StdEnvVars
-                &lt;/FilesMatch&gt;
-                &lt;Directory /usr/lib/cgi-bin&gt;
-                                SSLOptions +StdEnvVars
-                &lt;/Directory&gt;
-        &lt;/VirtualHost&gt;
-&lt;/IfModule&gt;
-</code></pre></li>
-
-<li><p>Y en el virtual host deberíamos añadir la siguiente línea:</p>
-
-<pre><code>Redirect 301 / https://alegv.iesgn.com/
-</code></pre></li>
+                  &lt;FilesMatch \&quot;\.\(cgi|shtml|phtml|php)\$\&quot;&gt;
+                                  SSLOptions +StdEnvVars
+                  &lt;/FilesMatch&gt;
+                  &lt;Directory /usr/lib/cgi-bin&gt;
+                                  SSLOptions +StdEnvVars
+                  &lt;/Directory&gt;
+          &lt;/VirtualHost&gt;
+  &lt;/IfModule&gt;
+</code></pre>
+</li>
+<li>
+<p>Y en el virtual host deberíamos añadir la siguiente línea:</p>
+<pre><code>  Redirect 301 / https://alegv.iesgn.com/
+</code></pre>
+</li>
 </ul>
-
-<hr />
-
+<hr>
 <ul>
-<li><p>Vamos a crear los directorios necesarios para realizar esta parte.</p>
+<li>
+<p>Vamos a crear los directorios necesarios para realizar esta parte.</p>
+<pre><code>  root@https2:/# tree CA/
+  CA/
+  ├── certs
+  ├── crl
+  ├── nuevos
+  └── privado
+</code></pre>
+</li>
+<li>
+<p>Debemos crear un fichero que nos servira como base de datos sobre los certificados creados.</p>
+<pre><code>  root@https2:/CA# touch index.txt
+</code></pre>
+</li>
+<li>
+<p>También copiaremos un fichero llamado <code>openssl.cnf</code>:</p>
+<pre><code>  root@https2:/CA# cp /etc/ssl/openssl.cnf /CA
+</code></pre>
+</li>
+<li>
+<p>Ahora podemos crear nuestro certificado autofirmado.</p>
+<pre><code>  root@https:/CA# openssl req -config openssl.cnf -new -x509 -extensions v3_ca -keyout privado/ca.key -out ./certs/caalegv.crt
+</code></pre>
+</li>
+<li>
+<p>Vamos a modificar nuestro fichero openssl para personalizar los directorios que se usan.</p>
+<pre><code>  [ CA_default ]
 
-<pre><code>root@https2:/# tree CA/
-CA/
-├── certs
-├── crl
-├── nuevos
-└── privado
-</code></pre></li>
+  dir             = /CA           # Where everything is kept
+  certs           = $dir/certs            # Where the issued certs are kept
+  crl_dir         = $dir/crl              # Where the issued crl are kept
+  database        = $dir/index.txt        # database index file.
+  #unique_subject = no                    # Set to 'no' to allow creation of
+                                          # several certs with same subject.
+  new_certs_dir   = $dir/nuevos           # default place for new certs.
 
-<li><p>Debemos crear un fichero que nos servira como base de datos sobre los certificados creados.</p>
+  certificate     = $dir/certs/ca.crt 
+  serial          = $dir/serial 
+                                          # must be commented out to leave a V1 CRL
+  crl             = $dir/crl.pem 
+  private_key     = $dir/privado/ca.key 
 
-<pre><code>root@https2:/CA# touch index.txt
-</code></pre></li>
+  x509_extensions = usr_cert
+</code></pre>
+</li>
+<li>
+<p>Vamos a generar nuestro par de calves.</p>
+<pre><code>  root@https2:/CA# openssl req -new -newkey rsa:2048 -keyout privado/caprueba.key -out caclave.pem -config ./openssl.cnf
+</code></pre>
+</li>
+<li>
+<p>Posteriormente autofirmaremos nuestro certificado.</p>
+<pre><code>  root@https2:/CA# openssl ca -create_serial -out cacerts.pem -days 365 -keyfile privado/caprueba.key -selfsign -extensions v3_ca -config ./openssl.cnf -infiles caclave.pem
+  Using configuration from ./openssl.cnf
+  Enter pass phrase for privado/caprueba.key:
+  Check that the request matches the signature
+  Signature ok
+  Certificate Details:
+          Serial Number: 1 (0x1)
+          Validity
+              Not Before: Jun  2 18:17:01 2021 GMT
+              Not After : Jun  2 18:17:01 2022 GMT
+          Subject:
+              countryName               = ES
+              stateOrProvinceName       = Sevilla
+              organizationName          = Prueba SL
+              organizationalUnitName    = prueba
+              commonName                = alejandro
+              emailAddress              = prueba@yahoo.es
+          X509v3 extensions:
+              X509v3 Subject Key Identifier: 
+                  B4:A9:FB:C0:3B:A8:BB:74:97:93:6F:6E:B9:C7:AB:2D:E6:61:F4:BD
+              X509v3 Authority Key Identifier: 
+                  keyid:B4:A9:FB:C0:3B:A8:BB:74:97:93:6F:6E:B9:C7:AB:2D:E6:61:F4:BD
 
-<li><p>También copiaremos un fichero llamado <code>openssl.cnf</code>:</p>
-
-<pre><code>root@https2:/CA# cp /etc/ssl/openssl.cnf /CA
-</code></pre></li>
-
-<li><p>Ahora podemos crear nuestro certificado autofirmado.</p>
-
-<pre><code>root@https:/CA# openssl req -config openssl.cnf -new -x509 -extensions v3_ca -keyout privado/ca.key -out ./certs/caalegv.crt
-</code></pre></li>
-
-<li><p>Vamos a modificar nuestro fichero openssl para personalizar los directorios que se usan.</p>
-
-<pre><code>[ CA_default ]
-
-dir             = /CA           # Where everything is kept
-certs           = $dir/certs            # Where the issued certs are kept
-crl_dir         = $dir/crl              # Where the issued crl are kept
-database        = $dir/index.txt        # database index file.
-#unique_subject = no                    # Set to 'no' to allow creation of
-                                        # several certs with same subject.
-new_certs_dir   = $dir/nuevos           # default place for new certs.
-
-certificate     = $dir/certs/ca.crt 
-serial          = $dir/serial 
-                                        # must be commented out to leave a V1 CRL
-crl             = $dir/crl.pem 
-private_key     = $dir/privado/ca.key 
-
-x509_extensions = usr_cert
-</code></pre></li>
-
-<li><p>Vamos a generar nuestro par de calves.</p>
-
-<pre><code>root@https2:/CA# openssl req -new -newkey rsa:2048 -keyout privado/caprueba.key -out caclave.pem -config ./openssl.cnf
-</code></pre></li>
-
-<li><p>Posteriormente autofirmaremos nuestro certificado.</p>
-
-<pre><code>root@https2:/CA# openssl ca -create_serial -out cacerts.pem -days 365 -keyfile privado/caprueba.key -selfsign -extensions v3_ca -config ./openssl.cnf -infiles caclave.pem
-Using configuration from ./openssl.cnf
-Enter pass phrase for privado/caprueba.key:
-Check that the request matches the signature
-Signature ok
-Certificate Details:
-        Serial Number: 1 (0x1)
-        Validity
-            Not Before: Jun  2 18:17:01 2021 GMT
-            Not After : Jun  2 18:17:01 2022 GMT
-        Subject:
-            countryName               = ES
-            stateOrProvinceName       = Sevilla
-            organizationName          = Prueba SL
-            organizationalUnitName    = prueba
-            commonName                = alejandro
-            emailAddress              = prueba@yahoo.es
-        X509v3 extensions:
-            X509v3 Subject Key Identifier: 
-                B4:A9:FB:C0:3B:A8:BB:74:97:93:6F:6E:B9:C7:AB:2D:E6:61:F4:BD
-            X509v3 Authority Key Identifier: 
-                keyid:B4:A9:FB:C0:3B:A8:BB:74:97:93:6F:6E:B9:C7:AB:2D:E6:61:F4:BD
-
-            X509v3 Basic Constraints: critical
-                CA:TRUE
-Certificate is to be certified until Jun  2 18:17:01 2022 GMT (365 days)
-Sign the certificate? [y/n]:y
+              X509v3 Basic Constraints: critical
+                  CA:TRUE
+  Certificate is to be certified until Jun  2 18:17:01 2022 GMT (365 days)
+  Sign the certificate? [y/n]:y
 
 
-1 out of 1 certificate requests certified, commit? [y/n]y
-Write out database with 1 new entries
-Data Base Updated
-</code></pre></li>
-
-<li><p>Vamos a ver todos los ficheros que se han generado.</p>
-
-<pre><code>root@https2:/CA# ls
-cacerts.pem  certs  index.txt       index.txt.old  openssl.cnf  serial
-caclave.pem  crl    index.txt.attr  nuevos     privado  serial.old
-</code></pre></li>
-
-<li><p>firmamos el certificado.</p>
-
-<pre><code>root@https2:/CA# openssl ca -config openssl.cnf -out certs/caalegv.crt -infiles nuevos/alegv.csr 
-Using configuration from openssl.cnf
-</code></pre></li>
-
-<li><p>Ahora enviariamos el certificado firmado.</p></li>
+  1 out of 1 certificate requests certified, commit? [y/n]y
+  Write out database with 1 new entries
+  Data Base Updated
+</code></pre>
+</li>
+<li>
+<p>Vamos a ver todos los ficheros que se han generado.</p>
+<pre><code>  root@https2:/CA# ls
+  cacerts.pem  certs  index.txt	    index.txt.old  openssl.cnf	serial
+  caclave.pem  crl    index.txt.attr  nuevos	   privado	serial.old
+</code></pre>
+</li>
+<li>
+<p>firmamos el certificado.</p>
+<pre><code>  root@https2:/CA# openssl ca -config openssl.cnf -out certs/caalegv.crt -infiles nuevos/alegv.csr 
+  Using configuration from openssl.cnf
+</code></pre>
+</li>
+<li>
+<p>Ahora enviariamos el certificado firmado.</p>
+</li>
 </ul>
 
                 </div>

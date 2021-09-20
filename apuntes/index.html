@@ -6,7 +6,7 @@
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 
 
@@ -106,10 +106,10 @@
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/apuntes/apuntes-de-ssh-avanzado/">Apuntes de SSH</a></h4>
 								<h4 class="post-date">2021-05-22</h4>
 							</div>
-							<div class="post-summary"><p>ssh-agent  Tenemos un par de claves, para añadir a nuestro ssh-agent:
-ssh-add .ssh/clave  Nos pedirá la frase de paso y se añadiría la identidad, para comprobarlo:
-ssh-add -l  Pero necesitamos añadir esa clave a la máquina que nos queremos conectar.
-ssh-copy-id -i .ssh/clave usuario@172.22.100.10   Túneles ssh  Se usa para saltarnos un cortafuegos o para acceder por un canal abierto y más seguro, entre otras útilidades.</p></div>
+							<div class="post-summary"><p>ssh-agent   Tenemos un par de claves, para añadir a nuestro ssh-agent:
+ ssh-add .ssh/clave    Nos pedirá la frase de paso y se añadiría la identidad, para comprobarlo:
+ ssh-add -l    Pero necesitamos añadir esa clave a la máquina que nos queremos conectar.
+ ssh-copy-id -i .ssh/clave usuario@172.22.100.10    Túneles ssh   Se usa para saltarnos un cortafuegos o para acceder por un canal abierto y más seguro, entre otras útilidades.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/apuntes/apuntes-de-ssh-avanzado/">Read More</a>
 							</div>
@@ -124,9 +124,9 @@ ssh-copy-id -i .ssh/clave usuario@172.22.100.10   Túneles ssh  Se usa para salt
 							</div>
 							<div class="post-summary"><p>Libvirt es una API de virtualizacion que se usa con KVM o Qemu KVM (el sistema de virtualización nativo de Linux).
 Instalación Para instalar libvirt deberemos instalar los siguientes paquetes
-sudo apt-get install qemu-kvm libvirt-daemon-system  Explicación de los paquetes:
- qemu-kvm: Proporciona la virtualización para x86
- libvirt-daemon-system: Es el demonio de libvirt, el cual hace accesible la API a través de un socket UNIX (aunque se puede configurar para acceder a través de un socket TCP).</p></div>
+sudo apt-get install qemu-kvm libvirt-daemon-system Explicación de los paquetes:
+  qemu-kvm: Proporciona la virtualización para x86
+  libvirt-daemon-system: Es el demonio de libvirt, el cual hace accesible la API a través de un socket UNIX (aunque se puede configurar para acceder a través de un socket TCP).</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/apuntes/apuntes-de-libvirt/">Read More</a>
 							</div>

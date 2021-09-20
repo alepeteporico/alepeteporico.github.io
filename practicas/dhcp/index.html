@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 
 
@@ -96,58 +96,50 @@
                 <h1><a href="https://alepeteporico.github.io/practicas/dhcp/">Servidor DHCP</a></h1>
                 <span class="post-date">2021-03-16 </span>
                 <div class="post-content">
-                    
-
-<ul>
+                    <ul>
 <li>Lee el documento Teoría: Servidor DHCP y explica el funcionamiento del servidor DHCP resumido en este <a href="https://fp.josedomingo.org/serviciosgs/u02/img/dhcp.png">gráfico</a>.</li>
 </ul>
-
 <p><strong>En primer lugar el cliente manda una petición <code>DHCPDISCOVER</code> en cuanto se inicia, ya que no tiene configuración de IP usa esta petición para ver si hay un servidor DHCP que pueda darle una dirección.</strong></p>
-
 <p><strong>Después de esto el cliente esperará en estado <code>SELECTING</code> y recibirá las ofertas <code>DHCPOFFER</code> del servidor o servidores DHCP que pueda haber en nuestra red local.</strong></p>
-
 <p><strong>Cuando el cliente toma una decisión en caso de que hubiera mas de un servidor que elegir envía un paquete <code>DHCPREQUEST</code> para avisar a los servidores de que ya ha tomado esta decisión. El servidor por tanto responderá con un <code>DHCPPACK</code> con toda la configuración de red para este cliente</strong></p>
-
 <p><strong>Ahora pueden ocurrir dos cosas</strong></p>
-
 <ol>
-<li><p>La IP que hemos escogido ya está en uso, en este caso se informaría al servidor con un <code>DHCPDECLINE</code> rechazando esta configuración y volviendo al estado inicial.</p></li>
-
-<li><p>La IP está libre y podemos usar la configuración que se nos da. Por lo que pasamos al estado <code>BOUND</code></p></li>
+<li>
+<p>La IP que hemos escogido ya está en uso, en este caso se informaría al servidor con un <code>DHCPDECLINE</code> rechazando esta configuración y volviendo al estado inicial.</p>
+</li>
+<li>
+<p>La IP está libre y podemos usar la configuración que se nos da. Por lo que pasamos al estado <code>BOUND</code></p>
+</li>
 </ol>
-
 <p><strong>Estando en el estado <code>BOUND</code> el cliente recibe unos temporizadores los cuales entre otras cosas sirven para renovar nuestra dirección IP cada cierto tiempo que podremos establecer.</strong></p>
-
 <ul>
-<li><p>Entrega el fichero Vagrantfile que define el escenario.</p>
-
-<pre><code>Vagrant.configure(&quot;2&quot;) do |config|
-  config.vm.define :servidor do |servidor|
-    servidor.vm.box = &quot;debian/buster64&quot;
-    servidor.vm.hostname = &quot;servidor&quot;
-    servidor.vm.network &quot;public_network&quot;,:bridge=&gt;&quot;enp2s0&quot;
-    servidor.vm.network &quot;private_network&quot;, ip: &quot;192.168.100.1&quot;,
-      virtualbox__intnet: &quot;interna&quot;
-  end
-  config.vm.define :nodo_lan1 do |nodo_lan1|
-    nodo_lan1.vm.box = &quot;debian/buster64&quot;
-    nodo_lan1.vm.hostname = &quot;nodolan1&quot;
-    nodo_lan1.vm.network &quot;private_network&quot;, type: &quot;dhcp&quot;,
-      virtualbox__intnet: &quot;interna&quot;
-  end
-end     
-</code></pre></li>
-
-<li><p>Muestra el fichero de configuración del servidor, la lista de concesiones, la modificación en la configuración que has hecho en el cliente para que tome la configuración de forma automática y muestra la salida del comando <code>ip address</code>.</p></li>
+<li>
+<p>Entrega el fichero Vagrantfile que define el escenario.</p>
+<pre><code>  Vagrant.configure(&quot;2&quot;) do |config|
+    config.vm.define :servidor do |servidor|
+      servidor.vm.box = &quot;debian/buster64&quot;
+      servidor.vm.hostname = &quot;servidor&quot;
+      servidor.vm.network &quot;public_network&quot;,:bridge=&gt;&quot;enp2s0&quot;
+      servidor.vm.network &quot;private_network&quot;, ip: &quot;192.168.100.1&quot;,
+        virtualbox__intnet: &quot;interna&quot;
+    end
+    config.vm.define :nodo_lan1 do |nodo_lan1|
+      nodo_lan1.vm.box = &quot;debian/buster64&quot;
+      nodo_lan1.vm.hostname = &quot;nodolan1&quot;
+      nodo_lan1.vm.network &quot;private_network&quot;, type: &quot;dhcp&quot;,
+        virtualbox__intnet: &quot;interna&quot;
+    end
+  end     
+</code></pre>
+</li>
+<li>
+<p>Muestra el fichero de configuración del servidor, la lista de concesiones, la modificación en la configuración que has hecho en el cliente para que tome la configuración de forma automática y muestra la salida del comando <code> ip address</code>.</p>
+</li>
 </ul>
-
 <p><strong>Instalamos el servidor dhcp:</strong></p>
-
 <pre><code>vagrant@servidor:~$ sudo apt install isc-dhcp-server
 </code></pre>
-
 <p><strong>Configuramos el fichero &ldquo;/etc/default/isc-dhcp-server&rdquo; y añadimos en INTERFACESv4 la eth2 que es la tarjeta privada.</strong></p>
-
 <pre><code>vagrant@servidor:~$ cat /etc/default/isc-dhcp-server 
 # Defaults for dhcp initscript
 # sourced by /etc/init.d/dhcp
@@ -159,9 +151,7 @@ end
 # Separate multiple interfaces with spaces, e.g. &quot;eh0 eth1&quot;.
 INTERFACES=&quot;eth2&quot;
 </code></pre>
-
 <p><strong>Configuramos el fichero &ldquo;/etc/dhcp/dhcpd.conf&rdquo;, he modificado el max-lease-time y el default-lease-time para que el tiempo de concesión sea de 12 horas, después hemos especificado las direcciones de subnet y el rango de ips que queremos.</strong></p>
-
 <pre><code>subnet 192.168.100.0 netmask 255.255.255.0 {
   range 192.168.100.2 192.168.100.253;
   option domain-name-servers 8.8.8.8, 8.8.4.4;
@@ -172,9 +162,7 @@ INTERFACES=&quot;eth2&quot;
   max-lease-time 43200;
 }
 </code></pre>
-
 <p><strong>Después de reiniciar el servicio vemos la salida del comando ip</strong></p>
-
 <pre><code>vagrant@servidor:~$ ip a
 1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
@@ -201,9 +189,7 @@ INTERFACES=&quot;eth2&quot;
     inet6 fe80::a00:27ff:fe06:d788/64 scope link 
        valid_lft forever preferred_lft forever
 </code></pre>
-
 <p><strong>Veamos la lista de concesiones y comprobamos que se ha dado ip a nuestro nodo1</strong></p>
-
 <pre><code>    vagrant@servidor:~$ cat /var/lib/dhcp/dhcpd.leases
     # The format of this file is documented in the dhcpd.leases(5) manual page.
     # This lease file was written by isc-dhcp-4.4.1
@@ -225,132 +211,96 @@ INTERFACES=&quot;eth2&quot;
     }
     server-duid &quot;\000\001\000\001'\345\354\237\010\000'\324\345e&quot;;
 </code></pre>
-
 <ul>
 <li>Configura el servidor para que funcione como router y NAT, de esta forma los clientes tengan internet. Muestra las rutas por defecto del servidor y el cliente. Realiza una prueba de funcionamiento para comprobar que el cliente tiene acceso a internet (utiliza nombres, para comprobar que tiene resolución DNS).</li>
 </ul>
-
 <p><strong>Ahora debemos configurar esta máquina servidor para que actue como router, para ello activaremos el forward con el siguiente comando:</strong></p>
-
 <p>root@servidor:~# echo 1 &gt; /proc/sys/net/ipv4/ip_forward</p>
-
 <p><strong>Para configurar NAT en nuestro servidor debemos modificar el fichero &ldquo;/etc/network/interfaces&rdquo; y añadir la siguiente línea:</strong></p>
-
 <pre><code>up iptables -t nat -A POSTROUTING -s 192.168.100.0/24 -o eth0 -j MASQUERADE
 </code></pre>
-
 <p><strong>Después de reiniciar el servicio de red visualizaremos la salida del comando <code>ip r</code> tanto en el nodo como en el servidor para ver el direccionamiento:</strong></p>
-
 <h5 id="servidor">Servidor</h5>
-
 <pre><code>vagrant@servidor:~$ ip r
 default via 10.0.2.2 dev eth0 
 10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15 
 172.22.0.0/16 dev eth1 proto kernel scope link src 172.22.8.212 
 192.168.100.0/24 dev eth2 proto kernel scope link src 192.168.100.1
 </code></pre>
-
 <h5 id="nodo-1">Nodo 1</h5>
-
 <pre><code>vagrant@nodolan1:~$ ip r
 default via 10.0.2.2 dev eth0 
 10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15 
 192.168.100.0/24 dev eth1 proto kernel scope link src 192.168.100.2 
 </code></pre>
-
 <p><strong>Vemos que el nodo sale por defecto por la 10.0.0.0, vamos a cambiarlo, borrariamos el default via con el siguiente comando:</strong></p>
-
 <pre><code>vagrant@nodolan1:~$ sudo ip route del default via 10.0.2.2 dev eth0
 </code></pre>
-
 <p><strong>Y añadiriamos una nueva con el siguiente:</strong></p>
-
 <pre><code>vagrant@nodolan1:~$ sudo ip route add default via 192.168.100.1 dev eth1
 </code></pre>
-
 <p><strong>Volvemos a comprobar el comando ip r y veremos que el default via ha cambiado:</strong></p>
-
 <pre><code>vagrant@nodolan1:~$ ip r
 default via 192.168.100.1 dev eth1 
 10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15 
 192.168.100.0/24 dev eth1 proto kernel scope link src 192.168.100.2 
 </code></pre>
-
-<p><strong>Hacemos ping a www.google.es y con su funcionamiento comprobaremos que tenemos salida a internet y resuelve nombres de dominio.</strong></p>
-
+<p><strong>Hacemos ping a <a href="http://www.google.es">www.google.es</a> y con su funcionamiento comprobaremos que tenemos salida a internet y resuelve nombres de dominio.</strong></p>
 <pre><code>vagrant@nodolan1:~$ ping www.google.es
 PING www.google.es (216.58.201.163) 56(84) bytes of data.
 64 bytes from mad08s06-in-f3.1e100.net (216.58.201.163): icmp_seq=1 ttl=63 time=9.58 ms
 64 bytes from mad08s06-in-f3.1e100.net (216.58.201.163): icmp_seq=2 ttl=63 time=9.54 ms
 </code></pre>
-
 <ul>
 <li>Realizar una captura, desde el servidor usando tcpdump, de los cuatro paquetes que corresponden a una concesión: DISCOVER, OFFER, REQUEST, ACK.</li>
 </ul>
-
 <p><strong>Dejaremos el siguiente comando ejecutandose en el servidor para realizar la captura de tcpdump:</strong></p>
-
 <pre><code>vagrant@servidor:~$ sudo tcpdump -i eth2 port 67 or port 68
 </code></pre>
-
 <p><strong>Mientras tanto en el cliente pediremos que se nos renueve la concesión, debemos eliminar la que ya tenemos y pedir una nueva:</strong></p>
-
 <pre><code>vagrant@nodolan1:~$ sudo dhclient -r &amp;&amp; sudo dhclient
 </code></pre>
-
 <p><strong>La salida de tcpdump sería la siguiente:</strong></p>
-
 <pre><code>18:08:06.054194 IP 192.168.100.3.bootpc &gt; 192.168.100.1.bootps: BOOTP/DHCP, Request from 08:00:27:2a:11:2b (oui Unknown), length 300
 18:08:06.140538 IP 0.0.0.0.bootpc &gt; 255.255.255.255.bootps: BOOTP/DHCP, Request from 08:00:27:2a:11:2b (oui Unknown), length 300
 18:08:07.150812 IP 192.168.100.1.bootps &gt; 192.168.100.3.bootpc: BOOTP/DHCP, Reply, length 302
 18:08:07.151785 IP 0.0.0.0.bootpc &gt; 255.255.255.255.bootps: BOOTP/DHCP, Request from 08:00:27:2a:11:2b (oui Unknown), length 300
 18:08:07.154588 IP 192.168.100.1.bootps &gt; 192.168.100.3.bootpc: BOOTP/DHCP, Reply, length 302
 </code></pre>
-
 <p><strong>La primera línea captura el dhcp discover.</strong></p>
-
 <pre><code>12:09:14.604297 IP 0.0.0.0.bootpc &gt; 255.255.255.255.bootps: BOOTP/DHCP, Request from 08:00:27:42:80:3a (oui Unknown), length 300
 </code></pre>
-
 <p><strong>En la segunda línea puede verse como el servidor responde a petición con un dhcp offer.</strong></p>
-
 <pre><code>12:09:15.605343 IP 192.168.100.1.bootps &gt; 192.168.100.4.bootpc: BOOTP/DHCP, Reply, length 302
 </code></pre>
-
 <p><strong>En la tercera se realiza la petición del cliente al servidor con un dhcp request.</strong></p>
-
 <pre><code>12:09:15.605710 IP 0.0.0.0.bootpc &gt; 255.255.255.255.bootps: BOOTP/DHCP, Request from 08:00:27:42:80:3a (oui Unknown), length 300
 </code></pre>
-
 <p><strong>Y por úlitmo se realiza la concesión al cliente mediante el paquete dhcp ack.</strong></p>
-
 <pre><code>12:09:15.607363 IP 192.168.100.1.bootps &gt; 192.168.100.4.bootpc: BOOTP/DHCP, Reply, length 302
 </code></pre>
-
 <ul>
-<li><p>Los clientes toman una configuración, y a continuación <a href="https://youtu.be/JJNVnoTwtP0">apagamos el servidor dhcp</a>. ¿qué ocurre con el cliente windows? ¿Y con el cliente linux?</p></li>
-
-<li><p>Los clientes toman una configuración, y a continuación <a href="https://youtu.be/Bsoo-1iCjLA">cambiamos la configuración del servidor dhcp</a> (por ejemplo el rango). ¿qué ocurriría con un cliente windows? ¿Y con el cliente linux?</p></li>
-
-<li><p>Crea una reserva para el que el cliente tome siempre la dirección 192.168.100.100. Indica las modificaciones realizadas en los ficheros de configuración y entrega una comprobación de que el cliente ha tomado esa dirección.</p></li>
+<li>
+<p>Los clientes toman una configuración, y a continuación <a href="https://youtu.be/JJNVnoTwtP0">apagamos el servidor dhcp</a>. ¿qué ocurre con el cliente windows? ¿Y con el cliente linux?</p>
+</li>
+<li>
+<p>Los clientes toman una configuración, y a continuación <a href="https://youtu.be/Bsoo-1iCjLA">cambiamos la configuración del servidor dhcp</a> (por ejemplo el rango). ¿qué ocurriría con un cliente windows? ¿Y con el cliente linux?</p>
+</li>
+<li>
+<p>Crea una reserva para el que el cliente tome siempre la dirección 192.168.100.100. Indica las modificaciones realizadas en los ficheros de configuración y entrega una comprobación de que el cliente ha tomado esa dirección.</p>
+</li>
 </ul>
-
 <p><strong>Para realizar esta configuración nuestro primer paso será averiguar la MAC de la tarjeta de red del nodo al que queremos hacer una reserva. podemos verlo con <code>ip a</code></strong></p>
-
 <pre><code>    3: eth1: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
         link/ether 08:00:27:42:80:3a brd ff:ff:ff:ff:ff:ff
 </code></pre>
-
 <p><strong>Para crear una reserva debemos añadir lo siguiente al fichero /etc/dhcp/dhcpd.conf usando por supuesto la MAC que hemos buscado anteriormente.</strong></p>
-
 <pre><code>host nodolan {
 hardware ethernet 08:00:27:42:80:3a;
 fixed-address 192.168.100.100;
 }
 </code></pre>
-
 <p><strong>Reiniciamos el servicio dhcp y cuando pase el tiempo de concesión o al pedir una nueva ip veremos que cambia la IP de nuestro cliente:</strong></p>
-
 <pre><code>    vagrant@nodolan1:~$ ip a
     ...
     ...

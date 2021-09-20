@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 
 
@@ -97,44 +97,43 @@
                 <span class="post-date">2021-06-07 </span>
                 <div class="post-content">
                     <ul>
-<li><p>Primero crearemos el directorio donde almacenaremos las copias.</p>
+<li>
+<p>Primero crearemos el directorio donde almacenaremos las copias.</p>
+<pre><code>  SQL&gt; CREATE directory COPIA as '/home/backups/';
 
-<pre><code>SQL&gt; CREATE directory COPIA as '/home/backups/';
+  Directory created.
+</code></pre>
+</li>
+<li>
+<p>Comprobemos que se ha creado correctamente.</p>
+<pre><code>  SQL&gt; select directory_name from dba_directories;
 
-Directory created.
-</code></pre></li>
+  DIRECTORY_NAME
+  --------------------------------------------------------------------------------
+  COPIA
+  SDO_DIR_WORK
+  SDO_DIR_ADMIN
+  XMLDIR
+  XSDDIR
+  OPATCH_INST_DIR
+  ORACLE_OCM_CONFIG_DIR2
+  ORACLE_BASE
+  ORACLE_HOME
+  ORACLE_OCM_CONFIG_DIR
+  DATA_PUMP_DIR
 
-<li><p>Comprobemos que se ha creado correctamente.</p>
+  DIRECTORY_NAME
+  --------------------------------------------------------------------------------
+  OPATCH_SCRIPT_DIR
+  OPATCH_LOG_DIR
+  JAVA$JOX$CUJS$DIRECTORY$
 
-<pre><code>SQL&gt; select directory_name from dba_directories;
-
-DIRECTORY_NAME
---------------------------------------------------------------------------------
-COPIA
-SDO_DIR_WORK
-SDO_DIR_ADMIN
-XMLDIR
-XSDDIR
-OPATCH_INST_DIR
-ORACLE_OCM_CONFIG_DIR2
-ORACLE_BASE
-ORACLE_HOME
-ORACLE_OCM_CONFIG_DIR
-DATA_PUMP_DIR
-
-DIRECTORY_NAME
---------------------------------------------------------------------------------
-OPATCH_SCRIPT_DIR
-OPATCH_LOG_DIR
-JAVA$JOX$CUJS$DIRECTORY$
-
-14 rows selected.
-</code></pre></li>
-
+  14 rows selected.
+</code></pre>
+</li>
 <li></li>
 </ul>
-
-<p>expdp ale/ale dumpfile=copia_oracle<em>export</em>%U.dmp logfile=copia_oracle_export.log directory=CARPETA_EXPORT full=y filesize=100M</p>
+<p>expdp ale/ale dumpfile=copia_oracle_export_%U.dmp logfile=copia_oracle_export.log directory=CARPETA_EXPORT full=y filesize=100M</p>
 
                 </div>
                 

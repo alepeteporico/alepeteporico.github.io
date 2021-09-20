@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 
 
@@ -96,46 +96,34 @@
                 <h1><a href="https://alepeteporico.github.io/apuntes/apuntes-de-libvirt/">Apuntes de Libvirt</a></h1>
                 <span class="post-date">2021-03-22 </span>
                 <div class="post-content">
-                    
-
-<p><code>Libvirt</code> es una API de virtualizacion que se usa con <code>KVM</code> o <code>Qemu KVM</code> (el sistema de virtualización nativo de Linux).</p>
-
+                    <p><code>Libvirt</code> es una API de virtualizacion que se usa con <code>KVM</code> o <code>Qemu KVM</code> (el sistema de virtualización nativo de Linux).</p>
 <h2 id="instalación">Instalación</h2>
-
 <p>Para instalar <code>libvirt</code> deberemos instalar los siguientes paquetes</p>
-
 <pre><code>sudo apt-get install qemu-kvm libvirt-daemon-system 
-</code></pre>
-
-<p>Explicación de los paquetes:</p>
-
+</code></pre><p>Explicación de los paquetes:</p>
 <ul>
-<li><p><strong><code>qemu-kvm</code>:</strong> Proporciona la virtualización para <code>x86</code></p></li>
-
-<li><p><strong><code>libvirt-daemon-system</code>:</strong> Es el demonio de <code>libvirt</code>, el cual hace accesible la <code>API</code> a través de un <code>socket UNIX</code> (aunque se puede configurar para acceder a través de un <code>socket TCP</code>).</p></li>
+<li>
+<p><strong><code>qemu-kvm</code>:</strong> Proporciona la virtualización para <code>x86</code></p>
+</li>
+<li>
+<p><strong><code>libvirt-daemon-system</code>:</strong> Es el demonio de <code>libvirt</code>, el cual hace accesible la <code>API</code> a través de un <code>socket UNIX</code> (aunque se puede configurar para acceder a través de un <code>socket TCP</code>).</p>
+</li>
 </ul>
-
 <p>Una vez que ya hemos realizado la instalación de estos dos paquetes, deberemos añadir a nuestro usuario personal (el usuario sin privilegios) al grupo de <code>libvirt</code>.</p>
-
 <pre><code>sudo adduser usuario libvirt
-</code></pre>
-
-<p>Esta configuración se debe a que hay dos formas de usar esta API:</p>
-
+</code></pre><p>Esta configuración se debe a que hay dos formas de usar esta API:</p>
 <ul>
-<li><p><strong><code>qemu:///session</code>:</strong> Sería el equivalente a usar el usuario sin privilegios del sistema, con lo cual tendríamos ciertas limitaciones al usar la <code>API</code>.</p></li>
-
-<li><p><strong><code>qemu:///system</code>:</strong> Sería el equivalente a usar el usuario administrador o <code>root</code> del sistema.</p></li>
+<li>
+<p><strong><code>qemu:///session</code>:</strong> Sería el equivalente a usar el usuario sin privilegios del sistema, con lo cual tendríamos ciertas limitaciones al usar la <code>API</code>.</p>
+</li>
+<li>
+<p><strong><code>qemu:///system</code>:</strong> Sería el equivalente a usar el usuario administrador o <code>root</code> del sistema.</p>
+</li>
 </ul>
-
 <p>Por lo que si nuestro usuario no pertenece al grupo <code>libvirt</code>, no podríamos usar el comando <code>qemu:///system</code> con dicho usuario.</p>
-
 <h2 id="definición-y-creación-de-redes-en-virsh">Definición y creación de redes en virsh</h2>
-
 <p>Para crear objetos en <code>virsh</code> necesitamos crear ficheros <code>xml</code> en los que definimos dicha configuración.</p>
-
 <p>Este es un dichero <code>xml</code> de creación de una red de ejemplo:</p>
-
 <pre><code>&lt;network&gt;
  &lt;name&gt;default&lt;/name&gt;
  &lt;forward mode='nat'&gt;
@@ -150,76 +138,51 @@
   &lt;/dhcp&gt;
  &lt;/ip&gt;
 &lt;/network&gt;
-</code></pre>
-
-<ul>
+</code></pre><ul>
 <li>Tenemos un fichero <code>xml</code> que crea un objeto de tipo <strong><code>network</code></strong>
-
 <ul>
 <li>El nombre de esta red es <strong><code>default</code></strong>.</li>
 <li>Esta red es de tipo <strong><code>nat</code></strong>, el tipo de red se indica con la etiqueda <strong><code>forward</code></strong> (Esto nos permite que esta red tenga acceso al exterior, pero si queremos tener una red aislada, deberemos eliminar esta parte)</li>
 <li>El dispositivo de conexión es de tipo <strong><code>bridge</code></strong>, el cual tiene un nombre llamado <strong><code>virbr0</code></strong> con el protocolo <strong><code>stp</code></strong> habilitado y el cual va a tener una ip asignada que es la <strong><code>192.168.122.1/24</code></strong></li>
 <li>En nuestra subred vamos a ejecutar un servidor <strong><code>dhcp</code></strong> con <strong><code>dnsmasq</code></strong> el cual va a tener un rango para repartir IPs desde la <strong><code>192.168.122.2</code></strong> hasta la <strong><code>192.168.122.254</code></strong></li>
-</ul></li>
 </ul>
-
+</li>
+</ul>
 <p>Si no estamos seguros de si al fichero xml le falta algún elemento o no está bien estructurado o tiene algún error, podemos usar el comando <code>virt-xml-validate</code> para verificar que todo está correcto.</p>
-
 <pre><code>virt-xml-validate red1.xml
 red1.xml validates
-</code></pre>
-
-<p>Ahora vamos a crear dicha red a partir de este fichero <code>xml</code></p>
-
+</code></pre><p>Ahora vamos a crear dicha red a partir de este fichero <code>xml</code></p>
 <pre><code>virsh -c qemu:///system net-create red1.xml
-</code></pre>
-
-<p>Si queremos ver la red que acabamos de crear</p>
-
+</code></pre><p>Si queremos ver la red que acabamos de crear</p>
 <pre><code>virsh -c qemu:///system net-list
  Name      State    Autostart   Persistent
 --------------------------------------------
  default   active   no          no
-</code></pre>
-
-<p>Si queremos ver todas las redes definidas, aunque no esté activas</p>
-
+</code></pre><p>Si queremos ver todas las redes definidas, aunque no esté activas</p>
 <pre><code>virsh -c qemu:///system net-list --all
  Name      State    Autostart   Persistent
 --------------------------------------------
  default   active   no          no
-</code></pre>
-
-<p>La red que hemos creado, como podemos ver en el <code>net-list</code>, dice que no es persistente, esto quiere decir que cuando reiniciemos nuestra máquina, dicha red va a desaparecer. Podemos comprobar esto <em>destruyendo</em> nuestra red y ejecutando el comando <code>net-list --all</code>, para ver que no está definida en ningún sitio.</p>
-
+</code></pre><p>La red que hemos creado, como podemos ver en el <code>net-list</code>, dice que no es persistente, esto quiere decir que cuando reiniciemos nuestra máquina, dicha red va a desaparecer. Podemos comprobar esto <em>destruyendo</em> nuestra red y ejecutando el comando <code>net-list --all</code>, para ver que no está definida en ningún sitio.</p>
 <pre><code>virsh -c qemu:///system net-destroy default
 Network default destroyed
 
  virsh -c qemu:///system net-list --all
  Name   State   Autostart   Persistent
 ----------------------------------------
-</code></pre>
-
-<p>Para crear una red que sea persistente deberemos usar el comando <code>net-define</code></p>
-
+</code></pre><p>Para crear una red que sea persistente deberemos usar el comando <code>net-define</code></p>
 <pre><code>virsh -c qemu:///system net-define red1.xml
 Network default defined from red1.xml
 
 virsh -c qemu:///system net-list
  Name   State   Autostart   Persistent
 ----------------------------------------
-</code></pre>
-
-<p>Como podemos ver, si hacemos un <code>net-define</code> y después un <code>net-list</code> la red no está activa, pero si ejecutamos un <code>net-list --all</code>, podremos ver que dicha red está definida pero inactiva</p>
-
+</code></pre><p>Como podemos ver, si hacemos un <code>net-define</code> y después un <code>net-list</code> la red no está activa, pero si ejecutamos un <code>net-list --all</code>, podremos ver que dicha red está definida pero inactiva</p>
 <pre><code>virsh -c qemu:///system net-list --all
  Name      State      Autostart   Persistent
 ----------------------------------------------
  default   inactive   no          yes
-</code></pre>
-
-<p>Para activar dicha red, deberemos hacer un <code>net-start</code></p>
-
+</code></pre><p>Para activar dicha red, deberemos hacer un <code>net-start</code></p>
 <pre><code>virsh -c qemu:///system net-start default
 Network default started
 
@@ -227,34 +190,22 @@ Network default started
  Name      State    Autostart   Persistent
 --------------------------------------------
  default   active   no          yes
-</code></pre>
-
-<p>Si queremos eliminar una red definida debemos usar el comando <code>net-undefine</code></p>
-
+</code></pre><p>Si queremos eliminar una red definida debemos usar el comando <code>net-undefine</code></p>
 <pre><code>virsh -c qemu:///system net-undefine default
-</code></pre>
-
-<p>Por otro lado, vamos a comparar el directorio <code>/etc/libvirt/qemu/networks/</code> antes y después de la definición de nuestra red, ya que antes de definir nuestra red, o solo creándola, nos damos cuenta de que en dicho directorio solo hay un directorio vacío llamado <code>autostart</code></p>
-
+</code></pre><p>Por otro lado, vamos a comparar el directorio <code>/etc/libvirt/qemu/networks/</code> antes y después de la definición de nuestra red, ya que antes de definir nuestra red, o solo creándola, nos damos cuenta de que en dicho directorio solo hay un directorio vacío llamado <code>autostart</code></p>
 <pre><code>tree /etc/libvirt/qemu/networks/
 /etc/libvirt/qemu/networks/
 └── autostart
 
 1 directory, 0 files
-</code></pre>
-
-<p>Mientras que si defnimos una red, dicho directorio se encontraría con nuestro fichero xml en su interior.</p>
-
+</code></pre><p>Mientras que si defnimos una red, dicho directorio se encontraría con nuestro fichero xml en su interior.</p>
 <pre><code>tree /etc/libvirt/qemu/networks/
 /etc/libvirt/qemu/networks/
 ├── autostart
 └── default.xml
 
 1 directory, 1 file
-</code></pre>
-
-<p>Si queremos que nuestra red, además de ser persistente, se arranque por defecto cada vez que nosotros arranquemos nuestra máquina, deberemos hacer un <code>net-autostart</code>, entonces la API crea un enlace simbólico del fichero xml que se ha copiado en <code>/etc/libvirt/qemu/networks/</code> hacia el directorio <code>/etc/libvirt/qemu/networks/autostart</code> ya mencionado anteriormente.</p>
-
+</code></pre><p>Si queremos que nuestra red, además de ser persistente, se arranque por defecto cada vez que nosotros arranquemos nuestra máquina, deberemos hacer un <code>net-autostart</code>, entonces la API crea un enlace simbólico del fichero xml que se ha copiado en <code>/etc/libvirt/qemu/networks/</code> hacia el directorio <code>/etc/libvirt/qemu/networks/autostart</code> ya mencionado anteriormente.</p>
 <pre><code>virsh -c qemu:///system net-autostart default
 Network default marked as autostarted
 
@@ -266,25 +217,20 @@ virsh -c qemu:///system net-list
 ls -l /etc/libvirt/qemu/networks/autostart/
 total 0
 lrwxrwxrwx 1 root root 38 mar 10 12:04 default.xml -&gt; /etc/libvirt/qemu/networks/default.xml
-</code></pre>
-
-<h3 id="algunos-comandos-de-redes-interesantes">Algunos comandos de redes interesantes</h3>
-
+</code></pre><h3 id="algunos-comandos-de-redes-interesantes">Algunos comandos de redes interesantes</h3>
 <ul>
-<li><p>Saber el <code>UUID</code> de una red a partir de su nombre:</p>
-
+<li>Saber el <code>UUID</code> de una red a partir de su nombre:</li>
+</ul>
 <pre><code>virsh -c qemu:///system net-uuid default
 6e0958c0-12a5-4518-b369-9feeced12d08
-</code></pre></li>
-
-<li><p>Saber el nombre de una red a partir de su <code>UUID</code>:</p>
-
+</code></pre><ul>
+<li>Saber el nombre de una red a partir de su <code>UUID</code>:</li>
+</ul>
 <pre><code>virsh -c qemu:///system net-name 6e0958c0-12a5-4518-b369-9feeced12d08
 default
-</code></pre></li>
-
-<li><p>Información de la red</p>
-
+</code></pre><ul>
+<li>Información de la red</li>
+</ul>
 <pre><code>virsh -c qemu:///system net-info default
 Name:           default
 UUID:           6e0958c0-12a5-4518-b369-9feeced12d08
@@ -292,36 +238,25 @@ Active:         yes
 Persistent:     yes
 Autostart:      yes
 Bridge:         virbr0
-</code></pre></li>
-</ul>
-
-<h2 id="creación-de-pool-por-defecto">Creación de pool por defecto</h2>
-
+</code></pre><h2 id="creación-de-pool-por-defecto">Creación de pool por defecto</h2>
 <p><code>Pool</code> es el término que usa <code>libvirt</code> para referirse a los sistemas de almacenamiento que podemos tener en los sistemas de virtualización.</p>
-
 <p>Para poder definir un pool, necesitamos definir otro objeto con otro fichero xml, como por ejemplo este:</p>
-
 <pre><code>&lt;pool type='dir'&gt;
  &lt;name&gt;default&lt;/name&gt;
  &lt;target&gt;
   &lt;path&gt;/libvirt/pool1&lt;/path&gt;
  &lt;/target&gt;
 &lt;/pool&gt;
-</code></pre>
-
-<ul>
+</code></pre><ul>
 <li>Tenemos un fichero <code>xml</code> que crea un objeto de tipo <code>pool</code> de tipo <code>dir</code> (directorio)
-
 <ul>
 <li>El cual se llama <code>default</code></li>
 <li>Y está ubicado en <code>/libvirt/pool1</code></li>
-</ul></li>
 </ul>
-
+</li>
+</ul>
 <p>Para listar los dispositivos de almacenamiento que tenemos tanto activos como inactivos haremos lo mismo que para listar las redes, ya que el modo de empleo es el mismo.</p>
-
 <p>Si queremos crear un <code>pool</code> usamos el comando <code>pool-create</code>, si lo queremos definir usamos <code>pool-define</code>, si lo queremos activar usamos <code>pool-start</code> y si lo queremos activar cada vez que arranque el sistema usamos <code>pool-autostart</code>.</p>
-
 <pre><code>virsh -c qemu:///system pool-create pool1.xml
 Pool default created from pool1.xml
 
@@ -333,10 +268,7 @@ Pool default started
 
 virsh -c qemu:///system pool-autostart default
 Pool default marked as autostarted
-</code></pre>
-
-<p>Si queremos listar los <code>pools</code> de almacenamiento activos usaremos el comando <code>pool-list</code> y si queremos listar todos los <code>pools</code>, tanto los activos como los inactivos usaremos <code>pool-list --all</code>.</p>
-
+</code></pre><p>Si queremos listar los <code>pools</code> de almacenamiento activos usaremos el comando <code>pool-list</code> y si queremos listar todos los <code>pools</code>, tanto los activos como los inactivos usaremos <code>pool-list --all</code>.</p>
 <pre><code>virsh -c qemu:///system pool-list
  Name      State    Autostart
 -------------------------------
@@ -346,10 +278,7 @@ virsh -c qemu:///system pool-list --all
  Name      State    Autostart
 -------------------------------
  default   active   yes
-</code></pre>
-
-<p>El directorio equivalente a <code>/etc/libvirt/qemu/networks/</code> es <code>/etc/libvirt/storage</code> en el cual se copia el fichero xml que hemos creado para definir el objeto y en el directorio <code>/etc/libvirt/storage/autostart</code> se encuentra el enlace simbólico de autoarranque del pool.</p>
-
+</code></pre><p>El directorio equivalente a <code>/etc/libvirt/qemu/networks/</code> es <code>/etc/libvirt/storage</code> en el cual se copia el fichero xml que hemos creado para definir el objeto y en el directorio <code>/etc/libvirt/storage/autostart</code> se encuentra el enlace simbólico de autoarranque del pool.</p>
 <pre><code>tree /etc/libvirt/storage/
 /etc/libvirt/storage/
 ├── autostart
@@ -357,10 +286,7 @@ virsh -c qemu:///system pool-list --all
 └── default.xml
 
 1 directory, 2 files
-</code></pre>
-
-<p>Cuando hemos definido un pool, a parte de poder ver el fichero xml que se ha copiado en <code>/etc/libvirt/storage</code>, podemos usar el comando <code>pool-dumpxml</code> para ver el fichero que se ha generado/copiado en dicho directorio.</p>
-
+</code></pre><p>Cuando hemos definido un pool, a parte de poder ver el fichero xml que se ha copiado en <code>/etc/libvirt/storage</code>, podemos usar el comando <code>pool-dumpxml</code> para ver el fichero que se ha generado/copiado en dicho directorio.</p>
 <pre><code>virsh -c qemu:///system pool-dumpxml default
 &lt;pool type='dir'&gt;
   &lt;name&gt;default&lt;/name&gt;
@@ -379,40 +305,27 @@ virsh -c qemu:///system pool-list --all
     &lt;/permissions&gt;
   &lt;/target&gt;
 &lt;/pool&gt;
-</code></pre>
-
-<p>Si queremos eliminar un pool definido, deberemos usar la misma opción que para las redes, el comando <code>pool-undefine</code></p>
-
+</code></pre><p>Si queremos eliminar un pool definido, deberemos usar la misma opción que para las redes, el comando <code>pool-undefine</code></p>
 <pre><code>virsh -c qemu:///system pool-undefine default
-</code></pre>
-
-<h3 id="definiendo-un-pool-con-qemu-session">Definiendo un pool con qemu:///session</h3>
-
+</code></pre><h3 id="definiendo-un-pool-con-qemusession">Definiendo un pool con qemu:///session</h3>
 <p>Ahora vamos a crear un <code>pool</code> de almacenamiento con <code>qemu:///session</code>. Este es el fichero xml</p>
-
 <pre><code>&lt;pool type='dir'&gt;
   &lt;name&gt;default&lt;/name&gt;
   &lt;target&gt;
     &lt;path&gt;/home/juanan/.config/libvirt/storage&lt;/path&gt;
   &lt;/target&gt;
 &lt;/pool&gt;
-</code></pre>
-
-<ul>
+</code></pre><ul>
 <li>Tenemos un fichero xml que define un objeto <code>pool</code> de tipo <code>dir</code> (directorio)
-
 <ul>
 <li>Se llama <code>default</code></li>
 <li>Y se almacena en el directorio predeterminado para los <code>pools</code> de <code>qemu:///session</code>, que se encuentra en un directorio oculto dentro del directorio <code>/home/usuario</code> y cuyo directorio tiene la misma estructura que tenemos en el directorio <code>/etc/libvirt</code></li>
-</ul></li>
 </ul>
-
+</li>
+</ul>
 <p>La manera de definir los <code>pools</code> se almacenamiento de <code>qemu:///session</code> es exactamente la misma que cuando los creamos con <code>qemu:///system</code>, pero en este caso no es necesario poner <code>qemu:///session</code>, por lo que con solo ejecutar <code>virsh pool-create [fichero_xml]</code> podemos ejecutar la instrucción.</p>
-
 <h2 id="manejo-de-volúmenes-con-virsh">Manejo de volúmenes con virsh</h2>
-
 <p>Anteriormente hemos creado un pool de almacenamiento en la ruta <code>/libvirt/pool1</code>, el cual es un directorio. Ahora, en dicho directorio, vamos a crear un volúmen, el cual es un fichero que no sva a servir como dispositivo de almacenamiento de una máquina virtual, para realizar esto, vamos a volver a definir otros objetos con ficheros xml:</p>
-
 <pre><code>&lt;volume type='file'&gt;
   &lt;name&gt;vol1&lt;/name&gt;
   &lt;key&gt;/libvirt/pool1/vol1.img&lt;/key&gt;
@@ -425,36 +338,26 @@ virsh -c qemu:///system pool-list --all
     &lt;format type='qcow2'/&gt;
   &lt;/target&gt;
 &lt;/volume&gt;
-</code></pre>
-
-<ul>
+</code></pre><ul>
 <li>En este caso tenemos un fichero xml que define un objeto de tipo <code>volumen</code>, el cual es un fichero (tipo <code>file</code>)
-
 <ul>
 <li>Su nombre es <code>vol1</code></li>
 <li>Tiene una capacidad de <code>10G</code>, aunque le hemos dicho que ocupe lo menos posible en función dle formato que tenga (etiqueta <code>&lt;allocation&gt;0&lt;/allocation&gt;</code>)</li>
 <li>Usaremos un tipo de fichero <code>qcow2</code>, el cual permite no ocupar los 10G de imagen en nuestro disco duro.</li>
 <li>La ruta hacia el fichero que se va a crear será <code>/libvirt/pool1/vol1.img</code></li>
-</ul></li>
 </ul>
-
+</li>
+</ul>
 <p>Ahora que tenemos el fichero de configuración de nuestro volúmen, vamos a cerarlo, para ello deberemos tener, anteriormente, un pool creado.</p>
-
 <pre><code>virsh -c qemu:///system vol-create default vol1.xml
 Vol vol1 created from vol1.xml
-</code></pre>
-
-<p>Como podemos ver, si hacemos este comando con el fichero de configuración previamente creado, se nos creará nuestro columen en el pool indicado, si vemos el contenido del directorio <code>/libvirt/pool1</code>, vemos que se nos ha creado un archivo llamado <code>vol1</code> y si le preguntamos el tipo con el comando <code>file</code> nos dirá que es de tipo <code>qcow2</code></p>
-
+</code></pre><p>Como podemos ver, si hacemos este comando con el fichero de configuración previamente creado, se nos creará nuestro columen en el pool indicado, si vemos el contenido del directorio <code>/libvirt/pool1</code>, vemos que se nos ha creado un archivo llamado <code>vol1</code> y si le preguntamos el tipo con el comando <code>file</code> nos dirá que es de tipo <code>qcow2</code></p>
 <pre><code>ls pool1
 vol1
 
 sudo file pool1/vol1
 pool1/vol1: QEMU QCOW Image (v2), 10737418240 bytes
-</code></pre>
-
-<p><code>QEMU</code> tiene un comando para describir ficheros, si lo usamos nos dará información más detallada sobre el volumen creado</p>
-
+</code></pre><p><code>QEMU</code> tiene un comando para describir ficheros, si lo usamos nos dará información más detallada sobre el volumen creado</p>
 <pre><code>sudo qemu-img info pool1/vol1
 image: pool1/vol1
 file format: qcow2
@@ -464,22 +367,22 @@ cluster_size: 65536
 Format specific information:
     compat: 0.10
     refcount bits: 16
-</code></pre>
-
-<p>En la información que nos da el resultado del comando <code>qemu-img info</code> nos dice que nuestra imagen es <code>qcow2</code>, que tiene un tamaño virtual de <code>10G</code>, pero que en nuestro disco duro ocupa <code>196K</code>, ya que el <code>allocation</code> lo hemos dejado a 0. Esto tiene ciertas ventajas y desventajas:</p>
-
+</code></pre><p>En la información que nos da el resultado del comando <code>qemu-img info</code> nos dice que nuestra imagen es <code>qcow2</code>, que tiene un tamaño virtual de <code>10G</code>, pero que en nuestro disco duro ocupa <code>196K</code>, ya que el <code>allocation</code> lo hemos dejado a 0. Esto tiene ciertas ventajas y desventajas:</p>
 <ul>
-<li><p><strong>Ventaja de dejar <code>allocation</code> a 0:</strong> Ocupa menos espacio en el disco, es decir, ocupa solo el tamaño que necesita.</p></li>
-
-<li><p><strong>Desventaja de dejar <code>allocation</code> a 0:</strong> La escritura en dicho volumen es más lenta, ya que tiene que estar aumentando el tamaño cada vez que se va a escribir algo.</p></li>
-
-<li><p><strong>Ventaja de tener un <code>allocation</code> mayor que 0:</strong> La escritura en el volumen es más rápida, ya que si parte de un tamaño inicial, las primeras escrituras no tienen que aumentar el tamaño del volúmen.</p></li>
-
-<li><p><strong>Desventajas de tener un <code>allocation</code> mayor que 0:</strong> Ocupa inicialmente más tamaño en el disco duro estando el volumen totalmente vacío.</p></li>
+<li>
+<p><strong>Ventaja de dejar <code>allocation</code> a 0:</strong> Ocupa menos espacio en el disco, es decir, ocupa solo el tamaño que necesita.</p>
+</li>
+<li>
+<p><strong>Desventaja de dejar <code>allocation</code> a 0:</strong> La escritura en dicho volumen es más lenta, ya que tiene que estar aumentando el tamaño cada vez que se va a escribir algo.</p>
+</li>
+<li>
+<p><strong>Ventaja de tener un <code>allocation</code> mayor que 0:</strong> La escritura en el volumen es más rápida, ya que si parte de un tamaño inicial, las primeras escrituras no tienen que aumentar el tamaño del volúmen.</p>
+</li>
+<li>
+<p><strong>Desventajas de tener un <code>allocation</code> mayor que 0:</strong> Ocupa inicialmente más tamaño en el disco duro estando el volumen totalmente vacío.</p>
+</li>
 </ul>
-
 <p>Vamos a crear otro volumen, pero esta vez de tipo <code>raw</code>, esto es un formato que no admite el <code>allocation</code> 0, es decir, que el tamaño del fichero va a ser el tamaño que este tenga</p>
-
 <pre><code>&lt;volume type='file'&gt;
   &lt;name&gt;vol2&lt;/name&gt;
   &lt;key&gt;/libvirt/pool1/vol2.img&lt;/key&gt;
@@ -492,9 +395,7 @@ Format specific information:
     &lt;format type='raw'/&gt;
   &lt;/target&gt;
 &lt;/volume&gt;
-</code></pre>
-
-<pre><code>virsh -c qemu:///system vol-create default vol2.xml
+</code></pre><pre><code>virsh -c qemu:///system vol-create default vol2.xml
 Vol vol2 created from vol2.xml
 
 sudo file pool1/vol2
@@ -505,24 +406,15 @@ image: pool1/vol2
 file format: raw
 virtual size: 5.0G (5368709120 bytes)
 disk size: 0
-</code></pre>
-
-<p>Como podemos ver en los resultados de los comando anteriores, el volumen <code>vol2</code> ocupa los 5G que nosotros le hemos asignado aunque le hayamos puesto el <code>allocation</code> a 0, pero como hemos dicho antes, el formato <code>raw</code> no lo admite así que este lo ignora.</p>
-
+</code></pre><p>Como podemos ver en los resultados de los comando anteriores, el volumen <code>vol2</code> ocupa los 5G que nosotros le hemos asignado aunque le hayamos puesto el <code>allocation</code> a 0, pero como hemos dicho antes, el formato <code>raw</code> no lo admite así que este lo ignora.</p>
 <h3 id="redimensionar-un-volumen">Redimensionar un volumen</h3>
-
 <p>Una vez que hemos creado un volumen, podemos cambiar su tamaño si el dispositivo de almacenamiento no se está usando, para ello usaremos el comando <code>vol-resize</code>.</p>
-
 <pre><code>virsh -c qemu:///system vol-resize vol1 12G --pool default --shrink
 Size of volume 'vol1' successfully changed to 12G
-</code></pre>
-
-<ul>
+</code></pre><ul>
 <li>Sintaxis: <code>vol-resize [volumen] [tamaño] --pool [pool] --shrink(comprimir el tamaño lo máximo posible)</code></li>
 </ul>
-
 <p>Si le hemos aunqmentado el tamaño,m lo podemos comprobar con el comando <code>qemu-img info</code></p>
-
 <pre><code>sudo qemu-img info pool1/vol1
 image: pool1/vol1
 file format: qcow2
@@ -532,12 +424,8 @@ cluster_size: 65536
 Format specific information:
     compat: 0.10
     refcount bits: 16
-</code></pre>
-
-<p>Ahora el volumen tiene disponibles <code>12GB</code>, pero soo ocupa <code>200K</code></p>
-
+</code></pre><p>Ahora el volumen tiene disponibles <code>12GB</code>, pero soo ocupa <code>200K</code></p>
 <h3 id="comandos-interesantes-de-volúmenes">Comandos interesantes de volúmenes</h3>
-
 <ul>
 <li><strong><code>vol-clone</code>:</strong> Clonar el dispositivo de almacenamiento de una máquina virtual</li>
 <li><strong><code>vol-download</code>:</strong> Descargar volúmenes desde el hipervisor</li>
@@ -545,26 +433,19 @@ Format specific information:
 <li><strong><code>vol-list --pool [pool]</code>:</strong> Listar todos los volúemenes que pertenecen a un pool en concreto.</li>
 <li><strong><code>vol-delete</code>:</strong> Eliminar un volumen.</li>
 </ul>
-
 <h2 id="definición-de-un-dominio-con-virsh">Definición de un dominio con virsh</h2>
-
 <p>Ahora vamos a ver la creación de dominios (es como se le llaman a las máquinas virtuales) con <code>virsh</code>.</p>
-
 <ul>
-<li><p>Listar los dominios:</p>
-
+<li>Listar los dominios:</li>
+</ul>
 <pre><code>virsh -c qemu:///system list
-Id   Name   State
+ Id   Name   State
 --------------------
 
 virsh -c qemu:///system list --all
-Id   Name   State
+ Id   Name   State
 --------------------
-</code></pre></li>
-</ul>
-
-<p>Para definir los dominios deberesmo crear otro fichero xml como en los anteriores casos</p>
-
+</code></pre><p>Para definir los dominios deberesmo crear otro fichero xml como en los anteriores casos</p>
 <pre><code>&lt;domain type=&quot;kvm&quot;&gt;
   &lt;name&gt;dominio1&lt;/name&gt;
   &lt;memory unit=&quot;G&quot;&gt;1&lt;/memory&gt;
@@ -587,11 +468,8 @@ Id   Name   State
     &lt;/console&gt;
   &lt;/devices&gt;
 &lt;/domain&gt;
-</code></pre>
-
-<ul>
+</code></pre><ul>
 <li>Tenemos un fichero xml que crea un objeto tipo dominio y que usa la virtualización de <code>kvm</code>, este se llama <code>dominio1</code>.
-
 <ul>
 <li>Tiene <code>1GB</code> de memoria RAM.</li>
 <li>Tiene <code>1 core virtual</code>.</li>
@@ -601,23 +479,16 @@ Id   Name   State
 <li>Le indicamos también la ruta que tiene el archivo que vamos a usar como dispositivo de almacenamiento (el cual va a ser el volumen <code>vol1</code> que henmos creado anteriormente y está ubicado en <code>/libvirt/pool1/vol1</code>), peor en la máquina aparecerá dicho dispositivo de almacenamiento como un <code>vda</code>.</li>
 <li>Le ponemos una interfaz de red conectada a la red llamada <code>default</code>, la cual hemos creado anteriormente y le ponemos una dirección MAC a dicha interfaz (dicha dirección MAC debe tener los 3 primeros octetos de libvirt y los demás aleatorios, es decir, <code>52:54:00:...</code>).</li>
 <li>Le indicamos que tenemos una consola tipo serie.</li>
-</ul></li>
 </ul>
-
+</li>
+</ul>
 <p>Ahora creamos el dominio:</p>
-
 <pre><code>virsh -c qemu:///system define dominio1.xml
 Domain dominio1 defined from dominio1.xml
-</code></pre>
-
-<p>Cuando hayamos definido el dominio, se creará una copia del xml en <code>/etc/libvirt/qemu</code></p>
-
+</code></pre><p>Cuando hayamos definido el dominio, se creará una copia del xml en <code>/etc/libvirt/qemu</code></p>
 <pre><code>ls /etc/libvirt/qemu
 dominio1.xml  networks
-</code></pre>
-
-<p>Si hacemos un <code>list</code>, el dominio que acabamos de definir no aparecerá, ya que no está activo todavía, pero lo podemos ver si hacemos un <code>list --all</code></p>
-
+</code></pre><p>Si hacemos un <code>list</code>, el dominio que acabamos de definir no aparecerá, ya que no está activo todavía, pero lo podemos ver si hacemos un <code>list --all</code></p>
 <pre><code>virsh -c qemu:///system list
  Id   Name   State
 --------------------
@@ -626,13 +497,9 @@ virsh -c qemu:///system list --all
  Id   Name       State
 ---------------------------
  -    dominio1   shut off
-</code></pre>
-
-<p>Si queremos iniciar el dominio, lo haremos con el comando <code>start</code></p>
-
+</code></pre><p>Si queremos iniciar el dominio, lo haremos con el comando <code>start</code></p>
 <pre><code>
 </code></pre>
-
                 </div>
                 
                 <div class="post-comments">

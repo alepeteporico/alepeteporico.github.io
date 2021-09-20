@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Alepetepórico Blog</title>
@@ -6,10 +6,39 @@
     <description>Recent content on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 07 Jun 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 17 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Compilación de un kérnel linux a medida</title>
+      <link>https://alepeteporico.github.io/practicas/kernel/</link>
+      <pubDate>Fri, 17 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/kernel/</guid>
+      <description>Vamos a necesitar instalar cierta paquetería como vemos a continuación.
+ alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ sudo apt install build-essential qtbase5-dev    Necesitamos saber que versión del kernel estamos usando.
+ alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ uname -r 5.10.0-8-amd64    Descargaremos la versión de nuestro kernel desde la página oficial
+ alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ wget https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.10.tar.gz alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ ls linux-5.10.tar.gz    Descomprimos este archivo y el resultado será una carpeta con muchisima información.</description>
+    </item>
     
-	<atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Actualización de Debian 10 a Debian 11</title>
+      <link>https://alepeteporico.github.io/practicas/actualizacion_debian11/</link>
+      <pubDate>Thu, 16 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/actualizacion_debian11/</guid>
+      <description>Actualización   Primero debemos actualizar nuestro debian 10 como tenemos por costumbre hacerlo.
+ alejandrogv@AlejandroGV:~$ sudo apt update alejandrogv@AlejandroGV:~$ sudo apt upgrade    Es necesario instalar el paquete gcc-8-base aunque es probable que ya lo tengamos pero nos aseguramos.
+ alejandrogv@AlejandroGV:~$ sudo apt install gcc-8-base    Ahora editamos nuestro etc/apt/sources.list para añadir los repositorios del nuevo debian &amp;ldquo;bullseye&amp;rdquo;
+ deb http://deb.debian.org/debian/ bullseye main contrib non-free # deb-src http://deb.</description>
+    </item>
     
+    <item>
+      <title>Instalación de debian 11 con LVM</title>
+      <link>https://alepeteporico.github.io/practicas/instalacion_debian11/</link>
+      <pubDate>Thu, 16 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/instalacion_debian11/</guid>
+      <description>Empezamos la instalación y seguimos todos los pasos normalmente hasta llegar a la configuración de los discos, la haremos manualmente y en mi caso he creado una máquina virtual para simular lo que hice en mi máquina anfitriona, para ello he creado una partición sin usar simulando que tengo en ella una partición con Windows 10.    Seguidamente elegiremos la opción de &amp;ldquo;Configurar el gestor de volúmenes lógicos&amp;rdquo; y crearemos un grupo de volúmenes.</description>
+    </item>
     
     <item>
       <title>COPIAS DE SEGURIDAD Y RECUPERACIÓN</title>
@@ -18,8 +47,8 @@
       
       <guid>https://alepeteporico.github.io/practicas/copiasbbdd/</guid>
       <description>Primero crearemos el directorio donde almacenaremos las copias.
-SQL&amp;gt; CREATE directory COPIA as &#39;/home/backups/&#39;; Directory created.  Comprobemos que se ha creado correctamente.
-SQL&amp;gt; select directory_name from dba_directories; DIRECTORY_NAME -------------------------------------------------------------------------------- COPIA SDO_DIR_WORK SDO_DIR_ADMIN XMLDIR XSDDIR OPATCH_INST_DIR ORACLE_OCM_CONFIG_DIR2 ORACLE_BASE ORACLE_HOME ORACLE_OCM_CONFIG_DIR DATA_PUMP_DIR DIRECTORY_NAME -------------------------------------------------------------------------------- OPATCH_SCRIPT_DIR OPATCH_LOG_DIR JAVA$JOX$CUJS$DIRECTORY$ 14 rows selected.    expdp ale/ale dumpfile=copia_oracleexport%U.dmp logfile=copia_oracle_export.log directory=CARPETA_EXPORT full=y filesize=100M</description>
+ SQL&amp;gt; CREATE directory COPIA as &#39;/home/backups/&#39;; Directory created.    Comprobemos que se ha creado correctamente.
+ SQL&amp;gt; select directory_name from dba_directories; DIRECTORY_NAME -------------------------------------------------------------------------------- COPIA SDO_DIR_WORK SDO_DIR_ADMIN XMLDIR XSDDIR OPATCH_INST_DIR ORACLE_OCM_CONFIG_DIR2 ORACLE_BASE ORACLE_HOME ORACLE_OCM_CONFIG_DIR DATA_PUMP_DIR DIRECTORY_NAME -------------------------------------------------------------------------------- OPATCH_SCRIPT_DIR OPATCH_LOG_DIR JAVA$JOX$CUJS$DIRECTORY$ 14 rows selected.     expdp ale/ale dumpfile=copia_oracle_export_%U.dmp logfile=copia_oracle_export.log directory=CARPETA_EXPORT full=y filesize=100M</description>
     </item>
     
     <item>
@@ -29,9 +58,9 @@ SQL&amp;gt; select directory_name from dba_directories; DIRECTORY_NAME ---------
       
       <guid>https://alepeteporico.github.io/practicas/cortafuegos/</guid>
       <description>Nuestro primer paso será instalar nftables.
-debian@dulcinea:~$ sudo apt install nftables  Activamos y habilitamos este servicio.
-debian@dulcinea:~$ sudo systemctl start nftables debian@dulcinea:~$ sudo systemctl enable nftables  Configuraremos la política por defecto a DROP.
-nft chain inet filter input { policy drop \; } nft chain inet filter forward { policy drop \; } nft chain inet filter output { policy drop \; }  Añadimos las reglas de NAT.</description>
+ debian@dulcinea:~$ sudo apt install nftables    Activamos y habilitamos este servicio.
+ debian@dulcinea:~$ sudo systemctl start nftables debian@dulcinea:~$ sudo systemctl enable nftables    Configuraremos la política por defecto a DROP.
+ nft chain inet filter input { policy drop \; } nft chain inet filter forward { policy drop \; } nft chain inet filter output { policy drop \; }    Añadimos las reglas de NAT.</description>
     </item>
     
     <item>
@@ -41,9 +70,9 @@ nft chain inet filter input { policy drop \; } nft chain inet filter forward { p
       
       <guid>https://alepeteporico.github.io/practicas/php_docker/</guid>
       <description>Vamos a clonar el repositorio necesario para la aplicación.
-alejandrogv@AlejandroGV:~/docker/php$ git clone https://github.com/evilnapsis/bookmedik.git  Crearemos un repositorio con la siguiente estructura.
-alejandrogv@AlejandroGV:~/docker/php/php_docker$ tree . ├── build │ ├── bookmedik │ ├── Dockerfile │ └── script.sh ├── deploy │ └── docker-compose.yml └── README.md  En el fichero docker-compose añadimos lo siguiente.
-version: &amp;quot;3.1&amp;quot; services: db: container_name: mysql image: mariadb restart: always environment: MYSQL_DATABASE: bookmedik MYSQL_USER: bookmedik MYSQL_PASSWORD: admin MYSQL_ROOT_PASSWORD: admin volumes: - /opt/mysql_wp:/var/lib/mysql  Y en la carpeta build crearemos un fichero Dockerfile que rellenaremos de la siguiente forma.</description>
+ alejandrogv@AlejandroGV:~/docker/php$ git clone https://github.com/evilnapsis/bookmedik.git    Crearemos un repositorio con la siguiente estructura.
+ alejandrogv@AlejandroGV:~/docker/php/php_docker$ tree . ├── build │ ├── bookmedik │ ├── Dockerfile │ └── script.sh ├── deploy │ └── docker-compose.yml └── README.md    En el fichero docker-compose añadimos lo siguiente.
+ version: &amp;quot;3.1&amp;quot; services: db: container_name: mysql image: mariadb restart: always environment: MYSQL_DATABASE: bookmedik MYSQL_USER: bookmedik MYSQL_PASSWORD: admin MYSQL_ROOT_PASSWORD: admin volumes: - /opt/mysql_wp:/var/lib/mysql    Y en la carpeta build crearemos un fichero Dockerfile que rellenaremos de la siguiente forma.</description>
     </item>
     
     <item>
@@ -53,8 +82,8 @@ version: &amp;quot;3.1&amp;quot; services: db: container_name: mysql image: mari
       
       <guid>https://alepeteporico.github.io/practicas/proxy/</guid>
       <description>Primero usaremos squid para instalar un proxy.
-vagrant@proxy:~$ sudo apt install squid  Modificamos el fichero /etc/squid/squid.conf para definir las direcciones y puertos que permitiremos y el puerto de funcionamiento.
-acl localnet src 10.0.0.0/24 acl localnet src 172.22.100.0/24 acl SSL_ports port 443 acl Safe_ports port 80 # http acl Safe_ports port 21 # ftp acl Safe_ports port 443 # https acl CONNECT method CONNECT # Deny requests to certain unsafe ports http_access deny !</description>
+ vagrant@proxy:~$ sudo apt install squid    Modificamos el fichero /etc/squid/squid.conf para definir las direcciones y puertos que permitiremos y el puerto de funcionamiento.
+ acl localnet src 10.0.0.0/24 acl localnet src 172.22.100.0/24 acl SSL_ports port 443 acl Safe_ports port 80 # http acl Safe_ports port 21 # ftp acl Safe_ports port 443 # https acl CONNECT method CONNECT # Deny requests to certain unsafe ports http_access deny !</description>
     </item>
     
     <item>
@@ -64,10 +93,9 @@ acl localnet src 10.0.0.0/24 acl localnet src 172.22.100.0/24 acl SSL_ports port
       
       <guid>https://alepeteporico.github.io/practicas/rendimientoweb/</guid>
       <description>Instalamos ansible
-alejandrogv@AlejandroGV:~$ sudo apt install ansible  Ahora clonaremos el repositorio correspondiente con la receta.
-alejandrogv@AlejandroGV:~$ git clone https://github.com/josedom24/ansible_nginx_fpm_php.git  En el interior del respositorio editaremos el fichero hosts añadiendo la dirección de la máquina que usaremos para las pruebas.
-[servidores_web] nodo1 ansible_ssh_host=172.22.100.15 ansible_python_interpreter=/usr/bin/python3  Ejecutamos la funcionalidad playbook de ansible para que se realicen las modificaciones necesarias que usaremos en la máquina de prueba.
-  alejandrogv@AlejandroGV:~/ansible_nginx_fpm_php$ ansible-playbook site.</description>
+ alejandrogv@AlejandroGV:~$ sudo apt install ansible    Ahora clonaremos el repositorio correspondiente con la receta.
+ alejandrogv@AlejandroGV:~$ git clone https://github.com/josedom24/ansible_nginx_fpm_php.git    En el interior del respositorio editaremos el fichero hosts añadiendo la dirección de la máquina que usaremos para las pruebas.
+ [servidores_web] nodo1 ansible_ssh_host=172.22.100.15 ansible_python_interpreter=/usr/bin/python3    Ejecutamos la funcionalidad playbook de ansible para que se realicen las modificaciones necesarias que usaremos en la máquina de prueba.</description>
     </item>
     
     <item>
@@ -76,8 +104,8 @@ alejandrogv@AlejandroGV:~$ git clone https://github.com/josedom24/ansible_nginx_
       <pubDate>Fri, 04 Jun 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/ic/</guid>
-      <description>Integración continúa de aplicación django  Ya tenemos nuestra aplicación y el entorno virtual de la práctica de Despliegue de una aplicación python usaremos la misma, y realizaremos los test.
-(django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python/django_tutorial$ python3 manage.py test Creating test database for alias &#39;default&#39;... System check identified no issues (0 silenced). .......... ---------------------------------------------------------------------- Ran 10 tests in 0.056s OK Destroying test database for alias &#39;default&#39;...  Vamos a modificar el fichero polls/templates/polls/index.html para provocar un error, por ejemplo quitando unas llaves provocando así un error de sintaxis.</description>
+      <description>Integración continúa de aplicación django   Ya tenemos nuestra aplicación y el entorno virtual de la práctica de Despliegue de una aplicación python usaremos la misma, y realizaremos los test.
+ (django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python/django_tutorial$ python3 manage.py test Creating test database for alias &#39;default&#39;... System check identified no issues (0 silenced). .......... ---------------------------------------------------------------------- Ran 10 tests in 0.056s OK Destroying test database for alias &#39;default&#39;...    Vamos a modificar el fichero polls/templates/polls/index.</description>
     </item>
     
     <item>
@@ -87,9 +115,8 @@ alejandrogv@AlejandroGV:~$ git clone https://github.com/josedom24/ansible_nginx_
       
       <guid>https://alepeteporico.github.io/practicas/python_openstack/</guid>
       <description>Vamos a crear el entorno virtual en el cual instalaremos Mezzanine.
-alejandrogv@AlejandroGV:~/entornos/mezzanine$ source despliegue/bin/activate (despliegue) alejandrogv@AlejandroGV:~/entornos/mezzanine$  Ahora instalamos con pip mezzanine y creamos un proyecto.
-(despliegue) alejandrogv@AlejandroGV:~/proyecto$ pip install mezzanine (despliegue) alejandrogv@AlejandroGV:~/proyecto$ mezzanine-project cms  Vamos a modificar uno de los ficheros que se ha generado cms/settings.py para usar la base de datos sqlite ya que estamos en el entorno de pruebas.
-DATABASES = { &amp;quot;default&amp;quot;: { &amp;quot;ENGINE&amp;quot;: &amp;quot;django.</description>
+ alejandrogv@AlejandroGV:~/entornos/mezzanine$ source despliegue/bin/activate (despliegue) alejandrogv@AlejandroGV:~/entornos/mezzanine$    Ahora instalamos con pip mezzanine y creamos un proyecto.
+ (despliegue) alejandrogv@AlejandroGV:~/proyecto$ pip install mezzanine (despliegue) alejandrogv@AlejandroGV:~/proyecto$ mezzanine-project cms    Vamos a modificar uno de los ficheros que se ha generado cms/settings.py para usar la base de datos sqlite ya que estamos en el entorno de pruebas.</description>
     </item>
     
     <item>
@@ -98,7 +125,7 @@ DATABASES = { &amp;quot;default&amp;quot;: { &amp;quot;ENGINE&amp;quot;: &amp;qu
       <pubDate>Tue, 01 Jun 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/https_ovh/</guid>
-      <description>Explica los pasos fundamentales para la creación del certificado. Especificando los campos que has rellenado en el fichero CSR.  Para este cometido usaremos el servicio letsencrypt, esta unidad certificadora hace use del protocolo ACME que lleva a cabo dos sencillos pasos mediante un agente llamadao certbot los pasos son:   Validación del dominio. Tenemos que demostrar que somos administradores del dominio en el que queremos generar este certificado, esto se puede hacer de dos formas:   Creando un fichero de configuración en una ruta determinada, si la autoridad certificadora puede acceder por el puerto 80 y verificar este fichero y validar las firmas de las claves que se generarían para hacer dicha conexión, entonces verificará que somos administradores del dominio.</description>
+      <description>Explica los pasos fundamentales para la creación del certificado. Especificando los campos que has rellenado en el fichero CSR.  Para este cometido usaremos el servicio letsencrypt, esta unidad certificadora hace use del protocolo ACME que lleva a cabo dos sencillos pasos mediante un agente llamadao certbot los pasos son:   Validación del dominio. Tenemos que demostrar que somos administradores del dominio en el que queremos generar este certificado, esto se puede hacer de dos formas:    Creando un fichero de configuración en una ruta determinada, si la autoridad certificadora puede acceder por el puerto 80 y verificar este fichero y validar las firmas de las claves que se generarían para hacer dicha conexión, entonces verificará que somos administradores del dominio.</description>
     </item>
     
     <item>
@@ -108,9 +135,9 @@ DATABASES = { &amp;quot;default&amp;quot;: { &amp;quot;ENGINE&amp;quot;: &amp;qu
       
       <guid>https://alepeteporico.github.io/practicas/lemp/</guid>
       <description>Vamos a instalar todos los paquetes necesarios.
-debian@sputnik:~$ sudo apt install nginx mariadb-client mariadb-server php php-mysql php-fpm  Crearemos el directorio sobre el que trabajaremos en nuestro virtual host.
-root@sputnik:~# mkdir /var/www/iesgn06  Crearemos un virtual host en sites-available
-server { listen 80; listen [::]:80; root /var/www/iesgn06; index index.html index.htm index.nginx-debian.html; server_name www.iesgn06.es; location / { try_files $uri $uri/ =404; } }  Y creamos el enlace simbólico en sites-enabled.</description>
+ debian@sputnik:~$ sudo apt install nginx mariadb-client mariadb-server php php-mysql php-fpm    Crearemos el directorio sobre el que trabajaremos en nuestro virtual host.
+ root@sputnik:~# mkdir /var/www/iesgn06    Crearemos un virtual host en sites-available
+ server { listen 80; listen [::]:80; root /var/www/iesgn06; index index.html index.htm index.nginx-debian.html; server_name www.iesgn06.es; location / { try_files $uri $uri/ =404; } }    Y creamos el enlace simbólico en sites-enabled.</description>
     </item>
     
     <item>
@@ -119,9 +146,9 @@ server { listen 80; listen [::]:80; root /var/www/iesgn06; index index.html inde
       <pubDate>Mon, 31 May 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/auditoria/</guid>
-      <description>Activa desde SQL*Plus la auditoría de los intentos de acceso fallidos al sistema. Comprueba su funcionamiento.  Primero vamos a visualizar los diferentes parametros de auditorias de los que disponemos.
-SQL&amp;gt; SHOW PARAMETER AUDIT NAME TYPE VALUE ------------------------------------ ----------- ------------------------------ audit_file_dest string /opt/oracle/admin/ORCLCDB/adum p audit_sys_operations boolean TRUE audit_syslog_level string audit_trail string DB unified_audit_common_systemlog string unified_audit_sga_queue_size integer 1048576 unified_audit_systemlog string  Nosotros usaremos audit_trail
-SQL&amp;gt; ALTER SYSTEM SET audit_trail=db scope=spfile; System altered.</description>
+      <description>Activa desde SQL*Plus la auditoría de los intentos de acceso fallidos al sistema. Comprueba su funcionamiento.   Primero vamos a visualizar los diferentes parametros de auditorias de los que disponemos.
+ SQL&amp;gt; SHOW PARAMETER AUDIT NAME	TYPE	VALUE ------------------------------------ ----------- ------------------------------ audit_file_dest string	/opt/oracle/admin/ORCLCDB/adum p audit_sys_operations	boolean	TRUE audit_syslog_level	string audit_trail	string	DB unified_audit_common_systemlog	string unified_audit_sga_queue_size	integer	1048576 unified_audit_systemlog string    Nosotros usaremos audit_trail
+ SQL&amp;gt; ALTER SYSTEM SET audit_trail=db scope=spfile; System altered.</description>
     </item>
     
     <item>
@@ -131,8 +158,8 @@ SQL&amp;gt; ALTER SYSTEM SET audit_trail=db scope=spfile; System altered.</descr
       
       <guid>https://alepeteporico.github.io/practicas/ldap_openstack/</guid>
       <description>Para esta práctica vamos a usar las claves y certificados que generamos en la práctica de seguridad de https
-[root@quijote ~]# scp /etc/ssl/certs/gonzalonazareno.crt debian@10.0.1.9 [root@quijote ~]# scp /etc/ssl/certs/openstack.crt debian@10.0.1.9 [root@quijote ~]# scp /etc/ssl/private/openstack.key debian@10.0.1.9  Vamos a mover estos certificados a un sitio apropiado.
-debian@freston:~$ sudo mv gonzalonazareno.crt /etc/ssl/certs/ debian@freston:~$ sudo mv openstack.crt /etc/ssl/certs/ debian@freston:~$ sudo mv openstack.key /etc/ssl/private/  Vamos a crear unas acl para que el usuario openldap que es el encargado de ejecutar los servicios de sldap tenga permisos sobre estos certificados.</description>
+ [root@quijote ~]# scp /etc/ssl/certs/gonzalonazareno.crt debian@10.0.1.9 [root@quijote ~]# scp /etc/ssl/certs/openstack.crt debian@10.0.1.9 [root@quijote ~]# scp /etc/ssl/private/openstack.key debian@10.0.1.9    Vamos a mover estos certificados a un sitio apropiado.
+ debian@freston:~$ sudo mv gonzalonazareno.crt /etc/ssl/certs/ debian@freston:~$ sudo mv openstack.crt /etc/ssl/certs/ debian@freston:~$ sudo mv openstack.key /etc/ssl/private/    Vamos a crear unas acl para que el usuario openldap que es el encargado de ejecutar los servicios de sldap tenga permisos sobre estos certificados.</description>
     </item>
     
     <item>
@@ -141,9 +168,9 @@ debian@freston:~$ sudo mv gonzalonazareno.crt /etc/ssl/certs/ debian@freston:~$ 
       <pubDate>Mon, 31 May 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/nginx/</guid>
-      <description>Crea una máquina del cloud con una red pública. Añade la clave pública del profesor a la máquina. Instala el servidor web nginx en la máquina. Modifica la página index.html que viene por defecto y accede a ella desde un navegador.  La IP del servidor es la 172.22.201.5
- Una vez añadida la clave pública del profesor instalamos el servidor web nginx.
-debian@nginx:~$ sudo apt install nginx  Comprobamos que podemos acceder perfectamente desde fuera.</description>
+      <description>Crea una máquina del cloud con una red pública. Añade la clave pública del profesor a la máquina. Instala el servidor web nginx en la máquina. Modifica la página index.html que viene por defecto y accede a ella desde un navegador.   La IP del servidor es la 172.22.201.5
+  Una vez añadida la clave pública del profesor instalamos el servidor web nginx.
+ debian@nginx:~$ sudo apt install nginx    Comprobamos que podemos acceder perfectamente desde fuera.</description>
     </item>
     
     <item>
@@ -152,21 +179,8 @@ debian@nginx:~$ sudo apt install nginx  Comprobamos que podemos acceder perfecta
       <pubDate>Sun, 30 May 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/firmas/</guid>
-      <description>Tarea 1:  He enviado un archivo firmado a un compañero que dispone de mi clave pública, los dos hemos verificado la firma.
-alejandrogv@AlejandroGV:~/Descargas$ gpg --verify firma2.pdf.gpg gpg: Firmado el jue 22 oct 2020 12:11:31 CEST gpg: usando RSA clave 28ED3C3112ED8846BEDFFAF657112B319F2A6170 gpg: emisor &amp;quot;frandh1997@gmail.com&amp;quot; gpg: Firma correcta de &amp;quot;Francisco Javier Madueño Jurado &amp;lt;frandh1997@gmail.com&amp;gt;&amp;quot; [desconocido] gpg: ATENCIÓN: ¡Esta clave no está certificada por una firma de confianza! gpg: No hay indicios de que la firma pertenezca al propietario.</description>
-    </item>
-    
-    <item>
-      <title>Compilación de un kérnel linux a medida</title>
-      <link>https://alepeteporico.github.io/practicas/kernel/</link>
-      <pubDate>Fri, 28 May 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/kernel/</guid>
-      <description>Vamos a necesitar instalar cierta paquetería como vemos a continuación.
-alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ sudo apt install build-essential qtbase5-dev  Necesitamos saber que versión del kernel estamos usando.
-alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ uname -r 4.19.0-16-amd64  Descargaremos la versión de nuestro kernel desde la página oficial
-alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ wget https://mirrors.edge.kernel.org/pub/linux/kernel/v4.x/linux-4.19.16.tar.gz alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ ls linux-4.19.16.tar.gz  Descomprimos este archivo y el resultado será una carpeta con muchisima información.
-alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ tar xzvf linux-4.19.16.tar.gz alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ cd linux-4.19.16/ alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel/linux-4.19.16$ ls arch COPYING Documentation fs ipc kernel MAINTAINERS net scripts tools block CREDITS drivers include Kbuild lib Makefile README security usr certs crypto firmware init Kconfig LICENSES mm samples sound virt  Ejecutaremos el comando make oldconfig para generar el fichero .</description>
+      <description>Tarea 1:   He enviado un archivo firmado a un compañero que dispone de mi clave pública, los dos hemos verificado la firma.
+ alejandrogv@AlejandroGV:~/Descargas$ gpg --verify firma2.pdf.gpg gpg: Firmado el jue 22 oct 2020 12:11:31 CEST gpg: usando RSA clave 28ED3C3112ED8846BEDFFAF657112B319F2A6170 gpg: emisor &amp;quot;frandh1997@gmail.com&amp;quot; gpg: Firma correcta de &amp;quot;Francisco Javier Madueño Jurado &amp;lt;frandh1997@gmail.com&amp;gt;&amp;quot; [desconocido] gpg: ATENCIÓN: ¡Esta clave no está certificada por una firma de confianza! gpg: No hay indicios de que la firma pertenezca al propietario.</description>
     </item>
     
     <item>
@@ -176,9 +190,8 @@ alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ tar xzvf linux-4.19.1
       
       <guid>https://alepeteporico.github.io/practicas/cluster_kubernetes/</guid>
       <description>Crearemos 3 máquinas Vagrant que nos servirán, una de controlador y las otras dos de workers.
- En la máquina que usaremos como controlador descargaremos e instalaremos usando curl el script que instalará el servicio de k3.
-root@servidor:/usr/local/bin# curl -sfL https://get.k3s.io | sh -  Podemos comprobar mediante netstat que se ha abierto un puerto 6443 que es el que usa k3s por defecto.
-root@servidor:/usr/local/bin# netstat -tlnp | egrep &#39;6443&#39; tcp6 0 0 :::6443 :::* LISTEN 1577/k3s server  Vamos a listar todos los nodos que tenemos, así comprobaremos que la instalación se ha realizado correctamente.</description>
+  En la máquina que usaremos como controlador descargaremos e instalaremos usando curl el script que instalará el servicio de k3.
+ root@servidor:/usr/local/bin# curl -sfL https://get.k3s.io | sh -    Podemos comprobar mediante netstat que se ha abierto un puerto 6443 que es el que usa k3s por defecto.</description>
     </item>
     
     <item>
@@ -187,8 +200,8 @@ root@servidor:/usr/local/bin# netstat -tlnp | egrep &#39;6443&#39; tcp6 0 0 :::6
       <pubDate>Thu, 27 May 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/https_openstack/</guid>
-      <description>El siguiente paso de nuestro proyecto es configurar de forma adecuada el protocolo HTTPS en nuestro servidor web para nuestra aplicaciones web. Para ello vamos a emitir un certificado wildcard en la AC Gonzalo Nazareno utilizando para la petición la utilidad &amp;ldquo;gestiona&amp;rdquo;.  Lo primero que debemos hacer para llevarlo a cabo es dirigirnos a centos donde crearemos los directorios nesarios y crearemos una clave RSA.
-[centos@quijote ~]$ sudo mkdir /etc/ssl/private [centos@quijote ~]$ sudo chmod 700 /etc/ssl/private Generating RSA private key, 4096 bit long modulus (2 primes) .</description>
+      <description>El siguiente paso de nuestro proyecto es configurar de forma adecuada el protocolo HTTPS en nuestro servidor web para nuestra aplicaciones web. Para ello vamos a emitir un certificado wildcard en la AC Gonzalo Nazareno utilizando para la petición la utilidad &amp;ldquo;gestiona&amp;rdquo;.   Lo primero que debemos hacer para llevarlo a cabo es dirigirnos a centos donde crearemos los directorios nesarios y crearemos una clave RSA.
+ [centos@quijote ~]$ sudo mkdir /etc/ssl/private [centos@quijote ~]$ sudo chmod 700 /etc/ssl/private Generating RSA private key, 4096 bit long modulus (2 primes) .</description>
     </item>
     
     <item>
@@ -198,7 +211,7 @@ root@servidor:/usr/local/bin# netstat -tlnp | egrep &#39;6443&#39; tcp6 0 0 :::6
       
       <guid>https://alepeteporico.github.io/practicas/certficiados/</guid>
       <description>Primero obtendremos nuestro certificado digital en la sede electrónica siguiendo todos los pasos que se nos indican.
- Una vez tengamos nuestro certificado digital podemos importarlo a cualquier navegador, en mi caso quiero importarlo a un navegador firefox que tengo en mi sistema debian 10. Para ello nos dirigiremos a preferencias &amp;gt; Privaciad y Seguridad &amp;gt; Certificados &amp;gt; Ver certificados aquí aparecerá una vetana emergente donde podremos ver todos los certificados guardados que tenemos.</description>
+  Una vez tengamos nuestro certificado digital podemos importarlo a cualquier navegador, en mi caso quiero importarlo a un navegador firefox que tengo en mi sistema debian 10. Para ello nos dirigiremos a preferencias &amp;gt; Privaciad y Seguridad &amp;gt; Certificados &amp;gt; Ver certificados aquí aparecerá una vetana emergente donde podremos ver todos los certificados guardados que tenemos.</description>
     </item>
     
     <item>
@@ -207,7 +220,7 @@ root@servidor:/usr/local/bin# netstat -tlnp | egrep &#39;6443&#39; tcp6 0 0 :::6
       <pubDate>Tue, 25 May 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/iscsi/</guid>
-      <description>Configura un escenario con vagrant o similar que incluya varias máquinas que permita realizar la configuración de un servidor iSCSI y dos clientes (uno linux y otro windows). Explica de forma detallada en la tarea los pasos realizados.  Crea un target con una LUN y conéctala a un cliente GNU/Linux. Explica cómo escaneas desde el cliente buscando los targets disponibles y utiliza la unidad lógica proporcionada, formateándola si es necesario y montándola.</description>
+      <description>Configura un escenario con vagrant o similar que incluya varias máquinas que permita realizar la configuración de un servidor iSCSI y dos clientes (uno linux y otro windows). Explica de forma detallada en la tarea los pasos realizados.   Crea un target con una LUN y conéctala a un cliente GNU/Linux. Explica cómo escaneas desde el cliente buscando los targets disponibles y utiliza la unidad lógica proporcionada, formateándola si es necesario y montándola.</description>
     </item>
     
     <item>
@@ -216,10 +229,10 @@ root@servidor:/usr/local/bin# netstat -tlnp | egrep &#39;6443&#39; tcp6 0 0 :::6
       <pubDate>Sat, 22 May 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/apuntes/apuntes-de-ssh-avanzado/</guid>
-      <description>ssh-agent  Tenemos un par de claves, para añadir a nuestro ssh-agent:
-ssh-add .ssh/clave  Nos pedirá la frase de paso y se añadiría la identidad, para comprobarlo:
-ssh-add -l  Pero necesitamos añadir esa clave a la máquina que nos queremos conectar.
-ssh-copy-id -i .ssh/clave usuario@172.22.100.10   Túneles ssh  Se usa para saltarnos un cortafuegos o para acceder por un canal abierto y más seguro, entre otras útilidades.</description>
+      <description>ssh-agent   Tenemos un par de claves, para añadir a nuestro ssh-agent:
+ ssh-add .ssh/clave    Nos pedirá la frase de paso y se añadiría la identidad, para comprobarlo:
+ ssh-add -l    Pero necesitamos añadir esa clave a la máquina que nos queremos conectar.
+ ssh-copy-id -i .ssh/clave usuario@172.22.100.10    Túneles ssh   Se usa para saltarnos un cortafuegos o para acceder por un canal abierto y más seguro, entre otras útilidades.</description>
     </item>
     
     <item>
@@ -229,7 +242,7 @@ ssh-copy-id -i .ssh/clave usuario@172.22.100.10   Túneles ssh  Se usa para salt
       
       <guid>https://alepeteporico.github.io/practicas/copias/</guid>
       <description>Usaremos la herramienta bacula para realizar nuestro sistema de copias de seguridad, por supuesto el primer paso que debemos tomar es instalar el paquete de bacula, instalaremos el cliente en todas las máquinas de nuestro escenario de openstack, aunque usaremos Dulcinea para alojar las copias de seguridad.
-debian@dulcinea:~$ sudo apt-get install bacula-client  En nuestro Openstack vamos a crear un volumen que asociaremos a Dulcinea y donde almacenaremos nuestras copias de seguridad.</description>
+ debian@dulcinea:~$ sudo apt-get install bacula-client    En nuestro Openstack vamos a crear un volumen que asociaremos a Dulcinea y donde almacenaremos nuestras copias de seguridad.</description>
     </item>
     
     <item>
@@ -239,9 +252,9 @@ debian@dulcinea:~$ sudo apt-get install bacula-client  En nuestro Openstack vamo
       
       <guid>https://alepeteporico.github.io/practicas/ldap/</guid>
       <description>LDAP es un protocolo de tipo cliente-servidor para acceder a un servicio de directorio. Un directorio es como una base de datos, pero en general contiene información más descriptiva y más basada en atributos.
- Lo primero que debemos hacer es verificar nuestro FQDN (Fully Qualified Domain Name) que usaremos mas tarde para la configuración.
-debian@freston:~$ hostname -f freston.alegv.gonzalonazareno.org  Instalaremos el paquete de LDAP
-debian@freston:~$ sudo apt install slapd  Durante esta instalación tendremos que introducir una contraseña para el administrador.</description>
+  Lo primero que debemos hacer es verificar nuestro FQDN (Fully Qualified Domain Name) que usaremos mas tarde para la configuración.
+ debian@freston:~$ hostname -f freston.alegv.gonzalonazareno.org    Instalaremos el paquete de LDAP
+ debian@freston:~$ sudo apt install slapd    Durante esta instalación tendremos que introducir una contraseña para el administrador.</description>
     </item>
     
     <item>
@@ -250,8 +263,8 @@ debian@freston:~$ sudo apt install slapd  Durante esta instalación tendremos qu
       <pubDate>Mon, 10 May 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/almacenamiento_bbdd/</guid>
-      <description>Muestra los objetos a los que pertenecen las extensiones del tablespace TS2 (creado por tí) y el tamaño de cada una de ellas. Tendrás que crear objetos en él previamente, claro.  Vamos a crear este Tablespace.
-SQL&amp;gt; CREATE TABLESPACE TS2 2 DATAFILE &#39;/home/oracle/ts2.dbf&#39; 3 SIZE 200K 4 AUTOEXTEND ON 5 DEFAULT STORAGE ( 6 INITIAL 200K 7 NEXT 200K 8 MAXEXTENTS 3 9 PCTINCREASE 100); Tablespace created.  Vamos a crear una prueba para ver como funciona y añadamos contenido a ver como funciona.</description>
+      <description>Muestra los objetos a los que pertenecen las extensiones del tablespace TS2 (creado por tí) y el tamaño de cada una de ellas. Tendrás que crear objetos en él previamente, claro.   Vamos a crear este Tablespace.
+ SQL&amp;gt; CREATE TABLESPACE TS2 2 DATAFILE &#39;/home/oracle/ts2.dbf&#39; 3 SIZE 200K 4 AUTOEXTEND ON 5 DEFAULT STORAGE ( 6 INITIAL 200K 7 NEXT 200K 8 MAXEXTENTS 3 9 PCTINCREASE 100); Tablespace created.    Vamos a crear una prueba para ver como funciona y añadamos contenido a ver como funciona.</description>
     </item>
     
     <item>
@@ -261,9 +274,9 @@ SQL&amp;gt; CREATE TABLESPACE TS2 2 DATAFILE &#39;/home/oracle/ts2.dbf&#39; 3 SI
       
       <guid>https://alepeteporico.github.io/practicas/dns/</guid>
       <description>En nuestra red local tenemos un servidor Web que sirve dos páginas web: www.iesgn.org, departamentos.iesgn.org
- Vamos a instalar en nuestra red local un servidor DNS (lo puedes instalar en el mismo equipo que tiene el servidor web)
- Voy a suponer en este documento que el nombre del servidor DNS va a ser pandora.iesgn.org. El nombre del servidor de tu prácticas será tunombre.iesgn.org.
-  DNSmasq Instala el servidor dns dnsmasq en pandora.</description>
+  Vamos a instalar en nuestra red local un servidor DNS (lo puedes instalar en el mismo equipo que tiene el servidor web)
+  Voy a suponer en este documento que el nombre del servidor DNS va a ser pandora.iesgn.org. El nombre del servidor de tu prácticas será tunombre.iesgn.org.
+   DNSmasq Instala el servidor dns dnsmasq en pandora.</description>
     </item>
     
     <item>
@@ -273,8 +286,8 @@ SQL&amp;gt; CREATE TABLESPACE TS2 2 DATAFILE &#39;/home/oracle/ts2.dbf&#39; 3 SI
       
       <guid>https://alepeteporico.github.io/practicas/interconexion/</guid>
       <description>Realizar un enlace entre dos servidores de bases de datos ORACLE, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.
- Realizar un enlace entre dos servidores de bases de datos Postgres, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.
- Realizar un enlace entre un servidor ORACLE y otro Postgres o MySQL empleando Heterogeneus Services, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.</description>
+  Realizar un enlace entre dos servidores de bases de datos Postgres, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.
+  Realizar un enlace entre un servidor ORACLE y otro Postgres o MySQL empleando Heterogeneus Services, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.</description>
     </item>
     
     <item>
@@ -284,10 +297,9 @@ SQL&amp;gt; CREATE TABLESPACE TS2 2 DATAFILE &#39;/home/oracle/ts2.dbf&#39; 3 SI
       
       <guid>https://alepeteporico.github.io/practicas/cms_java/</guid>
       <description>Elegiremos instalar la aplicación con Guacamole, para empezar instalaremos la paquetería necesaria.
-vagrant@cmsjava:~$ sudo apt install build-essential libcairo2-dev libjpeg62-turbo-dev libpng-dev libtool-bin libossp-uuid-dev libavcodec-dev libavformat-dev libswscale-dev freerdp2-dev libpango1.0-dev libssh2-1-dev libtelnet-dev libvncserver-dev libwebsockets-dev libpulse-dev libvorbis-dev libwebp-dev  Descargaremos la aplicación del sitio oficial.
-vagrant@cmsjava:~$ wget http://archive.apache.org/dist/guacamole/1.2.0/source/guacamole-server-1.2.0.tar.gz  Descomprimimos la carpeta que acabamos de descargar.
-vagrant@cmsjava:~$ tar -zxf guacamole-server-1.2.0.tar.gz vagrant@cmsjava:~$ ls guacamole-server-1.2.0  Entraremos y lo instalaremos siguiendo los siguientes pasos.
-vagrant@cmsjava:~/guacamole-server-1.2.0$ .</description>
+ vagrant@cmsjava:~$ sudo apt install build-essential libcairo2-dev libjpeg62-turbo-dev libpng-dev libtool-bin libossp-uuid-dev libavcodec-dev libavformat-dev libswscale-dev freerdp2-dev libpango1.0-dev libssh2-1-dev libtelnet-dev libvncserver-dev libwebsockets-dev libpulse-dev libvorbis-dev libwebp-dev    Descargaremos la aplicación del sitio oficial.
+ vagrant@cmsjava:~$ wget http://archive.apache.org/dist/guacamole/1.2.0/source/guacamole-server-1.2.0.tar.gz    Descomprimimos la carpeta que acabamos de descargar.
+ vagrant@cmsjava:~$ tar -zxf guacamole-server-1.2.0.tar.gz vagrant@cmsjava:~$ ls guacamole-server-1.2.0    Entraremos y lo instalaremos siguiendo los siguientes pasos.</description>
     </item>
     
     <item>
@@ -296,9 +308,9 @@ vagrant@cmsjava:~/guacamole-server-1.2.0$ .</description>
       <pubDate>Mon, 26 Apr 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/despliegue_python/</guid>
-      <description>Vamos a desarrollar la aplicación del tutorial de django 3.1. Vamos a configurar tu equipo como entorno de desarrollo para trabajar con la aplicación.  Realizamos un fork de la aplicación añadiendola a nuestros repositorios y seguidamente lo clonaremos en nuestra maquina:
-alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python$ git clone git@github.com:alepeteporico/django_tutorial.git  Crearemos el entorno virtual donde instalaremos las dependencias necesarias para hacer funcionar nuestra aplicación.
-alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ python3 -m venv django (django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ pip install -r despliegue_python/django_tutorial/requirements.</description>
+      <description>Vamos a desarrollar la aplicación del tutorial de django 3.1. Vamos a configurar tu equipo como entorno de desarrollo para trabajar con la aplicación.    Realizamos un fork de la aplicación añadiendola a nuestros repositorios y seguidamente lo clonaremos en nuestra maquina:
+ alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python$ git clone git@github.com:alepeteporico/django_tutorial.git    Crearemos el entorno virtual donde instalaremos las dependencias necesarias para hacer funcionar nuestra aplicación.
+ alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ python3 -m venv django (django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ pip install -r despliegue_python/django_tutorial/requirements.</description>
     </item>
     
     <item>
@@ -307,7 +319,7 @@ alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ python3 -m venv django (django) 
       <pubDate>Sat, 24 Apr 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/apache_htaccess/</guid>
-      <description>Date de alta en un proveedor de hosting. ¿Si necesitamos configurar el servidor web que han configurado los administradores del proveedor?, ¿qué podemos hacer? Explica la directiva AllowOverride de apache2. Utilizando archivos .htaccess realiza las siguientes configuraciones:  El hosting que usaré será 000webhost  Habilita el listado de ficheros en la URL http://host.dominio/nas.  En nuestro hosting tendremos una carpeta llamada public_html en la cual podremos encontrar un fichero llamado .</description>
+      <description>Date de alta en un proveedor de hosting. ¿Si necesitamos configurar el servidor web que han configurado los administradores del proveedor?, ¿qué podemos hacer? Explica la directiva AllowOverride de apache2. Utilizando archivos .htaccess realiza las siguientes configuraciones:  El hosting que usaré será 000webhost  Habilita el listado de ficheros en la URL http://host.dominio/nas.   En nuestro hosting tendremos una carpeta llamada public_html en la cual podremos encontrar un fichero llamado .</description>
     </item>
     
     <item>
@@ -325,8 +337,8 @@ alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ python3 -m venv django (django) 
       <pubDate>Wed, 21 Apr 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/mapeo/</guid>
-      <description>Crea un nuevo host virtual que es accedido con el nombre www.mapeo.com, cuyo DocumentRoot sea /srv/mapeo.  En primer lugar para que nuestro apache pueda acceder a /srv/ y reconocer esta ruta como DocumentRoot debemos modificar el fichero etc/apache2/apache2.conf y descomentar las siguientes líneas.
-&amp;lt;Directory /srv/&amp;gt; Options Indexes FollowSymLinks AllowOverride None Require all granted &amp;lt;/Directory&amp;gt;  Una vez hecho esto creamos la carpeta mapeo en /srv/ y añadimos el nuevo host virtual en sites-avaiable, veamos como quedaría el fichero de sites-avaiable.</description>
+      <description>Crea un nuevo host virtual que es accedido con el nombre www.mapeo.com, cuyo DocumentRoot sea /srv/mapeo.   En primer lugar para que nuestro apache pueda acceder a /srv/ y reconocer esta ruta como DocumentRoot debemos modificar el fichero etc/apache2/apache2.conf y descomentar las siguientes líneas.
+ &amp;lt;Directory /srv/&amp;gt; Options Indexes FollowSymLinks AllowOverride None Require all granted &amp;lt;/Directory&amp;gt;    Una vez hecho esto creamos la carpeta mapeo en /srv/ y añadimos el nuevo host virtual en sites-avaiable, veamos como quedaría el fichero de sites-avaiable.</description>
     </item>
     
     <item>
@@ -355,7 +367,7 @@ alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ python3 -m venv django (django) 
       
       <guid>https://alepeteporico.github.io/problemas/vagrant_kernel/</guid>
       <description>Al intentar encender una máquina vagrant o en Vbox nos da un fallo:
-alejandrogv@AlejandroGV:~/vagrant/servicios/dhcp$ vagrant up The provider &#39;virtualbox&#39; that was requested to back the machine &#39;servidor&#39; is reporting that it isn&#39;t usable on this system. The reason is shown below: VirtualBox is complaining that the kernel module is not loaded. Please run `VBoxManage --version` or open the VirtualBox GUI to see the error message which should contain instructions on how to fix this error.</description>
+ alejandrogv@AlejandroGV:~/vagrant/servicios/dhcp$ vagrant up The provider &#39;virtualbox&#39; that was requested to back the machine &#39;servidor&#39; is reporting that it isn&#39;t usable on this system. The reason is shown below: VirtualBox is complaining that the kernel module is not loaded. Please run `VBoxManage --version` or open the VirtualBox GUI to see the error message which should contain instructions on how to fix this error.</description>
     </item>
     
     <item>
@@ -364,8 +376,8 @@ alejandrogv@AlejandroGV:~/vagrant/servicios/dhcp$ vagrant up The provider &#39;v
       <pubDate>Wed, 24 Mar 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/asimetrico/</guid>
-      <description>Tarea 1: Generación de claves  Generamos las claves:
-alejandrogv@AlejandroGV:~$ gpg --gen-key gpg (GnuPG) 2.2.12; Copyright (C) 2018 Free Software Foundation, Inc. This is free software: you are free to change and redistribute it. There is NO WARRANTY, to the extent permitted by law. Nota: Usa &amp;quot;gpg --full-generate-key&amp;quot; para el diálogo completo de generación de clave. GnuPG debe construir un ID de usuario para identificar su clave. Nombre y apellidos: Alejandro Gutiérrez Valencia Dirección de correo electrónico: tojandro@gmail.</description>
+      <description>Tarea 1: Generación de claves   Generamos las claves:
+ alejandrogv@AlejandroGV:~$ gpg --gen-key gpg (GnuPG) 2.2.12; Copyright (C) 2018 Free Software Foundation, Inc. This is free software: you are free to change and redistribute it. There is NO WARRANTY, to the extent permitted by law. Nota: Usa &amp;quot;gpg --full-generate-key&amp;quot; para el diálogo completo de generación de clave. GnuPG debe construir un ID de usuario para identificar su clave. Nombre y apellidos: Alejandro Gutiérrez Valencia Dirección de correo electrónico: tojandro@gmail.</description>
     </item>
     
     <item>
@@ -376,9 +388,9 @@ alejandrogv@AlejandroGV:~$ gpg --gen-key gpg (GnuPG) 2.2.12; Copyright (C) 2018 
       <guid>https://alepeteporico.github.io/apuntes/apuntes-de-libvirt/</guid>
       <description>Libvirt es una API de virtualizacion que se usa con KVM o Qemu KVM (el sistema de virtualización nativo de Linux).
 Instalación Para instalar libvirt deberemos instalar los siguientes paquetes
-sudo apt-get install qemu-kvm libvirt-daemon-system  Explicación de los paquetes:
- qemu-kvm: Proporciona la virtualización para x86
- libvirt-daemon-system: Es el demonio de libvirt, el cual hace accesible la API a través de un socket UNIX (aunque se puede configurar para acceder a través de un socket TCP).</description>
+sudo apt-get install qemu-kvm libvirt-daemon-system Explicación de los paquetes:
+  qemu-kvm: Proporciona la virtualización para x86
+  libvirt-daemon-system: Es el demonio de libvirt, el cual hace accesible la API a través de un socket UNIX (aunque se puede configurar para acceder a través de un socket TCP).</description>
     </item>
     
     <item>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Apuntes on Alepetepórico Blog</title>
@@ -6,21 +6,17 @@
     <description>Recent content in Apuntes on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 22 May 2021 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://alepeteporico.github.io/apuntes/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 22 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/apuntes/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Apuntes de SSH</title>
       <link>https://alepeteporico.github.io/apuntes/apuntes-de-ssh-avanzado/</link>
       <pubDate>Sat, 22 May 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/apuntes/apuntes-de-ssh-avanzado/</guid>
-      <description>ssh-agent  Tenemos un par de claves, para añadir a nuestro ssh-agent:
-ssh-add .ssh/clave  Nos pedirá la frase de paso y se añadiría la identidad, para comprobarlo:
-ssh-add -l  Pero necesitamos añadir esa clave a la máquina que nos queremos conectar.
-ssh-copy-id -i .ssh/clave usuario@172.22.100.10   Túneles ssh  Se usa para saltarnos un cortafuegos o para acceder por un canal abierto y más seguro, entre otras útilidades.</description>
+      <description>ssh-agent   Tenemos un par de claves, para añadir a nuestro ssh-agent:
+ ssh-add .ssh/clave    Nos pedirá la frase de paso y se añadiría la identidad, para comprobarlo:
+ ssh-add -l    Pero necesitamos añadir esa clave a la máquina que nos queremos conectar.
+ ssh-copy-id -i .ssh/clave usuario@172.22.100.10    Túneles ssh   Se usa para saltarnos un cortafuegos o para acceder por un canal abierto y más seguro, entre otras útilidades.</description>
     </item>
     
     <item>
@@ -31,9 +27,9 @@ ssh-copy-id -i .ssh/clave usuario@172.22.100.10   Túneles ssh  Se usa para salt
       <guid>https://alepeteporico.github.io/apuntes/apuntes-de-libvirt/</guid>
       <description>Libvirt es una API de virtualizacion que se usa con KVM o Qemu KVM (el sistema de virtualización nativo de Linux).
 Instalación Para instalar libvirt deberemos instalar los siguientes paquetes
-sudo apt-get install qemu-kvm libvirt-daemon-system  Explicación de los paquetes:
- qemu-kvm: Proporciona la virtualización para x86
- libvirt-daemon-system: Es el demonio de libvirt, el cual hace accesible la API a través de un socket UNIX (aunque se puede configurar para acceder a través de un socket TCP).</description>
+sudo apt-get install qemu-kvm libvirt-daemon-system Explicación de los paquetes:
+  qemu-kvm: Proporciona la virtualización para x86
+  libvirt-daemon-system: Es el demonio de libvirt, el cual hace accesible la API a través de un socket UNIX (aunque se puede configurar para acceder a través de un socket TCP).</description>
     </item>
     
   </channel>

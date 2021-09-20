@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 
 
@@ -96,25 +96,17 @@
                 <h1><a href="https://alepeteporico.github.io/practicas/server_web_bbdd_dns/">DNS, servidor web y base de datos</a></h1>
                 <span class="post-date">2021-03-16 </span>
                 <div class="post-content">
-                    
-
-<h3 id="servidor-dns">Servidor DNS</h3>
-
+                    <h3 id="servidor-dns">Servidor DNS</h3>
 <p><strong>El servidor DNS estará instalado en freston, por ello instalaremos bind en esta máquina</strong></p>
-
 <pre><code>    root@freston:~# apt install bind9
 </code></pre>
-
 <p><strong>Configuramos el fichero &ldquo;/etc/bind/named.conf.options&rdquo; y añadimos las siguientes líneas:</strong></p>
-
 <pre><code>listen-on { any };
 allow-transfer { none };
 recursion yes;
 allow-recursion { any; };
 </code></pre>
-
 <p><strong>Configuramos el DNS local, la DMZ y externa en el fichero de configuración /etc/bind/named.conf.local:</strong></p>
-
 <pre><code>    view interna {
             match-clients { 10.0.1.0/24; localhost; };
 
@@ -170,16 +162,11 @@ allow-recursion { any; };
             include &quot;/etc/bind/named.conf.default-zones&quot;;
     };
 </code></pre>
-
 <p><strong>Y en el fichero &ldquo;/etc/bind/named.conf&rdquo; debemos comentar esta línea:</strong></p>
-
 <pre><code>    //include &quot;/etc/bind/named.conf.default-zones&quot;;
 </code></pre>
-
-<p><strong>Crearemos los archivos db, lo hacemos en la carpeta &ldquo;/var/cache/bind/&rdquo;</strong></p>
-
-<h3 id="db-alegv-interna">db.alegv.interna</h3>
-
+<p><strong>Crearemos los archivos db, lo hacemos en la carpeta &ldquo;/var/cache/bind/&quot;</strong></p>
+<h3 id="dbalegvinterna">db.alegv.interna</h3>
 <pre><code>    $TTL    86400
     @       IN      SOA     freston.alegv.gonzalonazareno.org. admin.alegv.gonzalonazareno.org. (
                                   1         ; Serial
@@ -199,9 +186,7 @@ allow-recursion { any; };
     www     IN      CNAME   quijote
     bd      IN      CNAME   sancho
 </code></pre>
-
-<h3 id="db-alegv-dmz">db.alegv.dmz</h3>
-
+<h3 id="dbalegvdmz">db.alegv.dmz</h3>
 <pre><code>    $TTL    86400
     @       IN      SOA     freston.alegv.gonzalonazareno.org. admin.alegv.gonzalonazareno.org. (
                                   1         ; Serial
@@ -211,9 +196,9 @@ allow-recursion { any; };
                               86400 )       ; Negative Cache TTL
     ;
     @       IN      NS      freston.alegv.gonzalonazareno.org.
-
+    
     $ORIGIN alegv.gonzalonazareno.org.
-
+    
     dulcinea        IN      A       10.0.2.10
     sancho  IN      A       10.0.1.6
     quijote IN      A       10.0.2.5
@@ -221,9 +206,7 @@ allow-recursion { any; };
     www     IN      CNAME   quijote
     bd      IN      CNAME   sancho
 </code></pre>
-
-<h3 id="db-alegv-externa">db.alegv.externa</h3>
-
+<h3 id="dbalegvexterna">db.alegv.externa</h3>
 <pre><code>    $TTL    86400
     @       IN      SOA     dulcinea.alegv.gonzalonazareno.org. admin.alegv.gonzalonazareno.org. (
                                   1         ; Serial
@@ -240,11 +223,8 @@ allow-recursion { any; };
     www     IN      CNAME   dulcinea
     test    IN      CNAME   dulcinea
 </code></pre>
-
 <p><strong>Ahora crearemos los archivos de las resoluciones inversas en la misma ruta</strong></p>
-
-<h3 id="db-1-0-10">db.1.0.10</h3>
-
+<h3 id="db1010">db.1.0.10</h3>
 <pre><code>    $TTL    86400
     @       IN      SOA     freston.alegv.gonzalonazareno.org. admin.alegv.gonzalonazareno.org. (
                                   1         ; Serial
@@ -262,9 +242,7 @@ allow-recursion { any; };
     6       IN      PTR     sancho.alegv.gonzalonazareno.org.
     9       IN      PTR     freston.alegv.gonzalonazareno.org.
 </code></pre>
-
-<h3 id="db-2-0-10">db.2.0.10</h3>
-
+<h3 id="db2010">db.2.0.10</h3>
 <pre><code>    $TTL    86400
     @       IN      SOA     freston.alegv.gonzalonazareno.org. admin.alegv.gonzalonazareno.org. (
                                    1         ; Serial
@@ -274,30 +252,24 @@ allow-recursion { any; };
                               86400 )       ; Negative Cache TTL
     ;
     @       IN      NS      freston.alegv.gonzalonazareno.org.
-
-
+    
+    
     $ORIGIN 2.0.10.in-addr.arpa.
-
+    
     10      IN      PTR     dulcinea.alegv.gonzalonazareno.org.
     5       IN      PTR     quijote.alegv.gonzalonazareno.org.
 </code></pre>
-
 <p><strong>Si quisieramos asegurarnos de que no tenemos ningún error de sintáxis podemos usar esto:</strong></p>
-
 <pre><code>    root@freston:/var/cache/bind# named-checkconf
 </code></pre>
-
 <p><strong>IPV6 da conflictos, así que podemos deshabilitarlo en el fichero &ldquo;/etc/default/bind9&rdquo;</strong></p>
-
 <pre><code>    # run resolvconf?
     RESOLVCONF=yes
 
     # startup options for the server
     OPTIONS=&quot;-4 -u bind&quot;
 </code></pre>
-
 <p><strong>Reiniciamos el servicio de DNS</strong></p>
-
 <pre><code>    root@freston:/var/cache/bind# systemctl restart bind9
 
     debian@freston:~$ sudo systemctl status bind9
@@ -323,49 +295,33 @@ allow-recursion { any; };
     Feb 19 11:38:01 freston named[14514]: managed-keys-zone/dmz: Key 20326 for zone . acceptance timer comple
     Feb 19 11:38:01 freston named[14514]: resolver priming query complete
 </code></pre>
-
 <p><strong>Vamos a añadir las reglas en Dulcinea, lo haremos para el DNS (puerto 53) y como lo usaremos mas adelante, también para http (puerto 80) y https (puerto 443)</strong></p>
-
 <pre><code>    debian@dulcinea:~$ sudo nft add chain nat prerouting { type nat hook prerouting priority 0 \; }
     debian@dulcinea:~$ sudo nft add rule ip nat prerouting iifname &quot;eth0&quot; udp dport 53 counter dnat to 10.0.1.9
     debian@dulcinea:~$ sudo nft add rule ip nat prerouting iifname &quot;eth0&quot; tcp dport 80 counter dnat to 10.0.2.2
     debian@dulcinea:~$ sudo nft add rule ip nat prerouting iifname &quot;eth0&quot; tcp dport 443 counter dnat to 10.0.2.2
 </code></pre>
-
 <p><strong>Y guardamos los cambios</strong></p>
-
 <pre><code>    root@dulcinea:~# nft list ruleset &gt; /etc/nftables.conf
 </code></pre>
-
 <p><strong>Vamos a cambiar el nombre de dominio local en los /etc/hosts de todas las máquinas</strong></p>
-
 <h3 id="dulciena">Dulciena</h3>
-
 <pre><code>    127.0.1.1 dulcinea.alegv.gonzalonazareno.org dulcinea.novalocal dulcinea
     127.0.0.1 localhost
 </code></pre>
-
 <h3 id="sancho">Sancho</h3>
-
 <pre><code>    127.0.0.1 sancho.alegv.gonzalonzareno.org
     127.0.0.1 localhost
 </code></pre>
-
 <h3 id="feston">Feston</h3>
-
 <pre><code>    127.0.1.1 freston.alegv.gonzalonzareno.org freston.novalocal freston
     127.0.0.1 localhost
 </code></pre>
-
 <h3 id="quijote">Quijote</h3>
-
 <pre><code>    127.0.1.1 quijote.alegv.gonzalonazareno.org quijote
 </code></pre>
-
 <p><strong>Cambiamos los ficheros de resolv de todas las instanacias:</strong></p>
-
 <h3 id="dulcinea">Dulcinea</h3>
-
 <pre><code>    root@dulcinea:~# cat /etc/resolvconf/resolv.conf.d/head 
     nameserver 10.0.1.9
 
@@ -379,9 +335,7 @@ allow-recursion { any; };
     nameserver 192.168.202.2
     search alegv.gonzalonazareno.org
 </code></pre>
-
 <h3 id="sancho-1">Sancho</h3>
-
 <pre><code>    ubuntu@sancho:~$ cat /etc/netplan/50-cloud-init.yaml
     network:
         version: 2
@@ -403,9 +357,7 @@ allow-recursion { any; };
             options edns0 trust-ad
             search alegv.gonzalonazareno.org
 </code></pre>
-
 <h3 id="quijote-1">Quijote</h3>
-
 <pre><code>    [centos@quijote ~]$ cat /etc/resolv.conf 
     # Generated by NetworkManager
     search openstacklocal alegv.gonzalonazareno.org
@@ -413,9 +365,7 @@ allow-recursion { any; };
     nameserver 192.168.202.2
     nameserver 192.168.200.2
 </code></pre>
-
 <h3 id="freston">Freston</h3>
-
 <pre><code>    debian@freston:~$ cat /etc/resolv.conf 
     nameserver 10.0.1.9
     nameserver 192.168.200.2
@@ -429,9 +379,7 @@ allow-recursion { any; };
     debian@freston:~$ cat /etc/resolvconf/resolv.conf.d/head 
     nameserver 10.0.1.9
 </code></pre>
-
 <p><strong>Nuestro siguiente paso será deshabilitar la seguirdad de los puertos y las máquinas:</strong></p>
-
 <pre><code>    (openstackclient) alejandrogv@AlejandroGV:~$ openstack server remove security group Quijote default
     (openstackclient) alejandrogv@AlejandroGV:~$ openstack port set --disable-port-security 3fd1ff15-8a86-4374-ab6b-5e946e9721c0
 
@@ -441,11 +389,8 @@ allow-recursion { any; };
     (openstackclient) alejandrogv@AlejandroGV:~$ openstack server remove security group Sancho default
     (openstackclient) alejandrogv@AlejandroGV:~$ openstack port set --disable-port-security a7c4213b-d224-4d2f-8cf1-1f8770ef7823
 </code></pre>
-
 <p><strong>Vamos a hacer las comprobaciones necesarias en cada máquina:</strong></p>
-
 <h3 id="dulcinea-1">Dulcinea</h3>
-
 <pre><code>    debian@dulcinea:~$ dig +short @10.0.1.9 dulcinea.alegv.gonzalonazareno.org
     10.0.1.8
     debian@dulcinea:~$ dig +short @10.0.1.9 freston.alegv.gonzalonazareno.org
@@ -462,34 +407,26 @@ allow-recursion { any; };
     quijote.alegv.gonzalonazareno.org.
     10.0.2.2
 </code></pre>
-
 <h3 id="quijote-2">Quijote</h3>
-
 <pre><code>    [centos@quijote ~]$ dig +short @10.0.1.9 -x 10.0.2.5
     quijote.2.0.10.in-addr.arpa.
     [centos@quijote ~]$ dig +short @10.0.1.9 -x 10.0.2.10
     dulcinea.2.0.10.in-addr.arpa.
 </code></pre>
-
 <h3 id="sancho-2">Sancho</h3>
-
 <pre><code>    ubuntu@sancho:~$ dig +short @10.0.1.9 dulcinea.alegv.gonzalonazareno.org
     10.0.1.8
     ubuntu@sancho:~$ dig +short @10.0.1.9 freston.alegv.gonzalonazareno.org
     10.0.1.9
 </code></pre>
-
 <h3 id="freston-1">Freston</h3>
-
 <pre><code>    debian@freston:~$ dig +short @localhost -x 10.0.1.3
     sancho.1.0.10.in-addr.arpa.
 
     debian@freston:~$ dig +short @localhost -x 10.0.1.8
     dulcinea.1.0.10.in-addr.arpa.
 </code></pre>
-
 <h3 id="desde-fuera">Desde fuera:</h3>
-
 <pre><code>    alejandrogv@AlejandroGV:~$ dig dulcinea.alegv.gonzalonazareno.org
 
     ; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u3-Debian &lt;&lt;&gt;&gt; dulcinea.alegv.gonzalonazareno.org
@@ -502,37 +439,30 @@ allow-recursion { any; };
     ; EDNS: version: 0, flags:; udp: 4096
     ; COOKIE: 0c19b93390596f9a67cc7a1960b76f3f5eee202006b6b4e9 (good)
     ;; QUESTION SECTION:
-    ;dulcinea.alegv.gonzalonazareno.org. IN A
+    ;dulcinea.alegv.gonzalonazareno.org. IN	A
 
     ;; ANSWER SECTION:
-    dulcinea.alegv.gonzalonazareno.org. 86400 IN A  172.22.200.87
+    dulcinea.alegv.gonzalonazareno.org. 86400 IN A	172.22.200.87
 
     ;; AUTHORITY SECTION:
-    alegv.gonzalonazareno.org. 86400 IN NS  dulcinea.alegv.gonzalonazareno.org.
+    alegv.gonzalonazareno.org. 86400 IN	NS	dulcinea.alegv.gonzalonazareno.org.
 
     ;; Query time: 3 msec
     ;; SERVER: 192.168.202.2#53(192.168.202.2)
     ;; WHEN: mié jun 02 13:45:03 CEST 2021
     ;; MSG SIZE  rcvd: 121
 </code></pre>
-
 <h3 id="servidor-web">Servidor web</h3>
-
 <p><strong>Tenemos el servidor DNS, continuemos con el servidor web, este servidor estará situado en Quijote, será un servidor apache capaz de ejecutar php. Lo primero que deberemos hacer es instalar el servidor apache y php (el paquete de apache en CentOS se llama httpd)</strong></p>
-
 <pre><code>    [centos@quijote ~]$ sudo dnf install httpd php php-fpm
 </code></pre>
-
 <p><strong>Tenemos que iniciar y habilitar los servicios httpd y php</strong></p>
-
 <pre><code>    [centos@quijote ~]$ sudo systemctl start php-fpm httpd
     [centos@quijote ~]$ sudo systemctl enable php-fpm httpd
     Created symlink /etc/systemd/system/multi-user.target.wants/php-fpm.service → /usr/lib/systemd/system/php-fpm.service.
     Created symlink /etc/systemd/system/multi-user.target.wants/httpd.service → /usr/lib/systemd/system/httpd.service.
 </code></pre>
-
 <p><strong>Para que podamos acceder debemos habilitar en el firewall los puertos 443, 80 y 53</strong></p>
-
 <pre><code>    [centos@quijote ~]$ sudo firewall-cmd --permanent --add-port=443/tcp
     success
     [centos@quijote ~]$ sudo firewall-cmd --permanent --add-port=80/tcp
@@ -540,9 +470,7 @@ allow-recursion { any; };
     [centos@quijote ~]$ sudo firewall-cmd --permanent --add-port=53/udp
     success
 </code></pre>
-
 <p><strong>Para guardarlas debemos hacer un reload y comprobamos las reglas que tenemos:</strong></p>
-
 <pre><code>    [centos@quijote ~]$ sudo firewall-cmd --reload
     success
     [centos@quijote ~]$ sudo firewall-cmd --list-all
@@ -560,20 +488,14 @@ allow-recursion { any; };
       icmp-blocks: 
       rich rules:
 </code></pre>
-
 <p><strong>En CentOS los directorios sites-avaiable y sites-enabled no se crean por defecto, los crearemos nosotros:</strong></p>
-
 <pre><code>    [centos@quijote ~]$ sudo mkdir /etc/httpd/sites-enabled /etc/httpd/sites-available
 </code></pre>
-
 <p><strong>Ahora entraremos al fichero de configuración &ldquo;/etc/httpd/conf/httpd.conf&rdquo; para añadir sites-avaiable como nueva ruta comentando la última línea y añadiendo otra</strong></p>
-
 <pre><code>    #IncludeOptional conf.d/*.conf
-    IncludeOptional sites-enabled/*.conf
+    IncludeOptional	sites-enabled/*.conf
 </code></pre>
-
 <p><strong>Directamente pasaremos a la configuración de un virtualhost</strong></p>
-
 <pre><code>    [centos@quijote ~]$ cat /etc/httpd/sites-available/pagina.conf
     &lt;VirtualHost *:80&gt;
         ServerName www.alegv.gonzalonazareno.org
@@ -595,54 +517,37 @@ allow-recursion { any; };
         CustomLog /var/www/alegv/log/requests.log combined
     &lt;/VirtualHost&gt;
 </code></pre>
-
-<p><strong>Creamos el vínculo en sites-enabled y las carpetas necesarias en &ldquo;/var/www/&rdquo;</strong></p>
-
+<p><strong>Creamos el vínculo en sites-enabled y las carpetas necesarias en &ldquo;/var/www/&quot;</strong></p>
 <pre><code>    [centos@quijote sites-available]$ sudo ln -s pagina.conf ../sites-enabled/
     [centos@quijote ~]$ sudo mkdir -p /var/www/alegv/log
 </code></pre>
-
 <p><strong>Selinux nos dará problemas con los nuevos directorios, por ello debemos ejecutar los siguientes comandos y reiniciar el servicio httpd</strong></p>
-
 <pre><code>    [centos@quijote ~]$ sudo semanage fcontext -a -t httpd_log_t &quot;/var/www/alegv/log(/.*)?&quot;
     [root@quijote ~]# sudo restorecon -R -v /var/www/alegv/log
     [centos@quijote sites-available]$ sudo setsebool -P httpd_unified 1
 
     [centos@quijote sites-available]$ sudo systemctl restart httpd
 </code></pre>
-
 <p><strong>Creamos el fichero info.php</strong></p>
-
 <pre><code>    [centos@quijote ~]$ cat /var/www/alegv/info.php 
     &lt;?php phpinfo(); ?&gt;
 </code></pre>
-
 <p><strong>Comprobemos que funciona</strong></p>
-
-<p><img src="/dns_web_bbdd/1.png" alt="info" /></p>
-
+<p><img src="/dns_web_bbdd/1.png" alt="info"></p>
 <h3 id="servidor-base-de-datos">Servidor Base de datos.</h3>
-
 <p><strong>Usaremos el gestor mariadb</strong></p>
-
 <pre><code>    ubuntu@sancho:~$ sudo apt install mariadb-server
 </code></pre>
-
 <p><strong>Y una vez instalado debemos configurarlo para permitir el uso de usuarios remoto accediendo al fichero <code>/etc/mysql/mariadb.conf.d/50-server.cnf</code> y modificando la línea <code>bind-address</code> tal como aparece a continuación</strong></p>
-
 <pre><code>    bind-address            = 0.0.0.0
 </code></pre>
-
 <p><strong>Ahora vamos a entrar y crear un usuario que usaremos remotamente.</strong></p>
-
 <pre><code>    ubuntu@sancho:~$ sudo mysql -u root -p
 
     MariaDB [(none)]&gt; CREATE USER 'ale'@'10.0.2.5' IDENTIFIED BY 'ale';
     Query OK, 0 rows affected (0.009 sec)
 </code></pre>
-
 <p><strong>Crearemos una base de datos y daremos a nuestro usuario remoto privilegios sobre ella</strong></p>
-
 <pre><code>    MariaDB [(none)]&gt; CREATE DATABASE prueba;
     Query OK, 1 row affected (0.010 sec)
 
@@ -650,29 +555,23 @@ allow-recursion { any; };
         -&gt; ;
     Query OK, 0 rows affected (0.001 sec)
 </code></pre>
-
 <p><strong>Ahora vayamos a centos, y lo primero que haremos será instalar el cliente de mariadb</strong></p>
-
 <pre><code>    [centos@quijote ~]$ sudo dnf install mariadb
 </code></pre>
-
 <p><strong>Y procedemos a acceder al servidor mariadb con las credenciales que usamos anteriormente</strong></p>
-
 <pre><code>    [root@quijote ~]# mysql -u ale -p -h bd.alegv.gonzalonazareno.org
     Enter password: 
     Welcome to the MariaDB monitor.  Commands end with ; or \g.
     Your MariaDB connection id is 37
     Server version: 10.3.29-MariaDB-0ubuntu0.20.04.1 Ubuntu 20.04
-
+    
     Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
-
+    
     Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
-
+    
     MariaDB [(none)]&gt;
 </code></pre>
-
 <p><strong>Vamos a comprobar que funciona simplemente listando las bases de datos que tenemos</strong></p>
-
 <pre><code>    MariaDB [(none)]&gt; SHOW DATABASES;
     +--------------------+
     | Database           |
@@ -682,8 +581,7 @@ allow-recursion { any; };
     | performance_schema |
     | prueba             |
     +--------------------+
-    4 rows in set (0.034 sec)
-</code></pre>
+    4 rows in set (0.034 sec)</code></pre>
 
                 </div>
                 

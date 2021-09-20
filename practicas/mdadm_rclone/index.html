@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 
 
@@ -96,12 +96,8 @@
                 <h1><a href="https://alepeteporico.github.io/practicas/mdadm_rclone/">Práctica mdadm y rclone</a></h1>
                 <span class="post-date">2021-03-17 </span>
                 <div class="post-content">
-                    
-
-<h1 id="raid-5">RAID 5</h1>
-
+                    <h1 id="raid-5">RAID 5</h1>
 <h2 id="fichero-vagrantfile">Fichero VagrantFile:</h2>
-
 <pre><code>    # -*- mode: ruby -*-
 
     # vi: set ft=ruby :
@@ -148,26 +144,21 @@
 
     end
 </code></pre>
-
 <ul>
-<li><p>Crea una raid llamado md5 con los discos que hemos conectado a la máquina. ¿Cuantós discos tienes que conectar? ¿Qué diferencia exiiste entre el RAID 5 y el RAID1?</p>
-
-<pre><code>sudo mdadm --create /dev/md5 -l5 -n3 /dev/sdb /dev/sdc /dev/sdd
-</code></pre></li>
+<li>
+<p>Crea una raid llamado md5 con los discos que hemos conectado a la máquina. ¿Cuantós discos tienes que conectar? ¿Qué diferencia exiiste entre el RAID 5 y el RAID1?</p>
+<pre><code>  sudo mdadm --create /dev/md5 -l5 -n3 /dev/sdb /dev/sdc /dev/sdd
+</code></pre>
+</li>
 </ul>
-
 <h3 id="diferencias-raid-1-y-raid-5">Diferencias RAID 1 y RAID 5</h3>
-
 <h3 id="raid-1">RAID 1:</h3>
-
 <ol>
 <li>Se necesitan mínimo 2 discos</li>
 <li>Se almacenan los datos en modo espejo</li>
 <li>Escritura lenta y lectura rápida</li>
 </ol>
-
 <h3 id="raid-5-1">RAID 5:</h3>
-
 <ol>
 <li>Operaciones rápidas, incluso para varios usuarios simultaneamente.</li>
 <li>Para la tolerancia a fallos usa paridad y suma de verificación.</li>
@@ -175,26 +166,22 @@
 <li>Lectura lenta.</li>
 <li>Requiere mínimo 3 discos.</li>
 </ol>
-
-<hr />
-
+<hr>
 <ul>
 <li><strong>Comprueba las características del RAID. Comprueba el estado del RAID. ¿Qué capacidad tiene el RAID que hemos creado?</strong></li>
 </ul>
-
 <p><strong>Caracteristicas:</strong>
 <strong>Aparecen caracterisiticas tales como la fecha de creación, en espacio del que dispone, los discos que usa, etc&hellip;</strong>
-        vagrant@practica1:~$ sudo mdadm -D /dev/md5
-        /dev/md5:
-                   Version : 1.2
-             Creation Time : Wed Mar 17 12:26:56 2021
-                Raid Level : raid5
-                Array Size : 2093056 (2044.00 MiB 2143.29 MB)
-             Used Dev Size : 1046528 (1022.00 MiB 1071.64 MB)
-              Raid Devices : 3
-             Total Devices : 3
-               Persistence : Superblock is persistent</p>
-
+vagrant@practica1:~$ sudo mdadm -D /dev/md5
+/dev/md5:
+Version : 1.2
+Creation Time : Wed Mar 17 12:26:56 2021
+Raid Level : raid5
+Array Size : 2093056 (2044.00 MiB 2143.29 MB)
+Used Dev Size : 1046528 (1022.00 MiB 1071.64 MB)
+Raid Devices : 3
+Total Devices : 3
+Persistence : Superblock is persistent</p>
 <pre><code>           Update Time : Wed Mar 17 12:27:04 2021
                  State : clean 
         Active Devices : 3
@@ -216,38 +203,28 @@
            1       8       32        1      active sync   /dev/sdc
            3       8       48        2      active sync   /dev/sdd
 </code></pre>
-
 <p><strong>Estado:</strong>
 <strong>Puede comprobarse que se encuetra activo</strong>
-        vagrant@practica1:~$ cat /proc/mdstat
-        Personalities : [raid6] [raid5] [raid4]
-        md5 : active raid5 sdd[3] sdc[1] sdb[0]
-              2093056 blocks super 1.2 level 5, 512k chunk, algorithm 2 [<sup>3</sup>&frasl;<sub>3</sub>] [UUU]</p>
-
+vagrant@practica1:~$ cat /proc/mdstat
+Personalities : [raid6] [raid5] [raid4]
+md5 : active raid5 sdd[3] sdc[1] sdb[0]
+2093056 blocks super 1.2 level 5, 512k chunk, algorithm 2 [3/3] [UUU]</p>
 <pre><code>    unused devices: &lt;none&gt;
 </code></pre>
-
 <p><strong>Nuestro RAID 5 dispone de 3 GB, sin embargo uno se usa para paridad por lo que útiles tenemos 2 GB para almacenar información.</strong></p>
-
 <ul>
 <li>Crea un volumen lógico (LVM) de 500Mb en el raid 5.</li>
 </ul>
-
 <p><strong>Primero creamos el grupo de volumenes</strong></p>
-
 <pre><code>    vagrant@practica1:~$ sudo vgcreate raid5 /dev/md5
       Physical volume &quot;/dev/md5&quot; successfully created.
       Volume group &quot;raid5&quot; successfully created
 </code></pre>
-
 <p><strong>Y seguidamente el volumen lógico</strong></p>
-
 <pre><code>    vagrant@practica1:~$ sudo lvcreate -L 500M -n disco1 raid5
       Logical volume &quot;disco1&quot; created.
 </code></pre>
-
 <p><strong>Vamos a comprobar que se ha creado</strong></p>
-
 <pre><code>    vagrant@practica1:~$ sudo lvdisplay
       --- Logical volume ---
       LV Path                /dev/raid5/disco1
@@ -266,18 +243,13 @@
       - currently set to     4096
       Block device           253:0
 </code></pre>
-
 <ul>
 <li>Formatea ese volumen con un sistema de archivo xfs.</li>
 </ul>
-
 <p><strong>Primero debemos instalar este paquete para poder montar en xfs con mkfs</strong></p>
-
 <pre><code>    vagrant@practica1:~$ sudo apt-get install xfsprogs
 </code></pre>
-
 <p><strong>Y formateamos</strong></p>
-
 <pre><code>    vagrant@practica1:~$ sudo mkfs.xfs /dev/raid5/disco1
     meta-data=/dev/raid5/disco1      isize=512    agcount=8, agsize=16000 blks
              =                       sectsz=512   attr=2, projid32bit=1
@@ -290,32 +262,25 @@
              =                       sectsz=512   sunit=0 blks, lazy-count=1
     realtime =none                   extsz=4096   blocks=0, rtextents=0
 </code></pre>
-
 <ul>
-<li><p>Monta el volumen en el directorio /mnt/raid5 y crea un fichero. ¿Qué tendríamos que hacer para que este punto de montaje sea permanente?</p>
-
-<pre><code>vagrant@practica1:~$ sudo mkdir /mnt/raid5
-vagrant@practica1:~$ sudo mount /dev/raid5/disco1 /mnt/raid5
-</code></pre></li>
+<li>
+<p>Monta el volumen en el directorio /mnt/raid5 y crea un fichero. ¿Qué tendríamos que hacer para que este punto de montaje sea permanente?</p>
+<pre><code>  vagrant@practica1:~$ sudo mkdir /mnt/raid5
+  vagrant@practica1:~$ sudo mount /dev/raid5/disco1 /mnt/raid5
+</code></pre>
+</li>
 </ul>
-
 <p><strong>Para que este punto de montaje sea permanente necesitamos editar el fichero fstab de la siguiente forma:</strong></p>
-
 <pre><code>    UUID=ffC3KF-As96-HhdY-fjpD-6TG1-7yjG-ZjitFI /mnt/raid5  xfs     defaults        0       1
 </code></pre>
-
 <ul>
 <li>Marca un disco como estropeado. Muestra el estado del raid para comprobar que un disco falla. ¿Podemos acceder al fichero?</li>
 </ul>
-
 <p><strong>Marcamos uno de los discos como estropeado.</strong></p>
-
 <pre><code>    vagrant@practica1:~$ sudo mdadm -f /dev/md5 /dev/sdb
     mdadm: set /dev/sdb faulty in /dev/md5
 </code></pre>
-
 <p><strong>En la siguiente imagen podemos ver que el sdb falla, pues nos marca que están funcionando 2 de 3.</strong></p>
-
 <pre><code>    vagrant@practica1:~$ sudo cat /proc/mdstat 
     Personalities : [raid6] [raid5] [raid4] 
     md5 : active raid5 sdd[3] sdc[1] sdb[0](F)
@@ -324,27 +289,19 @@ vagrant@practica1:~$ sudo mount /dev/raid5/disco1 /mnt/raid5
     unused devices: &lt;none&gt;
     You have mail in /var/mail/vagrant
 </code></pre>
-
 <p><strong>Una vez marcado como estropeado, lo tenemos que retirar del raid.</strong></p>
-
 <p><strong>Retiramos el disco estropeado</strong></p>
-
 <pre><code>    vagrant@practica1:~$ sudo mdadm --manage /dev/md5 --remove faulty
     mdadm: hot removed 8:16 from /dev/md5
 </code></pre>
-
 <ul>
 <li>Imaginemos que lo cambiamos por un nuevo disco nuevo (el dispositivo de bloque se llama igual), añádelo al array y comprueba como se sincroniza con el anterior.</li>
 </ul>
-
 <p><strong>Añadimos nuevo dispositivo al raid 5</strong></p>
-
 <pre><code>    vagrant@practica1:~$ sudo mdadm -a /dev/md5 /dev/sde
     mdadm: added /dev/sde
 </code></pre>
-
 <p><strong>Y comprobamos que todo vuelve a la normalidad</strong></p>
-
 <pre><code>    vagrant@practica1:~$ sudo cat /proc/mdstat 
     Personalities : [raid6] [raid5] [raid4] 
     md5 : active raid5 sde[4] sdd[3] sdc[1]
@@ -352,19 +309,14 @@ vagrant@practica1:~$ sudo mount /dev/raid5/disco1 /mnt/raid5
 
     unused devices: &lt;none&gt;
 </code></pre>
-
 <ul>
 <li>Añade otro disco como reserva. Vuelve a simular el fallo de un disco y comprueba como automática se realiza la sincronización con el disco de reserva.</li>
 </ul>
-
 <p><strong>Añadimos otro disco de reserva</strong></p>
-
 <pre><code>    vagrant@practica1:~$ sudo mdadm -a /dev/md5 /dev/sdf
     mdadm: added /dev/sdf
 </code></pre>
-
 <p><strong>Si marcamos uno como estropeado veremos que inmediatamente el otro se pondra a trabajar.</strong></p>
-
 <pre><code>    vagrant@practica1:~$ sudo mdadm -f /dev/md5 /dev/sde
     mdadm: set /dev/sde faulty in /dev/md5
 
@@ -379,13 +331,10 @@ vagrant@practica1:~$ sudo mount /dev/raid5/disco1 /mnt/raid5
     unused devices: &lt;none&gt;
     You have new mail in /var/mail/vagrant
 </code></pre>
-
 <ul>
 <li>Redimensiona el volumen y el sistema de archivo de 500Mb al tamaño del raid.</li>
 </ul>
-
 <p><strong>Primero aumentamos de tamaño el volumen lógico y después el sistema de ficheros.</strong></p>
-
 <pre><code>    vagrant@practica1:~$ sudo lvresize -l +100%FREE /dev/raid5/disco1
       Size of logical volume raid5/disco1 changed from 500.00 MiB (125 extents) to 1.99 GiB (510 extents).
       Logical volume raid5/disco1 successfully resized.
@@ -403,9 +352,7 @@ vagrant@practica1:~$ sudo mount /dev/raid5/disco1 /mnt/raid5
     realtime =none                   extsz=4096   blocks=0, rtextents=0
     data blocks changed from 128000 to 522240
 </code></pre>
-
 <p><strong>Ahora al hacer un lvdisplay, el tamaño del raid debería ser 2 GB que es el tamaño máximo</strong></p>
-
 <pre><code>    vagrant@practica1:~$ sudo lvdisplay
       --- Logical volume ---
       LV Path                /dev/raid5/disco1
@@ -424,31 +371,21 @@ vagrant@practica1:~$ sudo mount /dev/raid5/disco1 /mnt/raid5
       - currently set to     4096
       Block device           253:0
 </code></pre>
-
-<hr />
-
+<hr>
 <h1 id="rclone">RCLONE</h1>
-
 <ul>
 <li>Instala rclone en tu equipo.</li>
 </ul>
-
 <p><strong>Instalamos rclone simplemente usando apt install.</strong></p>
-
 <pre><code>    alejandrogv@AlejandroGV:~$ sudo apt install rclone
 </code></pre>
-
 <ul>
 <li>Configura dos proveedores cloud en rclone (dropbox, google drive, mega, …)</li>
 </ul>
-
 <p><strong>Para configurar este servicio y añadir los clouds usamos este comando:</strong></p>
-
 <pre><code>    alejandrogv@AlejandroGV:~$ rclone config
 </code></pre>
-
 <p><strong>Usamos la opción n para añadir un nuevo servicio, le ponemos un nombre, como drive y elegimos la opción 12.</strong></p>
-
 <pre><code>    e/n/d/r/c/s/q&gt; n
     name&gt; drive
     ...
@@ -461,11 +398,8 @@ vagrant@practica1:~$ sudo mount /dev/raid5/disco1 /mnt/raid5
     ...
     Storage&gt; 12
 </code></pre>
-
 <p><strong>Dejamos el blanco el client_id y el client_secret.</strong></p>
-
 <p><strong>Elegimos la opción 1 para usar todos los archivos de este servicio.</strong></p>
-
 <pre><code>     1 / Full access all files, excluding Application Data Folder.
        \ &quot;drive&quot;
     ...
@@ -473,23 +407,15 @@ vagrant@practica1:~$ sudo mount /dev/raid5/disco1 /mnt/raid5
     ...
     scope&gt; 1
 </code></pre>
-
 <p><strong>No configuraremos de forma avanzada y usaremos el autoconfig.</strong></p>
-
 <p><strong>Acto seguido se nos abrirá una ventana en el navegador donde elegiremos la cuenta de drive que queremos enlazar y le daremos permiso.</strong></p>
-
-<p><img src="/practica1_SAD/1.png" alt="rclone" /></p>
-
+<p><img src="/practica1_SAD/1.png" alt="rclone"></p>
 <p><strong>Volverá a saltarnos la primera opción donde para añadir Dropbox volvermos a usar la opción n y seguiremos los mismos pasos, solo que tendremos que elegir al pricipio la opción 8.</strong></p>
-
 <p><strong>Cuando terminemos usamos q para salir.</strong></p>
-
 <ul>
 <li>Muestra distintos comandos de rclone para gestionar los ficheros de los proveedores cloud: lista los ficheros, copia un fichero local a la nube, sincroniza un directorio local con un directorio en la nube, copia ficheros entre los dos proveedores cloud, muestra alguna funcionalidad más,…</li>
 </ul>
-
 <p><strong>Listamos los ficheros:</strong></p>
-
 <pre><code>    alejandrogv@AlejandroGV:~$ rclone ls drive:
        539468 06012011214.jpg
        190719 111923323.pdf
@@ -504,41 +430,27 @@ vagrant@practica1:~$ sudo mount /dev/raid5/disco1 /mnt/raid5
     ...
     ...
 </code></pre>
-
 <p><strong>Subimos un fichero local:</strong></p>
-
 <pre><code>    alejandrogv@AlejandroGV:~$ rclone copy prueba.txt.gpg drive:
 </code></pre>
-
-<p><img src="/practica1_SAD/2.png" alt="rclone" /></p>
-
+<p><img src="/practica1_SAD/2.png" alt="rclone"></p>
 <p><strong>Sincronizamos una carpeta:</strong></p>
-
 <pre><code>    alejandrogv@AlejandroGV:~/Escritorio$ rclone sync -P ASIR drive:/ASIR &amp; ASIR
     alejandrogv@AlejandroGV:~/Escritorio$ ls ASIR/
     bbdd  hlc  IWEB  Seguridad  Servicios  sistemas
 </code></pre>
-
 <p><strong>Copiamos un archivo de un servicio a otro:</strong></p>
-
 <pre><code>    alejandrogv@AlejandroGV:~/Escritorio$ rclone copy drive:/volumenes.sh dropbox:
 </code></pre>
-
-<p><img src="/practica1_SAD/3.png" alt="rclone" /></p>
-
+<p><img src="/practica1_SAD/3.png" alt="rclone"></p>
 <ul>
 <li>Monta en un directorio local de tu ordenador, los ficheros de un proveedor cloud. Comprueba que copiando o borrando ficheros en este directorio se crean o eliminan en el proveedor.</li>
 </ul>
-
 <p><strong>Usamos el siguiente comando para montar el servicio en un directorio local:</strong></p>
-
 <pre><code>    alejandrogv@AlejandroGV:~$ sudo rclone mount --vfs-cache-mode writes drive: GoogleDrive &amp;
 </code></pre>
-
 <p><strong>Usamos el &ndash;vfs para prevenir un error que puede ocasionarse al editar algun archivo del directorio.</strong></p>
-
-<p><img src="/practica1_SAD/3-3.png" alt="rclone" /></p>
-
+<p><img src="/practica1_SAD/3-3.png" alt="rclone"></p>
 <p><strong>En la foto anterior podemos ver que se ha montado bien. Si crearamos o borraramos algún archivo en el directorio o en el servicio se sincronizarían los cambios.</strong></p>
 
                 </div>

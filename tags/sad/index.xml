@@ -1,16 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Sad on Alepetepórico Blog</title>
+    <title>SAD on Alepetepórico Blog</title>
     <link>https://alepeteporico.github.io/tags/sad/</link>
-    <description>Recent content in Sad on Alepetepórico Blog</description>
+    <description>Recent content in SAD on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 07 Jun 2021 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://alepeteporico.github.io/tags/sad/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 07 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/sad/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Cortafuegos - OpenStack</title>
       <link>https://alepeteporico.github.io/practicas/cortafuegos/</link>
@@ -18,9 +14,9 @@
       
       <guid>https://alepeteporico.github.io/practicas/cortafuegos/</guid>
       <description>Nuestro primer paso será instalar nftables.
-debian@dulcinea:~$ sudo apt install nftables  Activamos y habilitamos este servicio.
-debian@dulcinea:~$ sudo systemctl start nftables debian@dulcinea:~$ sudo systemctl enable nftables  Configuraremos la política por defecto a DROP.
-nft chain inet filter input { policy drop \; } nft chain inet filter forward { policy drop \; } nft chain inet filter output { policy drop \; }  Añadimos las reglas de NAT.</description>
+ debian@dulcinea:~$ sudo apt install nftables    Activamos y habilitamos este servicio.
+ debian@dulcinea:~$ sudo systemctl start nftables debian@dulcinea:~$ sudo systemctl enable nftables    Configuraremos la política por defecto a DROP.
+ nft chain inet filter input { policy drop \; } nft chain inet filter forward { policy drop \; } nft chain inet filter output { policy drop \; }    Añadimos las reglas de NAT.</description>
     </item>
     
     <item>
@@ -29,8 +25,8 @@ nft chain inet filter input { policy drop \; } nft chain inet filter forward { p
       <pubDate>Sun, 30 May 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/firmas/</guid>
-      <description>Tarea 1:  He enviado un archivo firmado a un compañero que dispone de mi clave pública, los dos hemos verificado la firma.
-alejandrogv@AlejandroGV:~/Descargas$ gpg --verify firma2.pdf.gpg gpg: Firmado el jue 22 oct 2020 12:11:31 CEST gpg: usando RSA clave 28ED3C3112ED8846BEDFFAF657112B319F2A6170 gpg: emisor &amp;quot;frandh1997@gmail.com&amp;quot; gpg: Firma correcta de &amp;quot;Francisco Javier Madueño Jurado &amp;lt;frandh1997@gmail.com&amp;gt;&amp;quot; [desconocido] gpg: ATENCIÓN: ¡Esta clave no está certificada por una firma de confianza! gpg: No hay indicios de que la firma pertenezca al propietario.</description>
+      <description>Tarea 1:   He enviado un archivo firmado a un compañero que dispone de mi clave pública, los dos hemos verificado la firma.
+ alejandrogv@AlejandroGV:~/Descargas$ gpg --verify firma2.pdf.gpg gpg: Firmado el jue 22 oct 2020 12:11:31 CEST gpg: usando RSA clave 28ED3C3112ED8846BEDFFAF657112B319F2A6170 gpg: emisor &amp;quot;frandh1997@gmail.com&amp;quot; gpg: Firma correcta de &amp;quot;Francisco Javier Madueño Jurado &amp;lt;frandh1997@gmail.com&amp;gt;&amp;quot; [desconocido] gpg: ATENCIÓN: ¡Esta clave no está certificada por una firma de confianza! gpg: No hay indicios de que la firma pertenezca al propietario.</description>
     </item>
     
     <item>
@@ -39,8 +35,8 @@ alejandrogv@AlejandroGV:~/Descargas$ gpg --verify firma2.pdf.gpg gpg: Firmado el
       <pubDate>Thu, 27 May 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/https_openstack/</guid>
-      <description>El siguiente paso de nuestro proyecto es configurar de forma adecuada el protocolo HTTPS en nuestro servidor web para nuestra aplicaciones web. Para ello vamos a emitir un certificado wildcard en la AC Gonzalo Nazareno utilizando para la petición la utilidad &amp;ldquo;gestiona&amp;rdquo;.  Lo primero que debemos hacer para llevarlo a cabo es dirigirnos a centos donde crearemos los directorios nesarios y crearemos una clave RSA.
-[centos@quijote ~]$ sudo mkdir /etc/ssl/private [centos@quijote ~]$ sudo chmod 700 /etc/ssl/private Generating RSA private key, 4096 bit long modulus (2 primes) .</description>
+      <description>El siguiente paso de nuestro proyecto es configurar de forma adecuada el protocolo HTTPS en nuestro servidor web para nuestra aplicaciones web. Para ello vamos a emitir un certificado wildcard en la AC Gonzalo Nazareno utilizando para la petición la utilidad &amp;ldquo;gestiona&amp;rdquo;.   Lo primero que debemos hacer para llevarlo a cabo es dirigirnos a centos donde crearemos los directorios nesarios y crearemos una clave RSA.
+ [centos@quijote ~]$ sudo mkdir /etc/ssl/private [centos@quijote ~]$ sudo chmod 700 /etc/ssl/private Generating RSA private key, 4096 bit long modulus (2 primes) .</description>
     </item>
     
     <item>
@@ -49,8 +45,8 @@ alejandrogv@AlejandroGV:~/Descargas$ gpg --verify firma2.pdf.gpg gpg: Firmado el
       <pubDate>Wed, 24 Mar 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/asimetrico/</guid>
-      <description>Tarea 1: Generación de claves  Generamos las claves:
-alejandrogv@AlejandroGV:~$ gpg --gen-key gpg (GnuPG) 2.2.12; Copyright (C) 2018 Free Software Foundation, Inc. This is free software: you are free to change and redistribute it. There is NO WARRANTY, to the extent permitted by law. Nota: Usa &amp;quot;gpg --full-generate-key&amp;quot; para el diálogo completo de generación de clave. GnuPG debe construir un ID de usuario para identificar su clave. Nombre y apellidos: Alejandro Gutiérrez Valencia Dirección de correo electrónico: tojandro@gmail.</description>
+      <description>Tarea 1: Generación de claves   Generamos las claves:
+ alejandrogv@AlejandroGV:~$ gpg --gen-key gpg (GnuPG) 2.2.12; Copyright (C) 2018 Free Software Foundation, Inc. This is free software: you are free to change and redistribute it. There is NO WARRANTY, to the extent permitted by law. Nota: Usa &amp;quot;gpg --full-generate-key&amp;quot; para el diálogo completo de generación de clave. GnuPG debe construir un ID de usuario para identificar su clave. Nombre y apellidos: Alejandro Gutiérrez Valencia Dirección de correo electrónico: tojandro@gmail.</description>
     </item>
     
     <item>

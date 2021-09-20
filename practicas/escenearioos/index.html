@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 
 
@@ -96,25 +96,16 @@
                 <h1><a href="https://alepeteporico.github.io/practicas/escenearioos/">Configuración del escenario en OpenStack</a></h1>
                 <span class="post-date">2021-03-16 </span>
                 <div class="post-content">
-                    
-
-<p><strong>El escenario que debemos montar es el siguiente:</strong></p>
-
-<p><img src="/escenario_os/1.png" alt="escenario" /></p>
-
+                    <p><strong>El escenario que debemos montar es el siguiente:</strong></p>
+<p><img src="/escenario_os/1.png" alt="escenario"></p>
 <p><strong>Nosotros tenemos nuestra propia red, pero debemos crear dos nuevas para el escenario y añadir las redes conrrespondientes a sus máquinas</strong></p>
-
-<p><img src="/escenario_os/2.png" alt="redes" /></p>
-
-<p><img src="/escenario_os/3.png" alt="maquinas" /></p>
-
+<p><img src="/escenario_os/2.png" alt="redes"></p>
+<p><img src="/escenario_os/3.png" alt="maquinas"></p>
 <p><strong>Nuestro siguiente paso será deshabilitar los puertos de Dulcinea que será la máquina que usaremos para conectarnos a las demás y salir al exterior</strong>
 <strong>Para este proposito usaremos OpenStack Client</strong>
-        alejandrogv@AlejandroGV:~$ source Escritorio/ASIR/hlc/openstackclient/bin/activate
-        source ~/Descargas/Proyecto\ de\ a.gutierrez-openrc.sh</p>
-
+alejandrogv@AlejandroGV:~$ source Escritorio/ASIR/hlc/openstackclient/bin/activate
+source ~/Descargas/Proyecto\ de\ a.gutierrez-openrc.sh</p>
 <p><strong>Ahora listaremos las interfaces que tenemos en nuestro proyecto</strong></p>
-
 <pre><code>    (openstackclient) alejandrogv@AlejandroGV:~$ openstack port list
     +--------------------------------------+--------------------------------------+-------------------      +--------------------------------------------------------------------------+--------+
     | ID                                   | Name                                 | MAC Address       | Fixed IP        Addresses                                                       | Status |
@@ -132,36 +123,24 @@
     | cb13e01e-b2b7-47fa-9c26-207cab410f0b |                                      | fa:16:3e:93:93:63 | ip_address='10.0.1.5',      subnet_id='48bf0175-ef57-43e8-882f-7bfa45e599b9'  | ACTIVE |
     +--------------------------------------+--------------------------------------+-------------------      +--------------------------------------------------------------------------+--------+
 </code></pre>
-
 <p><strong>Por último para deshabilitar la seguridad de los puertos haremos esto:</strong></p>
-
 <pre><code>    openstack port set --disable-port-security [id de la interfaz]
 </code></pre>
-
 <p><strong>Una vez terminado este paso entraremos a Dulcinea y activaremos el bit de enrutamiento en &ldquo;/etc/sysctl.conf&rdquo;, nuestro primer paso para hacer NAT</strong></p>
-
 <pre><code>    # Uncomment the next line to enable packet forwarding for IPv4
     net.ipv4.ip_forward=1
 </code></pre>
-
 <p><strong>Para asegurarnos ejecutamos el siguiente comando también:</strong></p>
-
 <pre><code>    echo 1 &gt; /proc/sys/net/ipv4/ip_forward
 </code></pre>
-
 <p><strong>Añadiremos las reglas de IPTABLES</strong></p>
-
 <pre><code>    debian@dulcinea:~$ sudo iptables -t nat -A POSTROUTING -s 10.0.1.0/24 -o eth0 -j MASQUERADE
     debian@dulcinea:~$ sudo iptables -t nat -A POSTROUTING -s 10.0.2.0/24 -o eth0 -j MASQUERADE
 </code></pre>
-
 <p><strong>Y guardamos estás reglas para que persistan si reiniciamos la máquina</strong></p>
-
 <pre><code>    debian@dulcinea:~$ sudo iptables-save
 </code></pre>
-
 <p><strong>Nuestro siguiente paso en Dulcinea será modificar el fichero &ldquo;/etc/network/interfaces&rdquo;</strong></p>
-
 <pre><code>    # The normal eth0
     auto eth0
     iface eth0 inet static
@@ -185,10 +164,8 @@
      broadcast 10.0.2.255
      gateway 10.0.2.1
 </code></pre>
-
 <p><strong>Reiniciamos el servicio de red y podemos empezar a configurar nuestras máquinas.</strong>
 <strong>Empezaremos por CentOS, Quijote, El archivo que tendremos que configurar es &ldquo;etc/sysconfig/network-scripts/ifcfg-eth0&rdquo;</strong></p>
-
 <pre><code>    # Created by cloud-init on instance boot automatically, do not edit.
     #
     BOOTPROTO=static
@@ -203,9 +180,7 @@
     TYPE=Ethernet
     USERCTL=no
 </code></pre>
-
-<p><strong>Para probar su conectividad haremos ping a 8.8.8.8, a Dulcinea y a www.google.es para comprobar que funciona el DNS</strong></p>
-
+<p><strong>Para probar su conectividad haremos ping a 8.8.8.8, a Dulcinea y a <a href="http://www.google.es">www.google.es</a> para comprobar que funciona el DNS</strong></p>
 <pre><code>    [centos@quijote ~]$ ping 8.8.8.8
     PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
     64 bytes from 8.8.8.8: icmp_seq=1 ttl=111 time=43.1 ms
@@ -224,9 +199,7 @@
     PING www.google.es (172.217.168.163) 56(84) bytes of data.
     64 bytes from mad07s10-in-f3.1e100.net (172.217.168.163): icmp_seq=1 ttl=112 time=43.2 ms
 </code></pre>
-
 <p><strong>Pasaremos a configurar freston, como es debian el archivo de configuración está en &ldquo;/etc/network/interfaces&rdquo;</strong></p>
-
 <pre><code>    # The normal eth0
     auto eth0
     iface eth0 inet static
@@ -235,34 +208,30 @@
      broadcast 10.0.1.255
      gateway 10.0.1.5
 </code></pre>
-
 <p><strong>Haremos las mismas pruebas que con freston</strong></p>
-
 <pre><code>    debian@freston:~$ ping 10.0.1.5
     PING 10.0.1.5 (10.0.1.5) 56(84) bytes of data.
     64 bytes from 10.0.1.5: icmp_seq=1 ttl=64 time=0.305 ms
-
+    
     --- 10.0.1.5 ping statistics ---
     1 packets transmitted, 1 received, 0% packet loss, time 0ms
     rtt min/avg/max/mdev = 0.305/0.305/0.305/0.000 ms
     debian@freston:~$ ping 8.8.8.8
     PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
     64 bytes from 8.8.8.8: icmp_seq=1 ttl=111 time=43.1 ms
-
+    
     --- 8.8.8.8 ping statistics ---
     1 packets transmitted, 1 received, 0% packet loss, time 0ms
     rtt min/avg/max/mdev = 43.101/43.101/43.101/0.000 ms
     debian@freston:~$ ping www.google.es
     PING www.google.es (142.250.185.3) 56(84) bytes of data.
     64 bytes from mad41s11-in-f3.1e100.net (142.250.185.3): icmp_seq=1 ttl=111 time=42.9 ms
-
+    
     --- www.google.es ping statistics ---
     1 packets transmitted, 1 received, 0% packet loss, time 0ms
     rtt min/avg/max/mdev = 42.895/42.895/42.895/0.000 ms
 </code></pre>
-
 <p><strong>La última máquina que configuraremos será Sancho, al ser ubuntu su archivo de configuarción se encuentra en &ldquo;/etc/netplan/50-cloud-init.yaml&rdquo;</strong></p>
-
 <pre><code>    network:
     version: 2
     ethernets:
@@ -277,61 +246,47 @@
                 nameservers:
                     addresses: [192.168.202.2, 192.168.200.2, 8.8.8.8]
 </code></pre>
-
 <p><strong>Y nuevamente realizamos las comprobaciones necesarias:</strong></p>
-
 <pre><code>    ubuntu@sancho:~$ ping 10.0.1.5
     PING 10.0.1.5 (10.0.1.5) 56(84) bytes of data.
     64 bytes from 10.0.1.5: icmp_seq=1 ttl=64 time=0.804 ms
-
+    
     --- 10.0.1.5 ping statistics ---
     1 packets transmitted, 1 received, 0% packet loss, time 0ms
     rtt min/avg/max/mdev = 0.804/0.804/0.804/0.000 ms
     ubuntu@sancho:~$ ping 8.8.8.8
     PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
     64 bytes from 8.8.8.8: icmp_seq=1 ttl=111 time=42.9 ms
-
+    
     --- 8.8.8.8 ping statistics ---
     1 packets transmitted, 1 received, 0% packet loss, time 0ms
     rtt min/avg/max/mdev = 42.904/42.904/42.904/0.000 ms
     ubuntu@sancho:~$ ping www.google.es
     PING www.google.es (172.217.17.3) 56(84) bytes of data.
     64 bytes from mad07s09-in-f3.1e100.net (172.217.17.3): icmp_seq=1 ttl=112 time=52.3 ms
-
+    
     --- www.google.es ping statistics ---
     1 packets transmitted, 1 received, 0% packet loss, time 0ms
     rtt min/avg/max/mdev = 52.290/52.290/52.290/0.000 ms
 </code></pre>
-
 <p><strong>Ahora que nuestro escenario tiene conectividad entre si y fuera, vamos a habilitar ssh-agent, para solo tener que usar nuestra clave una vez, para conectarnos a Dulcinea y después poder conectarnos a las diferentes máquinas de nuestro escenario sin tener que usar la clave ni tener que pasarla a todas las máquinas.</strong></p>
-
 <pre><code>    root@dulcinea:/home/debian/.ssh# ssh-add claves.pem 
     Identity added: claves.pem (claves.pem)
     root@dulcinea:/home/debian/.ssh# ssh-add -l
     2048 SHA256:Ezez5qCsyIdVPMXSsBxuJSAkeh6sZdbkmSG/XzJv+c8 claves.pem (RSA)
 </code></pre>
-
 <p><strong>Debemos asegurarnos que las siguientes lineas de los fichero &ldquo;etc/ssh/ssh_config&rdquo; y &ldquo;etc/ssh/sshd_config&rdquo; se encuentren de la siguiente manera</strong></p>
-
-<h4 id="ssh-config">ssh_config</h4>
-
+<h4 id="ssh_config">ssh_config</h4>
 <pre><code>    ForwardAgent yes
 </code></pre>
-
-<h4 id="sshd-config">sshd_config</h4>
-
+<h4 id="sshd_config">sshd_config</h4>
 <pre><code>    AllowAgentForwarding yes
 </code></pre>
-
 <p><strong>Si queremos que se quede permanentemente debemos crear en &ldquo;~/.ssh/&rdquo; un archivo &ldquo;config&rdquo; el cual por seguridad le pondremos los permisos 600 y añadiremos la siguiente línea:</strong></p>
-
 <pre><code>    IdentityFile ~/.ssh/claves.pem
 </code></pre>
-
 <p><strong>Comprobemos su funcionamiento:</strong></p>
-
 <h3 id="freston">Freston</h3>
-
 <pre><code>    debian@dulcinea:~$ ssh debian@10.0.1.9
     Linux freston 4.19.0-11-cloud-amd64 #1 SMP Debian 4.19.146-1 (2020-09-17) x86_64
 
@@ -344,16 +299,12 @@
     Last login: Wed Feb 17 07:32:40 2021 from 10.0.1.5
     debian@freston:~$
 </code></pre>
-
 <h3 id="quijote">Quijote</h3>
-
 <pre><code>    debian@dulcinea:~$ ssh centos@10.0.2.2
     Last login: Wed Feb 17 07:34:07 2021 from 10.0.2.11
     [centos@quijote ~]$
 </code></pre>
-
 <h3 id="sancho">Sancho</h3>
-
 <pre><code>    debian@dulcinea:~$ ssh ubuntu@10.0.1.4
     Welcome to Ubuntu 20.04.1 LTS (GNU/Linux 5.4.0-48-generic x86_64)
 
@@ -382,28 +333,20 @@
     Last login: Wed Feb 17 07:33:48 2021 from 10.0.1.5
     ubuntu@sancho:~$
 </code></pre>
-
 <p><strong>Ahora crearemos los usuarios profesor en todas las máquinas y los añadiremos a sudoers (este proceso es igual en todas las máquinas):</strong></p>
-
 <pre><code>    root@dulcinea:~# useradd profesor -m -s /bin/bash
 
     root@dulcinea:~# echo &quot;profesor ALL=(ALL) NOPASSWD:ALL&quot; &gt;&gt; /etc/sudoers
 </code></pre>
-
 <p><strong>Para añadir sus claves deberemos crearles una carpeta .ssh en su carpeta personal y un fichero authorized_keys donde añadiremos las claves necesarias:</strong></p>
-
 <pre><code>    profesor@dulcinea:~$ mkdir .ssh
     profesor@dulcinea:~$ nano .ssh/authorized_keys
 </code></pre>
-
 <p><strong>Por supuesto cambiamos los permisos por seguridad:</strong></p>
-
 <pre><code>    profesor@dulcinea:~$ chmod 700 .ssh/
     profesor@dulcinea:~$ chmod 600 .ssh/authorized_keys 
 </code></pre>
-
 <p><strong>Configuramos los nombres de dominio de cada maquina</strong></p>
-
 <pre><code>    debian@dulcinea:~$ hostname --fqdn
     dulcinea.gonzalonzareno.org
 
@@ -435,19 +378,14 @@
                 Kernel: Linux 5.4.0-48-generic
           Architecture: x86-64
 </code></pre>
-
 <p><strong>Por último, para confirmar que nuestro servidor tiene sincronizado su reloj añadiremos estas líneas en el fichero /etc/ntp.conf</strong></p>
-
 <pre><code>    server 0.es.pool.ntp.org
     server 0.europe.pool.ntp.org
     server 2.europe.pool.ntp.org
 </code></pre>
-
 <p><strong>Y ejecutaremos el siguiente comando</strong></p>
-
 <pre><code>    debian@dulcinea:~$ sudo ntpdate -u pool.ntp.org
-    16 Mar 13:05:12 ntpdate[6695]: adjust time server 213.251.52.234 offset 0.021472 sec
-</code></pre>
+    16 Mar 13:05:12 ntpdate[6695]: adjust time server 213.251.52.234 offset 0.021472 sec</code></pre>
 
                 </div>
                 

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Actualización de Debian 10 a Debian 11 &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.80.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://alepeteporico.github.io/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/practicas/actualizacion_debian11/">Actualización de Debian 10 a Debian 11</a></h1>
+                <span class="post-date">2021-09-16 </span>
+                <div class="post-content">
+                    <hr>
+<h3 id="actualización">Actualización</h3>
+<ul>
+<li>
+<p>Primero debemos actualizar nuestro debian 10 como tenemos por costumbre hacerlo.</p>
+<pre><code>  alejandrogv@AlejandroGV:~$ sudo apt update
+
+  alejandrogv@AlejandroGV:~$ sudo apt upgrade
+</code></pre>
+</li>
+<li>
+<p>Es necesario instalar el paquete gcc-8-base aunque es probable que ya lo tengamos pero nos aseguramos.</p>
+<pre><code>  alejandrogv@AlejandroGV:~$ sudo apt install gcc-8-base
+</code></pre>
+</li>
+<li>
+<p>Ahora editamos nuestro <code>etc/apt/sources.list</code> para añadir los repositorios del nuevo debian &ldquo;bullseye&rdquo;</p>
+<pre><code>  deb http://deb.debian.org/debian/ bullseye main contrib non-free
+  # deb-src http://deb.debian.org/debian/ buster main
+    
+  #deb http://security.debian.org/debian-security buster/updates main
+  # deb-src http://security.debian.org/debian-security buster/updates main
+    
+  # buster-updates, previously known as 'volatile'
+  deb http://deb.debian.org/debian/ bullseye-updates main contrib non-free
+  # deb-src http://deb.debian.org/debian/ buster-updates main
+    
+  deb http://deb.debian.org/debian/ bullseye-backports main contrib non-free
+  # This system was installed using small removable media
+  # (e.g. netinst, live or single CD). The matching &quot;deb cdrom&quot;
+  # entries were disabled at the end of the installation process.
+  # For information about how to configure apt package sources,
+  # see the sources.list(5) manual.
+  deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
+  # deb-src [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
+</code></pre>
+</li>
+<li>
+<p>Ahora volvemos a actualizar.</p>
+<pre><code>  alejandrogv@AlejandroGV:~$ sudo apt clean all
+
+  alejandrogv@AlejandroGV:~$ sudo apt update
+  Des:1 http://deb.debian.org/debian bullseye InRelease [113 kB]
+  Des:2 http://deb.debian.org/debian bullseye-updates InRelease [36,8 kB]                                 
+  Obj:3 http://repository.spotify.com stable InRelease                                                    
+  Obj:4 https://download.virtualbox.org/virtualbox/debian buster InRelease                                
+  Des:5 http://deb.debian.org/debian bullseye-backports InRelease [40,9 kB]                               
+  Des:6 http://deb.debian.org/debian bullseye/main amd64 Packages [8.178 kB]                              
+  Obj:7 http://packages.microsoft.com/repos/code stable InRelease                                         
+  Obj:8 https://packages.microsoft.com/repos/vscode stable InRelease                                      
+  Des:9 http://deb.debian.org/debian bullseye/main Translation-en [6.241 kB]
+  Des:10 http://deb.debian.org/debian bullseye/main Translation-es [318 kB]
+  Des:11 http://deb.debian.org/debian bullseye/main amd64 DEP-11 Metadata [4.049 kB]
+  Des:12 http://deb.debian.org/debian bullseye/main DEP-11 48x48 Icons [3.478 kB]
+  Des:13 http://deb.debian.org/debian bullseye/main DEP-11 64x64 Icons [7.315 kB]
+  Des:14 http://deb.debian.org/debian bullseye/main all Contents (deb) [30,5 MB]
+  Des:15 http://deb.debian.org/debian bullseye/main amd64 Contents (deb) [10,0 MB]                        
+  Des:16 http://deb.debian.org/debian bullseye/contrib amd64 Packages [50,4 kB]                           
+  Des:17 http://deb.debian.org/debian bullseye/contrib Translation-en [46,9 kB]                           
+  Des:18 http://deb.debian.org/debian bullseye/contrib amd64 DEP-11 Metadata [13,6 kB]                    
+  Des:19 http://deb.debian.org/debian bullseye/contrib DEP-11 48x48 Icons [47,2 kB]                       
+  Des:20 http://deb.debian.org/debian bullseye/contrib DEP-11 64x64 Icons [93,3 kB]                       
+  Des:21 http://deb.debian.org/debian bullseye/contrib amd64 Contents (deb) [54,6 kB]                     
+  Des:22 http://deb.debian.org/debian bullseye/contrib all Contents (deb) [57,3 kB]                       
+  Des:23 http://deb.debian.org/debian bullseye/non-free amd64 Packages [93,8 kB]                          
+  Des:24 http://deb.debian.org/debian bullseye/non-free Translation-en [91,5 kB]                          
+  Des:25 http://deb.debian.org/debian bullseye/non-free amd64 DEP-11 Metadata [17,9 kB]                   
+  Des:26 http://deb.debian.org/debian bullseye/non-free DEP-11 48x48 Icons [741 B]                        
+  Des:27 http://deb.debian.org/debian bullseye/non-free DEP-11 64x64 Icons [27,7 kB]                      
+  Des:28 http://deb.debian.org/debian bullseye/non-free all Contents (deb) [888 kB]                       
+  Des:29 http://deb.debian.org/debian bullseye/non-free amd64 Contents (deb) [75,1 kB]                    
+  Des:30 http://deb.debian.org/debian bullseye-backports/main amd64 Packages [68,7 kB]                    
+  Des:31 http://deb.debian.org/debian bullseye-backports/main Translation-en [50,5 kB]                    
+  Des:32 http://deb.debian.org/debian bullseye-backports/main all Contents (deb) [1.965 kB]               
+  Des:33 http://deb.debian.org/debian bullseye-backports/main amd64 Contents (deb) [96,1 kB]              
+  Des:34 http://deb.debian.org/debian bullseye-backports/non-free amd64 Packages [1.204 B]                
+  Des:35 http://deb.debian.org/debian bullseye-backports/non-free Translation-en [472 B]                  
+  Des:36 http://deb.debian.org/debian bullseye-backports/non-free all Contents (deb) [31,5 kB]            
+  Descargados 74,1 MB en 16s (4.493 kB/s)                                                                 
+  Leyendo lista de paquetes... Hecho
+  Creando árbol de dependencias       
+  Leyendo la información de estado... Hecho
+  Se pueden actualizar 2126 paquetes. Ejecute «apt list --upgradable» para verlos.
+</code></pre>
+</li>
+</ul>
+
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2021 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>

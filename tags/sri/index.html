@@ -2,11 +2,11 @@
 <html lang="en">
 
 	<head>
-		<title> Sri &middot; Alepetepórico Blog </title>
+		<title> SRI &middot; Alepetepórico Blog </title>
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 
 
@@ -95,7 +95,7 @@
 			<div class="container wrapper">
 				<div class="row">
 					<div class="col-xs-12 text-center">
-						<h1 id=>Sri</h1>
+						<h1 id=>SRI</h1>
 					</div>
 				</div>
 				<ul id="post-list">
@@ -107,9 +107,9 @@
 								<h4 class="post-date">2021-06-01</h4>
 							</div>
 							<div class="post-summary"><p>Vamos a instalar todos los paquetes necesarios.
-debian@sputnik:~$ sudo apt install nginx mariadb-client mariadb-server php php-mysql php-fpm  Crearemos el directorio sobre el que trabajaremos en nuestro virtual host.
-root@sputnik:~# mkdir /var/www/iesgn06  Crearemos un virtual host en sites-available
-server { listen 80; listen [::]:80; root /var/www/iesgn06; index index.html index.htm index.nginx-debian.html; server_name www.iesgn06.es; location / { try_files $uri $uri/ =404; } }  Y creamos el enlace simbólico en sites-enabled.</p></div>
+ debian@sputnik:~$ sudo apt install nginx mariadb-client mariadb-server php php-mysql php-fpm    Crearemos el directorio sobre el que trabajaremos en nuestro virtual host.
+ root@sputnik:~# mkdir /var/www/iesgn06    Crearemos un virtual host en sites-available
+ server { listen 80; listen [::]:80; root /var/www/iesgn06; index index.html index.htm index.nginx-debian.html; server_name www.iesgn06.es; location / { try_files $uri $uri/ =404; } }    Y creamos el enlace simbólico en sites-enabled.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/lemp/">Read More</a>
 							</div>
@@ -122,9 +122,9 @@ server { listen 80; listen [::]:80; root /var/www/iesgn06; index index.html inde
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/nginx/">Servidor nginx</a></h4>
 								<h4 class="post-date">2021-05-31</h4>
 							</div>
-							<div class="post-summary"><p>Crea una máquina del cloud con una red pública. Añade la clave pública del profesor a la máquina. Instala el servidor web nginx en la máquina. Modifica la página index.html que viene por defecto y accede a ella desde un navegador.  La IP del servidor es la 172.22.201.5
- Una vez añadida la clave pública del profesor instalamos el servidor web nginx.
-debian@nginx:~$ sudo apt install nginx  Comprobamos que podemos acceder perfectamente desde fuera.</p></div>
+							<div class="post-summary"><p>Crea una máquina del cloud con una red pública. Añade la clave pública del profesor a la máquina. Instala el servidor web nginx en la máquina. Modifica la página index.html que viene por defecto y accede a ella desde un navegador.   La IP del servidor es la 172.22.201.5
+  Una vez añadida la clave pública del profesor instalamos el servidor web nginx.
+ debian@nginx:~$ sudo apt install nginx    Comprobamos que podemos acceder perfectamente desde fuera.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/nginx/">Read More</a>
 							</div>
@@ -138,9 +138,9 @@ debian@nginx:~$ sudo apt install nginx  Comprobamos que podemos acceder perfecta
 								<h4 class="post-date">2021-05-10</h4>
 							</div>
 							<div class="post-summary"><p>En nuestra red local tenemos un servidor Web que sirve dos páginas web: www.iesgn.org, departamentos.iesgn.org
- Vamos a instalar en nuestra red local un servidor DNS (lo puedes instalar en el mismo equipo que tiene el servidor web)
- Voy a suponer en este documento que el nombre del servidor DNS va a ser pandora.iesgn.org. El nombre del servidor de tu prácticas será tunombre.iesgn.org.
-  DNSmasq Instala el servidor dns dnsmasq en pandora.</p></div>
+  Vamos a instalar en nuestra red local un servidor DNS (lo puedes instalar en el mismo equipo que tiene el servidor web)
+  Voy a suponer en este documento que el nombre del servidor DNS va a ser pandora.iesgn.org. El nombre del servidor de tu prácticas será tunombre.iesgn.org.
+   DNSmasq Instala el servidor dns dnsmasq en pandora.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/dns/">Read More</a>
 							</div>
@@ -153,7 +153,7 @@ debian@nginx:~$ sudo apt install nginx  Comprobamos que podemos acceder perfecta
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/apache_htaccess/">Configuración de apache mediante archivo .htaccess </a></h4>
 								<h4 class="post-date">2021-04-24</h4>
 							</div>
-							<div class="post-summary"><p>Date de alta en un proveedor de hosting. ¿Si necesitamos configurar el servidor web que han configurado los administradores del proveedor?, ¿qué podemos hacer? Explica la directiva AllowOverride de apache2. Utilizando archivos .htaccess realiza las siguientes configuraciones:  El hosting que usaré será 000webhost  Habilita el listado de ficheros en la URL http://host.dominio/nas.  En nuestro hosting tendremos una carpeta llamada public_html en la cual podremos encontrar un fichero llamado .</p></div>
+							<div class="post-summary"><p>Date de alta en un proveedor de hosting. ¿Si necesitamos configurar el servidor web que han configurado los administradores del proveedor?, ¿qué podemos hacer? Explica la directiva AllowOverride de apache2. Utilizando archivos .htaccess realiza las siguientes configuraciones:  El hosting que usaré será 000webhost  Habilita el listado de ficheros en la URL http://host.dominio/nas.   En nuestro hosting tendremos una carpeta llamada public_html en la cual podremos encontrar un fichero llamado .</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/apache_htaccess/">Read More</a>
 							</div>
@@ -179,8 +179,8 @@ debian@nginx:~$ sudo apt install nginx  Comprobamos que podemos acceder perfecta
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/mapeo/">Mapear URL a ubicaciones de un sistema de ficheros</a></h4>
 								<h4 class="post-date">2021-04-21</h4>
 							</div>
-							<div class="post-summary"><p>Crea un nuevo host virtual que es accedido con el nombre www.mapeo.com, cuyo DocumentRoot sea /srv/mapeo.  En primer lugar para que nuestro apache pueda acceder a /srv/ y reconocer esta ruta como DocumentRoot debemos modificar el fichero etc/apache2/apache2.conf y descomentar las siguientes líneas.
-&lt;Directory /srv/&gt; Options Indexes FollowSymLinks AllowOverride None Require all granted &lt;/Directory&gt;  Una vez hecho esto creamos la carpeta mapeo en /srv/ y añadimos el nuevo host virtual en sites-avaiable, veamos como quedaría el fichero de sites-avaiable.</p></div>
+							<div class="post-summary"><p>Crea un nuevo host virtual que es accedido con el nombre www.mapeo.com, cuyo DocumentRoot sea /srv/mapeo.   En primer lugar para que nuestro apache pueda acceder a /srv/ y reconocer esta ruta como DocumentRoot debemos modificar el fichero etc/apache2/apache2.conf y descomentar las siguientes líneas.
+ &lt;Directory /srv/&gt; Options Indexes FollowSymLinks AllowOverride None Require all granted &lt;/Directory&gt;    Una vez hecho esto creamos la carpeta mapeo en /srv/ y añadimos el nuevo host virtual en sites-avaiable, veamos como quedaría el fichero de sites-avaiable.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/mapeo/">Read More</a>
 							</div>

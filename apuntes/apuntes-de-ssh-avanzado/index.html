@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 
 
@@ -96,43 +96,40 @@
                 <h1><a href="https://alepeteporico.github.io/apuntes/apuntes-de-ssh-avanzado/">Apuntes de SSH</a></h1>
                 <span class="post-date">2021-05-22 </span>
                 <div class="post-content">
-                    
-
-<h3 id="ssh-agent">ssh-agent</h3>
-
+                    <h3 id="ssh-agent">ssh-agent</h3>
 <ul>
-<li><p>Tenemos un par de claves, para añadir a nuestro ssh-agent:</p>
-
-<pre><code>ssh-add .ssh/clave
-</code></pre></li>
-
-<li><p>Nos pedirá la frase de paso y se añadiría la identidad, para comprobarlo:</p>
-
-<pre><code>ssh-add -l
-</code></pre></li>
-
-<li><p>Pero necesitamos añadir esa clave a la máquina que nos queremos conectar.</p>
-
-<pre><code>ssh-copy-id -i .ssh/clave usuario@172.22.100.10
-</code></pre></li>
+<li>
+<p>Tenemos un par de claves, para añadir a nuestro ssh-agent:</p>
+<pre><code>  ssh-add .ssh/clave
+</code></pre>
+</li>
+<li>
+<p>Nos pedirá la frase de paso y se añadiría la identidad, para comprobarlo:</p>
+<pre><code>  ssh-add -l
+</code></pre>
+</li>
+<li>
+<p>Pero necesitamos añadir esa clave a la máquina que nos queremos conectar.</p>
+<pre><code>  ssh-copy-id -i .ssh/clave usuario@172.22.100.10
+</code></pre>
+</li>
 </ul>
-
 <h3 id="túneles-ssh">Túneles ssh</h3>
-
 <ul>
-<li><p>Se usa para saltarnos un cortafuegos o para acceder por un canal abierto y más seguro, entre otras útilidades.</p></li>
+<li>
+<p>Se usa para saltarnos un cortafuegos o para acceder por un canal abierto y más seguro, entre otras útilidades.</p>
+</li>
+<li>
+<p>Para crear el túnel usamos el comando que vemos a continuación, usando el puerto que queramos y este libre, y poniendo primero la IP de la máquina a la que queremos acceder y segundo desde la que accedemos.</p>
+<pre><code>  ssh -f -L 1080:192.168.100.10:.80 192.168.100.20 -N
+</code></pre>
+</li>
+<li>
+<p>Si quisieramos eliminarlo es simplemente eliminar un proceso, comprobamos el PID y lo eliminamos:</p>
+<pre><code>  ss -lntp | grep 1080
 
-<li><p>Para crear el túnel usamos el comando que vemos a continuación, usando el puerto que queramos y este libre, y poniendo primero la IP de la máquina a la que queremos acceder y segundo desde la que accedemos.</p>
-
-<pre><code>ssh -f -L 1080:192.168.100.10:.80 192.168.100.20 -N
-</code></pre></li>
-
-<li><p>Si quisieramos eliminarlo es simplemente eliminar un proceso, comprobamos el PID y lo eliminamos:</p>
-
-<pre><code>ss -lntp | grep 1080
-
-kill 'pid'
-</code></pre></li>
+  kill 'pid'</code></pre>
+</li>
 </ul>
 
                 </div>

@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 
 
@@ -96,10 +96,7 @@
                 <h1><a href="https://alepeteporico.github.io/practicas/cmsphp_local/">Instalación local de un CMS PHP</a></h1>
                 <span class="post-date">2021-03-22 </span>
                 <div class="post-content">
-                    
-
-<h2 id="vagrantfile">VagrantFile</h2>
-
+                    <h2 id="vagrantfile">VagrantFile</h2>
 <pre><code>Vagrant.configure(&quot;2&quot;) do |config|
     config.vm.define :cmsagv do |cmsagv|
         cmsagv.vm.box = &quot;debian/buster64&quot;
@@ -116,83 +113,53 @@
     end
 end
 </code></pre>
-
 <p><strong>Instalamos un servidor LAMP</strong></p>
-
 <h4 id="apache">Apache</h4>
-
 <p><strong>Hacemos una instalación sencilla:</strong></p>
-
 <pre><code>vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils
 </code></pre>
-
 <p><strong>Y creamos una regla en iptables para permitir la conexión http</strong></p>
-
 <pre><code>vagrant@cmsalegv:~$ sudo iptables -I INPUT -p tcp --dport 80 -j ACCEPT
 </code></pre>
-
 <h4 id="mariadb">Mariadb</h4>
-
 <p><strong>Instalamos Mariadb</strong></p>
-
 <pre><code>vagrant@cmsalegv:~$ sudo apt install mariadb-server mariadb-client
 </code></pre>
-
 <h4 id="php">PHP</h4>
-
 <p><strong>Y por últimos realizaremos la instalación de php</strong></p>
-
 <pre><code>vagrant@cmsalegv:~$ sudo apt install php7.3 libapache2-mod-php7.3 php7.3-mysql php-common php7.3-cli php7.3-common php7.3-json php7.3-opcache php7.3-readline
 </code></pre>
-
 <p><strong>Tendremos que habilitar el mod de apache de PHP</strong></p>
-
 <pre><code>vagrant@cmsalegv:~$ sudo a2enmod php7.3
 vagrant@cmsalegv:~$ sudo systemctl restart apache2
 </code></pre>
-
 <h4 id="base-de-datos">Base de datos</h4>
-
 <p><strong>Creamos un usuario nuevo en mariadb y le damos una contraseña</strong></p>
-
 <pre><code>CREATE USER 'usuario1'@'localhost';
 
 SET PASSWORD FOR 'usuario1'@'localhost' = PASSWORD('usuario1');
 </code></pre>
-
 <p><strong>Y crearemos una nueva base de datos la cual el usuario que hemos creado tendrá acceso completo:</strong></p>
-
 <pre><code>CREATE DATABASE drupal;
 
 GRANT ALL PRIVILEGES ON `drupal`.* TO 'usuario1'@'localhost';
 </code></pre>
-
 <h4 id="drupal">Drupal</h4>
-
 <p><strong>Nuestro próximo paso será instalar Drupal, primero descargamos el paquete de instalación y lo extraemos</strong></p>
-
 <pre><code>vagrant@cmsalegv:~$ wget https://ftp.drupal.org/files/projects/drupal-8.8.1.tar.gz
 
 vagrant@cmsalegv:~$ tar xvf drupal-8.8.1.tar.gz
 </code></pre>
-
 <p><strong>Movemos la carpeta a nuestra carpeta del virtual host</strong></p>
-
 <pre><code>vagrant@cmsalegv:~$ sudo mv drupal-8.8.1 /var/www/html/
 </code></pre>
-
 <p><strong>Y para amenizar el trabajo podríamos crear un enlace simbólico para no tener que escribir la versión cada vez que queramos hacer una configuración:</strong></p>
-
 <pre><code>vagrant@cmsalegv:~$ sudo ln -s /var/www/drupal-8.8.1/ /var/www/drupal
 </code></pre>
-
 <p><strong>Debemos activar el modulo rewrite en apache</strong></p>
-
 <pre><code>vagrant@cmsalegv:~$ sudo a2enmod rewrite
 </code></pre>
-
 <p><strong>Configuramos un virtual host</strong></p>
-
 <pre><code>&lt;VirtualHost *:80&gt;
 
         ServerName www.alegv-drupal.org
@@ -209,132 +176,79 @@ vagrant@cmsalegv:~$ tar xvf drupal-8.8.1.tar.gz
 
 &lt;VirtualHost&gt;
 </code></pre>
-
 <p><strong>Añadimos la IP estática que hemos añadido a nuestro servidor en el <code>/etc/hosts</code> de nuestra máquina anfitriona</strong></p>
-
 <pre><code>    192.168.100.200 www.alegv-drupal.com
 </code></pre>
-
 <p><strong>Y ya podremos acceder a nuetro drupal</strong></p>
-
-<p><img src="/cms_php/1.png" alt="drupal" /></p>
-
+<p><img src="/cms_php/1.png" alt="drupal"></p>
 <p><strong>Y comenzamos con la instalación, en primer lugar realizaremos una instalación estandar.</strong></p>
-
-<p><img src="/cms_php/2.png" alt="estandar" /></p>
-
+<p><img src="/cms_php/2.png" alt="estandar"></p>
 <p><strong>Nos ha aparecido un error, como bien se ve al parecer faltan algunas librerias de php.</strong></p>
-
-<p><img src="/cms_php/3.png" alt="error" /></p>
-
+<p><img src="/cms_php/3.png" alt="error"></p>
 <p><strong>La solución es tan sencilla como instalarlas, en nuestro caso debemos instalar las siguientes:</strong></p>
-
 <pre><code>vagrant@cmsagv:~$ sudo apt install php-xml php-gd php-mbstring
 </code></pre>
-
 <p><strong>Una vez hecho esto si no tenemos ningún otro error o warning pasaremos a la configuración de la base de datos, rellenaremos los datos oportunos que configuramos anteriormente en nuestra base de datos de mariadb.</strong></p>
-
-<p><img src="/cms_php/4.png" alt="base_datos" /></p>
-
+<p><img src="/cms_php/4.png" alt="base_datos"></p>
 <p><strong>Una vez heche esto se pasará automáticamente a la instalación.</strong></p>
-
-<p><img src="/cms_php/5.png" alt="error" /></p>
-
+<p><img src="/cms_php/5.png" alt="error"></p>
 <p><strong>A continuación pasaremos a rellenar algunos datos necesarios para la configuración, como un nombre para nuestro sitio, un correo valido, un usuario y contraseña, etc&hellip;</strong></p>
-
-<p><img src="/cms_php/6.png" alt="config" /></p>
-
+<p><img src="/cms_php/6.png" alt="config"></p>
 <p><strong>Y finalmente tendremos nuestro drupal operativo</strong></p>
-
-<p><img src="/cms_php/7.png" alt="gg" /></p>
-
+<p><img src="/cms_php/7.png" alt="gg"></p>
 <h3 id="configuracion-de-drupal">Configuracion de Drupal</h3>
-
 <p><strong>Haremos algunas pequeñas configuraciones, como por ejemplo cambiar el tema, en el menu de arriba podemos entrar en aparencia y aparece la opción de instalar un nuevo tema.</strong></p>
-
-<p><img src="/cms_php/8.png" alt="newtheme" /></p>
-
+<p><img src="/cms_php/8.png" alt="newtheme"></p>
 <p><strong>Lo que haremos será buscar un tema que nos guste en la <a href="https://www.drupal.org/project/project_theme">Pagina ofícial de oracle</a> y añadir la url de descarga del archivo para la instalación como puede verse en la siguiente imágen.</strong></p>
-
-<p><img src="/cms_php/9.png" alt="instalacion" /></p>
-
-<hr />
-
-<p><img src="/cms_php/10.png" alt="hecho" /></p>
-
+<p><img src="/cms_php/9.png" alt="instalacion"></p>
+<hr>
+<p><img src="/cms_php/10.png" alt="hecho"></p>
 <p><strong>Una vez elijamos el tema que recién hemos instalado cambiará la apariencia</strong></p>
-
-<p><img src="/cms_php/11.png" alt="apariencia" /></p>
-
+<p><img src="/cms_php/11.png" alt="apariencia"></p>
 <p><strong>Vamos a ver como se crea contenido, también es bastante sencillo e intuitivo, simplemente iremos a la sección que podremos ver arriba de contenido y creamos un nuevo artículo, podremos añadir un título, cuerpo, imagenes, etc&hellip;</strong></p>
-
-<p><img src="/cms_php/12.png" alt="new_post" /></p>
-
-<p><img src="/cms_php/13.png" alt="new_post" /></p>
-
+<p><img src="/cms_php/12.png" alt="new_post"></p>
+<p><img src="/cms_php/13.png" alt="new_post"></p>
 <p><strong>Para instalar un nuevo módulo nos dirijimos a la pestaña <code>ampliar</code>y tal y como hicimos para instalar el tema buscaremos un nuevo modulo que pueda interesarnos y los instalamos de la misma forma.</strong></p>
-
-<p><img src="/cms_php/14.png" alt="new_mod" /></p>
-
+<p><img src="/cms_php/14.png" alt="new_mod"></p>
 <p><strong>Y lo activamos</strong></p>
-
-<p><img src="/cms_php/15.png" alt="new_mod" /></p>
-
+<p><img src="/cms_php/15.png" alt="new_mod"></p>
 <h2 id="copia-de-seguridad-de-la-base-de-datos">Copia de seguridad de la base de datos.</h2>
-
 <p><strong>realizar una copia de seguridad es muy sencillo, mariadb tiene una herramienta que nos permite hacerlo y volvar esta copia en un fichero:</strong></p>
-
 <pre><code>root@cmsagv:~# mysqldump drupal &gt; /backup.sql
 
 root@cmsagv:~# ls / | egrep backup
 backup.sql
 </code></pre>
-
 <p><strong>Ahora queremos configurar otro servidor de bbdd en otra máquina conectada a la nuestra por la red interna, ya tenemos esta máquina y esta red interna creada como pudimos ver en el VagrantFile. Así que entramos en ella e instalamos el servidor de mariadb tal como hicimos anteriormente. Crearemos una nueva base de datos.</strong></p>
-
 <pre><code>MariaDB [(none)]&gt; create database backup;
 Query OK, 1 row affected (0.001 sec)
 </code></pre>
-
 <p><strong>Ahora crearemos un usuario dentro de la misma, pero especificaremos que se conectará desde la ip del servidor apache donde nos conectaremos remotamente. Y por supuesto le daremos privilegios sobre la base de datos.</strong></p>
-
 <pre><code>MariaDB [(none)]&gt; CREATE USER 'usuario2'@'172.22.100.5' IDENTIFIED BY 'usuario2';
 Query OK, 0 rows affected (0.001 sec)
 
 MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON backup.* to 'usuario2'@'172.22.100.5';
 Query OK, 0 rows affected (0.001 sec)
 </code></pre>
-
 <p><strong>Para permitir el acceso remoto debemos editar el fichero <code>/etc/mysql/mariadb.conf.d/50-server.cnf</code> y buscar la línea <code>bind-address</code>.</strong></p>
-
 <pre><code>bind-address              = 127.0.0.1
 </code></pre>
-
 <p><strong>Lo único que deberemos hacer para permitir el acceso remoto es cambiar la dirección del localhost por 0.0.0.0</strong></p>
-
 <pre><code>bind-address              = 0.0.0.0
 </code></pre>
-
 <p><strong>Nuestro siguiente paso será restaurar la copia de seguridad en nuestra nueva base de datos, para esto debemos recordar ponerle una contraseña a nuestras máquinas vagrant, sino no nos permitirá realizar una conexión ssh entre las mismas y también deberemos cambiar una línea del fichero de configuración de las dos máquinas <code>/etc/ssh/sshd_config</code> para que nos pida autentificación al conectarnos por ssh</strong></p>
-
 <pre><code>PasswordAuthentication yes
 </code></pre>
-
 <p><strong>Enviamos el fichero y comprobamos que lo hemos recibido:</strong></p>
-
 <pre><code>vagrant@cmsagv:~$ sudo scp /backup.sql vagrant@172.22.100.10:/home/vagrant/
 
 vagrant@backup:~$ ls
 backup.sql
 </code></pre>
-
 <p><strong>El proceso de importación a nuestra base de datos es igual de sencillo que fue exportarlo al backup:</strong></p>
-
 <pre><code>root@backup:~# mysql backup &lt; /home/vagrant/backup.sql
 </code></pre>
-
 <p><strong>Si entramos en la base de datos y hacemos un <code>show tables</code> podremos comprobar que la copia e importación se ha hecho correctamente</strong></p>
-
 <pre><code>MariaDB [(none)]&gt; use backup;
 Reading table information for completion of table and column names
 You can turn off this feature to get a quicker startup with -A
@@ -423,14 +337,10 @@ MariaDB [backup]&gt; show tables;
 +----------------------------------+
 76 rows in set (0.001 sec)
 </code></pre>
-
 <p><strong>Como nuestro objetivo es usar esta base de datos nueva eliminaremos la que teniamos al principio en nuestro servidor principal.</strong></p>
-
 <pre><code>vagrant@cmsagv:~$ sudo apt purge mariadb-client-10.3 mariadb-server-10.3
 </code></pre>
-
 <p><strong>Por supuesto esto hará que nuestro drupal deje de funcionar, por ello tendremos que configurarlo para que use esta nueva base de datos. y para ello en primer lugar tendremos que configurar el fichero <code>/var/www/drupal/sites/default/settings.php</code> donde encontraremos un bloque de código como el siguiente con la información de nuestro antiguo servidor de bbdd.</strong></p>
-
 <pre><code>$databases['default']['default'] = array (
   'database' =&gt; 'drupal',
   'username' =&gt; 'usuario1',
@@ -442,9 +352,7 @@ MariaDB [backup]&gt; show tables;
   'driver' =&gt; 'mysql',
 );
 </code></pre>
-
 <p><strong>Sustituiremos la información adecuadamente</strong></p>
-
 <pre><code>$databases['default']['default'] = array (
   'database' =&gt; 'backup',
   'username' =&gt; 'usuario2',
@@ -456,33 +364,24 @@ MariaDB [backup]&gt; show tables;
   'driver' =&gt; 'mysql',
 );
 </code></pre>
-
 <h2 id="instalación-de-un-nuevo-cms-php">Instalación de un nuevo CMS PHP</h2>
-
 <p><strong>El cms elegido es wordpress, los descargamos y descomprimimos en primer lugar como hicimos con drupal</strong></p>
-
 <pre><code>vagrant@cmsagv:~$ wget https://es.wordpress.org/latest-es_ES.tar.gz
 
 vagrant@cmsagv:~$ sudo tar xf latest-es_ES.tar.gz -C /var/www/
 vagrant@cmsagv:~$ sudo chown www-data:www-data /var/www/wordpress/ -R
 </code></pre>
-
 <p><strong>Nuevamente creamos una nueva base de datos y otorgamos privilegios a nuestro usario dentro de la misma.</strong></p>
-
 <pre><code>MariaDB [(none)]&gt; CREATE DATABASE wordpress;
 Query OK, 1 row affected (0.000 sec)
 
 MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON wordpress.* to 'usuario2'@'172.22.100.5';
 Query OK, 0 rows affected (0.000 sec)
 </code></pre>
-
 <p><strong>Tendremos que instalar algunos nuevos módulos nuevos de apache:</strong></p>
-
 <pre><code>vagrant@cmsagv:~$ sudo apt install php-bcmath php-curl php-imagick php-zip
 </code></pre>
-
 <p><strong>El siguiente paso será crear nuestro nuevo virtualhost, este tendrá el siguiente aspecto:</strong></p>
-
 <pre><code>&lt;VirtualHost *:80&gt;
         ServerName www.alegv-wordpress.org
         ServerAdmin webmaster@localhost
@@ -498,14 +397,10 @@ Query OK, 0 rows affected (0.000 sec)
 
 &lt;/VirtualHost&gt;
 </code></pre>
-
 <p><strong>Una vez hecho esto simplemente reinciamos apache, añadimos en el <code>/etc/hosts</code> de nuestra anfitriona y ya podremos acceder a nuestro wordpress</strong></p>
-
-<p><img src="/cms_php/16.png" alt="wordpress" /></p>
-
-<hr />
-
-<p><img src="/cms_php/17.png" alt="wordpress" /></p>
+<p><img src="/cms_php/16.png" alt="wordpress"></p>
+<hr>
+<p><img src="/cms_php/17.png" alt="wordpress"></p>
 
                 </div>
                 

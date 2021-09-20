@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.54.0" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 
 
@@ -96,348 +96,341 @@
                 <h1><a href="https://alepeteporico.github.io/practicas/serv_client/">Instalación de servidores y clientes</a></h1>
                 <span class="post-date">2021-04-05 </span>
                 <div class="post-content">
-                    
-
-<p>Tras la instalación de cada servidor,  debe crearse una base de datos con al menos tres tablas o colecciones y poblarse de datos adecuadamente. Debe crearse un usuario y dotarlo de los privilegios necesarios para acceder remotamente a los datos. Se proporcionará esta información al resto de los miembros del grupo.</p>
-
+                    <p>Tras la instalación de cada servidor,  debe crearse una base de datos con al menos tres tablas o colecciones y poblarse de datos adecuadamente. Debe crearse un usuario y dotarlo de los privilegios necesarios para acceder remotamente a los datos. Se proporcionará esta información al resto de los miembros del grupo.</p>
 <ul>
 <li>Los clientes deben estar siempre en máquinas diferentes de los respectivos servidores a los que acceden.</li>
 <li>Se documentará todo el proceso de configuración de los servidores.</li>
 <li>Se aportarán pruebas del funcionamiento remoto de cada uno de los clientes.</li>
 <li>Se aportará el código de las aplicaciones realizadas y prueba de funcionamiento de las mismas.</li>
 </ul>
-
 <h2 id="instalación-servidor-oracle-19c">Instalación servidor Oracle 19c</h2>
-
 <ul>
-<li><p>Hemos creado una maquina vagrant con centos 8 para instalar nuestro servidor de Oracle 19c, lo descargaremos de la <a href="https://www.oracle.com/es/database/technologies/oracle19c-linux-downloads.html#license-lightbox">página oficial de Oracle</a> y llevamos el fichero de instalación a nuestra máquina usando scp.</p>
+<li>
+<p>Hemos creado una maquina vagrant con centos 8 para instalar nuestro servidor de Oracle 19c, lo descargaremos de la <a href="https://www.oracle.com/es/database/technologies/oracle19c-linux-downloads.html#license-lightbox">página oficial de Oracle</a> y llevamos el fichero de instalación a nuestra máquina usando scp.</p>
+<pre><code>  [vagrant@oracle ~]$ scp alejandrogv@192.168.1.15:/home/alejandrogv/Descargas/oracle-database-ee-19c-1.0-1.x86_64.rpm .
+</code></pre>
+</li>
+<li>
+<p>El siguiente paso será obviamente instalarlo.</p>
+<pre><code>  [vagrant@oracle ~]$ sudo dnf install https://yum.oracle.com/repo/OracleLinux/OL8/baseos/latest/x86_64/getPackage/oracle-database-preinstall-19c-1.0-1.el8.x86_64.rpm
 
-<pre><code>[vagrant@oracle ~]$ scp alejandrogv@192.168.1.15:/home/alejandrogv/Descargas/oracle-database-ee-19c-1.0-1.x86_64.rpm .
-</code></pre></li>
-
-<li><p>El siguiente paso será obviamente instalarlo.</p>
-
-<pre><code>[vagrant@oracle ~]$ sudo dnf install https://yum.oracle.com/repo/OracleLinux/OL8/baseos/latest/x86_64/getPackage/oracle-database-preinstall-19c-1.0-1.el8.x86_64.rpm
-
-[vagrant@oracle ~]$ sudo yum -y localinstall oracle-database-ee-19c-1.0-1.x86_64.rpm
-</code></pre></li>
-
-<li><p>Antes de crear la base de datos de ejemplo debemos tener en cuenta que nos dará error si nuestra memoria RAM es inferior a 2GB. También he experimentado un error ya que no me resolvía el DNS de oracle, por eso he tenido que modificar mi /etc/hosts y añadir la siguiente línea:</p>
-
-<pre><code>10.0.2.15 myhost
-</code></pre></li>
-
-<li><p>Ahora si, creamos la base de datos de ejemplo</p>
-
-<pre><code>[oracle@oracle ~]$ sudo /etc/init.d/oracledb_ORCLCDB-19c configure
-Configuring Oracle Database ORCLCDB.
-Prepare for db operation
-8% complete
-Copying database files
-31% complete
-Creating and starting Oracle instance
-32% complete
-36% complete
-40% complete
-43% complete
-46% complete
-Completing Database Creation
-51% complete
-54% complete
-Creating Pluggable Databases
-58% complete
-77% complete
-Executing Post Configuration Actions
-100% complete
-Database creation complete. For details check the logfiles at:
- /opt/oracle/cfgtoollogs/dbca/ORCLCDB.
-Database Information:
-Global Database Name:ORCLCDB
-System Identifier(SID):ORCLCDB
-Look at the log file &quot;/opt/oracle/cfgtoollogs/dbca/ORCLCDB/ORCLCDB5.log&quot; for further details.
-</code></pre></li>
+  [vagrant@oracle ~]$ sudo yum -y localinstall oracle-database-ee-19c-1.0-1.x86_64.rpm
+</code></pre>
+</li>
+<li>
+<p>Antes de crear la base de datos de ejemplo debemos tener en cuenta que nos dará error si nuestra memoria RAM es inferior a 2GB. También he experimentado un error ya que no me resolvía el DNS de oracle, por eso he tenido que modificar mi /etc/hosts y añadir la siguiente línea:</p>
+<pre><code>  10.0.2.15 myhost
+</code></pre>
+</li>
+<li>
+<p>Ahora si, creamos la base de datos de ejemplo</p>
+<pre><code>  [oracle@oracle ~]$ sudo /etc/init.d/oracledb_ORCLCDB-19c configure
+  Configuring Oracle Database ORCLCDB.
+  Prepare for db operation
+  8% complete
+  Copying database files
+  31% complete
+  Creating and starting Oracle instance
+  32% complete
+  36% complete
+  40% complete
+  43% complete
+  46% complete
+  Completing Database Creation
+  51% complete
+  54% complete
+  Creating Pluggable Databases
+  58% complete
+  77% complete
+  Executing Post Configuration Actions
+  100% complete
+  Database creation complete. For details check the logfiles at:
+   /opt/oracle/cfgtoollogs/dbca/ORCLCDB.
+  Database Information:
+  Global Database Name:ORCLCDB
+  System Identifier(SID):ORCLCDB
+  Look at the log file &quot;/opt/oracle/cfgtoollogs/dbca/ORCLCDB/ORCLCDB5.log&quot; for further details.
+</code></pre>
+</li>
 </ul>
-
 <p>Database configuration completed successfully. The passwords were auto generated, you must change them by connecting to the database using &lsquo;sqlplus / as sysdba&rsquo; as the oracle user.</p>
-
 <ul>
-<li><p>Continuemos con los usuarios, accedamos al usuario que se ha creado por defecto al instalar el paquete de oracle con su mismo nombre.</p>
+<li>
+<p>Continuemos con los usuarios, accedamos al usuario que se ha creado por defecto al instalar el paquete de oracle con su mismo nombre.</p>
+<pre><code>  [vagrant@oracle ~]$ sudo su - oracle
+</code></pre>
+</li>
+<li>
+<p>Y tendremos que modifcar el fichero <code>~/.bash_profile</code> añadiendo algunas lineas como las que vemos a continuación</p>
+<pre><code>  [oracle@oracle ~]$ cat .bash_profile 
+  # .bash_profile
+    
+  # Get the aliases and functions
+  if [ -f ~/.bashrc ]; then
+      . ~/.bashrc
+  fi
+    
+  umask 022
+  export ORACLE_SID=ORCLCDB
+  export ORACLE_BASE=/opt/oracle/oradata
+  export ORACLE_HOME=/opt/oracle/product/19c/dbhome_1
+  export PATH=$PATH:$ORACLE_HOME/bin
+</code></pre>
+</li>
+<li>
+<p>Este fichero se ejecuta cada vez que iniciamos sesión en este usuario. sin necesidad de tener que salir ni reiniciar la máquina podemos usar <code>source</code> para ejecutarlo</p>
+<pre><code>  [oracle@oracle ~]$ source .bash_profile
+</code></pre>
+</li>
+<li>
+<p>Finalmente podremos entrar en sqlplus.</p>
+<pre><code>  [oracle@oracle ~]$ sqlplus / as sysdba
 
-<pre><code>[vagrant@oracle ~]$ sudo su - oracle
-</code></pre></li>
+  SQL*Plus: Release 19.0.0.0.0 - Production on Mon Apr 5 12:03:44 2021
+  Version 19.3.0.0.0
 
-<li><p>Y tendremos que modifcar el fichero <code>~/.bash_profile</code> añadiendo algunas lineas como las que vemos a continuación</p>
+  Copyright (c) 1982, 2019, Oracle.  All rights reserved.
 
-<pre><code>[oracle@oracle ~]$ cat .bash_profile 
-# .bash_profile
+  Connected to an idle instance.
 
-# Get the aliases and functions
-if [ -f ~/.bashrc ]; then
-    . ~/.bashrc
-fi
+  SQL&gt;
+</code></pre>
+</li>
+<li>
+<p>Podemos comprobar una pequeña información para ver que nuestra base de datos está operativa</p>
+<pre><code>  SQL&gt; SELECT instance_name, host_name, version, startup_time FROM v$instance;
 
-umask 022
-export ORACLE_SID=ORCLCDB
-export ORACLE_BASE=/opt/oracle/oradata
-export ORACLE_HOME=/opt/oracle/product/19c/dbhome_1
-export PATH=$PATH:$ORACLE_HOME/bin
-</code></pre></li>
+  INSTANCE_NAME
+  ----------------
+  HOST_NAME
+  ----------------------------------------------------------------
+  VERSION 	  STARTUP_T
+  ----------------- ---------
+  ORCLCDB
+  oracle
+  19.0.0.0.0	  05-APR-21
+</code></pre>
+</li>
+<li>
+<p>Pudiera ser que nos diera un error, esto se puede deber a que la base de datos de prueba no esté montada, para solucionarlo usariamos <code>STARTUP</code> y debería solucionarse el problema.</p>
+</li>
+<li>
+<p>El siguiente paso será la creación de un usuario y otorgarle permisos al mismo</p>
+<pre><code>  SQL&gt; CREATE USER c##ale IDENTIFIED BY ale;      
 
-<li><p>Este fichero se ejecuta cada vez que iniciamos sesión en este usuario. sin necesidad de tener que salir ni reiniciar la máquina podemos usar <code>source</code> para ejecutarlo</p>
+  User created.
 
-<pre><code>[oracle@oracle ~]$ source .bash_profile
-</code></pre></li>
+  SQL&gt; GRANT ALL PRIVILEGES TO c##ale;
 
-<li><p>Finalmente podremos entrar en sqlplus.</p>
-
-<pre><code>[oracle@oracle ~]$ sqlplus / as sysdba
-
-SQL*Plus: Release 19.0.0.0.0 - Production on Mon Apr 5 12:03:44 2021
-Version 19.3.0.0.0
-
-Copyright (c) 1982, 2019, Oracle.  All rights reserved.
-
-Connected to an idle instance.
-
-SQL&gt;
-</code></pre></li>
-
-<li><p>Podemos comprobar una pequeña información para ver que nuestra base de datos está operativa</p>
-
-<pre><code>SQL&gt; SELECT instance_name, host_name, version, startup_time FROM v$instance;
-
-INSTANCE_NAME
-----------------
-HOST_NAME
-----------------------------------------------------------------
-VERSION       STARTUP_T
------------------ ---------
-ORCLCDB
-oracle
-19.0.0.0.0    05-APR-21
-</code></pre></li>
-
-<li><p>Pudiera ser que nos diera un error, esto se puede deber a que la base de datos de prueba no esté montada, para solucionarlo usariamos <code>STARTUP</code> y debería solucionarse el problema.</p></li>
-
-<li><p>El siguiente paso será la creación de un usuario y otorgarle permisos al mismo</p>
-
-<pre><code>SQL&gt; CREATE USER c##ale IDENTIFIED BY ale;      
-
-User created.
-
-SQL&gt; GRANT ALL PRIVILEGES TO c##ale;
-
-Grant succeeded.
-</code></pre></li>
-
-<li><p>Nos desconectamos de este usuario y entramos en el recien creado para comprobar que funciona</p>
-
-<pre><code>SQL&gt; DISCONNECT
-Disconnected from Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
-Version 19.3.0.0.0
-SQL&gt; CONNECT c##ale/ale
-Connected.
-</code></pre></li>
-
-<li><p>Hemos creado unas tablas y añadido contenido a las mismas.</p>
-
-<pre><code>SQL&gt; SELECT * FROM propietarios;
-
-NIF   NOMBRE      APELLIDOS          CUOTA
---------- --------------- ------------------------- ----------
-61219065B Mario       Guti??rrez Valencia          300
-20015195C Alexandra   Angulo Lamas             320
-19643077L Miriam      Zafra Valencia            45
-33599573T Josue       Reche de los Santos           50
-X4164637G Christian   Lopez Reyes               50
-
-SQL&gt; SELECT * FROM caballos;
-
-CODIGOCABA NIFPROPIE NOMBRE      FECHNAC   RAZA
----------- --------- --------------- --------- --------------------
-1234567890 61219065B Sardinilla      22-APR-10 Arabe
-0987654321 61219065B Caramelo        27-MAR-13 Mustang
-1098743564 20015195C Marques         07-OCT-11 Mustang
-2348743564 20015195C Juan Valdez     15-NOV-08 Purasangre
-4348486564 19643077L Tarantino       13-DEC-09 Lusitano
-3348486935 19643077L Paco        07-JUN-14 Purasangre
-3348454346 33599573T Connell         25-JUL-07 Akhal-Teke
-5438454346 33599573T Faraon      23-MAY-12 Akhal-Teke
-5438345346 33599573T Isabel      23-APR-12 Holsteiner
-3958345174 X4164637G Rafael      05-FEB-10 Arabe
-
-10 rows selected.
-
-SQL&gt; SELECT * FROM caballos_carreras;
-
-CODIGOCABA EDADMINPART EDADMAXPART
----------- ----------- -----------
-1234567890
-0987654321
-1098743564
-2348743564
-4348486564
-3348486935
-3348454346
-5438454346
-5438345346
-3958345174
-
-10 rows selected.
-</code></pre></li>
+  Grant succeeded.
+</code></pre>
+</li>
+<li>
+<p>Nos desconectamos de este usuario y entramos en el recien creado para comprobar que funciona</p>
+<pre><code>  SQL&gt; DISCONNECT
+  Disconnected from Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+  Version 19.3.0.0.0
+  SQL&gt; CONNECT c##ale/ale
+  Connected.
+</code></pre>
+</li>
+<li>
+<p>Hemos creado unas tablas y añadido contenido a las mismas.</p>
+<pre><code>  SQL&gt; SELECT * FROM propietarios;
+    
+  NIF	  NOMBRE	  APELLIDOS			 CUOTA
+  --------- --------------- ------------------------- ----------
+  61219065B Mario 	  Guti??rrez Valencia		   300
+  20015195C Alexandra	  Angulo Lamas			   320
+  19643077L Miriam	  Zafra Valencia		    45
+  33599573T Josue 	  Reche de los Santos		    50
+  X4164637G Christian	  Lopez Reyes			    50
+    
+  SQL&gt; SELECT * FROM caballos;
+    
+  CODIGOCABA NIFPROPIE NOMBRE	     FECHNAC   RAZA
+  ---------- --------- --------------- --------- --------------------
+  1234567890 61219065B Sardinilla      22-APR-10 Arabe
+  0987654321 61219065B Caramelo	     27-MAR-13 Mustang
+  1098743564 20015195C Marques	     07-OCT-11 Mustang
+  2348743564 20015195C Juan Valdez     15-NOV-08 Purasangre
+  4348486564 19643077L Tarantino	     13-DEC-09 Lusitano
+  3348486935 19643077L Paco	     07-JUN-14 Purasangre
+  3348454346 33599573T Connell	     25-JUL-07 Akhal-Teke
+  5438454346 33599573T Faraon	     23-MAY-12 Akhal-Teke
+  5438345346 33599573T Isabel	     23-APR-12 Holsteiner
+  3958345174 X4164637G Rafael	     05-FEB-10 Arabe
+    
+  10 rows selected.
+    
+  SQL&gt; SELECT * FROM caballos_carreras;
+    
+  CODIGOCABA EDADMINPART EDADMAXPART
+  ---------- ----------- -----------
+  1234567890
+  0987654321
+  1098743564
+  2348743564
+  4348486564
+  3348486935
+  3348454346
+  5438454346
+  5438345346
+  3958345174
+    
+  10 rows selected.
+</code></pre>
+</li>
 </ul>
-
 <h2 id="instalación-de-servidor-mysql">Instalación de servidor MYSQL.</h2>
-
 <ul>
-<li><p>la instalación es muy sencilla, simplemente instalamos el servidor de mariadb con un simple apt.</p>
+<li>
+<p>la instalación es muy sencilla, simplemente instalamos el servidor de mariadb con un simple apt.</p>
+<pre><code>  vagrant@mysql:~$ sudo apt install mariadb-server
+</code></pre>
+</li>
+<li>
+<p>Podemos entrar al servidor.</p>
+</li>
+<li>
+<p>Creamos un usuario.</p>
+<pre><code>  MariaDB [(none)]&gt; CREATE USER 'ale'@'%' IDENTIFIED BY 'ale';
+  Query OK, 0 rows affected (0.001 sec)
+</code></pre>
+</li>
+<li>
+<p>Y al crear una base de datos debemos darle a nuestro usuario permisos sobre la misma.</p>
+<pre><code>  MariaDB [(none)]&gt; CREATE DATABASE prueba;
+  Query OK, 1 row affected (0.001 sec)
 
-<pre><code>vagrant@mysql:~$ sudo apt install mariadb-server
-</code></pre></li>
+  MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON prueba.* TO 'ale'@'%';
+  Query OK, 0 rows affected (0.001 sec)
+</code></pre>
+</li>
+<li>
+<p>Hemos creado algunas tablas y le hemos añadido datos.</p>
+<pre><code>  MariaDB [prueba]&gt; SELECT * FROM Propietarios;
+  +-----------+-----------+---------------------+--------+
+  | NIF       | Nombre    | Apellidos           | Cuota  |
+  +-----------+-----------+---------------------+--------+
+  | 19643077L | Miriam    | Zafra Valencia      |  45.00 |
+  | 20015195C | Alexandra | Angulo Lamas        | 320.00 |
+  | 33599573T | Josue     | Reche de los Santos |  50.00 |
+  | 61219065B | Mario     | Gutiérrez Valencia  | 300.00 |
+  | X4164637G | Christian | Lopez Reyes         |  50.00 |
+  +-----------+-----------+---------------------+--------+
+  5 rows in set (0.001 sec)
 
-<li><p>Podemos entrar al servidor.</p></li>
+  MariaDB [prueba]&gt; SELECT * FROM Caballos;
+  +---------------+----------------+-------------+------------+------------+
+  | CodigoCaballo | NIFPropietario | Nombre      | FechNac    | Raza       |
+  +---------------+----------------+-------------+------------+------------+
+  | 1098743564    | 20015195C      | Marques     | 2011-11-07 | Mustang    |
+  | 1234567890    | 61219065B      | Sardinilla  | 2010-03-22 | Arabe      |
+  | 2348743564    | 20015195C      | Juan Valdez | 2008-02-15 | Purasangre |
+  | 3958345174    | X4164637G      | Rafael      | 2010-05-06 | Arabe      |
+  | 4348486564    | 19643077L      | Tarantino   | 2009-10-13 | Lusitano   |
+  +---------------+----------------+-------------+------------+------------+
+  5 rows in set (0.000 sec)
 
-<li><p>Creamos un usuario.</p>
-
-<pre><code>MariaDB [(none)]&gt; CREATE USER 'ale'@'%' IDENTIFIED BY 'ale';
-Query OK, 0 rows affected (0.001 sec)
-</code></pre></li>
-
-<li><p>Y al crear una base de datos debemos darle a nuestro usuario permisos sobre la misma.</p>
-
-<pre><code>MariaDB [(none)]&gt; CREATE DATABASE prueba;
-Query OK, 1 row affected (0.001 sec)
-
-MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON prueba.* TO 'ale'@'%';
-Query OK, 0 rows affected (0.001 sec)
-</code></pre></li>
-
-<li><p>Hemos creado algunas tablas y le hemos añadido datos.</p>
-
-<pre><code>MariaDB [prueba]&gt; SELECT * FROM Propietarios;
-+-----------+-----------+---------------------+--------+
-| NIF       | Nombre    | Apellidos           | Cuota  |
-+-----------+-----------+---------------------+--------+
-| 19643077L | Miriam    | Zafra Valencia      |  45.00 |
-| 20015195C | Alexandra | Angulo Lamas        | 320.00 |
-| 33599573T | Josue     | Reche de los Santos |  50.00 |
-| 61219065B | Mario     | Gutiérrez Valencia  | 300.00 |
-| X4164637G | Christian | Lopez Reyes         |  50.00 |
-+-----------+-----------+---------------------+--------+
-5 rows in set (0.001 sec)
-
-MariaDB [prueba]&gt; SELECT * FROM Caballos;
-+---------------+----------------+-------------+------------+------------+
-| CodigoCaballo | NIFPropietario | Nombre      | FechNac    | Raza       |
-+---------------+----------------+-------------+------------+------------+
-| 1098743564    | 20015195C      | Marques     | 2011-11-07 | Mustang    |
-| 1234567890    | 61219065B      | Sardinilla  | 2010-03-22 | Arabe      |
-| 2348743564    | 20015195C      | Juan Valdez | 2008-02-15 | Purasangre |
-| 3958345174    | X4164637G      | Rafael      | 2010-05-06 | Arabe      |
-| 4348486564    | 19643077L      | Tarantino   | 2009-10-13 | Lusitano   |
-+---------------+----------------+-------------+------------+------------+
-5 rows in set (0.000 sec)
-
-MariaDB [prueba]&gt; SELECT * FROM Caballos_Carreras;
-+---------------+-------------+-------------+
-| CodigoCaballo | EdadMinPart | EdadMaxPart |
-+---------------+-------------+-------------+
-| 1234567890    |        NULL |        NULL |
-| 2348743564    |        NULL |        NULL |
-| 4348486564    |        NULL |        NULL |
-+---------------+-------------+-------------+
-3 rows in set (0.001 sec)
-</code></pre></li>
+  MariaDB [prueba]&gt; SELECT * FROM Caballos_Carreras;
+  +---------------+-------------+-------------+
+  | CodigoCaballo | EdadMinPart | EdadMaxPart |
+  +---------------+-------------+-------------+
+  | 1234567890    |        NULL |        NULL |
+  | 2348743564    |        NULL |        NULL |
+  | 4348486564    |        NULL |        NULL |
+  +---------------+-------------+-------------+
+  3 rows in set (0.001 sec)
+</code></pre>
+</li>
 </ul>
-
 <h3 id="configuración-para-acceso-remoto-de-mysql">Configuración para acceso remoto de MYSQL.</h3>
-
 <ul>
-<li><p>Debemos editar el fichero <code>/etc/mysql/mariadb.conf.d/50-server.cnf</code> y buscar la línea <code>bind-address</code>.</p>
+<li>
+<p>Debemos editar el fichero <code>/etc/mysql/mariadb.conf.d/50-server.cnf</code> y buscar la línea <code>bind-address</code>.</p>
+<pre><code>  bind-address              = 127.0.0.1
+</code></pre>
+</li>
+<li>
+<p>Lo único que deberemos hacer para permitir el acceso remoto es cambiar la dirección del localhost por 0.0.0.0</p>
+<pre><code>  bind-address              = 0.0.0.0
+</code></pre>
+</li>
+<li>
+<p>Ahora en la base de datos crearemos un usuario que especificaremos donde se encuentra, podríamos poner una sola IP específica, sin embargo permitiremos que se pueda acceder desde cualquier sitio usando <code>%</code>. Le daremos permisos sobre la base de datos y tendremos que ponerle contraseña a nuestro usuario.</p>
+<pre><code>  MariaDB [(none)]&gt; CREATE USER 'remoto1'@'%' IDENTIFIED BY 'remoto';
+  Query OK, 0 rows affected (0.161 sec)
 
-<pre><code>bind-address              = 127.0.0.1
-</code></pre></li>
+  MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON prueba.* TO 'remoto'@'%';
+  Query OK, 0 rows affected (0.164 sec)
 
-<li><p>Lo único que deberemos hacer para permitir el acceso remoto es cambiar la dirección del localhost por 0.0.0.0</p>
+  MariaDB [(none)]&gt; SET PASSWORD FOR 'remoto'@'%' = PASSWORD('remoto');
+</code></pre>
+</li>
+<li>
+<p>Comprobamos que podemos acceder a nuestra base de datos desde el ciente.</p>
+<pre><code>  root@clientemysql:~# mysql -h 172.22.100.5 -u remoto -p
+  Enter password: 
+  Welcome to the MariaDB monitor.  Commands end with ; or \g.
+  Your MariaDB connection id is 41
+  Server version: 10.3.27-MariaDB-0+deb10u1 Debian 10
 
-<pre><code>bind-address              = 0.0.0.0
-</code></pre></li>
+  Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
 
-<li><p>Ahora en la base de datos crearemos un usuario que especificaremos donde se encuentra, podríamos poner una sola IP específica, sin embargo permitiremos que se pueda acceder desde cualquier sitio usando <code>%</code>. Le daremos permisos sobre la base de datos y tendremos que ponerle contraseña a nuestro usuario.</p>
+  Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
-<pre><code>MariaDB [(none)]&gt; CREATE USER 'remoto1'@'%' IDENTIFIED BY 'remoto';
-Query OK, 0 rows affected (0.161 sec)
+  MariaDB [(none)]&gt; use prueba;
+  Reading table information for completion of table and column names
+  You can turn off this feature to get a quicker startup with -A
 
-MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON prueba.* TO 'remoto'@'%';
-Query OK, 0 rows affected (0.164 sec)
-
-MariaDB [(none)]&gt; SET PASSWORD FOR 'remoto'@'%' = PASSWORD('remoto');
-</code></pre></li>
-
-<li><p>Comprobamos que podemos acceder a nuestra base de datos desde el ciente.</p>
-
-<pre><code>root@clientemysql:~# mysql -h 172.22.100.5 -u remoto -p
-Enter password: 
-Welcome to the MariaDB monitor.  Commands end with ; or \g.
-Your MariaDB connection id is 41
-Server version: 10.3.27-MariaDB-0+deb10u1 Debian 10
-
-Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
-
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
-
-MariaDB [(none)]&gt; use prueba;
-Reading table information for completion of table and column names
-You can turn off this feature to get a quicker startup with -A
-
-Database changed
-MariaDB [prueba]&gt;
-</code></pre></li>
-
-<li><p>Vemos que podemos trabajar con la base de datos de prueba que creamos anteriormente.</p>
-
-<pre><code>MariaDB [prueba]&gt; SHOW TABLES;
-+-------------------+
-| Tables_in_prueba  |
-+-------------------+
-| Caballos          |
-| Caballos_Carreras |
-| Propietarios      |
-+-------------------+
-3 rows in set (0.002 sec)
-</code></pre></li>
+  Database changed
+  MariaDB [prueba]&gt;
+</code></pre>
+</li>
+<li>
+<p>Vemos que podemos trabajar con la base de datos de prueba que creamos anteriormente.</p>
+<pre><code>  MariaDB [prueba]&gt; SHOW TABLES;
+  +-------------------+
+  | Tables_in_prueba  |
+  +-------------------+
+  | Caballos          |
+  | Caballos_Carreras |
+  | Propietarios      |
+  +-------------------+
+  3 rows in set (0.002 sec)
+</code></pre>
+</li>
 </ul>
-
-<h3 id="cliente-remoto-de-sql-plus">Cliente remoto de SQL*PLUS</h3>
-
+<h3 id="cliente-remoto-de-sqlplus">Cliente remoto de SQL*PLUS</h3>
 <ul>
-<li><p>A continuación, configuraremos nuestro servidor para que escuche las peticiones que se hacen de fuera, si vemos el fichero <code>/opt/oracle/product/19c/dbhome_1/network/admin/listener.ora</code> podremos ver que se especifica justo antes de donde aparece el puerto donde escucha que solo escucha las peticiones de myhost, es decir, el localhost.</p>
-
-<pre><code>LISTENER =
-  (DESCRIPTION_LIST =
-    (DESCRIPTION =
-      (ADDRESS = (PROTOCOL = TCP)(HOST = myhost)(PORT = 1521))
-      (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1521))
+<li>
+<p>A continuación, configuraremos nuestro servidor para que escuche las peticiones que se hacen de fuera, si vemos el fichero <code>/opt/oracle/product/19c/dbhome_1/network/admin/listener.ora</code> podremos ver que se especifica justo antes de donde aparece el puerto donde escucha que solo escucha las peticiones de myhost, es decir, el localhost.</p>
+<pre><code>  LISTENER =
+    (DESCRIPTION_LIST =
+      (DESCRIPTION =
+        (ADDRESS = (PROTOCOL = TCP)(HOST = myhost)(PORT = 1521))
+        (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1521))
+      )
     )
-  )
-</code></pre></li>
-
-<li><p>Lo modificaremos y podremos la dirección <code>0.0.0.0</code> para que escuche todas las peticiones de fuera.</p>
-
-<pre><code>LISTENER =
-  (DESCRIPTION_LIST =
-    (DESCRIPTION =
-      (ADDRESS = (PROTOCOL = TCP)(HOST = 0.0.0.0)(PORT = 1521))
-      (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1521))
+</code></pre>
+</li>
+<li>
+<p>Lo modificaremos y podremos la dirección <code>0.0.0.0</code> para que escuche todas las peticiones de fuera.</p>
+<pre><code>  LISTENER =
+    (DESCRIPTION_LIST =
+      (DESCRIPTION =
+        (ADDRESS = (PROTOCOL = TCP)(HOST = 0.0.0.0)(PORT = 1521))
+        (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1521))
+      )
     )
-  )
-</code></pre></li>
-
-<li><p>E iniciamos la escucha.</p></li>
+</code></pre>
+</li>
+<li>
+<p>E iniciamos la escucha.</p>
+</li>
 </ul>
-
 <p>[oracle@oracle ~]$ lsnrctl start</p>
-
 <pre><code>    LSNRCTL for Linux: Version 19.0.0.0.0 - Production on 13-APR-2021 07:17:12
 
     Copyright (c) 1991, 2019, Oracle.  All rights reserved.
@@ -468,222 +461,218 @@ MariaDB [prueba]&gt;
     The listener supports no services
     The command completed successfully
 </code></pre>
-
 <ul>
-<li><p>En el cliente debemos instalar el paquete alien y descargar de la <a href="https://www.oracle.com/es/database/technologies/instant-client/linux-x86-64-downloads.html">página oficial de oracle</a> los siguientes paquetes:</p>
+<li>
+<p>En el cliente debemos instalar el paquete alien y descargar de la <a href="https://www.oracle.com/es/database/technologies/instant-client/linux-x86-64-downloads.html">página oficial de oracle</a> los siguientes paquetes:</p>
+<pre><code>  oracle-instantclient19.6-basic-19.6.0.0.0-1.x86_64.rpm
+  oracle-instantclient19.6-devel-19.6.0.0.0-1.x86_64.rpm
+  oracle-instantclient19.6-sqlplus-19.6.0.0.0-1.x86_64.rpm
+</code></pre>
+</li>
+<li>
+<p>Como se han descargado archivos RPM y tenemos un debian, podriamos convertirlos facilmente a una extensión DEB con el paquete recién instalado alien e instalariamos todos los paquetes.</p>
+<pre><code>  vagrant@clientoracle:~$ sudo alien oracle-instantclient19.6-basic-19.6.0.0.0-1.x86_64.rpm 
+  Warning: Skipping conversion of scripts in package oracle-instantclient19.6-basic: postinst postrm
+  Warning: Use the --scripts parameter to include the scripts.
+  oracle-instantclient19.6-basic_19.6.0.0.0-2_amd64.deb generated
 
-<pre><code>oracle-instantclient19.6-basic-19.6.0.0.0-1.x86_64.rpm
-oracle-instantclient19.6-devel-19.6.0.0.0-1.x86_64.rpm
-oracle-instantclient19.6-sqlplus-19.6.0.0.0-1.x86_64.rpm
-</code></pre></li>
-
-<li><p>Como se han descargado archivos RPM y tenemos un debian, podriamos convertirlos facilmente a una extensión DEB con el paquete recién instalado alien e instalariamos todos los paquetes.</p>
-
-<pre><code>vagrant@clientoracle:~$ sudo alien oracle-instantclient19.6-basic-19.6.0.0.0-1.x86_64.rpm 
-Warning: Skipping conversion of scripts in package oracle-instantclient19.6-basic: postinst postrm
-Warning: Use the --scripts parameter to include the scripts.
-oracle-instantclient19.6-basic_19.6.0.0.0-2_amd64.deb generated
-
-vagrant@clientoracle:~$ sudo dpkg -i oracle-instantclient19.6-basic_19.6.0.0.0-2_amd64.deb 
-(Reading database ... 34588 files and directories currently installed.)
-Preparing to unpack oracle-instantclient19.6-basic_19.6.0.0.0-2_amd64.deb ...
-Unpacking oracle-instantclient19.6-basic (19.6.0.0.0-2) ...
-Setting up oracle-instantclient19.6-basic (19.6.0.0.0-2) ...
-Processing triggers for libc-bin (2.28-10) ...
-</code></pre></li>
-
-<li><p>Creamos el fichero de configuración <code>/etc/ld.so.conf.d/oracle.conf</code> y añadimos la siguiente línea:</p>
-
-<pre><code>/usr/lib/oracle/19.6/client64/lib/
-</code></pre></li>
-
-<li><p>Y actualizamos la configuración:</p>
-
-<pre><code>vagrant@clientoracle:~$ sudo ldconfig
-</code></pre></li>
+  vagrant@clientoracle:~$ sudo dpkg -i oracle-instantclient19.6-basic_19.6.0.0.0-2_amd64.deb 
+  (Reading database ... 34588 files and directories currently installed.)
+  Preparing to unpack oracle-instantclient19.6-basic_19.6.0.0.0-2_amd64.deb ...
+  Unpacking oracle-instantclient19.6-basic (19.6.0.0.0-2) ...
+  Setting up oracle-instantclient19.6-basic (19.6.0.0.0-2) ...
+  Processing triggers for libc-bin (2.28-10) ...
+</code></pre>
+</li>
+<li>
+<p>Creamos el fichero de configuración <code>/etc/ld.so.conf.d/oracle.conf</code> y añadimos la siguiente línea:</p>
+<pre><code>  /usr/lib/oracle/19.6/client64/lib/
+</code></pre>
+</li>
+<li>
+<p>Y actualizamos la configuración:</p>
+<pre><code>  vagrant@clientoracle:~$ sudo ldconfig
+</code></pre>
+</li>
 </ul>
-
 <h3 id="aplicación-web-para-postgres">Aplicación web para postgres</h3>
-
 <ul>
-<li><p>Por supuesto, primero instalamos postgres</p>
-
-<pre><code>vagrant@postgres:~$ sudo apt install postgresql
-</code></pre></li>
-
-<li><p>Instalaremos phppgadmin para poder administrar nuestra base de datos mediante una aplicación web.</p>
-
-<pre><code>vagrant@postgres:~$ sudo apt install phppgadmin
-</code></pre></li>
-
-<li><p>Ahora configuraremos esta aplicación, para ello lo primero que debemos hacer es permitir que se pueda acceder de forma remota en el archivo de configuración <code>/etc/apache2/conf-available/phppgadmin.conf</code> comentaremos la siguiente línea.</p>
-
-<pre><code>#Require local
-</code></pre></li>
-
-<li><p>Crearemos una base de datos y usuario al que daremos permisos sobre esta base de datos.</p>
-
-<pre><code>postgres=# CREATE DATABASE prueba;
-CREATE DATABASE
-postgres=# CREATE USER usuario1 WITH PASSWORD 'usuario1';
-CREATE ROLE
-postgres=# GRANT ALL PRIVILEGES ON DATABASE prueba to usuario1;
-GRANT
-</code></pre></li>
-
-<li><p>Una vez añadimos contenido a esta base de datos podremos conectarnos desde nuestro navegador.</p></li>
+<li>
+<p>Por supuesto, primero instalamos postgres</p>
+<pre><code>  vagrant@postgres:~$ sudo apt install postgresql
+</code></pre>
+</li>
+<li>
+<p>Instalaremos phppgadmin para poder administrar nuestra base de datos mediante una aplicación web.</p>
+<pre><code>  vagrant@postgres:~$ sudo apt install phppgadmin
+</code></pre>
+</li>
+<li>
+<p>Ahora configuraremos esta aplicación, para ello lo primero que debemos hacer es permitir que se pueda acceder de forma remota en el archivo de configuración <code>/etc/apache2/conf-available/phppgadmin.conf</code> comentaremos la siguiente línea.</p>
+<pre><code>  #Require local
+</code></pre>
+</li>
+<li>
+<p>Crearemos una base de datos y usuario al que daremos permisos sobre esta base de datos.</p>
+<pre><code>  postgres=# CREATE DATABASE prueba;
+  CREATE DATABASE
+  postgres=# CREATE USER usuario1 WITH PASSWORD 'usuario1';
+  CREATE ROLE
+  postgres=# GRANT ALL PRIVILEGES ON DATABASE prueba to usuario1;
+  GRANT
+</code></pre>
+</li>
+<li>
+<p>Una vez añadimos contenido a esta base de datos podremos conectarnos desde nuestro navegador.</p>
+</li>
 </ul>
-
-<p><img src="/servidores_bbdd/1.png" alt="phppgadmin" /></p>
-
+<p><img src="/servidores_bbdd/1.png" alt="phppgadmin"></p>
 <ul>
 <li>Nos identificaremos con el usuario que creamos anteriormente y podremos acceder a las bases de datos sobre las que tiene privilegio y podríamos por ejemplo ver las tablas e información que tenemos en la misma.</li>
 </ul>
-
-<p><img src="/servidores_bbdd/2.png" alt="phppgadmin" /></p>
-
-<p><img src="/servidores_bbdd/3.png" alt="phppgadmin" /></p>
-
+<p><img src="/servidores_bbdd/2.png" alt="phppgadmin"></p>
+<p><img src="/servidores_bbdd/3.png" alt="phppgadmin"></p>
 <h3 id="instalación-de-mongodb-y-una-herramienta-de-administración-web">Instalación de mongodb y una herramienta de administración web.</h3>
-
 <ul>
-<li><p>Instalaremos mongodb, los pasos serían descargar el repositorio añadiendo la clave pública y añadir este repositorio a nuestro <code>sources.list</code></p>
+<li>
+<p>Instalaremos mongodb, los pasos serían descargar el repositorio añadiendo la clave pública y añadir este repositorio a nuestro <code>sources.list</code></p>
+<pre><code>  vagrant@mongo:~$ sudo wget https://www.mongodb.org/static/pgp/server-4.4.asc -qO- | sudo apt-key add -
 
-<pre><code>vagrant@mongo:~$ sudo wget https://www.mongodb.org/static/pgp/server-4.4.asc -qO- | sudo apt-key add -
+  root@mongo:~# echo &quot;deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main&quot; &gt; /etc/apt/sources.list.d/mongodb-org-4.4.list
+</code></pre>
+</li>
+<li>
+<p>Una vez hecho esto podremos instalar mongodb</p>
+<pre><code>  vagrant@mongo:~$ sudo apt install mongodb-org
+</code></pre>
+</li>
+<li>
+<p>Entramos en la base de datos y nos autentificaremos con el usuario administrador.</p>
+<pre><code>  vagrant@mongo:~$ mongo
+  MongoDB shell version v4.4.5
+  connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&amp;gssapiServiceName=mongodb
+  Implicit session: session { &quot;id&quot; : UUID(&quot;ff7e45d7-a6fb-4505-abb4-036f43dd5c26&quot;) }
+  MongoDB server version: 4.4.5
+  Welcome to the MongoDB shell.
+  For interactive help, type &quot;help&quot;.
+  For more comprehensive documentation, see
+      https://docs.mongodb.com/
+  Questions? Try the MongoDB Developer Community Forums
+      https://community.mongodb.com
+  ---
+  The server generated these startup warnings when booting: 
+          2021-04-28T08:05:23.509+00:00: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine. See http://dochub.mongodb.org/core/ prodnotes-filesystem
+          2021-04-28T08:05:23.943+00:00: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+  ---
+  ---
+          Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+          metrics about your deployment (disk utilization, CPU, operation statistics, etc).
 
-root@mongo:~# echo &quot;deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main&quot; &gt; /etc/apt/sources.list.d/mongodb-org-4.4.list
-</code></pre></li>
+          The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+          and anyone you share the URL with. MongoDB may use this information to make product
+          improvements and to suggest MongoDB products and deployment options to you.
 
-<li><p>Una vez hecho esto podremos instalar mongodb</p>
+          To enable free monitoring, run the following command: db.enableFreeMonitoring()
+          To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+  ---
+  &gt; use admin
+  switched to db admin
+</code></pre>
+</li>
+<li>
+<p>Creamos un usuario.</p>
+<pre><code>  &gt; db.createUser(
+  ... {
+  ... user: &quot;usuario&quot;,
+  ... pwd: &quot;usuario&quot;,
+  ... roles: [ { role: &quot;userAdminAnyDatabase&quot;, db: &quot;admin&quot; }, &quot;readWriteAnyDatabase&quot; ]
+  ... }
+  ... )
+  Successfully added user: {
+      &quot;user&quot; : &quot;usuario&quot;,
+      &quot;roles&quot; : [
+          {
+              &quot;role&quot; : &quot;userAdminAnyDatabase&quot;,
+              &quot;db&quot; : &quot;admin&quot;
+          },
+          &quot;readWriteAnyDatabase&quot;
+      ]
+  }
+</code></pre>
+</li>
+<li>
+<p>Modificaremos el fichero <code>/etc/mongod.conf</code> para activar la autentificación y reiniciaremos el servicio para que haga efecto.</p>
+<pre><code>  security:
+    authorization: enabled
 
-<pre><code>vagrant@mongo:~$ sudo apt install mongodb-org
-</code></pre></li>
+    
+  vagrant@mongo:~$ sudo systemctl restart mongod
+</code></pre>
+</li>
+<li>
+<p>Veamos las bases de datos que tenemos, he creado una para tener un poco de contenido.</p>
+<pre><code>  &gt; show dbs
+  admin   0.000GB
+  config  0.000GB
+  local   0.000GB
+  local   0.000GB
+</code></pre>
+</li>
+<li>
+<p>Una vez tenemos nuestra base de datos a punto instalaremos nuestro administrador web. He elegido Rockmongo para ello instalaremos las dependencias necesarias.</p>
+<pre><code>  vagrant@mongo:~$ sudo apt install apache2 gcc php php-gd php-pear unzip wget php7.3-dev
 
-<li><p>Entramos en la base de datos y nos autentificaremos con el usuario administrador.</p>
+  vagrant@mongo:~$ sudo pecl install mongodb
+</code></pre>
+</li>
+<li>
+<p>Necesitamos modificar el fichero <code>/etc/php/7.3/apache2/php.ini</code> y añadir la siguiente línea:</p>
+<pre><code>  extension=mongo.so
+</code></pre>
+</li>
+<li>
+<p>Debemos clonar el repositorio del modulo de php para mongo.</p>
+<pre><code>  vagrant@mongo:~ git clone https://github.com/mongodb/mongo-php-driver-legacy.git
+  vagrant@mongo:~/mongo-php-driver$ git submodule sync &amp;&amp; git submodule update --init
+</code></pre>
+</li>
+<li>
+<p>Seguidamente entraremos en el repositorio y ejecutaremos el siguiente comando.</p>
+<pre><code>  vagrant@mongo:~/mongo-php-driver$ phpize
+  Configuring for:
+  PHP Api Version:         20180731
+  Zend Module Api No:      20180731
+  Zend Extension Api No:   320180731
+</code></pre>
+</li>
+<li>
+<p>Ahora ejecutaremos el script que está dentro del repositorio <code>configure</code>.</p>
+<pre><code>  vagrant@mongo:~/mongo-php-driver$ ./configure
+</code></pre>
+</li>
+<li>
+<p>Y por último instalaremos el módulo.</p>
+<pre><code>  vagrant@mongo:~/mongo-php-driver$ sudo make all
 
-<pre><code>vagrant@mongo:~$ mongo
-MongoDB shell version v4.4.5
-connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&amp;gssapiServiceName=mongodb
-Implicit session: session { &quot;id&quot; : UUID(&quot;ff7e45d7-a6fb-4505-abb4-036f43dd5c26&quot;) }
-MongoDB server version: 4.4.5
-Welcome to the MongoDB shell.
-For interactive help, type &quot;help&quot;.
-For more comprehensive documentation, see
-    https://docs.mongodb.com/
-Questions? Try the MongoDB Developer Community Forums
-    https://community.mongodb.com
----
-The server generated these startup warnings when booting: 
-        2021-04-28T08:05:23.509+00:00: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine. See http://dochub.mongodb.org/core/ prodnotes-filesystem
-        2021-04-28T08:05:23.943+00:00: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
----
----
-        Enable MongoDB's free cloud-based monitoring service, which will then receive and display
-        metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+  vagrant@mongo:~/mongo-php-driver$ sudo make install
+  Installing shared extensions:     /usr/lib/php/20180731/
+</code></pre>
+</li>
+<li>
+<p>Clonaremos el respositorio de github de Rockmongo y añadiremos esta aplicación a un DocumentRoot</p>
+<pre><code>  vagrant@mongo:~$ git clone https://github.com/iwind/rockmongo.git
 
-        The monitoring data will be available on a MongoDB website with a unique URL accessible to you
-        and anyone you share the URL with. MongoDB may use this information to make product
-        improvements and to suggest MongoDB products and deployment options to you.
-
-        To enable free monitoring, run the following command: db.enableFreeMonitoring()
-        To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
----
-&gt; use admin
-switched to db admin
-</code></pre></li>
-
-<li><p>Creamos un usuario.</p>
-
-<pre><code>&gt; db.createUser(
-... {
-... user: &quot;usuario&quot;,
-... pwd: &quot;usuario&quot;,
-... roles: [ { role: &quot;userAdminAnyDatabase&quot;, db: &quot;admin&quot; }, &quot;readWriteAnyDatabase&quot; ]
-... }
-... )
-Successfully added user: {
-    &quot;user&quot; : &quot;usuario&quot;,
-    &quot;roles&quot; : [
-        {
-            &quot;role&quot; : &quot;userAdminAnyDatabase&quot;,
-            &quot;db&quot; : &quot;admin&quot;
-        },
-        &quot;readWriteAnyDatabase&quot;
-    ]
-}
-</code></pre></li>
-
-<li><p>Modificaremos el fichero <code>/etc/mongod.conf</code> para activar la autentificación y reiniciaremos el servicio para que haga efecto.</p>
-
-<pre><code>security:
-  authorization: enabled
-
-
-vagrant@mongo:~$ sudo systemctl restart mongod
-</code></pre></li>
-
-<li><p>Veamos las bases de datos que tenemos, he creado una para tener un poco de contenido.</p>
-
-<pre><code>&gt; show dbs
-admin   0.000GB
-config  0.000GB
-local   0.000GB
-local   0.000GB
-</code></pre></li>
-
-<li><p>Una vez tenemos nuestra base de datos a punto instalaremos nuestro administrador web. He elegido Rockmongo para ello instalaremos las dependencias necesarias.</p>
-
-<pre><code>vagrant@mongo:~$ sudo apt install apache2 gcc php php-gd php-pear unzip wget php7.3-dev
-
-vagrant@mongo:~$ sudo pecl install mongodb
-</code></pre></li>
-
-<li><p>Necesitamos modificar el fichero <code>/etc/php/7.3/apache2/php.ini</code> y añadir la siguiente línea:</p>
-
-<pre><code>extension=mongo.so
-</code></pre></li>
-
-<li><p>Debemos clonar el repositorio del modulo de php para mongo.</p>
-
-<pre><code>vagrant@mongo:~ git clone https://github.com/mongodb/mongo-php-driver-legacy.git
-vagrant@mongo:~/mongo-php-driver$ git submodule sync &amp;&amp; git submodule update --init
-</code></pre></li>
-
-<li><p>Seguidamente entraremos en el repositorio y ejecutaremos el siguiente comando.</p>
-
-<pre><code>vagrant@mongo:~/mongo-php-driver$ phpize
-Configuring for:
-PHP Api Version:         20180731
-Zend Module Api No:      20180731
-Zend Extension Api No:   320180731
-</code></pre></li>
-
-<li><p>Ahora ejecutaremos el script que está dentro del repositorio <code>configure</code>.</p>
-
-<pre><code>vagrant@mongo:~/mongo-php-driver$ ./configure
-</code></pre></li>
-
-<li><p>Y por último instalaremos el módulo.</p>
-
-<pre><code>vagrant@mongo:~/mongo-php-driver$ sudo make all
-
-vagrant@mongo:~/mongo-php-driver$ sudo make install
-Installing shared extensions:     /usr/lib/php/20180731/
-</code></pre></li>
-
-<li><p>Clonaremos el respositorio de github de Rockmongo y añadiremos esta aplicación a un DocumentRoot</p>
-
-<pre><code>vagrant@mongo:~$ git clone https://github.com/iwind/rockmongo.git
-
-vagrant@mongo:~$ sudo mv rockmongo/ /var/www/
-</code></pre></li>
-
-<li><p>Y en el fichero <code>config.php</code> que está dentro del respositorio configuraremos la siguiente línea</p>
-
-<pre><code>$MONGO[&quot;servers&quot;][$i][&quot;mongo_host&quot;] = &quot;0.0.0.0&quot;;//mongo host
-</code></pre></li>
-
-<li><p>Y ya tendriamos instalado rockmongo.</p></li>
+  vagrant@mongo:~$ sudo mv rockmongo/ /var/www/
+</code></pre>
+</li>
+<li>
+<p>Y en el fichero <code>config.php</code> que está dentro del respositorio configuraremos la siguiente línea</p>
+<pre><code>  $MONGO[&quot;servers&quot;][$i][&quot;mongo_host&quot;] = &quot;0.0.0.0&quot;;//mongo host
+</code></pre>
+</li>
+<li>
+<p>Y ya tendriamos instalado rockmongo.</p>
+</li>
 </ul>
 
                 </div>
