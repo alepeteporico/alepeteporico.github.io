@@ -370,7 +370,7 @@
     </item>
     
     <item>
-      <title>Kernel de Vbox no carga con el kernel</title>
+      <title>Módulo de Vbox no carga con el kernel</title>
       <link>https://alepeteporico.github.io/problemas/vagrant_kernel/</link>
       <pubDate>Sun, 04 Apr 2021 00:00:00 +0000</pubDate>
       
