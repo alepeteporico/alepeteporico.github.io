@@ -6,7 +6,17 @@
     <description>Recent content in Apuntes on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 20 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/apuntes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 21 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/apuntes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Instalación desatendida de debian</title>
+      <link>https://alepeteporico.github.io/apuntes/instalacion_desatendida_debian11/</link>
+      <pubDate>Tue, 21 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/apuntes/instalacion_desatendida_debian11/</guid>
+      <description>   Nos dirijiremos a la página oficial de debian para descargar la ISO de debian que usaremos en nuestro caso debian 11.
+ alejandrogv@AlejandroGV:~/Escritorio/ISOS$ ls ... debian-11.0.0-amd64-netinst.iso ...     </description>
+    </item>
+    
     <item>
       <title>Lo básico de ansible</title>
       <link>https://alepeteporico.github.io/apuntes/ansible-basico/</link>
