@@ -102,31 +102,29 @@
 </ul>
 <p><img src="/instalacion/1.png" alt=""></p>
 <ul>
-<li>
-<p>Seguidamente elegiremos la opción de &ldquo;Configurar el gestor de volúmenes lógicos&rdquo; y crearemos un grupo de volúmenes.
-<img src="/instalacion/2.png" alt=""></p>
-</li>
-<li>
-<p>Elegimos el espacio libre que teníamos en el disco, este será nuestro grupo de volúmenes, aunque podríamos primero particionar este espacio libre y después crear un grupo de volúmenes con estas particiones, nosotros lo haremos al revés.
-<img src="/instalacion/3.png" alt=""></p>
-</li>
-<li>
-<p>Ahora dentro de este grupo de volúmenes crearemos de volúmenes lógicos, uno para el sistema y otro para la SWAP
-<img src="/instalacion/9.png" alt=""></p>
-</li>
+<li>Seguidamente elegiremos la opción de &ldquo;Configurar el gestor de volúmenes lógicos&rdquo; y crearemos un grupo de volúmenes.</li>
 </ul>
+<p><img src="/instalacion/2.png" alt=""></p>
+<ul>
+<li>Elegimos el espacio libre que teníamos en el disco, este será nuestro grupo de volúmenes, aunque podríamos primero particionar este espacio libre y después crear un grupo de volúmenes con estas particiones, nosotros lo haremos al revés.</li>
+</ul>
+<p><img src="/instalacion/3.png" alt=""></p>
+<ul>
+<li>Ahora dentro de este grupo de volúmenes crearemos de volúmenes lógicos, uno para el sistema y otro para la SWAP</li>
+</ul>
+<p><img src="/instalacion/9.png" alt=""></p>
 <p><img src="/instalacion/4.png" alt=""></p>
 <ul>
-<li>
-<p>Tenemos creados los volúmenes lógicos como hemos visto en la anterior captura, pero debemos asignarle para  que la usaremos y donde las montaremos.
-<img src="/instalacion/5.png" alt="">
-<img src="/instalacion/6.png" alt="">
-<img src="/instalacion/7.png" alt=""></p>
-</li>
-<li>
-<p>Una vez hecho esto ya tendremos configurado LVM en nuestro sistema como queremos, no hemos usado todo el espacio que teníamos, por lo que mas tarde  podremos aumentar el tamaño de alguno de los volúmenes.
-<img src="/instalacion/8.png" alt=""></p>
-</li>
+<li>Tenemos creados los volúmenes lógicos como hemos visto en la anterior captura, pero debemos asignarle para  que la usaremos y donde las montaremos.</li>
+</ul>
+<p><img src="/instalacion/5.png" alt=""></p>
+<p><img src="/instalacion/6.png" alt=""></p>
+<p><img src="/instalacion/7.png" alt=""></p>
+<ul>
+<li>Una vez hecho esto ya tendremos configurado LVM en nuestro sistema como queremos, no hemos usado todo el espacio que teníamos, por lo que mas tarde  podremos aumentar el tamaño de alguno de los volúmenes.</li>
+</ul>
+<p><img src="/instalacion/8.png" alt=""></p>
+<ul>
 <li>
 <p>Seguiremos la instalación con normalidad y arrancaremos nuestro debian buster, en mi caso tuve un problema que al parecer es muy común. Al arrancar llegaba un momento en que el sistema dejaba de responder, aparecía una pantalla en negro con el cursor arriba a la izquierda, sin posibilidad de hacer nada. Para arreglarlo entre en modo recovery y deshabilite los drivers de nouveau, que al parecer daban conflicto. para hacerlo modifique el fichero &ldquo;/etc/default/grub&rdquo; y modificaremos las dos líneas que vemos a continuación tal y como aparecen.</p>
 <pre><code>  GRUB_CMDLINE_LINUX_DEFAULT=&quot;nouveau.modeset=0&quot;
@@ -143,16 +141,156 @@
 </code></pre>
 </li>
 <li>
+<p>Vamos a comprobar ahora dentro de nuestro sistema que se han creado bien el volumnen de grupo y los volumenes lógicos que creamos durante la instalación.</p>
+<pre><code>  alejandrogv@AlejandroGV:~$ sudo lvdisplay
+  [sudo] password for alejandrogv: 
+    --- Logical volume ---
+    LV Path                /dev/debian/sistema
+    LV Name                sistema
+    VG Name                debian
+    LV UUID                Unl5nE-NC34-bTKL-p8vd-oJ2O-DbMZ-JBVcy2
+    LV Write Access        read/write
+    LV Creation host, time AlejandroGV, 2020-09-21 12:31:54 +0200
+    LV Status              available
+    # open                 1
+    LV Size                240,73 GiB
+    Current LE             61628
+    Segments               2
+    Allocation             inherit
+    Read ahead sectors     auto
+    - currently set to     256
+    Block device           254:0
+    
+    --- Logical volume ---
+    LV Path                /dev/debian/SWAP
+    LV Name                SWAP
+    VG Name                debian
+    LV UUID                ZmBsPh-u7wQ-t5c4-JbSE-x8gx-LKT1-Fjk9eM
+    LV Write Access        read/write
+    LV Creation host, time AlejandroGV, 2020-09-21 12:32:38 +0200
+    LV Status              available
+    # open                 2
+    LV Size                &lt;8,01 GiB
+    Current LE             2050
+    Segments               1
+    Allocation             inherit
+    Read ahead sectors     auto
+    - currently set to     256
+    Block device           254:1
+    
+    --- Logical volume ---
+    LV Path                /dev/debian/extra
+    LV Name                extra
+    VG Name                debian
+    LV UUID                0A0ORH-z5wS-3API-P2W1-fvCb-MwzX-YXqeSm
+    LV Write Access        read/write
+    LV Creation host, time AlejandroGV, 2020-09-23 08:47:44 +0200
+    LV Status              available
+    # open                 0
+    LV Size                19,07 GiB
+    Current LE             4882
+    Segments               1
+    Allocation             inherit
+    Read ahead sectors     auto
+    - currently set to     256
+    Block device           254:2
+    
+  alejandrogv@AlejandroGV:~$ sudo vgdisplay
+    --- Volume group ---
+    VG Name               debian
+    System ID             
+    Format                lvm2
+    Metadata Areas        1
+    Metadata Sequence No  5
+    VG Access             read/write
+    VG Status             resizable
+    MAX LV                0
+    Cur LV                3
+    Open LV               2
+    Max PV                0
+    Cur PV                1
+    Act PV                1
+    VG Size               379,55 GiB
+    PE Size               4,00 MiB
+    Total PE              97166
+    Alloc PE / Size       68560 / 267,81 GiB
+    Free  PE / Size       28606 / 111,74 GiB
+    VG UUID               Yf5ekK-GyCd-6BbU-5nft-FWZ4-uVGE-OMxO6J
+</code></pre>
+</li>
+<li>
 <p>Aparentemente solo faltarían dos cosas por estar a punto, los controladores de la GPU Nvidia y la configuración del network manager. Veamos que le ocurría a network manager, este parecía estar deshabilitado. Aunque el equipo tenía conexión el error exacto que daba network manager era &ldquo;cableado sin gestionar&rdquo; y en efecto no podía gestionarse nada desde network manager. Para solucionar el problema debemos editar el fichero &ldquo;/etc/NetworkManager/NetworkManager.conf&rdquo; y cambiar a true la opción managed. Una vez hecho esto reiniciamos el servicio y podremos comprobar que todo funciona correctamente.</p>
 <pre><code>  [main]
   plugins=ifupdown,keyfile
-    
+
   [ifupdown]
   managed=true
 </code></pre>
 </li>
 <li>
 <p>Por último tenemos los drivers de la gráfica, los cuales no he sido capaz de instalar, lo he intentado de varias formas según las páginas oficiales de debian, entre ellas descargar el paquete &ldquo;nvidia-detect&rdquo; que detecta que gráfica tienes y que driver te convendría instalar para usarla en debian, aunque instalé el recomendado daba muchos conflictos con varias cosas, entre ellas el nouveau, aunque hemos hecho que debian no cargue el modulo. Quizás se podría solucionar el problema instalando drivers no oficiales, instalando un kernel mas nuevo u de otras formas no oficiales. Sin embargo dejaremos al sistema trabajando con gráfica integrada del procesador, ya que funciona bien y no necesitaremos más para nuestro caso.</p>
+</li>
+<li>
+<p>Veamos todos los dispositivos que tenemos conectados y nuestro sitema reconoce.</p>
+<pre><code>  alejandrogv@AlejandroGV:~$ sudo lshw -short
+  [sudo] password for alejandrogv: 
+  H/W path           Device           Class          Description
+  ==============================================================
+                                      system         TUF GAMING FX504GD_FX80GD
+  /0                                  bus            FX504GD
+  /0/0                                memory         64KiB BIOS
+  /0/3a                               memory         8GiB System Memory
+  /0/3a/0                             memory         8GiB SODIMM DDR4 Synchronous 2667 MHz (0,4 ns)
+  /0/3a/1                             memory         [empty]
+  /0/3a/2                             memory         [empty]
+  /0/3a/3                             memory         [empty]
+  /0/45                               memory         384KiB L1 cache
+  /0/46                               memory         1536KiB L2 cache
+  /0/47                               memory         9MiB L3 cache
+  /0/48                               processor      Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
+  /0/100                              bridge         8th Gen Core Processor Host Bridge/DRAM Registers
+  /0/100/1                            bridge         6th-10th Gen Core Processor PCIe Controller (x16)
+  /0/100/1/0                          display        GP107M [GeForce GTX 1050 Mobile]
+  /0/100/2                            display        CoffeeLake-H GT2 [UHD Graphics 630]
+  /0/100/4                            generic        Xeon E3-1200 v5/E3-1500 v5/6th Gen Core Processor Ther
+  /0/100/8                            generic        Xeon E3-1200 v5/v6 / E3-1500 v5 / 6th/7th/8th Gen Core
+  /0/100/12                           generic        Cannon Lake PCH Thermal Controller
+  /0/100/14                           bus            Cannon Lake PCH USB 3.1 xHCI Host Controller
+  /0/100/14/0        usb1             bus            xHCI Host Controller
+  /0/100/14/0/3                       input          USB Optical Mouse
+  /0/100/14/0/7                       multimedia     USB2.0 HD UVC WebCam
+  /0/100/14/0/e                       communication  Bluetooth 9460/9560 Jefferson Peak (JfP)
+  /0/100/14/1        usb2             bus            xHCI Host Controller
+  /0/100/14.2                         memory         RAM memory
+  /0/100/14.3        wlo1             network        Wireless-AC 9560 [Jefferson Peak]
+  /0/100/15                           bus            Cannon Lake PCH Serial IO I2C Controller #0
+  /0/100/16                           communication  Cannon Lake PCH HECI Controller
+  /0/100/17          scsi4            storage        Cannon Lake Mobile PCH SATA AHCI Controller
+  /0/100/17/0.0.0    /dev/sda         disk           1TB ST1000LM035-1RK1
+  /0/100/17/0.0.0/1  /dev/sda1        volume         449MiB Windows NTFS volume
+  /0/100/17/0.0.0/2  /dev/sda2        volume         99MiB Windows FAT volume
+  /0/100/17/0.0.0/3  /dev/sda3        volume         15MiB reserved partition
+  /0/100/17/0.0.0/4  /dev/sda4        volume         550GiB Windows NTFS volume
+  /0/100/17/0.0.0/5  /dev/sda5        volume         845MiB Windows NTFS volume
+  /0/100/17/0.0.0/6  /dev/sda6        volume         379GiB LVM Physical Volume
+  /0/100/1d                           bridge         Cannon Lake PCH PCI Express Root Port #15
+  /0/100/1d/0        enp2s0           network        RTL8111/8168/8411 PCI Express Gigabit Ethernet Control
+  /0/100/1f                           bridge         HM470 Chipset LPC/eSPI Controller
+  /0/100/1f.3                         multimedia     Cannon Lake PCH cAVS
+  /0/100/1f.4                         bus            Cannon Lake PCH SMBus Controller
+  /0/100/1f.5                         bus            Cannon Lake PCH SPI Controller
+  /0/1                                system         PnP device PNP0c02
+  /0/2                                system         PnP device PNP0b00
+  /0/3                                generic        PnP device INT3f0d
+  /0/4                                input          PnP device PNP0303
+  /0/5                                system         PnP device PNP0c02
+  /0/6                                system         PnP device PNP0c02
+  /0/7                                system         PnP device PNP0c02
+  /0/8                                system         PnP device PNP0c02
+  /1                                  power          To Be Filled By O.E.M.
+  /2                 docker0          network        Ethernet interface
+  /3                 br-e810e8ffd8ef  network        Ethernet interface
+  /4                 br-36e9732e1158  network        Ethernet interface</code></pre>
 </li>
 </ul>
 

@@ -37,7 +37,7 @@
       <pubDate>Thu, 16 Sep 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/instalacion_debian11/</guid>
-      <description>Empezamos la instalación y seguimos todos los pasos normalmente hasta llegar a la configuración de los discos, la haremos manualmente y en mi caso he creado una máquina virtual para simular lo que hice en mi máquina anfitriona, para ello he creado una partición sin usar simulando que tengo en ella una partición con Windows 10.    Seguidamente elegiremos la opción de &amp;ldquo;Configurar el gestor de volúmenes lógicos&amp;rdquo; y crearemos un grupo de volúmenes.</description>
+      <description>Empezamos la instalación y seguimos todos los pasos normalmente hasta llegar a la configuración de los discos, la haremos manualmente y en mi caso he creado una máquina virtual para simular lo que hice en mi máquina anfitriona, para ello he creado una partición sin usar simulando que tengo en ella una partición con Windows 10.   Seguidamente elegiremos la opción de &amp;ldquo;Configurar el gestor de volúmenes lógicos&amp;rdquo; y crearemos un grupo de volúmenes.</description>
     </item>
     
     <item>
