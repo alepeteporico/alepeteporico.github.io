@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
-	<head>
-		<title> Apuntes &middot; Alepetepórico Blog </title>
+    <head>
+        <title> Instalación y configuración de un servidor PXE en debian &middot; Alepetepórico Blog </title>
 
-		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <meta name="generator" content="Hugo 0.80.0" />
 
@@ -37,10 +37,10 @@
 
 
 
-	</head>
+    </head>
 
-	<body>
-		<header>
+    <body>
+        <header>
 <nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -91,35 +91,48 @@
 </nav>
 </header>
 
-		<div class="flex-wrapper">
-			<div class="container wrapper">
-				<div class="row">
-					<div class="col-xs-12 text-center">
-						<h1 id=>Apuntes</h1>
-					</div>
-				</div>
-				<ul id="post-list">
-						
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/apuntes/ansible-basico/">Lo básico de ansible</a></h4>
-								<h4 class="post-date">2021-09-20</h4>
-							</div>
-							<div class="post-summary"><p>    </p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/apuntes/ansible-basico/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-				</ul>
-				
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/practicas/pxe/">Instalación y configuración de un servidor PXE en debian</a></h1>
+                <span class="post-date">2021-09-21 </span>
+                <div class="post-content">
+                    <hr>
+<ul>
+<li>
+<p>En la máquina que usaremos como servidor pxe debemos instalar también un servidor dhcp que dará direccionamiento IP a nuestros clientes.</p>
+<pre><code>  vagrant@pxe:~$ sudo apt install isc-dhcp-server
+</code></pre>
+</li>
+<li></li>
+</ul>
 
-
-
-			</div>
-			<footer class="footer text-center">
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
 <p>Copyright &copy; 2021 Alepetepórico Blog -
 <span class="credit">
 	Powered by
@@ -130,6 +143,5 @@
 </p>
 </footer>
 
-		</div>
-	</body>
-</html>
+        </div>
+    </body>

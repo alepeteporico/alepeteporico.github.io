@@ -6,7 +6,28 @@
     <description>Recent content in SO on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 16 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/so/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 21 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/so/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Instalación desatendida de debian</title>
+      <link>https://alepeteporico.github.io/apuntes/instalacion_desatendida_debian11/</link>
+      <pubDate>Tue, 21 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/apuntes/instalacion_desatendida_debian11/</guid>
+      <description>Nos dirijiremos a la página oficial de debian para descargar la ISO de debian que usaremos en nuestro caso debian 11.
+ alejandrogv@AlejandroGV:~/Escritorio/ISOS$ ls ... debian-11.0.0-amd64-netinst.iso ...    Montaremos esta imagen en una carpeta donde elijamos para después modificar su contenido
+ alejandrogv@AlejandroGV:~/Escritorio/ISOS$ sudo mount -o loop debian-11.0.0-amd64-netinst.iso preseed/ alejandrogv@AlejandroGV:~/Escritorio/ISOS$ ls preseed/ autorun.inf dists g2ldr isolinux README.html README.txt boot doc g2ldr.mbr md5sum.txt README.mirrors.html setup.exe css EFI install pics README.</description>
+    </item>
+    
+    <item>
+      <title>Instalación y configuración de un servidor PXE en debian</title>
+      <link>https://alepeteporico.github.io/practicas/pxe/</link>
+      <pubDate>Tue, 21 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/pxe/</guid>
+      <description>   En la máquina que usaremos como servidor pxe debemos instalar también un servidor dhcp que dará direccionamiento IP a nuestros clientes.
+ vagrant@pxe:~$ sudo apt install isc-dhcp-server     </description>
+    </item>
+    
     <item>
       <title>Actualización de Debian 10 a Debian 11</title>
       <link>https://alepeteporico.github.io/practicas/actualizacion_debian11/</link>

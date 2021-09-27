@@ -498,7 +498,9 @@ virsh -c qemu:///system list --all
 ---------------------------
  -    dominio1   shut off
 </code></pre><p>Si queremos iniciar el dominio, lo haremos con el comando <code>start</code></p>
-<pre><code>
+<pre><code>virsh -c qemu:///system start dominio1
+</code></pre><p>Para apagarla usamos <code>shutdown</code></p>
+<pre><code>virsh -c qemu:///system shutdown dominio1
 </code></pre>
                 </div>
                 

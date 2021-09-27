@@ -6,7 +6,28 @@
     <description>Recent content in Practicas on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 17 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 23 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Herramientas de seguridad</title>
+      <link>https://alepeteporico.github.io/practicas/herramientas_de_seguridad/</link>
+      <pubDate>Thu, 23 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/herramientas_de_seguridad/</guid>
+      <description>Sistemas de detección de intrusos  Vamos a usar como sistema de detección de intrusos la herramienta SURICATA, parece ser la más usada a día de hoy    Por supuesto el primer paso será instalar las dependencias necesarias para nuestro
+ vagrant@practica1 sudo apt install flex bison build-essential checkinstall libpcap-dev libnet1-dev libpcre3-dev libnetfilter-queue-dev cmake libdumbnet-dev    Vamos a descargar el paquete en nuestra máquina.
+ vagrant@practica1:~$ wget https://www.</description>
+    </item>
+    
+    <item>
+      <title>Instalación y configuración de un servidor PXE en debian</title>
+      <link>https://alepeteporico.github.io/practicas/pxe/</link>
+      <pubDate>Tue, 21 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/pxe/</guid>
+      <description>   En la máquina que usaremos como servidor pxe debemos instalar también un servidor dhcp que dará direccionamiento IP a nuestros clientes.
+ vagrant@pxe:~$ sudo apt install isc-dhcp-server     </description>
+    </item>
+    
     <item>
       <title>Compilación de un kérnel linux a medida</title>
       <link>https://alepeteporico.github.io/practicas/kernel/</link>

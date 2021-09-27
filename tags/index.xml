@@ -6,11 +6,29 @@
     <description>Recent content in Tags on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 21 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 23 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SRI</title>
+      <link>https://alepeteporico.github.io/tags/sri/</link>
+      <pubDate>Thu, 23 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/tags/sri/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SO</title>
+      <link>https://alepeteporico.github.io/tags/so/</link>
+      <pubDate>Tue, 21 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/tags/so/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Apuntes</title>
       <link>https://alepeteporico.github.io/tags/apuntes/</link>
-      <pubDate>Tue, 21 Sep 2021 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 20 Sep 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/tags/apuntes/</guid>
       <description></description>
@@ -22,15 +40,6 @@
       <pubDate>Fri, 17 Sep 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/tags/aso/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>SO</title>
-      <link>https://alepeteporico.github.io/tags/so/</link>
-      <pubDate>Thu, 16 Sep 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/tags/so/</guid>
       <description></description>
     </item>
     
@@ -67,15 +76,6 @@
       <pubDate>Sun, 06 Jun 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/tags/hlc/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>SRI</title>
-      <link>https://alepeteporico.github.io/tags/sri/</link>
-      <pubDate>Tue, 01 Jun 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/tags/sri/</guid>
       <description></description>
     </item>
     
