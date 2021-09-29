@@ -29,6 +29,15 @@
     </item>
     
     <item>
+      <title>Pull Request</title>
+      <link>https://alepeteporico.github.io/apuntes/pull_request/</link>
+      <pubDate>Sun, 19 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/apuntes/pull_request/</guid>
+      <description>Vamos a hacer un pull request de un repositorio perteneciente a otra persona.  Para ello debemos hacer un fork en github de su repositorio y entonces clonar ese fork que ahora está en nuestro repositorio, una vez clonado entramos en el repositorio y creamos una nueva rama.  alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/prueba-pr-asir$ git checkout -b mi_proyecto Cambiado a nueva rama &#39;mi_proyecto&#39;  Después de realizar los cambios que necesitemos los agregamos a nuestra rama.</description>
+    </item>
+    
+    <item>
       <title>Actualización de Debian 10 a Debian 11</title>
       <link>https://alepeteporico.github.io/practicas/actualizacion_debian11/</link>
       <pubDate>Thu, 16 Sep 2021 00:00:00 +0000</pubDate>

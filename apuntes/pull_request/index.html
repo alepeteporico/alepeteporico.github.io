@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Pull Request &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.80.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://alepeteporico.github.io/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/apuntes/pull_request/">Pull Request</a></h1>
+                <span class="post-date">2021-09-19 </span>
+                <div class="post-content">
+                    <hr>
+<h3 id="vamos-a-hacer-un-pull-request-de-un-repositorio-perteneciente-a-otra-persona">Vamos a hacer un pull request de un repositorio perteneciente a otra persona.</h3>
+<ul>
+<li>Para ello debemos hacer un fork en github de su repositorio y entonces clonar ese fork que ahora está en nuestro repositorio, una vez clonado entramos en el repositorio y creamos una nueva rama.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/prueba-pr-asir$ git checkout -b mi_proyecto
+Cambiado a nueva rama 'mi_proyecto'
+</code></pre><ul>
+<li>Después de realizar los cambios que necesitemos los agregamos a nuestra rama.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/prueba-pr-asir$ git add .
+alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/prueba-pr-asir$ git commit -am &quot;cambios&quot;
+[mi_proyecto dff10a7] cambios
+ 2 files changed, 10 insertions(+)
+ create mode 100644 files/agv.md
+</code></pre><ul>
+<li>Ahora enviamos los cambios a nuestro github.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/prueba-pr-asir$ git push origin mi_proyecto
+Enumerando objetos: 8, listo.
+Contando objetos: 100% (8/8), listo.
+Compresión delta usando hasta 12 hilos
+Comprimiendo objetos: 100% (5/5), listo.
+Escribiendo objetos: 100% (5/5), 632 bytes | 632.00 KiB/s, listo.
+Total 5 (delta 2), reusado 0 (delta 0), pack-reusado 0
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+remote: 
+remote: Create a pull request for 'mi_proyecto' on GitHub by visiting:
+remote:      https://github.com/alepeteporico/prueba-pr-asir/pull/new/mi_proyecto
+remote: 
+To github.com:alepeteporico/prueba-pr-asir.git
+ * [new branch]      mi_proyecto -&gt; mi_proyecto
+</code></pre><ul>
+<li>Ahora tendremos en nuestro repositorio en github una opción para hacer el pull-request, simplemente le damos y ya se hará nuestra petición.</li>
+</ul>
+<p><img src="/pull_request/1.png" alt="pull request"></p>
+
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2021 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>
