@@ -6,7 +6,16 @@
     <description>Recent content in IWEB on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 07 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/iweb/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 29 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/iweb/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Implantación y despliegue de una aplicación web estática 2021</title>
+      <link>https://alepeteporico.github.io/practicas/web_estatica/</link>
+      <pubDate>Wed, 29 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/web_estatica/</guid>
+      <description> Vamos a realizar e implementar una aplicación web estática, para ello usaremos el generador de páginas estáticas jekyll y usaremos para implementarlo surge. jekyll  Para la instalación de jekyll primero debemos asegurarnos de tener instalado ruby y algunas dependencias ya que la aplicación está escrita en este lenguaje.  sudo apt install ruby ruby-dev  Y ahora si podemos instalar jekyll.  sudo gem install bundler jekyll  Ahora crearemos nuestro sitio web en el entorno de desarrollo  </description>
+    </item>
+    
     <item>
       <title>Implantación de aplicaciones web PHP en docker</title>
       <link>https://alepeteporico.github.io/practicas/php_docker/</link>

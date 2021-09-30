@@ -98,6 +98,7 @@
                 <div class="post-content">
                     <hr>
 <h3 id="vamos-a-hacer-un-pull-request-de-un-repositorio-perteneciente-a-otra-persona">Vamos a hacer un pull request de un repositorio perteneciente a otra persona.</h3>
+<h2 id="pull-request">Pull Request</h2>
 <ul>
 <li>Para ello debemos hacer un fork en github de su repositorio y entonces clonar ese fork que ahora está en nuestro repositorio, una vez clonado entramos en el repositorio y creamos una nueva rama.</li>
 </ul>
@@ -132,6 +133,46 @@ To github.com:alepeteporico/prueba-pr-asir.git
 <li>Ahora tendremos en nuestro repositorio en github una opción para hacer el pull-request, simplemente le damos y ya se hará nuestra petición.</li>
 </ul>
 <p><img src="/pull_request/1.png" alt="pull request"></p>
+<h2 id="actualizando-repositorio">Actualizando repositorio.</h2>
+<ul>
+<li>Si queremos sincronizar nuestro repositorio ya clonado con la última versión del original debemos seguir los siguientes pasos, en primer lugar cambiaremos a la rama main.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/prueba-pr-asir$ git checkout main
+</code></pre><ul>
+<li>Y añadimos el repositorio original como un repositorio upstream.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/prueba-pr-asir$ git remote add upstream https://github.com/josedom24/prueba-pr-asir.git
+</code></pre><ul>
+<li>Mediante la opción fetch se buscarán todos los cambios que se han hecho en el reposotorio original.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/prueba-pr-asir$ git fetch upstream 
+remote: Enumerating objects: 16, done.
+remote: Counting objects: 100% (16/16), done.
+remote: Compressing objects: 100% (7/7), done.
+remote: Total 10 (delta 3), reused 8 (delta 3), pack-reused 0
+Desempaquetando objetos: 100% (10/10), 2.08 KiB | 533.00 KiB/s, listo.
+Desde https://github.com/josedom24/prueba-pr-asir
+ * [nueva rama]      main       -&gt; upstream/main
+</code></pre><ul>
+<li>Y ahora añadimos estos cambios a nuestro repositorio.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/prueba-pr-asir$ git merge upstream/main 
+Actualizando f477187..179e71c
+Fast-forward
+ README.md     | 6 ++++++
+ files/agv.md  | 9 +++++++++
+ files/mjbp.md | 5 +++++
+ 3 files changed, 20 insertions(+)
+ create mode 100644 files/agv.md
+ create mode 100644 files/mjbp.md
+</code></pre><ul>
+<li>Para actualizar el repositorio en github subimos los cambios inidicando nuestra rama.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/prueba-pr-asir$ git push origin main 
+Total 0 (delta 0), reusado 0 (delta 0), pack-reusado 0
+To github.com:alepeteporico/prueba-pr-asir.git
+   f477187..179e71c  main -&gt; main
+</code></pre><h3 id="en-este-enlacehttpsgithubcomalepeteporicoprueba-pr-asir-podemos-ver-el-repositorio-completamente-actualizado">En <a href="https://github.com/alepeteporico/prueba-pr-asir">este enlace</a> podemos ver el repositorio completamente actualizado.</h3>
 
                 </div>
                 

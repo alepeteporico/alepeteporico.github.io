@@ -6,7 +6,16 @@
     <description>Recent content in Practicas on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 23 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 29 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Implantación y despliegue de una aplicación web estática 2021</title>
+      <link>https://alepeteporico.github.io/practicas/web_estatica/</link>
+      <pubDate>Wed, 29 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/web_estatica/</guid>
+      <description> Vamos a realizar e implementar una aplicación web estática, para ello usaremos el generador de páginas estáticas jekyll y usaremos para implementarlo surge. jekyll  Para la instalación de jekyll primero debemos asegurarnos de tener instalado ruby y algunas dependencias ya que la aplicación está escrita en este lenguaje.  sudo apt install ruby ruby-dev  Y ahora si podemos instalar jekyll.  sudo gem install bundler jekyll  Ahora crearemos nuestro sitio web en el entorno de desarrollo  </description>
+    </item>
+    
     <item>
       <title>Herramientas de seguridad</title>
       <link>https://alepeteporico.github.io/practicas/herramientas_de_seguridad/</link>
@@ -15,7 +24,7 @@
       <guid>https://alepeteporico.github.io/practicas/herramientas_de_seguridad/</guid>
       <description>Sistemas de detección de intrusos  Vamos a usar como sistema de detección de intrusos la herramienta SURICATA, parece ser la más usada a día de hoy    Por supuesto el primer paso será instalar las dependencias necesarias para nuestro
  vagrant@practica1 sudo apt install flex bison build-essential checkinstall libpcap-dev libnet1-dev libpcre3-dev libnetfilter-queue-dev cmake libdumbnet-dev    Vamos a descargar el paquete en nuestra máquina.
- vagrant@practica1:~$ wget https://www.</description>
+ vagrant@suricata:~$ wget https://www.</description>
     </item>
     
     <item>

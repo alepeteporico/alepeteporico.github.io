@@ -109,30 +109,16 @@
 </li>
 <li>
 <p>Vamos a descargar el paquete en nuestra máquina.</p>
-<pre><code>  vagrant@practica1:~$ wget https://www.snort.org/downloads/snort/daq-2.0.7.tar.gz
+<pre><code>  vagrant@suricata:~$ wget https://www.openinfosecfoundation.org/download/suricata-6.0.3.tar.gz
 </code></pre>
 </li>
 <li>
-<p>Descomprimimos el archivo y lo compilamos.</p>
-<pre><code>  vagrant@practica1:~$ tar xvfz daq-2.0.7.tar.gz
-
-  vagrant@practica1:~$ cd daq-2.0.7/
-
-  vagrant@practica1:~/daq-2.0.7$ autoreconf -f -i
-  libtoolize: putting auxiliary files in '.'.
-  libtoolize: copying file './ltmain.sh'
-  libtoolize: putting macros in AC_CONFIG_MACRO_DIRS, 'm4'.
-  libtoolize: copying file 'm4/libtool.m4'
-  libtoolize: copying file 'm4/ltoptions.m4'
-  libtoolize: copying file 'm4/ltsugar.m4'
-  libtoolize: copying file 'm4/ltversion.m4'
-  libtoolize: copying file 'm4/lt~obsolete.m4'
-  configure.ac:12: installing './compile'
-  configure.ac:9: installing './missing'
-  api/Makefile.am: installing './depcomp'
-
-  vagrant@practica1:~/daq-2.0.7$ ./configure &amp;&amp; make &amp;&amp; sudo make install</code></pre>
+<p>Descomprimimos el archivo.</p>
 </li>
+</ul>
+<pre><code>vagrant@suricata:~$ tar xvf suricata-6.0.3.tar.gz
+</code></pre><ul>
+<li>El siguiente paso sería compilarlo, antes de eso configuraremos el fichero <code>.configure</code> mediante el siguiente comando para añadirle a suricata algunas opciones necesarias.</li>
 </ul>
 
                 </div>
