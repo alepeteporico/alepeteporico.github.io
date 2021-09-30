@@ -13,7 +13,7 @@
       <pubDate>Wed, 29 Sep 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/web_estatica/</guid>
-      <description> Vamos a realizar e implementar una aplicación web estática, para ello usaremos el generador de páginas estáticas jekyll y usaremos para implementarlo surge. jekyll  Para la instalación de jekyll primero debemos asegurarnos de tener instalado ruby y algunas dependencias ya que la aplicación está escrita en este lenguaje.  sudo apt install ruby ruby-dev  Y ahora si podemos instalar jekyll.  sudo gem install bundler jekyll  Ahora crearemos nuestro sitio web en el entorno de desarrollo  </description>
+      <description>Vamos a realizar e implementar una aplicación web estática, para ello usaremos el generador de páginas estáticas jekyll y usaremos para implementarlo surge. jekyll  Para la instalación de jekyll primero debemos asegurarnos de tener instalado ruby y algunas dependencias ya que la aplicación está escrita en este lenguaje.  sudo apt install ruby ruby-dev  Y ahora si podemos instalar jekyll.  sudo gem install bundler jekyll  Ahora crearemos nuestro sitio web en el entorno de desarrollo  jekyll new jekyll_dinamico  Vamos a visualizar el contenido de este sitio que se nos ha generado por defecto.</description>
     </item>
     
     <item>

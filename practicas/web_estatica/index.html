@@ -110,7 +110,57 @@
 </code></pre><ul>
 <li>Ahora crearemos nuestro sitio web en el entorno de desarrollo</li>
 </ul>
+<pre><code>jekyll new jekyll_dinamico
+</code></pre><ul>
+<li>Vamos a visualizar el contenido de este sitio que se nos ha generado por defecto.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/jekyll/jekyll_dinamico$ tree
+.
+├── 404.html
+├── about.markdown
+├── _config.yml
+├── Gemfile
+├── Gemfile.lock
+├── index.markdown
+├── _posts
+│   └── 2021-09-29-welcome-to-jekyll.markdown
+└── README.md
 
+1 directory, 8 files
+</code></pre><ul>
+<li>
+<p>Ahora escogemos una plantilla de <a href="https://jekyllthemes.io/">la pagina oficial de jekyll</a> en mi caso es escogido el tema <a href="https://github.com/mmistakes/minimal-mistakes">minimal mistakes</a></p>
+</li>
+<li>
+<p>Debemos leer en el repositorio el fichero <code>README</code>, ahí se nos darán los pasos necesarios para instalar este tema.</p>
+</li>
+<li>
+<p>En mi caso algunas cosas interesantes que he tenido que hacer son las siguiente. En primer lugar debemos añadir un módulo de gem, en el fichero <code>GemFile</code> de nuestro proyecto debemos añadir la siguiente línea</p>
+</li>
+</ul>
+<pre><code>gem 'jekyll-include-cache'
+</code></pre><ul>
+<li>Y en el <code>_config.yml</code> el módulo que necesitamos.</li>
+</ul>
+<pre><code>plugins:
+  - jekyll-include-cache
+</code></pre><ul>
+<li>Ya tenemos lo necesario por ahora para instalar este módulo, el siguiente paso será añadir el tema nuevamente al fichero <code>GemFile</code> poniendo la línea que aparece a continuación.</li>
+</ul>
+<pre><code>gem &quot;minimal-mistakes-jekyll&quot;
+</code></pre><ul>
+<li>actualizamos las &ldquo;gemas&rdquo; usando este comando.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/jekyll/jekyll_dinamico$ sudo bundle
+</code></pre><ul>
+<li>Ahora añadimos el tema en el fichero <code>_config.yml</code>.</li>
+</ul>
+<pre><code>theme: minimal-mistakes-jekyll
+</code></pre><ul>
+<li>Y actualizamos el tema.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/jekyll/jekyll_dinamico$ sudo bundle update
+</code></pre>
                 </div>
                 
                 <div class="post-comments">
