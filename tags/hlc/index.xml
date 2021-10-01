@@ -6,7 +6,18 @@
     <description>Recent content in HLC on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 06 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/hlc/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 30 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/hlc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Uso básico de libvirt</title>
+      <link>https://alepeteporico.github.io/practicas/libvirt_basico/</link>
+      <pubDate>Thu, 30 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/libvirt_basico/</guid>
+      <description>Creación de la red.   La red que vamos a crear para este ejercicio será tipo NAT, tendrá direccionamiento 10.0.1.0/24 y de tipo virtio.
+  Veamos el contenido del fichero xml de configuración de la red.
+  &amp;lt;network&amp;gt; &amp;lt;name&amp;gt;red_interna&amp;lt;/name&amp;gt; &amp;lt;bridge name=&amp;quot;virbr10&amp;quot;/&amp;gt; &amp;lt;forward mode=&amp;quot;nat&amp;quot;/&amp;gt; &amp;lt;ip address=&amp;quot;10.0.1.0&amp;quot; netmask=&amp;quot;255.255.255.0&amp;quot;&amp;gt; &amp;lt;dhcp&amp;gt; &amp;lt;range start=&amp;quot;10.0.1.2&amp;quot; end=&amp;quot;10.0.1.254&amp;quot;/&amp;gt; &amp;lt;/dhcp&amp;gt; &amp;lt;/ip&amp;gt; &amp;lt;/network&amp;gt;  Creamos esta red.  alejandrogv@AlejandroGV:~/libvirt$ virsh -c qemu:///system net-create red_interna.xml Creación de escenario.</description>
+    </item>
+    
     <item>
       <title>Proxy, proxy inverso y balanceadores de carga</title>
       <link>https://alepeteporico.github.io/practicas/proxy/</link>

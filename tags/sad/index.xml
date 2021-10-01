@@ -13,9 +13,7 @@
       <pubDate>Thu, 23 Sep 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/herramientas_de_seguridad/</guid>
-      <description>Sistemas de detección de intrusos  Vamos a usar como sistema de detección de intrusos la herramienta SURICATA, parece ser la más usada a día de hoy    Por supuesto el primer paso será instalar las dependencias necesarias para nuestro
- vagrant@practica1 sudo apt install flex bison build-essential checkinstall libpcap-dev libnet1-dev libpcre3-dev libnetfilter-queue-dev cmake libdumbnet-dev    Vamos a descargar el paquete en nuestra máquina.
- vagrant@suricata:~$ wget https://www.</description>
+      <description>Sistemas de detección de intrusos  Vamos a usar como sistema de detección de intrusos la herramienta SURICATA, parece ser la más usada a día de hoy   Vamos a instalar el paquete de suricata y oinkmaster que usaremos mas adelante.  root@suricata:~# apt install suricata  La instalación ha sido sencilla, para configurar los parametros básicos iremos al fichero /etc/suricata/suricata.yaml, lo primero que haremos será asegurarnos que suricata escucha por la interfaz correcta.</description>
     </item>
     
     <item>

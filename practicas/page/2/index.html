@@ -103,6 +103,21 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/proxy/">Proxy, proxy inverso y balanceadores de carga</a></h4>
+								<h4 class="post-date">2021-06-06</h4>
+							</div>
+							<div class="post-summary"><p>Primero usaremos squid para instalar un proxy.
+ vagrant@proxy:~$ sudo apt install squid    Modificamos el fichero /etc/squid/squid.conf para definir las direcciones y puertos que permitiremos y el puerto de funcionamiento.
+ acl localnet src 10.0.0.0/24 acl localnet src 172.22.100.0/24 acl SSL_ports port 443 acl Safe_ports port 80 # http acl Safe_ports port 21 # ftp acl Safe_ports port 443 # https acl CONNECT method CONNECT # Deny requests to certain unsafe ports http_access deny !</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/proxy/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/rendimientoweb/">Aumento de rendimiento de servidores web von Varnish</a></h4>
 								<h4 class="post-date">2021-06-05</h4>
 							</div>
@@ -229,21 +244,6 @@
  alejandrogv@AlejandroGV:~/Descargas$ gpg --verify firma2.pdf.gpg gpg: Firmado el jue 22 oct 2020 12:11:31 CEST gpg: usando RSA clave 28ED3C3112ED8846BEDFFAF657112B319F2A6170 gpg: emisor &quot;frandh1997@gmail.com&quot; gpg: Firma correcta de &quot;Francisco Javier Madueño Jurado &lt;frandh1997@gmail.com&gt;&quot; [desconocido] gpg: ATENCIÓN: ¡Esta clave no está certificada por una firma de confianza! gpg: No hay indicios de que la firma pertenezca al propietario.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/firmas/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cluster_kubernetes/">Despliegue de un cluster de kubernetes</a></h4>
-								<h4 class="post-date">2021-05-27</h4>
-							</div>
-							<div class="post-summary"><p>Crearemos 3 máquinas Vagrant que nos servirán, una de controlador y las otras dos de workers.
-  En la máquina que usaremos como controlador descargaremos e instalaremos usando curl el script que instalará el servicio de k3.
- root@servidor:/usr/local/bin# curl -sfL https://get.k3s.io | sh -    Podemos comprobar mediante netstat que se ha abierto un puerto 6443 que es el que usa k3s por defecto.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/cluster_kubernetes/">Read More</a>
 							</div>
 						</div>
 					</li>
