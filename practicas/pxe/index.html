@@ -103,6 +103,58 @@
 <pre><code>  vagrant@pxe:~$ sudo apt install isc-dhcp-server
 </code></pre>
 </li>
+<li>
+<p>Ahora en el fichero <code>/etc/dhcp/dhcpd.conf</code> añadimos la configuración de nuestro dhcp.</p>
+</li>
+</ul>
+<pre><code>option domain-name «servidorpxe.com»;
+
+option domain-name-servers «server1.servidorpxe.com»;
+
+subnet 192.168.1.100 netmask 255.255.255.0 {
+
+range 192.168.1.10 192.168.1.30;
+
+option routers 192.168.1.1;
+
+option broadcast-address 192.168.1.255;
+
+}
+
+default-lease-time 600;
+
+max-lease-time 7200
+
+authoritative;
+</code></pre><ul>
+<li>Vamos a instalar los paquetes necesarios para nuestro servidor pxe</li>
+</ul>
+<pre><code>vagrant@pxe:~$ sudo apt install apache2 tftpd-hpa inetutils-inetd
+</code></pre><ul>
+<li>Ahora añadimos al fichero <code>/etc/default/tftpd-hpa</code> las siguientes líneas para iniciar el demonio.</li>
+</ul>
+<pre><code>RUN_DAEMON=»yes»
+
+OPTIONS=»-l -s /var/lib/tftpboot»
+</code></pre><ul>
+<li>Y en el fichero <code>/etc/inetd.conf</code> añadiremos esto:</li>
+</ul>
+<pre><code>tftp    dgram    udp    wait    root    /usr/sbin/in.tftpd /user/sbin/in.tftpd -s /var/lib/fttpboot
+</code></pre><ul>
+<li>Ahora al fichero <code>/etc/dhcp/dhcp.conf</code> añadiremos al final del archivo el direccionamiento que queremos que de nuestro pxe.</li>
+</ul>
+<pre><code>allow booting;
+
+allow bootp;
+
+option option-128 code 128 = string;
+
+option option-129 code 129 = text;
+
+next-server 192.168.1.100;
+
+filename «pxelinux.0»;
+</code></pre><ul>
 <li></li>
 </ul>
 

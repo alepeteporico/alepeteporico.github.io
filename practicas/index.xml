@@ -52,8 +52,9 @@
       <pubDate>Tue, 21 Sep 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/pxe/</guid>
-      <description>   En la máquina que usaremos como servidor pxe debemos instalar también un servidor dhcp que dará direccionamiento IP a nuestros clientes.
- vagrant@pxe:~$ sudo apt install isc-dhcp-server     </description>
+      <description>En la máquina que usaremos como servidor pxe debemos instalar también un servidor dhcp que dará direccionamiento IP a nuestros clientes.
+ vagrant@pxe:~$ sudo apt install isc-dhcp-server    Ahora en el fichero /etc/dhcp/dhcpd.conf añadimos la configuración de nuestro dhcp.
+  option domain-name «servidorpxe.com»; option domain-name-servers «server1.servidorpxe.com»; subnet 192.168.1.100 netmask 255.255.255.0 { range 192.168.1.10 192.168.1.30; option routers 192.168.1.1; option broadcast-address 192.168.1.255; } default-lease-time 600; max-lease-time 7200 authoritative;  Vamos a instalar los paquetes necesarios para nuestro servidor pxe  vagrant@pxe:~$ sudo apt install apache2 tftpd-hpa inetutils-inetd  Ahora añadimos al fichero /etc/default/tftpd-hpa las siguientes líneas para iniciar el demonio.</description>
     </item>
     
     <item>
