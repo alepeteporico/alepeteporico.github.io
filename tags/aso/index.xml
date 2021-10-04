@@ -6,7 +6,17 @@
     <description>Recent content in ASO on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 17 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/aso/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 01 Oct 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/aso/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Gestión de paquetería en debian</title>
+      <link>https://alepeteporico.github.io/practicas/paqueteria/</link>
+      <pubDate>Fri, 01 Oct 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/paqueteria/</guid>
+      <description>APT, APTITUDE Y DPKG  Que acciones consigo al realizar apt update y apt upgrade. Explica detalladamente.    update: actualiza la lista de paquetes que están disponibles y la versión actual usando los repositorios que se alojan en el fichero sources.list
+  upgrade: Esta opción la usaríamos después del update, pues la lista de paquetes y sus versiones estaría actualizada y este comando instalaría estas nuevas versiones</description>
+    </item>
+    
     <item>
       <title>Compilación de un kérnel linux a medida</title>
       <link>https://alepeteporico.github.io/practicas/kernel/</link>

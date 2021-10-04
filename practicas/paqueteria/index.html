@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Gestión de paquetería en debian &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.80.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://alepeteporico.github.io/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/practicas/paqueteria/">Gestión de paquetería en debian</a></h1>
+                <span class="post-date">2021-10-01 </span>
+                <div class="post-content">
+                    <hr>
+<h2 id="apt-aptitude-y-dpkg">APT, APTITUDE Y DPKG</h2>
+<ol>
+<li>Que acciones consigo al realizar apt update y apt upgrade. Explica detalladamente.</li>
+</ol>
+<ul>
+<li>
+<p><strong>update:</strong> actualiza la lista de paquetes que están disponibles y la versión actual usando los repositorios que se alojan en el fichero <code>sources.list</code></p>
+</li>
+<li>
+<p><strong>upgrade:</strong> Esta opción la usaríamos después del update, pues la lista de paquetes y sus versiones estaría actualizada y este comando instalaría estas nuevas versiones</p>
+</li>
+</ul>
+<ol start="2">
+<li>Lista la relación de paquetes que pueden ser actualizados. ¿Qué información puedes sacar a tenor de lo mostrado en el listado?.</li>
+</ol>
+<pre><code>vagrant@paqueteria:~$ sudo apt list --upgradable 
+Listing... Done
+</code></pre><ol start="3">
+<li>Indica la versión instalada, candidata así como la prioridad del paquete openssh-client.</li>
+</ol>
+<pre><code>vagrant@paqueteria:~$ sudo apt-cache policy openssh-client
+openssh-client:
+  Installed: 1:8.4p1-5
+  Candidate: 1:8.4p1-5
+  Version table:
+ *** 1:8.4p1-5 500
+        500 http://deb.debian.org/debian bullseye/main amd64 Packages
+        100 /var/lib/dpkg/status
+</code></pre><ol start="4">
+<li>¿Cómo puedes sacar información de un paquete oficial instalado o que no este instalado?</li>
+</ol>
+<ul>
+<li>Instalado:</li>
+</ul>
+<pre><code>vagrant@paqueteria:~$ apt-cache search openssh-client
+backuppc - high-performance, enterprise-grade system for backing up PCs
+debian-goodies - Small toolbox-style utilities for Debian systems
+openssh-client - secure shell (SSH) client, for secure access to remote machines
+ssh-askpass-gnome - interactive X program to prompt users for a passphrase for ssh-add
+openssh-client-ssh1 - secure shell (SSH) client for legacy SSH1 protocol
+</code></pre><ul>
+<li>No instalado:</li>
+</ul>
+<pre><code>vagrant@paqueteria:~$ apt-cache search sl
+2048 - Slide and add puzzle game for text mode
+2048-qt - mathematics based puzzle game
+fonts-3270 - monospaced font based on IBM 3270 terminals
+4g8 - Packet Capture and Interception for Switched Networks
+9base - Plan 9 userland tools
+abcm2ps - Translates ABC music description files to PostScript
+abcmidi - converter from ABC to MIDI format and back
+...
+...
+...
+</code></pre><ol start="5">
+<li>Saca toda la información que puedas del paquete openssh-client que tienes actualmente instalado en tu máquina.</li>
+</ol>
+<pre><code>vagrant@paqueteria:~$ apt-cache show openssh-client
+Package: openssh-client
+Source: openssh
+Version: 1:8.4p1-5
+Installed-Size: 4298
+Maintainer: Debian OpenSSH Maintainers &lt;debian-ssh@lists.debian.org&gt;
+Architecture: amd64
+Replaces: openssh-sk-helper, ssh, ssh-krb5
+Provides: rsh-client, ssh-client
+Depends: adduser (&gt;= 3.10), dpkg (&gt;= 1.7.0), passwd, libc6 (&gt;= 2.26), libedit2 (&gt;= 2.11-20080614-0), libfido2-1 (&gt;= 1.5.0), libgssapi-krb5-2 (&gt;= 1.17), libselinux1 (&gt;= 3.1~), libssl1.1 (&gt;= 1.1.1), zlib1g (&gt;= 1:1.1.4)
+Recommends: xauth
+Suggests: keychain, libpam-ssh, monkeysphere, ssh-askpass
+Conflicts: sftp
+Breaks: openssh-sk-helper
+Description-en: secure shell (SSH) client, for secure access to remote machines
+ This is the portable version of OpenSSH, a free implementation of
+ the Secure Shell protocol as specified by the IETF secsh working
+ group.
+ .
+ Ssh (Secure Shell) is a program for logging into a remote machine
+ and for executing commands on a remote machine.
+ It provides secure encrypted communications between two untrusted
+ hosts over an insecure network. X11 connections and arbitrary TCP/IP
+ ports can also be forwarded over the secure channel.
+ It can be used to provide applications with a secure communication
+ channel.
+ .
+ This package provides the ssh, scp and sftp clients, the ssh-agent
+ and ssh-add programs to make public key authentication more convenient,
+ and the ssh-keygen, ssh-keyscan, ssh-copy-id and ssh-argv0 utilities.
+ .
+ In some countries it may be illegal to use any encryption at all
+ without a special permit.
+ .
+ ssh replaces the insecure rsh, rcp and rlogin programs, which are
+ obsolete for most purposes.
+Description-md5: 8cde3280ebad71c16b3e8c661dae6c6d
+Multi-Arch: foreign
+Homepage: http://www.openssh.com/
+Tag: implemented-in::c, interface::commandline, interface::shell,
+ network::client, protocol::sftp, protocol::ssh, role::program,
+ security::authentication, security::cryptography, uitoolkit::ncurses,
+ use::login, use::transmission, works-with::file
+Section: net
+Priority: standard
+Filename: pool/main/o/openssh/openssh-client_8.4p1-5_amd64.deb
+Size: 929360
+MD5sum: 195353baf9867672cb9f93251ab0aa50
+SHA256: 5305403ffbb3dfafb3d455e4d23027cf4b1a44595cfa7ae0e760374445fd049
+</code></pre><ol start="6">
+<li>
+<p>Saca toda la información que puedas del paquete openssh-client candidato a actualizar en tu máquina.</p>
+</li>
+<li>
+<p>Lista todo el contenido referente al paquete openssh-client actual de tu máquina. Utiliza para ello tanto dpkg como apt.</p>
+</li>
+</ol>
+<pre><code>vagrant@paqueteria:~$ dpkg -l 'openssh-client'
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name           Version      Architecture Description
++++-==============-============-============-===============================================================
+ii  openssh-client 1:8.4p1-5    amd64        secure shell (SSH) client, for secure access to remote machines
+</code></pre><ol start="8">
+<li>Listar el contenido de un paquete sin la necesidad de instalarlo o descargarlo.</li>
+</ol>
+<pre><code>vagrant@paqueteria:~$ sudo apt list sl
+Listing... Done
+sl/stable 5.02-1+b1 amd64
+</code></pre><ol start="9">
+<li>Simula la instalación del paquete openssh-client.</li>
+</ol>
+<pre><code>vagrant@paqueteria:~$ sudo apt -s install sl
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following NEW packages will be installed:
+  sl
+0 upgraded, 1 newly installed, 0 to remove and 0 not upgraded.
+Inst sl (5.02-1+b1 Debian:11.0/stable [amd64])
+Conf sl (5.02-1+b1 Debian:11.0/stable [amd64])
+</code></pre><ol start="10">
+<li>¿Qué comando te informa de los posible bugs que presente un determinado paquete?</li>
+</ol>
+<pre><code>vagrant@paqueteria:~$ sudo apt-listbugs list python3
+Retrieving bug reports... Done
+Parsing Found/Fixed information... Done
+</code></pre><ol start="11">
+<li>
+<p>Después de realizar un apt update &amp;&amp; apt upgrade. Si quisieras actualizar únicamente los paquetes que tienen de cadena openssh. ¿Qué procedimiento seguirías?. Realiza esta acción, con las estructuras repetitivas que te ofrece bash, así como con el comando xargs.</p>
+</li>
+<li>
+<p>¿Cómo encontrarías qué paquetes dependen de un paquete específico?</p>
+</li>
+</ol>
+<pre><code>vagrant@paqueteria:~$ sudo apt-cache depends ssh
+ssh
+  PreDepends: dpkg
+  Depends: openssh-client
+  Depends: openssh-server
+</code></pre><ol start="13">
+<li>¿Cómo procederías para encontrar el paquete al que pertenece un determinado fichero?</li>
+</ol>
+<pre><code>vagrant@paqueteria:~$ sudo apt-file search /etc/ssh/ssh_config
+openssh-client: /etc/ssh/ssh_config
+</code></pre><ol start="14">
+<li>¿Que procedimientos emplearías para liberar la caché en cuanto a descargas de paquetería?</li>
+</ol>
+<pre><code>vagrant@paqueteria:~$ sudo apt clean
+</code></pre><ol start="15">
+<li>
+<p>Realiza la instalación del paquete keyboard-configuration pasando previamente los valores de los parámetros de configuración como variables de entorno.</p>
+</li>
+<li>
+<p>Reconfigura el paquete locales de tu equipo, añadiendo una localización que no exista previamente. Comprueba a modificar las variables de entorno correspondientes para que la sesión del usuario utilice otra localización.</p>
+</li>
+<li>
+<p>Interrumpe la configuración de un paquete y explica los pasos a dar para continuar la instalación.</p>
+</li>
+<li>
+<p>Explica la instrucción que utilizarías para hacer una actualización completa de todos los paquetes de tu sistema de manera completamente no interactiva</p>
+</li>
+</ol>
+<pre><code>vagrant@paqueteria:~$ sudo apt update &amp;&amp; sudo apt upgrade -y
+</code></pre><ol start="19">
+<li>Bloquea la actualización de determinados paquetes.</li>
+</ol>
+<pre><code>vagrant@paqueteria:~$ echo &quot;tree hold&quot; | sudo dpkg --set-selections
+vagrant@paqueteria:~$ dpkg --get-selections tree
+tree						hold
+</code></pre><h2 id="trabajo-con-ficheros-deb">Trabajo con ficheros .deb</h2>
+<ol>
+<li>Descarga un paquete sin instalarlo, es decir, descarga el fichero .deb correspondiente. Indica diferentes formas de hacerlo.</li>
+</ol>
+<ul>
+<li>Con apt-get</li>
+</ul>
+<pre><code>vagrant@paqueteria:~$ sudo apt-get install --download-only sl
+vagrant@paqueteria:~$ ls
+sl_5.02-1+b1_amd64.deb
+</code></pre><ul>
+<li>Con wget</li>
+</ul>
+<pre><code>vagrant@paqueteria:~$ wget https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.10.tar.gz
+</code></pre><ol start="2">
+<li>¿Cómo puedes ver el contenido, que no extraerlo, de lo que se instalará en el sistema de un paquete deb?</li>
+</ol>
+<pre><code>vagrant@paqueteria:~$ dpkg -c sl_5.02-1+b1_amd64.deb 
+drwxr-xr-x root/root         0 2019-08-07 06:15 ./
+drwxr-xr-x root/root         0 2019-08-07 06:15 ./usr/
+drwxr-xr-x root/root         0 2019-08-07 06:15 ./usr/games/
+-rwxr-xr-x root/root     26568 2019-08-07 06:15 ./usr/games/sl
+drwxr-xr-x root/root         0 2019-08-07 06:15 ./usr/share/
+drwxr-xr-x root/root         0 2019-08-07 06:15 ./usr/share/doc/
+drwxr-xr-x root/root         0 2019-08-07 06:15 ./usr/share/doc/sl/
+-rw-r--r-- root/root       360 2019-01-29 12:15 ./usr/share/doc/sl/README
+-rw-r--r-- root/root       190 2019-01-29 12:15 ./usr/share/doc/sl/README.Debian
+-rw-r--r-- root/root       417 2019-01-29 12:15 ./usr/share/doc/sl/README.jp
+-rw-r--r-- root/root       209 2019-08-07 06:15 ./usr/share/doc/sl/changelog.Debian.amd64.gz
+-rw-r--r-- root/root      1777 2019-08-07 06:15 ./usr/share/doc/sl/changelog.Debian.gz
+-rw-r--r-- root/root       598 2019-01-29 12:15 ./usr/share/doc/sl/copyright
+drwxr-xr-x root/root         0 2019-08-07 06:15 ./usr/share/man/
+drwxr-xr-x root/root         0 2019-08-07 06:15 ./usr/share/man/de/
+drwxr-xr-x root/root         0 2019-08-07 06:15 ./usr/share/man/de/man6/
+-rw-r--r-- root/root       641 2019-08-07 06:15 ./usr/share/man/de/man6/LS.6.gz
+-rw-r--r-- root/root       663 2019-08-07 06:15 ./usr/share/man/de/man6/sl.6.gz
+drwxr-xr-x root/root         0 2019-08-07 06:15 ./usr/share/man/de.UTF-8/
+drwxr-xr-x root/root         0 2019-08-07 06:15 ./usr/share/man/de.UTF-8/man6/
+-rw-r--r-- root/root       641 2019-08-07 06:15 ./usr/share/man/de.UTF-8/man6/LS.6.gz
+-rw-r--r-- root/root       663 2019-08-07 06:15 ./usr/share/man/de.UTF-8/man6/sl.6.gz
+drwxr-xr-x root/root         0 2019-08-07 06:15 ./usr/share/man/ja/
+drwxr-xr-x root/root         0 2019-08-07 06:15 ./usr/share/man/ja/man6/
+-rw-r--r-- root/root       567 2019-08-07 06:15 ./usr/share/man/ja/man6/LS.6.gz
+-rw-r--r-- root/root       582 2019-08-07 06:15 ./usr/share/man/ja/man6/sl.6.gz
+drwxr-xr-x root/root         0 2019-08-07 06:15 ./usr/share/man/ja.UTF-8/
+drwxr-xr-x root/root         0 2019-08-07 06:15 ./usr/share/man/ja.UTF-8/man6/
+-rw-r--r-- root/root       567 2019-08-07 06:15 ./usr/share/man/ja.UTF-8/man6/LS.6.gz
+-rw-r--r-- root/root       582 2019-08-07 06:15 ./usr/share/man/ja.UTF-8/man6/sl.6.gz
+drwxr-xr-x root/root         0 2019-08-07 06:15 ./usr/share/man/man6/
+-rw-r--r-- root/root       511 2019-08-07 06:15 ./usr/share/man/man6/LS.6.gz
+-rw-r--r-- root/root       523 2019-08-07 06:15 ./usr/share/man/man6/sl.6.gz
+</code></pre><ol start="3">
+<li>
+<p>Sobre el fichero .deb descargado, utiliza el comando ar. ar permite extraer el contenido de una paquete deb. Indica el procedimiento para visualizar con ar el contenido del paquete deb. Con el paquete que has descargado y utilizando el comando ar, descomprime el paquete. ¿Qué información dispones después de la extracción?. Indica la finalidad de lo extraído.</p>
+</li>
+<li>
+<p>Indica el procedimiento para descomprimir lo extraído por ar del punto anterior. ¿Qué información contiene?</p>
+</li>
+</ol>
+
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2021 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>
