@@ -310,6 +310,19 @@ Sep 30 11:35:10 suricata systemd[1]: Reloaded Suricata IDS/IDP daemon.
 <p><code>classtype:misc-activity;</code> Para detectar el tipo de ataque que estamos sufriendo, en este caso un misc-activity.</p>
 </li>
 </ul>
+<h3 id="prueba-en-máquina-grupal">Prueba en máquina grupal.</h3>
+<ul>
+<li>Hemos hecho una prueba de ataque con la herramienta hydra. Vemos en el log que nuestro sistema detecta el ataque con la regla que hemos visto para detectar ataques por fuerza bruta ssh.</li>
+</ul>
+<pre><code>davidrg@pc-256:~$ tail -f /var/log/suricata/fast.log
+10/07/2021-12:49:13.180596  [**] [1:2260002:1] SURICATA Applayer Detect protocol only one direction [**] [Classification: Generic Protocol Command Decode] [Priority: 3] {TCP} 172.22.8.253:22 -&gt; 172.22.6.58:41854
+10/07/2021-12:50:04.295783  [**] [1:2260002:1] SURICATA Applayer Detect protocol only one direction [**] [Classification: Generic Protocol Command Decode] [Priority: 3] {TCP} 172.22.8.253:22 -&gt; 172.22.6.58:41906
+10/07/2021-12:50:51.543040  [**] [1:2260002:1] SURICATA Applayer Detect protocol only one direction [**] [Classification: Generic Protocol Command Decode] [Priority: 3] {TCP} 172.22.8.253:22 -&gt; 172.22.6.58:41940
+10/07/2021-12:50:51.648206  [**] [1:2260002:1] SURICATA Applayer Detect protocol only one direction [**] [Classification: Generic Protocol Command Decode] [Priority: 3] {TCP} 172.22.8.253:22 -&gt; 172.22.6.58:41944
+10/07/2021-12:50:51.660465  [**] [1:2260002:1] SURICATA Applayer Detect protocol only one direction [**] [Classification: Generic Protocol Command Decode] [Priority: 3] {TCP} 172.22.8.253:22 -&gt; 172.22.6.58:41948
+</code></pre><ul>
+<li>Como vemos no indica la ip desde la que están haciendo este ataque de fuerza bruta</li>
+</ul>
 
                 </div>
                 
