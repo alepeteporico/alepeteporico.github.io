@@ -170,29 +170,36 @@
 <ul>
 <li>
 <p>Cada vez que realizemos este proceso, sería bueno hacer una copia de seguridad del fichero <code>.config</code> antes, así si el sistema no carga correctamente podríamos usar la configuración anterior. Vamos a comprobar el fichero <code>.config</code> después de quitar algunos módulos.</p>
-<pre><code>  alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel/linux-4.19.16$ egrep '=y' .config | wc -l
+<pre><code>  alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel/linux-5.10$ egrep '=y' .config | wc -l
   1576
 </code></pre>
 </li>
 <li>
-<p>Como vemos el número ha disminuido. Ahora vamos a compilar este kernel.</p>
-<pre><code>  alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel/linux-4.19.16$ make -j12 bindeb-pkg
+<p>Antes de realizar la compilación puede que necesitemos instalar el siguiente paquete:</p>
+</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~$ sudo apt install dwarves
+</code></pre><ul>
+<li>
+<p>Ahora vamos a compilar este kernel.</p>
+<pre><code>  alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel/linux-5.10$ make -j12 bindeb-pkg
 </code></pre>
 </li>
 <li>
 <p>Una vez compilado tendremos como resultado un archivo <code>.deb</code>, veamos cuanto pesa para compararlo más adelante con el kernel final.</p>
-<pre><code>  alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ ls -lh linux-image-4.19.16_4.19.16-1_amd64.deb 
-  -rw-r--r-- 1 alejandrogv alejandrogv 9,2M may 29 18:56 linux-image-4.19.16_4.19.16-1_amd64.deb
-</code></pre>
 </li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ ls -lh linux-image-5.10.0_5.10.0-2_amd64.deb 
+-rw-r--r-- 1 alejandrogv alejandrogv 13M oct 18 10:44 linux-image-5.10.0_5.10.0-2_amd64.deb
+</code></pre><ul>
 <li>
 <p>Después de haber quitado algunos modulos tenemos un kernel resultante de 9,2 MB ahora solo lo instalariamos con <code>dpkg -i</code> y al reiniciar el sistema entramos con el kernel que acabamos de compilar.</p>
 </li>
 <li>
 <p>Después de varias pruebas tenemos nuestro kernel compilado lo mas simple posible, vamos a contar nuevamente los módulos del fichero <code>.config</code></p>
-<pre><code>  alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel/linux-4.19.16$ egrep '=y' .config | wc -l
+<pre><code>  alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel/linux-5.10$ egrep '=y' .config | wc -l
   610
-  alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel/linux-4.19.16$ egrep '=m' .config | wc -l
+  alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel/linux-5.10$ egrep '=m' .config | wc -l
   89
 </code></pre>
 </li>
