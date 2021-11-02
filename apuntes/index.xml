@@ -19,12 +19,32 @@
     </item>
     
     <item>
+      <title>Instalación de wordpress</title>
+      <link>https://alepeteporico.github.io/apuntes/wordpress/</link>
+      <pubDate>Mon, 20 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/apuntes/wordpress/</guid>
+      <description>El cms elegido es wordpress, los descargamos y descomprimimos en primer lugar como hicimos con drupal
+vagrant@cmsagv:~$ wget https://es.wordpress.org/latest-es_ES.tar.gz vagrant@cmsagv:~$ sudo tar xf latest-es_ES.tar.gz -C /var/www/ vagrant@cmsagv:~$ sudo chown www-data:www-data /var/www/wordpress/ -R  Nuevamente creamos una nueva base de datos y otorgamos privilegios a nuestro usario dentro de la misma.
+MariaDB [(none)]&amp;gt; CREATE DATABASE wordpress; Query OK, 1 row affected (0.000 sec) MariaDB [(none)]&amp;gt; GRANT ALL PRIVILEGES ON wordpress.* to &#39;usuario2&#39;@&#39;172.</description>
+    </item>
+    
+    <item>
       <title>Lo básico de ansible</title>
       <link>https://alepeteporico.github.io/apuntes/ansible-basico/</link>
       <pubDate>Mon, 20 Sep 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/apuntes/ansible-basico/</guid>
       <description>    </description>
+    </item>
+    
+    <item>
+      <title>PLSQL</title>
+      <link>https://alepeteporico.github.io/apuntes/plsql/</link>
+      <pubDate>Mon, 20 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/apuntes/plsql/</guid>
+      <description>TRIGGERS  Trozo de código que se ejecuta cuando sucede algo que especifiquemos.  </description>
     </item>
     
     <item>

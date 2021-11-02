@@ -6,7 +6,18 @@
     <description>Recent content in Practicas on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 01 Oct 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 02 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Instalación local de un CMS PHP</title>
+      <link>https://alepeteporico.github.io/practicas/cmsphp_local/</link>
+      <pubDate>Tue, 02 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/cmsphp_local/</guid>
+      <description>VagrantFile Vagrant.configure(&amp;quot;2&amp;quot;) do |config| config.vm.define :cmsagv do |cmsagv| cmsagv.vm.box = &amp;quot;debian/buster64&amp;quot; cmsagv.vm.hostname = &amp;quot;cmsagv&amp;quot; cmsagv.vm.network :private_network, ip: &amp;quot;172.22.100.5&amp;quot;, virtualbox__intnet: &amp;quot;interna&amp;quot; cmsagv.vm.network :private_network, ip: &amp;quot;192.168.100.200&amp;quot; end config.vm.define :backup do |backup| backup.vm.box = &amp;quot;debian/buster64&amp;quot; backup.vm.hostname = &amp;quot;backup&amp;quot; backup.vm.network :private_network, ip: &amp;quot;172.22.100.10&amp;quot;, virtualbox__intnet: &amp;quot;interna&amp;quot; end end  Instalamos un servidor LAMP
+Apache Hacemos una instalación sencilla:
+vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla en iptables para permitir la conexión http</description>
+    </item>
+    
     <item>
       <title>Gestión de paquetería en debian</title>
       <link>https://alepeteporico.github.io/practicas/paqueteria/</link>
@@ -406,17 +417,6 @@
       <guid>https://alepeteporico.github.io/practicas/asimetrico/</guid>
       <description>Tarea 1: Generación de claves   Generamos las claves:
  alejandrogv@AlejandroGV:~$ gpg --gen-key gpg (GnuPG) 2.2.12; Copyright (C) 2018 Free Software Foundation, Inc. This is free software: you are free to change and redistribute it. There is NO WARRANTY, to the extent permitted by law. Nota: Usa &amp;quot;gpg --full-generate-key&amp;quot; para el diálogo completo de generación de clave. GnuPG debe construir un ID de usuario para identificar su clave. Nombre y apellidos: Alejandro Gutiérrez Valencia Dirección de correo electrónico: tojandro@gmail.</description>
-    </item>
-    
-    <item>
-      <title>Instalación local de un CMS PHP</title>
-      <link>https://alepeteporico.github.io/practicas/cmsphp_local/</link>
-      <pubDate>Mon, 22 Mar 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/cmsphp_local/</guid>
-      <description>VagrantFile Vagrant.configure(&amp;quot;2&amp;quot;) do |config| config.vm.define :cmsagv do |cmsagv| cmsagv.vm.box = &amp;quot;debian/buster64&amp;quot; cmsagv.vm.hostname = &amp;quot;cmsagv&amp;quot; cmsagv.vm.network :private_network, ip: &amp;quot;172.22.100.5&amp;quot;, virtualbox__intnet: &amp;quot;interna&amp;quot; cmsagv.vm.network :private_network, ip: &amp;quot;192.168.100.200&amp;quot; end config.vm.define :backup do |backup| backup.vm.box = &amp;quot;debian/buster64&amp;quot; backup.vm.hostname = &amp;quot;backup&amp;quot; backup.vm.network :private_network, ip: &amp;quot;172.22.100.10&amp;quot;, virtualbox__intnet: &amp;quot;interna&amp;quot; end end  Instalamos un servidor LAMP
-Apache Hacemos una instalación sencilla:
-vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla en iptables para permitir la conexión http</description>
     </item>
     
     <item>

@@ -103,6 +103,21 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cmsphp_local/">Instalación local de un CMS PHP</a></h4>
+								<h4 class="post-date">2021-11-02</h4>
+							</div>
+							<div class="post-summary"><p>VagrantFile Vagrant.configure(&quot;2&quot;) do |config| config.vm.define :cmsagv do |cmsagv| cmsagv.vm.box = &quot;debian/buster64&quot; cmsagv.vm.hostname = &quot;cmsagv&quot; cmsagv.vm.network :private_network, ip: &quot;172.22.100.5&quot;, virtualbox__intnet: &quot;interna&quot; cmsagv.vm.network :private_network, ip: &quot;192.168.100.200&quot; end config.vm.define :backup do |backup| backup.vm.box = &quot;debian/buster64&quot; backup.vm.hostname = &quot;backup&quot; backup.vm.network :private_network, ip: &quot;172.22.100.10&quot;, virtualbox__intnet: &quot;interna&quot; end end  Instalamos un servidor LAMP
+Apache Hacemos una instalación sencilla:
+vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla en iptables para permitir la conexión http</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/cmsphp_local/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/paqueteria/">Gestión de paquetería en debian</a></h4>
 								<h4 class="post-date">2021-10-01</h4>
 							</div>
@@ -226,22 +241,6 @@
  SQL&gt; select directory_name from dba_directories; DIRECTORY_NAME -------------------------------------------------------------------------------- COPIA SDO_DIR_WORK SDO_DIR_ADMIN XMLDIR XSDDIR OPATCH_INST_DIR ORACLE_OCM_CONFIG_DIR2 ORACLE_BASE ORACLE_HOME ORACLE_OCM_CONFIG_DIR DATA_PUMP_DIR DIRECTORY_NAME -------------------------------------------------------------------------------- OPATCH_SCRIPT_DIR OPATCH_LOG_DIR JAVA$JOX$CUJS$DIRECTORY$ 14 rows selected.     expdp ale/ale dumpfile=copia_oracle_export_%U.dmp logfile=copia_oracle_export.log directory=CARPETA_EXPORT full=y filesize=100M</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/copiasbbdd/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cortafuegos/">Cortafuegos - OpenStack</a></h4>
-								<h4 class="post-date">2021-06-07</h4>
-							</div>
-							<div class="post-summary"><p>Nuestro primer paso será instalar nftables.
- debian@dulcinea:~$ sudo apt install nftables    Activamos y habilitamos este servicio.
- debian@dulcinea:~$ sudo systemctl start nftables debian@dulcinea:~$ sudo systemctl enable nftables    Configuraremos la política por defecto a DROP.
- nft chain inet filter input { policy drop \; } nft chain inet filter forward { policy drop \; } nft chain inet filter output { policy drop \; }    Añadimos las reglas de NAT.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/cortafuegos/">Read More</a>
 							</div>
 						</div>
 					</li>

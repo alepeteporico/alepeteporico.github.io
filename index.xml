@@ -6,7 +6,18 @@
     <description>Recent content on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 01 Oct 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 02 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Instalación local de un CMS PHP</title>
+      <link>https://alepeteporico.github.io/practicas/cmsphp_local/</link>
+      <pubDate>Tue, 02 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/cmsphp_local/</guid>
+      <description>VagrantFile Vagrant.configure(&amp;quot;2&amp;quot;) do |config| config.vm.define :cmsagv do |cmsagv| cmsagv.vm.box = &amp;quot;debian/buster64&amp;quot; cmsagv.vm.hostname = &amp;quot;cmsagv&amp;quot; cmsagv.vm.network :private_network, ip: &amp;quot;172.22.100.5&amp;quot;, virtualbox__intnet: &amp;quot;interna&amp;quot; cmsagv.vm.network :private_network, ip: &amp;quot;192.168.100.200&amp;quot; end config.vm.define :backup do |backup| backup.vm.box = &amp;quot;debian/buster64&amp;quot; backup.vm.hostname = &amp;quot;backup&amp;quot; backup.vm.network :private_network, ip: &amp;quot;172.22.100.10&amp;quot;, virtualbox__intnet: &amp;quot;interna&amp;quot; end end  Instalamos un servidor LAMP
+Apache Hacemos una instalación sencilla:
+vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla en iptables para permitir la conexión http</description>
+    </item>
+    
     <item>
       <title>Gestión de paquetería en debian</title>
       <link>https://alepeteporico.github.io/practicas/paqueteria/</link>
@@ -69,12 +80,32 @@
     </item>
     
     <item>
+      <title>Instalación de wordpress</title>
+      <link>https://alepeteporico.github.io/apuntes/wordpress/</link>
+      <pubDate>Mon, 20 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/apuntes/wordpress/</guid>
+      <description>El cms elegido es wordpress, los descargamos y descomprimimos en primer lugar como hicimos con drupal
+vagrant@cmsagv:~$ wget https://es.wordpress.org/latest-es_ES.tar.gz vagrant@cmsagv:~$ sudo tar xf latest-es_ES.tar.gz -C /var/www/ vagrant@cmsagv:~$ sudo chown www-data:www-data /var/www/wordpress/ -R  Nuevamente creamos una nueva base de datos y otorgamos privilegios a nuestro usario dentro de la misma.
+MariaDB [(none)]&amp;gt; CREATE DATABASE wordpress; Query OK, 1 row affected (0.000 sec) MariaDB [(none)]&amp;gt; GRANT ALL PRIVILEGES ON wordpress.* to &#39;usuario2&#39;@&#39;172.</description>
+    </item>
+    
+    <item>
       <title>Lo básico de ansible</title>
       <link>https://alepeteporico.github.io/apuntes/ansible-basico/</link>
       <pubDate>Mon, 20 Sep 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/apuntes/ansible-basico/</guid>
       <description>    </description>
+    </item>
+    
+    <item>
+      <title>PLSQL</title>
+      <link>https://alepeteporico.github.io/apuntes/plsql/</link>
+      <pubDate>Mon, 20 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/apuntes/plsql/</guid>
+      <description>TRIGGERS  Trozo de código que se ejecuta cuando sucede algo que especifiquemos.  </description>
     </item>
     
     <item>
@@ -470,17 +501,6 @@ Instalación Para instalar libvirt deberemos instalar los siguientes paquetes
 sudo apt-get install qemu-kvm libvirt-daemon-system Explicación de los paquetes:
   qemu-kvm: Proporciona la virtualización para x86
   libvirt-daemon-system: Es el demonio de libvirt, el cual hace accesible la API a través de un socket UNIX (aunque se puede configurar para acceder a través de un socket TCP).</description>
-    </item>
-    
-    <item>
-      <title>Instalación local de un CMS PHP</title>
-      <link>https://alepeteporico.github.io/practicas/cmsphp_local/</link>
-      <pubDate>Mon, 22 Mar 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/cmsphp_local/</guid>
-      <description>VagrantFile Vagrant.configure(&amp;quot;2&amp;quot;) do |config| config.vm.define :cmsagv do |cmsagv| cmsagv.vm.box = &amp;quot;debian/buster64&amp;quot; cmsagv.vm.hostname = &amp;quot;cmsagv&amp;quot; cmsagv.vm.network :private_network, ip: &amp;quot;172.22.100.5&amp;quot;, virtualbox__intnet: &amp;quot;interna&amp;quot; cmsagv.vm.network :private_network, ip: &amp;quot;192.168.100.200&amp;quot; end config.vm.define :backup do |backup| backup.vm.box = &amp;quot;debian/buster64&amp;quot; backup.vm.hostname = &amp;quot;backup&amp;quot; backup.vm.network :private_network, ip: &amp;quot;172.22.100.10&amp;quot;, virtualbox__intnet: &amp;quot;interna&amp;quot; end end  Instalamos un servidor LAMP
-Apache Hacemos una instalación sencilla:
-vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla en iptables para permitir la conexión http</description>
     </item>
     
     <item>
