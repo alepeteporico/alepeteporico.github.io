@@ -103,6 +103,21 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/ldap_openstack/">LDAP</a></h4>
+								<h4 class="post-date">2021-05-31</h4>
+							</div>
+							<div class="post-summary"><p>Para esta práctica vamos a usar las claves y certificados que generamos en la práctica de seguridad de https
+ [root@quijote ~]# scp /etc/ssl/certs/gonzalonazareno.crt debian@10.0.1.9 [root@quijote ~]# scp /etc/ssl/certs/openstack.crt debian@10.0.1.9 [root@quijote ~]# scp /etc/ssl/private/openstack.key debian@10.0.1.9    Vamos a mover estos certificados a un sitio apropiado.
+ debian@freston:~$ sudo mv gonzalonazareno.crt /etc/ssl/certs/ debian@freston:~$ sudo mv openstack.crt /etc/ssl/certs/ debian@freston:~$ sudo mv openstack.key /etc/ssl/private/    Vamos a crear unas acl para que el usuario openldap que es el encargado de ejecutar los servicios de sldap tenga permisos sobre estos certificados.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/ldap_openstack/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/nginx/">Servidor nginx</a></h4>
 								<h4 class="post-date">2021-05-31</h4>
 							</div>
@@ -225,22 +240,6 @@
  SQL&gt; CREATE TABLESPACE TS2 2 DATAFILE '/home/oracle/ts2.dbf' 3 SIZE 200K 4 AUTOEXTEND ON 5 DEFAULT STORAGE ( 6 INITIAL 200K 7 NEXT 200K 8 MAXEXTENTS 3 9 PCTINCREASE 100); Tablespace created.    Vamos a crear una prueba para ver como funciona y añadamos contenido a ver como funciona.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/almacenamiento_bbdd/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/dns/">Servidor DNS</a></h4>
-								<h4 class="post-date">2021-05-10</h4>
-							</div>
-							<div class="post-summary"><p>En nuestra red local tenemos un servidor Web que sirve dos páginas web: www.iesgn.org, departamentos.iesgn.org
-  Vamos a instalar en nuestra red local un servidor DNS (lo puedes instalar en el mismo equipo que tiene el servidor web)
-  Voy a suponer en este documento que el nombre del servidor DNS va a ser pandora.iesgn.org. El nombre del servidor de tu prácticas será tunombre.iesgn.org.
-   DNSmasq Instala el servidor dns dnsmasq en pandora.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/dns/">Read More</a>
 							</div>
 						</div>
 					</li>

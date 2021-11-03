@@ -103,10 +103,23 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/migracion_durpal/">Migración de aplicación web PHP</a></h4>
+								<h4 class="post-date">2021-11-03</h4>
+							</div>
+							<div class="post-summary"><p>Nos daremos de alta en un hosting gratuito, en mi caso cdmon. Y crearemos un nuevo hosting.  Migración de la base de datos.  Lo primero que haremos será restaurar nuestra base de datos en nuestro hosting, para ello entraremos en la pestaña de mysql.   Creamos una nueva base de datos, en mi caso la llamaré joomlaagv.   y accederemos a phpMyAdmin con las credenciales que se nos otorgan.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/migracion_durpal/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cmsphp_local/">Instalación local de un CMS PHP</a></h4>
 								<h4 class="post-date">2021-11-02</h4>
 							</div>
-							<div class="post-summary"><p>VagrantFile Vagrant.configure(&quot;2&quot;) do |config| config.vm.define :cmsagv do |cmsagv| cmsagv.vm.box = &quot;debian/buster64&quot; cmsagv.vm.hostname = &quot;cmsagv&quot; cmsagv.vm.network :private_network, ip: &quot;172.22.100.5&quot;, virtualbox__intnet: &quot;interna&quot; cmsagv.vm.network :private_network, ip: &quot;192.168.100.200&quot; end config.vm.define :backup do |backup| backup.vm.box = &quot;debian/buster64&quot; backup.vm.hostname = &quot;backup&quot; backup.vm.network :private_network, ip: &quot;172.22.100.10&quot;, virtualbox__intnet: &quot;interna&quot; end end  Instalamos un servidor LAMP
+							<div class="post-summary"><p>VagrantFile Vagrant.configure(&quot;2&quot;) do |config| config.vm.define :cmsagv do |cmsagv| cmsagv.vm.box = &quot;debian/bullseye64&quot; cmsagv.vm.hostname = &quot;cmsagv&quot; cmsagv.vm.network 'private_network', :ip =&gt; '192.168.100.200' cmsagv.vm.network :private_network, :libvirt__network_name =&gt; &quot;red1&quot;, :libvirt__dhcp_enabled =&gt; false, :ip =&gt; &quot;172.22.100.5&quot;, :libvirt__forward_mode =&gt; &quot;none&quot; end config.vm.define :backup do |backup| backup.vm.box = &quot;debian/bullseye64&quot; backup.vm.hostname = &quot;backup&quot; backup.vm.network :private_network, :libvirt__network_name =&gt; &quot;red1&quot;, :libvirt__dhcp_enabled =&gt; false, :ip =&gt; &quot;172.22.100.10&quot;, :libvirt__forward_mode =&gt; &quot;none&quot; end end Instalamos un servidor LAMP
 Apache Hacemos una instalación sencilla:
 vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla en iptables para permitir la conexión http</p></div>
 							<div class="post-list-footer text-center">
@@ -200,19 +213,6 @@ vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla 
  alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ python3 -m venv django (django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ pip install -r despliegue_python/django_tutorial/requirements.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/despliegue_python/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/migracion_durpal/">Migración de aplicación web PHP</a></h4>
-								<h4 class="post-date">2021-04-12</h4>
-							</div>
-							<div class="post-summary"><p>Nos daremos de alta en un hosting gratuito, en mi caso cdmon. Y crearemos un nuevo hosting.  Migración de la base de datos.  Lo primero que haremos será restaurar nuestra base de datos en nuestro hosting, para ello entraremos en la pestaña de mysql.   Creamos una nueva base de datos, en mi caso la llamaré drupalagv.   y accederemos a phpMyAdmin con las credenciales que se nos otorgan.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/migracion_durpal/">Read More</a>
 							</div>
 						</div>
 					</li>

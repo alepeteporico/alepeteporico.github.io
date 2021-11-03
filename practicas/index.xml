@@ -6,14 +6,23 @@
     <description>Recent content in Practicas on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 02 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 03 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Migración de aplicación web PHP</title>
+      <link>https://alepeteporico.github.io/practicas/migracion_durpal/</link>
+      <pubDate>Wed, 03 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/migracion_durpal/</guid>
+      <description>Nos daremos de alta en un hosting gratuito, en mi caso cdmon. Y crearemos un nuevo hosting.  Migración de la base de datos.  Lo primero que haremos será restaurar nuestra base de datos en nuestro hosting, para ello entraremos en la pestaña de mysql.   Creamos una nueva base de datos, en mi caso la llamaré joomlaagv.   y accederemos a phpMyAdmin con las credenciales que se nos otorgan.</description>
+    </item>
+    
     <item>
       <title>Instalación local de un CMS PHP</title>
       <link>https://alepeteporico.github.io/practicas/cmsphp_local/</link>
       <pubDate>Tue, 02 Nov 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/cmsphp_local/</guid>
-      <description>VagrantFile Vagrant.configure(&amp;quot;2&amp;quot;) do |config| config.vm.define :cmsagv do |cmsagv| cmsagv.vm.box = &amp;quot;debian/buster64&amp;quot; cmsagv.vm.hostname = &amp;quot;cmsagv&amp;quot; cmsagv.vm.network :private_network, ip: &amp;quot;172.22.100.5&amp;quot;, virtualbox__intnet: &amp;quot;interna&amp;quot; cmsagv.vm.network :private_network, ip: &amp;quot;192.168.100.200&amp;quot; end config.vm.define :backup do |backup| backup.vm.box = &amp;quot;debian/buster64&amp;quot; backup.vm.hostname = &amp;quot;backup&amp;quot; backup.vm.network :private_network, ip: &amp;quot;172.22.100.10&amp;quot;, virtualbox__intnet: &amp;quot;interna&amp;quot; end end  Instalamos un servidor LAMP
+      <description>VagrantFile Vagrant.configure(&amp;quot;2&amp;quot;) do |config| config.vm.define :cmsagv do |cmsagv| cmsagv.vm.box = &amp;quot;debian/bullseye64&amp;quot; cmsagv.vm.hostname = &amp;quot;cmsagv&amp;quot; cmsagv.vm.network &#39;private_network&#39;, :ip =&amp;gt; &#39;192.168.100.200&#39; cmsagv.vm.network :private_network, :libvirt__network_name =&amp;gt; &amp;quot;red1&amp;quot;, :libvirt__dhcp_enabled =&amp;gt; false, :ip =&amp;gt; &amp;quot;172.22.100.5&amp;quot;, :libvirt__forward_mode =&amp;gt; &amp;quot;none&amp;quot; end config.vm.define :backup do |backup| backup.vm.box = &amp;quot;debian/bullseye64&amp;quot; backup.vm.hostname = &amp;quot;backup&amp;quot; backup.vm.network :private_network, :libvirt__network_name =&amp;gt; &amp;quot;red1&amp;quot;, :libvirt__dhcp_enabled =&amp;gt; false, :ip =&amp;gt; &amp;quot;172.22.100.10&amp;quot;, :libvirt__forward_mode =&amp;gt; &amp;quot;none&amp;quot; end end Instalamos un servidor LAMP
 Apache Hacemos una instalación sencilla:
 vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla en iptables para permitir la conexión http</description>
     </item>
@@ -388,15 +397,6 @@ vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla 
       <guid>https://alepeteporico.github.io/practicas/mapeo/</guid>
       <description>Crea un nuevo host virtual que es accedido con el nombre www.mapeo.com, cuyo DocumentRoot sea /srv/mapeo.   En primer lugar para que nuestro apache pueda acceder a /srv/ y reconocer esta ruta como DocumentRoot debemos modificar el fichero etc/apache2/apache2.conf y descomentar las siguientes líneas.
  &amp;lt;Directory /srv/&amp;gt; Options Indexes FollowSymLinks AllowOverride None Require all granted &amp;lt;/Directory&amp;gt;    Una vez hecho esto creamos la carpeta mapeo en /srv/ y añadimos el nuevo host virtual en sites-avaiable, veamos como quedaría el fichero de sites-avaiable.</description>
-    </item>
-    
-    <item>
-      <title>Migración de aplicación web PHP</title>
-      <link>https://alepeteporico.github.io/practicas/migracion_durpal/</link>
-      <pubDate>Mon, 12 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/migracion_durpal/</guid>
-      <description>Nos daremos de alta en un hosting gratuito, en mi caso cdmon. Y crearemos un nuevo hosting.  Migración de la base de datos.  Lo primero que haremos será restaurar nuestra base de datos en nuestro hosting, para ello entraremos en la pestaña de mysql.   Creamos una nueva base de datos, en mi caso la llamaré drupalagv.   y accederemos a phpMyAdmin con las credenciales que se nos otorgan.</description>
     </item>
     
     <item>

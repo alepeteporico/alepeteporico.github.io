@@ -99,21 +99,26 @@
                     <h2 id="vagrantfile">VagrantFile</h2>
 <pre><code>Vagrant.configure(&quot;2&quot;) do |config|
     config.vm.define :cmsagv do |cmsagv|
-        cmsagv.vm.box = &quot;debian/buster64&quot;
+        cmsagv.vm.box = &quot;debian/bullseye64&quot;
         cmsagv.vm.hostname = &quot;cmsagv&quot;
-        cmsagv.vm.network :private_network, ip: &quot;172.22.100.5&quot;,
-          virtualbox__intnet: &quot;interna&quot;
-        cmsagv.vm.network :private_network, ip: &quot;192.168.100.200&quot;
+        cmsagv.vm.network 'private_network', :ip =&gt; '192.168.100.200'
+        cmsagv.vm.network :private_network,
+          :libvirt__network_name =&gt; &quot;red1&quot;,
+          :libvirt__dhcp_enabled =&gt; false,
+          :ip =&gt; &quot;172.22.100.5&quot;,
+          :libvirt__forward_mode =&gt; &quot;none&quot;
     end
     config.vm.define :backup do |backup|
-        backup.vm.box = &quot;debian/buster64&quot;
+        backup.vm.box = &quot;debian/bullseye64&quot;
         backup.vm.hostname = &quot;backup&quot;
-        backup.vm.network :private_network, ip: &quot;172.22.100.10&quot;,
-                virtualbox__intnet: &quot;interna&quot;
+        backup.vm.network :private_network,
+          :libvirt__network_name =&gt; &quot;red1&quot;,
+          :libvirt__dhcp_enabled =&gt; false,
+          :ip =&gt; &quot;172.22.100.10&quot;,
+          :libvirt__forward_mode =&gt; &quot;none&quot;
     end
 end
-</code></pre>
-<p><strong>Instalamos un servidor LAMP</strong></p>
+</code></pre><p><strong>Instalamos un servidor LAMP</strong></p>
 <h4 id="apache">Apache</h4>
 <p><strong>Hacemos una instalación sencilla:</strong></p>
 <pre><code>vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils
@@ -368,8 +373,77 @@ MariaDB [backup]&gt; show tables;
 <ul>
 <li>Vamos a instalar un joomla, para ello descargaremos de <a href="https://downloads.joomla.org/">la página oficial</a> la aplicación.</li>
 </ul>
-<pre><code>vagrant@cmsagv:~$ wget https://downloads.joomla.org/cms/joomla4/4-0-4/Joomla_4-0-4-Stable-Full_Package.zip?format=zip
-</code></pre>
+<pre><code>vagrant@cmsagv:~$ wget -q https://downloads.joomla.org/cms/joomla4/4-0-4/Joomla_4-0-4-Stable-Full_Package.tar.bz2
+</code></pre><ul>
+<li>Movemos el archivo comprimido a nuestra carpeta html.</li>
+</ul>
+<pre><code>vagrant@cmsagv:~$ sudo mv Joomla_4-0-4-Stable-Full_Package.tar.bz2 /var/www/html/
+</code></pre><ul>
+<li>Donde tendremos que crear una carpeta donde descomprimiremos este fichero.</li>
+</ul>
+<pre><code>vagrant@cmsagv:/var/www/html$ sudo mkdir joomla
+vagrant@cmsagv:/var/www/html/joomla$ sudo tar xf Joomla_4-0-4-Stable-Full_Package.tar.bz2
+agrant@cmsagv:/var/www/html/joomla$ ls
+Joomla_4-0-4-Stable-Full_Package.tar.bz2  cache         includes      libraries        templates
+LICENSE.txt                               cli           index.php     media            tmp
+README.txt                                components    installation  modules          web.config.txt
+administrator                             htaccess.txt  language      plugins
+api                                       images        layouts       robots.txt.dist
+</code></pre><ul>
+<li>Vemos que hay un fichero llamado <code>htaccess.txt</code>, tendremos que renombrarlo y ponerlo en oculto para que apache pueda leerlo.</li>
+</ul>
+<pre><code>vagrant@cmsagv:/var/www/html/joomla$ sudo mv htaccess.txt ./.htaccess.txt
+</code></pre><ul>
+<li>Y cambiamos los permisos de esta carpeta.</li>
+</ul>
+<pre><code>vagrant@cmsagv:/var/www/html/joomla$ sudo chown -R www-data: /var/www/html/joomla/
+</code></pre><ul>
+<li>Creamos el nuevo virtual host:</li>
+</ul>
+<pre><code>VirtualHost *:80&gt;
+        ServerName www.alegv-joomla.org
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/html/joomla
+        &lt;Directory /var/www/html/joomla/&gt;
+                Options Indexes FollowSymLinks
+                AllowOverride All
+                Require all granted
+                php_value output_buffering &quot;0&quot;
+        &lt;/Directory&gt;
+
+        ErrorLog /var/log/apache2/joomla_error.log
+        CustomLog /var/log/apache2/joomla_access.log combined
+
+&lt;/VirtualHost&gt;
+</code></pre><ul>
+<li>Y lo activamos:</li>
+</ul>
+<pre><code>vagrant@cmsagv:/etc/apache2/sites-available$ sudo a2ensite joomla.conf 
+Enabling site joomla.
+To activate the new configuration, you need to run:
+  systemctl reload apache2
+</code></pre><ul>
+<li>Ahora en MariaDB creamos una base de datos para nuestro nuevo cms:</li>
+</ul>
+<pre><code>MariaDB [(none)]&gt; create database joomla;
+Query OK, 1 row affected (0.000 sec)
+</code></pre><ul>
+<li>Y damos permisos a nuestro usuario sobre la misma:</li>
+</ul>
+<pre><code>MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON `joomla`.* TO 'usuario1'@'localhost';
+Query OK, 0 rows affected (0.063 sec)
+</code></pre><ul>
+<li>Añadimos la nueva entrada al <code>/etc/hosts</code> de nuestra anfitriona.</li>
+</ul>
+<pre><code>192.168.100.200 www.alegv-joomla.org
+</code></pre><ul>
+<li>Y comenzamos con la instalación:</li>
+</ul>
+<p><img src="/cms_php/18.png" alt="nombre"></p>
+<p><img src="/cms_php/19.png" alt="usuario"></p>
+<p><img src="/cms_php/20.png" alt="db"></p>
+<p><img src="/cms_php/21.png" alt="instalado"></p>
+
                 </div>
                 
                 <div class="post-comments">
