@@ -164,6 +164,17 @@ BEGIN
     RAISE_APPLICATION_ERROR(-20100, 'No puede ganar tanto si no es el presidente);
   END IF;
 END;
+</code></pre><ul>
+<li>Actualización de departamento en cascada:</li>
+</ul>
+<pre><code>CREATE OR REPLACE TRIGGER OnUpdateCacade
+AFTER UPDATE OF deptno ON dept
+FOR EACH ROW
+BEGIN
+  UPDATE emp
+  SET emp.deptno = new.deptno
+  WHERE emp.deptno = :old.deptno
+END;
 </code></pre><h3 id="diccionario-de-datos">Diccionario de datos:</h3>
 <ul>
 <li><a href="https://ss64.com/">Pagina de referencia</a></li>
