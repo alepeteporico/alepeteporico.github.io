@@ -120,6 +120,61 @@
 						</div>
 					</li>
 				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/modulos_apache/">Módulos en apache</a></h4>
+								<h4 class="post-date">2021-11-08</h4>
+							</div>
+							<div class="post-summary"><p>UserDIR   Este módulo nos permitirá que cada usuario tenga una carpeta en su home llamada public_html donde podrá añadir contenido web.
+  Vamos a instalar este módulo:
+  vagrant@cmsagv:~$ sudo a2enmod userdir  Ahora creamos la carpeta public_html y le damos los permisos necesarios.  vagrant@cmsagv:~$ mkdir public_html vagrant@cmsagv:~$ sudo chmod 0755 public_html/  Y ya tenemos nuestro directorio donde podemos subir contenido. Aunque podemos cambiar el nombre de esta carpeta, vamos a llamarla personal y para que el módulo pueda ver el cambio vamos al fichero /etc/apache2/mods-enabled/php7.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/ejercicios/modulos_apache/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/apache_htaccess/">Configuración de apache mediante archivo .htaccess </a></h4>
+								<h4 class="post-date">2021-04-24</h4>
+							</div>
+							<div class="post-summary"><p>Date de alta en un proveedor de hosting. ¿Si necesitamos configurar el servidor web que han configurado los administradores del proveedor?, ¿qué podemos hacer? Explica la directiva AllowOverride de apache2. Utilizando archivos .htaccess realiza las siguientes configuraciones:  El hosting que usaré será 000webhost  Habilita el listado de ficheros en la URL http://host.dominio/nas.   En nuestro hosting tendremos una carpeta llamada public_html en la cual podremos encontrar un fichero llamado .</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/ejercicios/apache_htaccess/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/control_acceso/">Control de acceso, autentificación y autorización</a></h4>
+								<h4 class="post-date">2021-04-24</h4>
+							</div>
+							<div class="post-summary"><p>Crea un escenario en Vagrant o reutiliza uno de los que tienes en ejercicios anteriores, que tenga un servidor con una red publica, y una privada y un cliente conectada a la red privada. Crea un host virtual departamentos.iesgn.org  Para está práctica podremos usar la misma máquina de vagrant que usamos para las prácticas del cms y de mapeo.  A la URL departamentos.iesgn.org/intranet sólo se debe tener acceso desde el cliente de la red local, y no se pueda acceder desde la anfitriona por la red pública.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/ejercicios/control_acceso/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/mapeo/">Mapear URL a ubicaciones de un sistema de ficheros</a></h4>
+								<h4 class="post-date">2021-04-21</h4>
+							</div>
+							<div class="post-summary"><p>Crea un nuevo host virtual que es accedido con el nombre www.mapeo.com, cuyo DocumentRoot sea /srv/mapeo.   En primer lugar para que nuestro apache pueda acceder a /srv/ y reconocer esta ruta como DocumentRoot debemos modificar el fichero etc/apache2/apache2.conf y descomentar las siguientes líneas.
+ &lt;Directory /srv/&gt; Options Indexes FollowSymLinks AllowOverride None Require all granted &lt;/Directory&gt;    Una vez hecho esto creamos la carpeta mapeo en /srv/ y añadimos el nuevo host virtual en sites-avaiable, veamos como quedaría el fichero de sites-avaiable.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/ejercicios/mapeo/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
 				</ul>
 				
 

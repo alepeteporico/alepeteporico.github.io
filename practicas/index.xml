@@ -381,34 +381,6 @@ vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla 
     </item>
     
     <item>
-      <title>Configuración de apache mediante archivo .htaccess </title>
-      <link>https://alepeteporico.github.io/practicas/apache_htaccess/</link>
-      <pubDate>Sat, 24 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/apache_htaccess/</guid>
-      <description>Date de alta en un proveedor de hosting. ¿Si necesitamos configurar el servidor web que han configurado los administradores del proveedor?, ¿qué podemos hacer? Explica la directiva AllowOverride de apache2. Utilizando archivos .htaccess realiza las siguientes configuraciones:  El hosting que usaré será 000webhost  Habilita el listado de ficheros en la URL http://host.dominio/nas.   En nuestro hosting tendremos una carpeta llamada public_html en la cual podremos encontrar un fichero llamado .</description>
-    </item>
-    
-    <item>
-      <title>Control de acceso, autentificación y autorización</title>
-      <link>https://alepeteporico.github.io/practicas/control_acceso/</link>
-      <pubDate>Sat, 24 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/control_acceso/</guid>
-      <description>Crea un escenario en Vagrant o reutiliza uno de los que tienes en ejercicios anteriores, que tenga un servidor con una red publica, y una privada y un cliente conectada a la red privada. Crea un host virtual departamentos.iesgn.org  Para está práctica podremos usar la misma máquina de vagrant que usamos para las prácticas del cms y de mapeo.  A la URL departamentos.iesgn.org/intranet sólo se debe tener acceso desde el cliente de la red local, y no se pueda acceder desde la anfitriona por la red pública.</description>
-    </item>
-    
-    <item>
-      <title>Mapear URL a ubicaciones de un sistema de ficheros</title>
-      <link>https://alepeteporico.github.io/practicas/mapeo/</link>
-      <pubDate>Wed, 21 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/mapeo/</guid>
-      <description>Crea un nuevo host virtual que es accedido con el nombre www.mapeo.com, cuyo DocumentRoot sea /srv/mapeo.   En primer lugar para que nuestro apache pueda acceder a /srv/ y reconocer esta ruta como DocumentRoot debemos modificar el fichero etc/apache2/apache2.conf y descomentar las siguientes líneas.
- &amp;lt;Directory /srv/&amp;gt; Options Indexes FollowSymLinks AllowOverride None Require all granted &amp;lt;/Directory&amp;gt;    Una vez hecho esto creamos la carpeta mapeo en /srv/ y añadimos el nuevo host virtual en sites-avaiable, veamos como quedaría el fichero de sites-avaiable.</description>
-    </item>
-    
-    <item>
       <title>Instalación de servidores y clientes</title>
       <link>https://alepeteporico.github.io/practicas/serv_client/</link>
       <pubDate>Mon, 05 Apr 2021 00:00:00 +0000</pubDate>

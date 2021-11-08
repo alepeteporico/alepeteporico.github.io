@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Control de acceso, autentificación y autorización &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.80.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://alepeteporico.github.io/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/ejercicios/control_acceso/">Control de acceso, autentificación y autorización</a></h1>
+                <span class="post-date">2021-04-24 </span>
+                <div class="post-content">
+                    <h2 id="crea-un-escenario-en-vagrant-o-reutiliza-uno-de-los-que-tienes-en-ejercicios-anteriores-que-tenga-un-servidor-con-una-red-publica-y-una-privada-y-un-cliente-conectada-a-la-red-privada-crea-un-host-virtual-departamentosiesgnorg">Crea un escenario en Vagrant o reutiliza uno de los que tienes en ejercicios anteriores, que tenga un servidor con una red publica, y una privada y un cliente conectada a la red privada. Crea un host virtual departamentos.iesgn.org</h2>
+<ul>
+<li>Para está práctica podremos usar la misma máquina de vagrant que usamos para las prácticas del cms y de mapeo.</li>
+</ul>
+<h3 id="a-la-url-departamentosiesgnorgintranet-sólo-se-debe-tener-acceso-desde-el-cliente-de-la-red-local-y-no-se-pueda-acceder-desde-la-anfitriona-por-la-red-pública-a-la-url-departamentosiesgnorginternet-sin-embargo-sólo-se-debe-tener-acceso-desde-la-anfitriona-por-la-red-pública-y-no-desde-la-red-local">A la URL departamentos.iesgn.org/intranet sólo se debe tener acceso desde el cliente de la red local, y no se pueda acceder desde la anfitriona por la red pública. A la URL departamentos.iesgn.org/internet, sin embargo, sólo se debe tener acceso desde la anfitriona por la red pública, y no desde la red local.</h3>
+<ul>
+<li>
+<p>Vamos a crear la estructura de directorios que necesitaremos en <code>/var/www/</code></p>
+<pre><code>  vagrant@cmsagv:~$ sudo mkdir -p /var/www/departamentos/{intranet,internet,secreto}
+</code></pre>
+</li>
+<li>
+<p>Crearemos un nuevo virtual host en sites-avaiable y especificaremos que a intranet solo se pueda acceder desde la red interna y a internet solo desde la externa.</p>
+<pre><code>  &lt;VirtualHost *:80&gt;
+          ServerName departamentos.iesgn.org
+
+          ServerAdmin webmaster@localhost
+          DocumentRoot /var/www/departamentos
+
+          &lt;Directory /var/www/departamentos/intranet/&gt;
+                      Options Indexes FollowSymLinks MultiViews
+                      &lt;RequireAll&gt;
+                              Require ip 172.22.100
+                              Require all granted
+                      &lt;/RequireAll&gt;
+          &lt;/Directory&gt;
+
+          &lt;Directory /var/www/departamentos/internet/&gt;
+                      Options Indexes FollowSymLinks MultiViews
+                      &lt;RequireAll&gt;
+                              Require ip 192.168.100
+                              Require all granted
+                      &lt;/RequireAll&gt;
+          &lt;/Directory&gt;
+
+          #LogLevel info ssl:warn
+
+
+          ErrorLog ${APACHE_LOG_DIR}/error.log
+          CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+          #Include conf-available/serve-cgi-bin.conf
+
+  &lt;/VirtualHost&gt;
+</code></pre>
+</li>
+<li>
+<p>Ahora añadiremos nuestro servidor al /etc/hosts de la anfitriona:</p>
+<pre><code>  192.168.100.200 departamentos.iesgn.org
+</code></pre>
+</li>
+<li>
+<p>Y en nuestro cliente de la red local.</p>
+<pre><code>  172.22.100.5    departamentos.iesgn.org
+</code></pre>
+</li>
+<li>
+<p>Comprobemos que funciona desde la anfitriona.</p>
+</li>
+</ul>
+<p><img src="/control_acceso/1.png" alt="departamentos"></p>
+<p><img src="/control_acceso/2.png" alt="intranet"></p>
+<ul>
+<li>Y desde nuestro cliente.</li>
+</ul>
+<p><img src="/control_acceso/3.png" alt="intranet"></p>
+<p><img src="/control_acceso/4.png" alt="internet"></p>
+<h3 id="limita-el-acceso-a-la-url-departamentosiesgnorgsecreto">Limita el acceso a la URL departamentos.iesgn.org/secreto.</h3>
+<ul>
+<li>
+<p>Nuestro primer paso para realizar esta tarea será crear un archivo con una contraseña, deberíamos crearlo en un directorio seguro.</p>
+<pre><code>  vagrant@cmsagv:/claves$ sudo htpasswd -c clave.txt root
+  New password: 
+  Re-type new password: 
+  Adding password for user root
+</code></pre>
+</li>
+<li>
+<p>En nuestro archivo de configuración debemos añadir lo siguiente.</p>
+<pre><code>  &lt;Directory /var/www/departamentos/secreto/&gt;
+          AuthUserFile &quot;/claves/clave.txt&quot;
+          AuthName &quot;Solo acceso autorizado&quot;
+          AuthType Basic
+          Require valid-user
+  &lt;/Directory&gt;
+</code></pre>
+</li>
+<li>
+<p>Comprobemos que funciona.</p>
+</li>
+</ul>
+<p><img src="/control_acceso/5.png" alt="secreto"></p>
+<p><img src="/control_acceso/6.png" alt="secreto"></p>
+<h3 id="cómo-hemos-visto-la-autentificación-básica-no-es-segura-modifica-la-autentificación-para-que-sea-del-tipo-digest-y-sólo-sea-accesible-a-los-usuarios-pertenecientes-al-grupo-directivos-comprueba-las-cabeceras-de-los-mensajes-http-que-se-intercambian-entre-el-servidor-y-el-cliente-cómo-funciona-esta-autentificación">Cómo hemos visto la autentificación básica no es segura, modifica la autentificación para que sea del tipo digest, y sólo sea accesible a los usuarios pertenecientes al grupo directivos. Comprueba las cabeceras de los mensajes HTTP que se intercambian entre el servidor y el cliente. ¿Cómo funciona esta autentificación?</h3>
+<ul>
+<li>
+<p>Tendremos que cargar el módulo de digest para comenzar esta tarea.</p>
+<pre><code>  vagrant@cmsagv:/claves$ sudo a2enmod auth_digest
+  Considering dependency authn_core for auth_digest:
+  Module authn_core already enabled
+  Enabling module auth_digest.
+  To activate the new configuration, you need to run:
+    systemctl restart apache2
+</code></pre>
+</li>
+<li>
+<p>Ahora crearemos una nueva clave que será más segura que la anterior donde podremos especificar un usuario que formará parte de una especie de grupo.</p>
+<pre><code>  vagrant@cmsagv:/claves$ sudo htdigest -c clave2.txt directivos prueba
+  Adding password for contraseña in realm directivos.
+  New password: 
+  Re-type new password:
+</code></pre>
+</li>
+<li>
+<p>Y modificaremos el fichero de configuracion de departamentos, en concreto modificaremos las líneas que añadimos antes sobre el directorio <code>secreto</code> para que quede de la siguiete forma:</p>
+<pre><code>  &lt;Directory /var/www/departamentos/secreto/&gt;
+          AuthUserFile &quot;/claves/clave2.txt&quot;
+          AuthName &quot;Solo acceso autorizado&quot;
+          AuthType Digest
+          Require valid-user
+  &lt;/Directory&gt;
+</code></pre>
+</li>
+<li>
+<p>Comprobamos que al introducir las credenciales que acabamos de crear podemos acceder.</p>
+</li>
+</ul>
+<p><img src="/control_acceso/7.png" alt="secreto">
+<img src="/control_acceso/6.png" alt="secreto"></p>
+
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2021 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>

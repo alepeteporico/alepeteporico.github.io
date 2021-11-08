@@ -16,5 +16,44 @@
       <description></description>
     </item>
     
+    <item>
+      <title>Módulos en apache</title>
+      <link>https://alepeteporico.github.io/ejercicios/modulos_apache/</link>
+      <pubDate>Mon, 08 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/modulos_apache/</guid>
+      <description>UserDIR   Este módulo nos permitirá que cada usuario tenga una carpeta en su home llamada public_html donde podrá añadir contenido web.
+  Vamos a instalar este módulo:
+  vagrant@cmsagv:~$ sudo a2enmod userdir  Ahora creamos la carpeta public_html y le damos los permisos necesarios.  vagrant@cmsagv:~$ mkdir public_html vagrant@cmsagv:~$ sudo chmod 0755 public_html/  Y ya tenemos nuestro directorio donde podemos subir contenido. Aunque podemos cambiar el nombre de esta carpeta, vamos a llamarla personal y para que el módulo pueda ver el cambio vamos al fichero /etc/apache2/mods-enabled/php7.</description>
+    </item>
+    
+    <item>
+      <title>Configuración de apache mediante archivo .htaccess </title>
+      <link>https://alepeteporico.github.io/ejercicios/apache_htaccess/</link>
+      <pubDate>Sat, 24 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/apache_htaccess/</guid>
+      <description>Date de alta en un proveedor de hosting. ¿Si necesitamos configurar el servidor web que han configurado los administradores del proveedor?, ¿qué podemos hacer? Explica la directiva AllowOverride de apache2. Utilizando archivos .htaccess realiza las siguientes configuraciones:  El hosting que usaré será 000webhost  Habilita el listado de ficheros en la URL http://host.dominio/nas.   En nuestro hosting tendremos una carpeta llamada public_html en la cual podremos encontrar un fichero llamado .</description>
+    </item>
+    
+    <item>
+      <title>Control de acceso, autentificación y autorización</title>
+      <link>https://alepeteporico.github.io/ejercicios/control_acceso/</link>
+      <pubDate>Sat, 24 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/control_acceso/</guid>
+      <description>Crea un escenario en Vagrant o reutiliza uno de los que tienes en ejercicios anteriores, que tenga un servidor con una red publica, y una privada y un cliente conectada a la red privada. Crea un host virtual departamentos.iesgn.org  Para está práctica podremos usar la misma máquina de vagrant que usamos para las prácticas del cms y de mapeo.  A la URL departamentos.iesgn.org/intranet sólo se debe tener acceso desde el cliente de la red local, y no se pueda acceder desde la anfitriona por la red pública.</description>
+    </item>
+    
+    <item>
+      <title>Mapear URL a ubicaciones de un sistema de ficheros</title>
+      <link>https://alepeteporico.github.io/ejercicios/mapeo/</link>
+      <pubDate>Wed, 21 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/mapeo/</guid>
+      <description>Crea un nuevo host virtual que es accedido con el nombre www.mapeo.com, cuyo DocumentRoot sea /srv/mapeo.   En primer lugar para que nuestro apache pueda acceder a /srv/ y reconocer esta ruta como DocumentRoot debemos modificar el fichero etc/apache2/apache2.conf y descomentar las siguientes líneas.
+ &amp;lt;Directory /srv/&amp;gt; Options Indexes FollowSymLinks AllowOverride None Require all granted &amp;lt;/Directory&amp;gt;    Una vez hecho esto creamos la carpeta mapeo en /srv/ y añadimos el nuevo host virtual en sites-avaiable, veamos como quedaría el fichero de sites-avaiable.</description>
+    </item>
+    
   </channel>
 </rss>

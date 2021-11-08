@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Configuración de apache mediante archivo .htaccess  &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.80.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://alepeteporico.github.io/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/ejercicios/apache_htaccess/">Configuración de apache mediante archivo .htaccess </a></h1>
+                <span class="post-date">2021-04-24 </span>
+                <div class="post-content">
+                    <h2 id="date-de-alta-en-un-proveedor-de-hosting-si-necesitamos-configurar-el-servidor-web-que-han-configurado-los-administradores-del-proveedor-qué-podemos-hacer-explica-la-directiva-allowoverride-de-apache2-utilizando-archivos-htaccess-realiza-las-siguientes-configuraciones">Date de alta en un proveedor de hosting. ¿Si necesitamos configurar el servidor web que han configurado los administradores del proveedor?, ¿qué podemos hacer? Explica la directiva AllowOverride de apache2. Utilizando archivos .htaccess realiza las siguientes configuraciones:</h2>
+<ul>
+<li>El hosting que usaré será <code>000webhost</code></li>
+</ul>
+<h3 id="habilita-el-listado-de-ficheros-en-la-url-httphostdominionas">Habilita el listado de ficheros en la URL <a href="http://host.dominio/nas">http://host.dominio/nas</a>.</h3>
+<ul>
+<li>
+<p>En nuestro hosting tendremos una carpeta llamada <code>public_html</code> en la cual podremos encontrar un fichero llamado <code>.htaccess</code>, si lo abrimos vemos que tiene la siguiente estructura.</p>
+<pre><code>  # HTID:17436579: DO NOT REMOVE OR MODIFY THIS LINE AND THE LINES BELOW
+  php_value display_errors 1
+  # DO NOT REMOVE OR MODIFY THIS LINE AND THE LINES ABOVE HTID:17436579:
+</code></pre>
+</li>
+<li>
+<p>El primer paso será deshabilitar el listado de ficheros, para ello añadiremos la siguiente línea.</p>
+<pre><code>  Options -Indexes
+</code></pre>
+</li>
+<li>
+<p>Crearemos el directoria <code>nas</code>.</p>
+</li>
+</ul>
+<p><img src="/htaccess/1.png" alt="carpeta"></p>
+<ul>
+<li>
+<p>Seguidamente crearemos un fichero <code>.htaccess</code> dentro de la carpeta <code>nas</code> recien creada y añadiremos la siguiente opción.</p>
+<pre><code>  Options +Indexes
+</code></pre>
+</li>
+<li>
+<p>Comprobemos que funciona.</p>
+</li>
+</ul>
+<p><img src="/htaccess/2.png" alt="nas"></p>
+<h3 id="crea-una-redirección-permanente-cuando-entremos-en-ttphostdominiogoogle-salte-a-wwwgooglees">Crea una redirección permanente: cuando entremos en ttp://host.dominio/google salte a <a href="http://www.google.es">www.google.es</a></h3>
+<ul>
+<li>
+<p>Crearemos un redirect en el <code>htaccess</code> de la carpeta <code>public_html</code>.</p>
+<pre><code>  Redirect 301 /google https://www.google.es
+</code></pre>
+</li>
+</ul>
+<h3 id="pedir-autentificación-para-entrar-en-la-url-httphostdominioprohibido">Pedir autentificación para entrar en la URL <a href="http://host.dominio/prohibido">http://host.dominio/prohibido</a></h3>
+<ul>
+<li>
+<p>Después de crear el directorio dentro de <code>public_html</code> y un index dentro de la misma para que se muestre contenido, en nuestra maquina anfitriona crearemos un fichero donde guardaremos una contraseña de la siguiente forma:</p>
+<pre><code>  alejandrogv@AlejandroGV:~$ htpasswd -c contraseña.txt alejandrogv
+  New password: 
+  Re-type new password: 
+  Adding password for user alejandrogv
+</code></pre>
+</li>
+<li>
+<p>Ahora copiaremos el contenido de este fichero a un fichero que podemos crear el raiz por ejemplo de nuestro hosting.</p>
+</li>
+</ul>
+<p><img src="/htaccess/3.png" alt="contraseña"></p>
+<ul>
+<li>Necesitaremos saber la ruta que tiene el directorio raiz de nuestro hosting, para ello nos iremos a lista de nuestros sitios y veremos los detalles del nuestro clicando sobre <code>quick actions</code></li>
+</ul>
+<p><img src="/htaccess/4.png" alt="ruta"></p>
+<ul>
+<li>
+<p>Y por último creamos un <code>htaccess</code> dentro de nuestro directorio <code>prohibido</code> que tendrá la siguiente forma.</p>
+<pre><code>  AuthType Basic
+  AuthName &quot;Acceso restringido&quot;
+  AuthUserFile  /storage/ssd1/005/16762005/passwd.txt
+  Require valid-user
+</code></pre>
+</li>
+<li>
+<p>Si tratamos de entrar veremos que nos pide credenciales.</p>
+</li>
+</ul>
+<p><img src="/htaccess/5.png" alt="prohibido"></p>
+<p><img src="/htaccess/6.png" alt="prohibido"></p>
+
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2021 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>
