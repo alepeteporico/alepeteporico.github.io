@@ -73,6 +73,13 @@
 				
 				<li class="dropdown">
                     
+            		<a href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
             		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
             		
         		</li>
@@ -100,6 +107,20 @@
 				</div>
 				<ul id="post-list">
 						
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/almacenamiento_bbdd/">Almacenamiento</a></h4>
+								<h4 class="post-date">2021-05-10</h4>
+							</div>
+							<div class="post-summary"><p>Muestra los objetos a los que pertenecen las extensiones del tablespace TS2 (creado por tí) y el tamaño de cada una de ellas. Tendrás que crear objetos en él previamente, claro.   Vamos a crear este Tablespace.
+ SQL&gt; CREATE TABLESPACE TS2 2 DATAFILE '/home/oracle/ts2.dbf' 3 SIZE 200K 4 AUTOEXTEND ON 5 DEFAULT STORAGE ( 6 INITIAL 200K 7 NEXT 200K 8 MAXEXTENTS 3 9 PCTINCREASE 100); Tablespace created.    Vamos a crear una prueba para ver como funciona y añadamos contenido a ver como funciona.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/almacenamiento_bbdd/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
@@ -226,19 +247,6 @@
  alejandrogv@AlejandroGV:~$ gpg --gen-key gpg (GnuPG) 2.2.12; Copyright (C) 2018 Free Software Foundation, Inc. This is free software: you are free to change and redistribute it. There is NO WARRANTY, to the extent permitted by law. Nota: Usa &quot;gpg --full-generate-key&quot; para el diálogo completo de generación de clave. GnuPG debe construir un ID de usuario para identificar su clave. Nombre y apellidos: Alejandro Gutiérrez Valencia Dirección de correo electrónico: tojandro@gmail.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/asimetrico/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/mdadm_rclone/">Práctica mdadm y rclone</a></h4>
-								<h4 class="post-date">2021-03-17</h4>
-							</div>
-							<div class="post-summary"><p>RAID 5 Fichero VagrantFile:  # -*- mode: ruby -*- # vi: set ft=ruby : Vagrant.configure(&quot;2&quot;) do |config| config.vm.box = &quot;debian/buster64&quot; config.vm.hostname = &quot;practica1&quot; config.vm.provider :virtualbox do |v| disco = '.vagrant/disco.vdi' v.customize [&quot;createhd&quot;,&quot;--filename&quot;,disco,&quot;--size&quot;, 1024] v.customize [&quot;storageattach&quot;,:id,&quot;--storagectl&quot;,&quot;SATA Controller&quot;,&quot;--port&quot;,1,&quot;--device&quot;,0,&quot;--type&quot;,&quot;hdd&quot;,&quot;--medium&quot;,disco] disco2 = '.vagrant/disco2.vdi' v.customize [&quot;createhd&quot;,&quot;--filename&quot;,disco2,&quot;--size&quot;, 1024] v.customize [&quot;storageattach&quot;,:id,&quot;--storagectl&quot;,&quot;SATA Controller&quot;,&quot;--port&quot;,2,&quot;--device&quot;,0,&quot;--type&quot;,&quot;hdd&quot;,&quot;--medium&quot;,disco2] disco3 = '.vagrant/disco3.vdi' v.customize [&quot;createhd&quot;,&quot;--filename&quot;,disco3,&quot;--size&quot;, 1024] v.customize [&quot;storageattach&quot;,:id,&quot;--storagectl&quot;,&quot;SATA Controller&quot;,&quot;--port&quot;,3,&quot;--device&quot;,0,&quot;--type&quot;,&quot;hdd&quot;,&quot;--medium&quot;,disco3] disco4 = '.vagrant/disco4.vdi' v.customize [&quot;createhd&quot;,&quot;--filename&quot;,disco4,&quot;--size&quot;, 1024] v.customize [&quot;storageattach&quot;,:id,&quot;--storagectl&quot;,&quot;SATA Controller&quot;,&quot;--port&quot;,4,&quot;--device&quot;,0,&quot;--type&quot;,&quot;hdd&quot;,&quot;--medium&quot;,disco4] disco5 = '.vagrant/disco5.vdi' v.customize [&quot;createhd&quot;,&quot;--filename&quot;,disco5,&quot;--size&quot;, 1024] v.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/mdadm_rclone/">Read More</a>
 							</div>
 						</div>
 					</li>

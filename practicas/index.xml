@@ -6,7 +6,16 @@
     <description>Recent content in Practicas on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 03 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 06 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Configuración del escenario router-nat con vagrant y ansible</title>
+      <link>https://alepeteporico.github.io/practicas/ejercicio3_vagrant_ansible/</link>
+      <pubDate>Sat, 06 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/ejercicio3_vagrant_ansible/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Migración de aplicación web PHP</title>
       <link>https://alepeteporico.github.io/practicas/migracion_durpal/</link>
