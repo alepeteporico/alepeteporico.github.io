@@ -110,6 +110,32 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/gunicorn/">Desplegando aplicaciones flask con apache2 &#43; gunicorn</a></h4>
+								<h4 class="post-date">2021-11-09</h4>
+							</div>
+							<div class="post-summary"><p>Vamos a instalar este cms llamado gunicorn, para ello creamos un entorno virutal y lo instalamos:  (gunicorn) vagrant@cmsagv:~$ pip install gunicorn  Ahora desplegamos nuestra aplicación manualmente:  (gunicorn) vagrant@cmsagv:~/flask_temperaturas$ gunicorn -w 2 -b :8080 wsgi:application  Pero no vamos a ejecutar a mano la aplicación, por ello vamos a crear una unidad systemd. Para esto primero crearemos el fichero /etc/systemd/system/gunicorn-temperaturas.service y le añadiremos el siguiente contenido:  [Unit] Description=gunicorn-temperaturas After=network.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/ejercicios/gunicorn/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/wsgi/">Desplegando aplicaciones flask con apache2 &#43; mod_wsgi</a></h4>
+								<h4 class="post-date">2021-11-09</h4>
+							</div>
+							<div class="post-summary"><p>Creamos un entorno virtual y lo activamos:  vagrant@cmsagv:~/wsgi$ python3 -m venv wsgi (wsgi) vagrant@cmsagv:~$ source wsgi/bin/activate  Después de clonar la aplicación vamos a instalar los paquetes del fichero requeriments.txt.  (wsgi) vagrant@cmsagv:~/flask_temperaturas$ pip install -r requirements.txt  Tenemos que instalar el módulo de apache para que wsgi funcione  vagrant@cmsagv:~/flask_temperaturas$ sudo apt install libapache2-mod-wsgi-py3  Ahora creamos un fichero en el respositorio llamado wsgi.py donde añadiremos la siguiente línea:  from app import app as application  Creamos un virtual host con la siguiente configuración:  &lt;VirtualHost *:80&gt; WSGIDaemonProcess flask_temp python-path=/home/vagrant/flask_temperaturas:/home/vagrant/venv/fla&gt; WSGIProcessGroup flask_temp WSGIScriptAlias / /home/vagrant/flask_temperaturas/wsgi.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/ejercicios/wsgi/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/migracion_durpal/">Migración de aplicación web PHP</a></h4>
 								<h4 class="post-date">2021-11-03</h4>
 							</div>
@@ -224,23 +250,38 @@ vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla 
 						</div>
 					</li>
 				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/pagina_est%C3%A1tica/">Implantanción y despliegue de una web estática</a></h4>
-								<h4 class="post-date">2021-02-15</h4>
-							</div>
-							<div class="post-summary"><p>La instalación es tan sencilla como usar apt:
-sudo apt install hugo  Una vez instalado el siguiente paso sería crear un sitio web:
-hugo new site [nombre]  Esto creará una carpeta donde podremos configurar nuestra página, para ello primero descargaremos desde la página oficial de hugo un tema. Debemos fijarnos que se corresponde con nuestra versión de hugo o es inferior, si elegimos una plantilla que necesite una versión de hugo superior dará problemas.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/pagina_est%C3%A1tica/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
 				</ul>
 				
+
+<div class="pagination-wrapper text-center">
+  <ul class="pagination">
+      
+      <li>
+          <a href="/tags/iweb/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+      </li>
+      
+      <li
+      class="disabled">
+          <a href="" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+      </li>
+      
+      <li
+      class="active"><a href="/tags/iweb/">1</a></li>
+      
+      <li
+      ><a href="/tags/iweb/page/2/">2</a></li>
+      
+      <li
+      >
+          <a href="/tags/iweb/page/2/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+      </li>
+      
+      <li>
+          <a href="/tags/iweb/page/2/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+      </li>
+      
+    </ul>
+</div>
 
 
 

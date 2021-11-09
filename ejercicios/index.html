@@ -110,6 +110,45 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/boletin_triggers/">Boletín de Triggers</a></h4>
+								<h4 class="post-date">2021-11-09</h4>
+							</div>
+							<div class="post-summary"><p>Haz un trigger que solo permita a los vendedores tener comisiones. CREATE OR REPLACE TRIGGER Com_vend BEFORE INSERT OR UPDATE ON emp BEGIN IF JOB!='Vendedor' THEN RAISE_APPLICATION_ERROR(-20100,'Los empleados que no sean vendedores no pueden tener comisiones'); END IF; END; Registrar todas las operaciones sobre la tabla EMP de SCOTT en una tabla llamada AUDIT_EMP donde se guarde usuario, fecha, tipo de operación y datos que ha modificado. CREATE OR REPLACE TRIGGER audit_empleados AFTER INSERT OR UPDATE OR DELETE ON emp BEGIN INSERT INTO AUDIT_EMP() </p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/ejercicios/boletin_triggers/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/gunicorn/">Desplegando aplicaciones flask con apache2 &#43; gunicorn</a></h4>
+								<h4 class="post-date">2021-11-09</h4>
+							</div>
+							<div class="post-summary"><p>Vamos a instalar este cms llamado gunicorn, para ello creamos un entorno virutal y lo instalamos:  (gunicorn) vagrant@cmsagv:~$ pip install gunicorn  Ahora desplegamos nuestra aplicación manualmente:  (gunicorn) vagrant@cmsagv:~/flask_temperaturas$ gunicorn -w 2 -b :8080 wsgi:application  Pero no vamos a ejecutar a mano la aplicación, por ello vamos a crear una unidad systemd. Para esto primero crearemos el fichero /etc/systemd/system/gunicorn-temperaturas.service y le añadiremos el siguiente contenido:  [Unit] Description=gunicorn-temperaturas After=network.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/ejercicios/gunicorn/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/wsgi/">Desplegando aplicaciones flask con apache2 &#43; mod_wsgi</a></h4>
+								<h4 class="post-date">2021-11-09</h4>
+							</div>
+							<div class="post-summary"><p>Creamos un entorno virtual y lo activamos:  vagrant@cmsagv:~/wsgi$ python3 -m venv wsgi (wsgi) vagrant@cmsagv:~$ source wsgi/bin/activate  Después de clonar la aplicación vamos a instalar los paquetes del fichero requeriments.txt.  (wsgi) vagrant@cmsagv:~/flask_temperaturas$ pip install -r requirements.txt  Tenemos que instalar el módulo de apache para que wsgi funcione  vagrant@cmsagv:~/flask_temperaturas$ sudo apt install libapache2-mod-wsgi-py3  Ahora creamos un fichero en el respositorio llamado wsgi.py donde añadiremos la siguiente línea:  from app import app as application  Creamos un virtual host con la siguiente configuración:  &lt;VirtualHost *:80&gt; WSGIDaemonProcess flask_temp python-path=/home/vagrant/flask_temperaturas:/home/vagrant/venv/fla&gt; WSGIProcessGroup flask_temp WSGIScriptAlias / /home/vagrant/flask_temperaturas/wsgi.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/ejercicios/wsgi/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/ejercico1_dns/">Ejercicio 1 DNS</a></h4>
 								<h4 class="post-date">2021-11-08</h4>
 							</div>

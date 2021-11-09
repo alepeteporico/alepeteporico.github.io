@@ -6,7 +6,25 @@
     <description>Recent content in IWEB on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 03 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/iweb/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 09 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/iweb/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Desplegando aplicaciones flask con apache2 &#43; gunicorn</title>
+      <link>https://alepeteporico.github.io/ejercicios/gunicorn/</link>
+      <pubDate>Tue, 09 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/gunicorn/</guid>
+      <description>Vamos a instalar este cms llamado gunicorn, para ello creamos un entorno virutal y lo instalamos:  (gunicorn) vagrant@cmsagv:~$ pip install gunicorn  Ahora desplegamos nuestra aplicación manualmente:  (gunicorn) vagrant@cmsagv:~/flask_temperaturas$ gunicorn -w 2 -b :8080 wsgi:application  Pero no vamos a ejecutar a mano la aplicación, por ello vamos a crear una unidad systemd. Para esto primero crearemos el fichero /etc/systemd/system/gunicorn-temperaturas.service y le añadiremos el siguiente contenido:  [Unit] Description=gunicorn-temperaturas After=network.</description>
+    </item>
+    
+    <item>
+      <title>Desplegando aplicaciones flask con apache2 &#43; mod_wsgi</title>
+      <link>https://alepeteporico.github.io/ejercicios/wsgi/</link>
+      <pubDate>Tue, 09 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/wsgi/</guid>
+      <description>Creamos un entorno virtual y lo activamos:  vagrant@cmsagv:~/wsgi$ python3 -m venv wsgi (wsgi) vagrant@cmsagv:~$ source wsgi/bin/activate  Después de clonar la aplicación vamos a instalar los paquetes del fichero requeriments.txt.  (wsgi) vagrant@cmsagv:~/flask_temperaturas$ pip install -r requirements.txt  Tenemos que instalar el módulo de apache para que wsgi funcione  vagrant@cmsagv:~/flask_temperaturas$ sudo apt install libapache2-mod-wsgi-py3  Ahora creamos un fichero en el respositorio llamado wsgi.py donde añadiremos la siguiente línea:  from app import app as application  Creamos un virtual host con la siguiente configuración:  &amp;lt;VirtualHost *:80&amp;gt; WSGIDaemonProcess flask_temp python-path=/home/vagrant/flask_temperaturas:/home/vagrant/venv/fla&amp;gt; WSGIProcessGroup flask_temp WSGIScriptAlias / /home/vagrant/flask_temperaturas/wsgi.</description>
+    </item>
+    
     <item>
       <title>Migración de aplicación web PHP</title>
       <link>https://alepeteporico.github.io/practicas/migracion_durpal/</link>

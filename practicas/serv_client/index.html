@@ -114,11 +114,24 @@
 <ul>
 <li>Hemos creado una maquina vagrant con centos 8 para instalar nuestro servidor de Oracle 19c, lo descargaremos de la <a href="https://www.oracle.com/es/database/technologies/oracle19c-linux-downloads.html#license-lightbox">página oficial de Oracle</a> y llevamos el fichero de instalación a nuestra máquina usando scp.</li>
 </ul>
-<pre><code>[vagrant@oracle ~]$ scp alejandrogv@172.22.6.119:/home/alejandrogv/Descargas/LINUX.X64_193000_db_home.zip .
+<pre><code>[vagrant@oracle ~]$ [vagrant@oracle ~]$ scp alejandrogv@172.22.1.226:/home/alejandrogv/Descargas/oracle.rpm .
 </code></pre><ul>
 <li>Debemos instalar las dependencias necesarias:</li>
 </ul>
 <pre><code>[vagrant@oracle ~]$ sudo dnf install -y bc binutils elfutils-libelf elfutils-libelf-devel fontconfig-devel glibc glibc-devel ksh libaio libaio-devel libXrender libXrender-devel libX11 libXau libXi libXtst libgcc librdmacm-devel libstdc++ libstdc++-devel libxcb make net-tools smartmontools sysstat unzip libnsl libnsl2
+</code></pre><ul>
+<li>Descargamos el preinstall de oracle.</li>
+</ul>
+<pre><code>curl -o oracle-database-preinstall-19c-1.0-2.el8.x86_64.rpm https://yum.oracle.com/repo/OracleLinux/OL8/appstream/x86_64/getPackage/oracle-database-preinstall-19c-1.0-2.el8.x86_64.rpm
+</code></pre><ul>
+<li>Ahora instalamos el preinstall y la base de datos en si:</li>
+</ul>
+<pre><code>[vagrant@oracle ~]$ sudo dnf install oracle-database-preinstall-19c-1.0-2.el8.x86_64.rpm
+[vagrant@oracle ~]$ sudo dnf install oracle.rpm
+</code></pre><ul>
+<li>Y procedemos a configurarlo:</li>
+</ul>
+<pre><code>[vagrant@oracle ~]$ sudo /etc/init.d/oracledb_ORCLCDB-19c configure
 </code></pre><ul>
 <li>Creamos los grupos y usuarios que necesitará oracle.</li>
 </ul>

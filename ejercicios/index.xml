@@ -6,7 +6,34 @@
     <description>Recent content in Ejercicios on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 08 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/ejercicios/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 09 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/ejercicios/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Boletín de Triggers</title>
+      <link>https://alepeteporico.github.io/ejercicios/boletin_triggers/</link>
+      <pubDate>Tue, 09 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/boletin_triggers/</guid>
+      <description>Haz un trigger que solo permita a los vendedores tener comisiones. CREATE OR REPLACE TRIGGER Com_vend BEFORE INSERT OR UPDATE ON emp BEGIN IF JOB!=&#39;Vendedor&#39; THEN RAISE_APPLICATION_ERROR(-20100,&#39;Los empleados que no sean vendedores no pueden tener comisiones&#39;); END IF; END; Registrar todas las operaciones sobre la tabla EMP de SCOTT en una tabla llamada AUDIT_EMP donde se guarde usuario, fecha, tipo de operación y datos que ha modificado. CREATE OR REPLACE TRIGGER audit_empleados AFTER INSERT OR UPDATE OR DELETE ON emp BEGIN INSERT INTO AUDIT_EMP() </description>
+    </item>
+    
+    <item>
+      <title>Desplegando aplicaciones flask con apache2 &#43; gunicorn</title>
+      <link>https://alepeteporico.github.io/ejercicios/gunicorn/</link>
+      <pubDate>Tue, 09 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/gunicorn/</guid>
+      <description>Vamos a instalar este cms llamado gunicorn, para ello creamos un entorno virutal y lo instalamos:  (gunicorn) vagrant@cmsagv:~$ pip install gunicorn  Ahora desplegamos nuestra aplicación manualmente:  (gunicorn) vagrant@cmsagv:~/flask_temperaturas$ gunicorn -w 2 -b :8080 wsgi:application  Pero no vamos a ejecutar a mano la aplicación, por ello vamos a crear una unidad systemd. Para esto primero crearemos el fichero /etc/systemd/system/gunicorn-temperaturas.service y le añadiremos el siguiente contenido:  [Unit] Description=gunicorn-temperaturas After=network.</description>
+    </item>
+    
+    <item>
+      <title>Desplegando aplicaciones flask con apache2 &#43; mod_wsgi</title>
+      <link>https://alepeteporico.github.io/ejercicios/wsgi/</link>
+      <pubDate>Tue, 09 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/wsgi/</guid>
+      <description>Creamos un entorno virtual y lo activamos:  vagrant@cmsagv:~/wsgi$ python3 -m venv wsgi (wsgi) vagrant@cmsagv:~$ source wsgi/bin/activate  Después de clonar la aplicación vamos a instalar los paquetes del fichero requeriments.txt.  (wsgi) vagrant@cmsagv:~/flask_temperaturas$ pip install -r requirements.txt  Tenemos que instalar el módulo de apache para que wsgi funcione  vagrant@cmsagv:~/flask_temperaturas$ sudo apt install libapache2-mod-wsgi-py3  Ahora creamos un fichero en el respositorio llamado wsgi.py donde añadiremos la siguiente línea:  from app import app as application  Creamos un virtual host con la siguiente configuración:  &amp;lt;VirtualHost *:80&amp;gt; WSGIDaemonProcess flask_temp python-path=/home/vagrant/flask_temperaturas:/home/vagrant/venv/fla&amp;gt; WSGIProcessGroup flask_temp WSGIScriptAlias / /home/vagrant/flask_temperaturas/wsgi.</description>
+    </item>
+    
     <item>
       <title>Ejercicio 1 DNS</title>
       <link>https://alepeteporico.github.io/ejercicios/ejercico1_dns/</link>

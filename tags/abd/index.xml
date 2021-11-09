@@ -6,7 +6,16 @@
     <description>Recent content in ABD on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 07 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/abd/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 09 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/abd/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Boletín de Triggers</title>
+      <link>https://alepeteporico.github.io/ejercicios/boletin_triggers/</link>
+      <pubDate>Tue, 09 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/boletin_triggers/</guid>
+      <description>Haz un trigger que solo permita a los vendedores tener comisiones. CREATE OR REPLACE TRIGGER Com_vend BEFORE INSERT OR UPDATE ON emp BEGIN IF JOB!=&#39;Vendedor&#39; THEN RAISE_APPLICATION_ERROR(-20100,&#39;Los empleados que no sean vendedores no pueden tener comisiones&#39;); END IF; END; Registrar todas las operaciones sobre la tabla EMP de SCOTT en una tabla llamada AUDIT_EMP donde se guarde usuario, fecha, tipo de operación y datos que ha modificado. CREATE OR REPLACE TRIGGER audit_empleados AFTER INSERT OR UPDATE OR DELETE ON emp BEGIN INSERT INTO AUDIT_EMP() </description>
+    </item>
+    
     <item>
       <title>COPIAS DE SEGURIDAD Y RECUPERACIÓN</title>
       <link>https://alepeteporico.github.io/practicas/copiasbbdd/</link>

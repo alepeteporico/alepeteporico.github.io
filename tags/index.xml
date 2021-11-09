@@ -6,22 +6,31 @@
     <description>Recent content in Tags on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 08 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 09 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>SRI</title>
-      <link>https://alepeteporico.github.io/tags/sri/</link>
-      <pubDate>Mon, 08 Nov 2021 00:00:00 +0000</pubDate>
+      <title>ABD</title>
+      <link>https://alepeteporico.github.io/tags/abd/</link>
+      <pubDate>Tue, 09 Nov 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://alepeteporico.github.io/tags/sri/</guid>
+      <guid>https://alepeteporico.github.io/tags/abd/</guid>
       <description></description>
     </item>
     
     <item>
       <title>IWEB</title>
       <link>https://alepeteporico.github.io/tags/iweb/</link>
-      <pubDate>Wed, 03 Nov 2021 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 09 Nov 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/tags/iweb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SRI</title>
+      <link>https://alepeteporico.github.io/tags/sri/</link>
+      <pubDate>Mon, 08 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/tags/sri/</guid>
       <description></description>
     </item>
     
@@ -67,15 +76,6 @@
       <pubDate>Mon, 20 Sep 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/tags/apuntes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>ABD</title>
-      <link>https://alepeteporico.github.io/tags/abd/</link>
-      <pubDate>Mon, 07 Jun 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/tags/abd/</guid>
       <description></description>
     </item>
     

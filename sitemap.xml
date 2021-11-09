@@ -3,17 +3,47 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://alepeteporico.github.io/</loc>
-    <lastmod>2021-11-08T00:00:00+00:00</lastmod>
+    <loc>https://alepeteporico.github.io/tags/abd/</loc>
+    <lastmod>2021-11-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://alepeteporico.github.io/ejercicios/ejercico1_dns/</loc>
-    <lastmod>2021-11-08T00:00:00+00:00</lastmod>
+    <loc>https://alepeteporico.github.io/</loc>
+    <lastmod>2021-11-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alepeteporico.github.io/ejercicios/boletin_triggers/</loc>
+    <lastmod>2021-11-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alepeteporico.github.io/ejercicios/gunicorn/</loc>
+    <lastmod>2021-11-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alepeteporico.github.io/ejercicios/wsgi/</loc>
+    <lastmod>2021-11-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://alepeteporico.github.io/ejercicios/</loc>
+    <lastmod>2021-11-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alepeteporico.github.io/tags/iweb/</loc>
+    <lastmod>2021-11-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alepeteporico.github.io/tags/</loc>
+    <lastmod>2021-11-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alepeteporico.github.io/ejercicios/ejercico1_dns/</loc>
     <lastmod>2021-11-08T00:00:00+00:00</lastmod>
   </url>
   
@@ -24,11 +54,6 @@
   
   <url>
     <loc>https://alepeteporico.github.io/tags/sri/</loc>
-    <lastmod>2021-11-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://alepeteporico.github.io/tags/</loc>
     <lastmod>2021-11-08T00:00:00+00:00</lastmod>
   </url>
   
@@ -50,11 +75,6 @@
   <url>
     <loc>https://alepeteporico.github.io/apuntes/dns_2021/</loc>
     <lastmod>2021-11-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://alepeteporico.github.io/tags/iweb/</loc>
-    <lastmod>2021-11-03T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -155,11 +175,6 @@
   <url>
     <loc>https://alepeteporico.github.io/practicas/instalacion_debian11/</loc>
     <lastmod>2021-09-16T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://alepeteporico.github.io/tags/abd/</loc>
-    <lastmod>2021-06-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
