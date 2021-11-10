@@ -104,17 +104,7 @@
                 <span class="post-date">2021-11-08 </span>
                 <div class="post-content">
                     <ul>
-<li>El primer paso será configurar el fichero <code>/etc/bind/named.conf.options</code> añadiendo las siguientes líneas.</li>
-</ul>
-<pre><code>recursion yes;
-
-allow-recursion { any; };
-
-listen-on { any; };
-
-allow-transfer { none; };
-</code></pre><ul>
-<li>Y ahora empezaremos a añadir las zonas de las que nuestro servidor tiene autoridad en el fichero <code>/etc/bind/named.conf.local</code>, dejandolo tal que así (tener en cuenta que hay que descomentar la primera línea).</li>
+<li>Empezaremos a añadir las zonas de las que nuestro servidor tiene autoridad en el fichero <code>/etc/bind/named.conf.local</code>, dejandolo tal que así (tener en cuenta que hay que descomentar la primera línea).</li>
 </ul>
 <pre><code>include &quot;/etc/bind/zones.rfc1918&quot;;
 

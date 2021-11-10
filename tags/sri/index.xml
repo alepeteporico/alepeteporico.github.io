@@ -13,7 +13,7 @@
       <pubDate>Mon, 08 Nov 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/ejercicios/ejercico1_dns/</guid>
-      <description>El primer paso será configurar el fichero /etc/bind/named.conf.options añadiendo las siguientes líneas.  recursion yes; allow-recursion { any; }; listen-on { any; }; allow-transfer { none; };  Y ahora empezaremos a añadir las zonas de las que nuestro servidor tiene autoridad en el fichero /etc/bind/named.conf.local, dejandolo tal que así (tener en cuenta que hay que descomentar la primera línea).  include &amp;quot;/etc/bind/zones.rfc1918&amp;quot;; zone &amp;quot;iesgn.org&amp;quot; { type master; file &amp;quot;db.</description>
+      <description>Empezaremos a añadir las zonas de las que nuestro servidor tiene autoridad en el fichero /etc/bind/named.conf.local, dejandolo tal que así (tener en cuenta que hay que descomentar la primera línea).  include &amp;quot;/etc/bind/zones.rfc1918&amp;quot;; zone &amp;quot;iesgn.org&amp;quot; { type master; file &amp;quot;db.iesgn.org&amp;quot;; }; zone &amp;quot;0.0.10.in-addr.arpa&amp;quot; { type master; file &amp;quot;db.0.0.10&amp;quot;; };  Ahora definiremos los fichero db.iesgn.org y db.0.0.10 dentro de /var/cache/bind/ vamos primero con la zona directa:  $TTL 86400 @ IN SOA alegv.</description>
     </item>
     
     <item>
