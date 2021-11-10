@@ -113,7 +113,7 @@
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/ejercico1_dns/">Ejercicio 1 DNS</a></h4>
 								<h4 class="post-date">2021-11-08</h4>
 							</div>
-							<div class="post-summary"><p></p></div>
+							<div class="post-summary"><p>El primer paso será configurar el fichero /etc/bind/named.conf.options añadiendo las siguientes líneas.  recursion yes; allow-recursion { any; }; listen-on { any; }; allow-transfer { none; };  Y ahora empezaremos a añadir las zonas de las que nuestro servidor tiene autoridad en el fichero /etc/bind/named.conf.local, dejandolo tal que así (tener en cuenta que hay que descomentar la primera línea).  include &quot;/etc/bind/zones.rfc1918&quot;; zone &quot;iesgn.org&quot; { type master; file &quot;db.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/ejercicios/ejercico1_dns/">Read More</a>
 							</div>
