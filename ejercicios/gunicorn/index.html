@@ -108,15 +108,38 @@
 </ul>
 <pre><code>(gunicorn) vagrant@cmsagv:~$ pip install gunicorn
 </code></pre><ul>
-<li>Ahora desplegamos nuestra aplicación manualmente:</li>
+<li>Vamos a instalar las dependencias del fichero requirements</li>
 </ul>
-<pre><code>(gunicorn) vagrant@cmsagv:~/flask_temperaturas$ gunicorn -w 2 -b :8080 wsgi:application
-</code></pre><p><img src="/gunicorn/1.png" alt="prueba1"></p>
-<ul>
+<pre><code>(gunicorn) vagrant@cmsagv:~/guestbook/app$ pip install -r requirements.txt
+</code></pre><ul>
+<li>Ahora vamos a crear un virtualhost donde añadiremos el modulo de proxy inverso ya. Y moveremos el guestbook a /var/www/</li>
+</ul>
+<pre><code>&lt;VirtualHost *:80&gt;
+        ServerName www.alegv-guestbook.com
+
+        DocumentRoot /var/www/guestbook/app/
+
+        ProxyPass / http://127.0.0.1:8080/
+
+        ProxyPassReverse / http://127.0.0.1:8080/
+
+        &lt;Directory /var/www/guestbook/app/&gt;
+                Require all granted
+        &lt;/Directory&gt;
+
+        ErrorLog /var/log/apache2/wsgi_error.log
+        CustomLog /var/log/apache2/wsgi_access.log combined
+
+&lt;/VirtualHost&gt;
+</code></pre><ul>
+<li>Tenemos que activar en modulo de proxy inverso en apache2.</li>
+</ul>
+<pre><code>(gunicorn) vagrant@cmsagv:~$ sudo a2enmod proxy_http
+</code></pre><ul>
 <li>Pero no vamos a ejecutar a mano la aplicación, por ello vamos a crear una unidad systemd. Para esto primero crearemos el fichero <code>/etc/systemd/system/gunicorn-temperaturas.service</code> y le añadiremos el siguiente contenido:</li>
 </ul>
 <pre><code>[Unit]
-Description=gunicorn-temperaturas
+Description=gunicorn-guestbook
 After=network.target
 
 [Install]
@@ -127,23 +150,24 @@ User=www-data
 Group=www-data
 Restart=always
 
-ExecStart=/home/vagrant/venv/flask/bin/gunicorn -w 2 -b :8080 wsgi:application
+ExecStart=/home/vagrant/gunicorn/bin/gunicorn -w 2 -b :8080 wsgi:application
 ExecReload=/bin/kill -s HUP $MAINPID
 ExecStop=/bin/kill -s TERM $MAINPID
 
-WorkingDirectory=/home/vagrant/flask_temperaturas
-Environment=PYTHONPATH='/home/vagrant/flask_temperaturas:/home/vagrant/venv/flask/lib/python3.9/site-packages'
+WorkingDirectory=/var/www/guestbook/app
+Environment=PYTHONPATH='/var/www/guestbook/app:/home/vagrant/gunicorn/lib/python3.9/site-packages'
 
 PrivateTmp=true
 </code></pre><ul>
 <li>Habilitamos e iniciamos esta unidad:</li>
 </ul>
-<pre><code>vagrant@cmsagv:~/flask_temperaturas$ sudo systemctl enable gunicorn-temperaturas.service
+<pre><code>vagrant@cmsagv:~/flask_temperaturas$ sudo systemctl enable gunicorn-guestbook.service
 
-vagrant@cmsagv:~/flask_temperaturas$ sudo systemctl start gunicorn-temperaturas.service
+vagrant@cmsagv:~/flask_temperaturas$ sudo systemctl start gunicorn-guestbook.service
 </code></pre><ul>
-<li></li>
+<li>Y ya tendriamos nuestra aplicacion python funcionando.</li>
 </ul>
+<p><img src="/gunicorn/1.png" alt="prueba1"></p>
 
                 </div>
                 

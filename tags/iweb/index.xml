@@ -13,7 +13,7 @@
       <pubDate>Tue, 09 Nov 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/ejercicios/gunicorn/</guid>
-      <description>Vamos a instalar este cms llamado gunicorn, para ello creamos un entorno virutal y lo instalamos:  (gunicorn) vagrant@cmsagv:~$ pip install gunicorn  Ahora desplegamos nuestra aplicación manualmente:  (gunicorn) vagrant@cmsagv:~/flask_temperaturas$ gunicorn -w 2 -b :8080 wsgi:application  Pero no vamos a ejecutar a mano la aplicación, por ello vamos a crear una unidad systemd. Para esto primero crearemos el fichero /etc/systemd/system/gunicorn-temperaturas.service y le añadiremos el siguiente contenido:  [Unit] Description=gunicorn-temperaturas After=network.</description>
+      <description>Vamos a instalar este cms llamado gunicorn, para ello creamos un entorno virutal y lo instalamos:  (gunicorn) vagrant@cmsagv:~$ pip install gunicorn  Vamos a instalar las dependencias del fichero requirements  (gunicorn) vagrant@cmsagv:~/guestbook/app$ pip install -r requirements.txt  Ahora vamos a crear un virtualhost donde añadiremos el modulo de proxy inverso ya. Y moveremos el guestbook a /var/www/  &amp;lt;VirtualHost *:80&amp;gt; ServerName www.alegv-guestbook.com DocumentRoot /var/www/guestbook/app/ ProxyPass / http://127.0.0.1:8080/ ProxyPassReverse / http://127.</description>
     </item>
     
     <item>
