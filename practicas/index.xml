@@ -6,7 +6,16 @@
     <description>Recent content in Practicas on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 06 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 08 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Escenario KVM</title>
+      <link>https://alepeteporico.github.io/practicas/escenario_kvm/</link>
+      <pubDate>Mon, 08 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/escenario_kvm/</guid>
+      <description>Definamos nuestra red interna llamada interna_agv en un fichero xml.  &amp;lt;network&amp;gt; &amp;lt;name&amp;gt;interna_agv&amp;lt;/name&amp;gt; &amp;lt;forward mode=&amp;quot;bridge&amp;quot;/&amp;gt; &amp;lt;bridge name=&amp;quot;br0&amp;quot;/&amp;gt; &amp;lt;/network&amp;gt;  Vamos a crear la red.  alejandrogv@AlejandroGV:~/kvm/redes$ virsh -c qemu:///system net-create --file interna_agv.xml La red interna_agv ha sido creada desde interna_agv.xml  Y hacemos lo mismo con la red DMZ.  &amp;lt;network&amp;gt; &amp;lt;name&amp;gt;interna_agv&amp;lt;/name&amp;gt; &amp;lt;forward mode=&amp;quot;bridge&amp;quot;/&amp;gt; &amp;lt;bridge name=&amp;quot;br0&amp;quot;/&amp;gt; &amp;lt;/network&amp;gt; alejandrogv@AlejandroGV:~/kvm/redes$ virsh -c qemu:///system net-create --file dmz.xml La red dmz_agv ha sido creada desde dmz.</description>
+    </item>
+    
     <item>
       <title>Configuración del escenario router-nat con vagrant y ansible</title>
       <link>https://alepeteporico.github.io/practicas/ejercicio3_vagrant_ansible/</link>
