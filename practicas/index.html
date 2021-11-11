@@ -110,6 +110,19 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/asimetrico/">Cifrado asimétrico con gpg y openssl</a></h4>
+								<h4 class="post-date">2021-11-11</h4>
+							</div>
+							<div class="post-summary"><p>Tarea 1: Generación de claves  Generamos las claves:  alejandrogv@AlejandroGV:~$ gpg --gen-key gpg (GnuPG) 2.2.27; Copyright (C) 2021 Free Software Foundation, Inc. This is free software: you are free to change and redistribute it. There is NO WARRANTY, to the extent permitted by law. Nota: Usa &quot;gpg --full-generate-key&quot; para el diálogo completo de generación de clave. GnuPG debe construir un ID de usuario para identificar su clave. Nombre y apellidos: ALejandro Gutiérrez Valencia Dirección de correo electrónico: tojandro@gmail.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/asimetrico/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/escenario_kvm/">Escenario KVM</a></h4>
 								<h4 class="post-date">2021-11-08</h4>
 							</div>
@@ -227,22 +240,6 @@ vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla 
   option domain-name «servidorpxe.com»; option domain-name-servers «server1.servidorpxe.com»; subnet 192.168.1.100 netmask 255.255.255.0 { range 192.168.1.10 192.168.1.30; option routers 192.168.1.1; option broadcast-address 192.168.1.255; } default-lease-time 600; max-lease-time 7200 authoritative;  Vamos a instalar los paquetes necesarios para nuestro servidor pxe  vagrant@pxe:~$ sudo apt install apache2 tftpd-hpa inetutils-inetd  Ahora añadimos al fichero /etc/default/tftpd-hpa las siguientes líneas para iniciar el demonio.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/pxe/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/kernel/">Compilación de un kérnel linux a medida</a></h4>
-								<h4 class="post-date">2021-09-17</h4>
-							</div>
-							<div class="post-summary"><p>Vamos a necesitar instalar cierta paquetería como vemos a continuación.
- alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ sudo apt install build-essential qtbase5-dev    Necesitamos saber que versión del kernel estamos usando.
- alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ uname -r 5.10.0-8-amd64    Descargaremos la versión de nuestro kernel desde la página oficial
- alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ wget https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.10.tar.gz alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ ls linux-5.10.tar.gz    Descomprimos este archivo y el resultado será una carpeta con muchisima información.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/kernel/">Read More</a>
 							</div>
 						</div>
 					</li>
