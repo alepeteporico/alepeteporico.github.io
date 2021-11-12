@@ -6,7 +6,16 @@
     <description>Recent content on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 11 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 12 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Migración de CentOS 8 a Rocky</title>
+      <link>https://alepeteporico.github.io/ejercicios/migracion_rocky/</link>
+      <pubDate>Fri, 12 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/migracion_rocky/</guid>
+      <description>Vamos a usar la distribución Rocky porque es una instalación sencilla, esta distribución está sopoprtada de la misma forma que estaba soportada CentOS. Esto nos asegura que tendremos nuestro sistema actualizado tal como teníamos CentOS, es más, esto no es mas que una distribución &amp;ldquo;hija&amp;rdquo; de la CentOS creada simplemente para sustituir a esta distribución ya sin soporte. Y es exactamente lo que haremos.    Comprobamos la version de centos que tenemos  [centos@migracion ~]$ hostnamectl Static hostname: migracion.</description>
+    </item>
+    
     <item>
       <title>Cifrado asimétrico con gpg y openssl</title>
       <link>https://alepeteporico.github.io/practicas/asimetrico/</link>
