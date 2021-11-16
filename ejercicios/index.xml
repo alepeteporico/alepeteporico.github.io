@@ -8,6 +8,15 @@
     <language>en-us</language>
     <lastBuildDate>Fri, 12 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/ejercicios/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Instalación y configuración de un servidor DNS esclavo </title>
+      <link>https://alepeteporico.github.io/ejercicios/dns_ejercicio2/</link>
+      <pubDate>Fri, 12 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/dns_ejercicio2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Migración de CentOS 8 a Rocky</title>
       <link>https://alepeteporico.github.io/ejercicios/migracion_rocky/</link>
       <pubDate>Fri, 12 Nov 2021 00:00:00 +0000</pubDate>
