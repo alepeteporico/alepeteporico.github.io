@@ -6,7 +6,16 @@
     <description>Recent content in SAD on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 11 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/sad/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 18 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/sad/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Integridad, firmas y autentificación</title>
+      <link>https://alepeteporico.github.io/practicas/firmas/</link>
+      <pubDate>Thu, 18 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/firmas/</guid>
+      <description>Tarea 1:  Firmamos un fichero que enviaremos a nuestros compañeros para que comprueben nuestra firma:  alejandrogv@AlejandroGV:~/Descargas$ gpg --output fichero.sign --sign fichero.txt  He enviado un archivo firmado a un compañero que dispone de mi clave pública, los dos hemos verificado la firma.  alejandrogv@AlejandroGV:~/Descargas$ gpg --verify p2pdf.pdf.sign gpg: Firmado el jue 18 nov 2021 12:25:18 CET gpg: usando RSA clave 47742CCB469EB70E132966EDEDA6F79F602CACBD gpg: Firma correcta de &amp;quot;Daniel Miguel Mesa Mejias &amp;lt;danimesamejias@gmail.</description>
+    </item>
+    
     <item>
       <title>Cifrado asimétrico con gpg y openssl</title>
       <link>https://alepeteporico.github.io/practicas/asimetrico/</link>
@@ -35,16 +44,6 @@
  debian@dulcinea:~$ sudo apt install nftables    Activamos y habilitamos este servicio.
  debian@dulcinea:~$ sudo systemctl start nftables debian@dulcinea:~$ sudo systemctl enable nftables    Configuraremos la política por defecto a DROP.
  nft chain inet filter input { policy drop \; } nft chain inet filter forward { policy drop \; } nft chain inet filter output { policy drop \; }    Añadimos las reglas de NAT.</description>
-    </item>
-    
-    <item>
-      <title>Integridad, firmas y autentificación</title>
-      <link>https://alepeteporico.github.io/practicas/firmas/</link>
-      <pubDate>Sun, 30 May 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/firmas/</guid>
-      <description>Tarea 1:   He enviado un archivo firmado a un compañero que dispone de mi clave pública, los dos hemos verificado la firma.
- alejandrogv@AlejandroGV:~/Descargas$ gpg --verify firma2.pdf.gpg gpg: Firmado el jue 22 oct 2020 12:11:31 CEST gpg: usando RSA clave 28ED3C3112ED8846BEDFFAF657112B319F2A6170 gpg: emisor &amp;quot;frandh1997@gmail.com&amp;quot; gpg: Firma correcta de &amp;quot;Francisco Javier Madueño Jurado &amp;lt;frandh1997@gmail.com&amp;gt;&amp;quot; [desconocido] gpg: ATENCIÓN: ¡Esta clave no está certificada por una firma de confianza! gpg: No hay indicios de que la firma pertenezca al propietario.</description>
     </item>
     
     <item>

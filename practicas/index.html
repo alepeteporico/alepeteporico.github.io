@@ -110,6 +110,32 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/firmas/">Integridad, firmas y autentificación</a></h4>
+								<h4 class="post-date">2021-11-18</h4>
+							</div>
+							<div class="post-summary"><p>Tarea 1:  Firmamos un fichero que enviaremos a nuestros compañeros para que comprueben nuestra firma:  alejandrogv@AlejandroGV:~/Descargas$ gpg --output fichero.sign --sign fichero.txt  He enviado un archivo firmado a un compañero que dispone de mi clave pública, los dos hemos verificado la firma.  alejandrogv@AlejandroGV:~/Descargas$ gpg --verify p2pdf.pdf.sign gpg: Firmado el jue 18 nov 2021 12:25:18 CET gpg: usando RSA clave 47742CCB469EB70E132966EDEDA6F79F602CACBD gpg: Firma correcta de &quot;Daniel Miguel Mesa Mejias &lt;danimesamejias@gmail.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/firmas/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/despliegue_python/">Despliegue de una aplicación python</a></h4>
+								<h4 class="post-date">2021-11-16</h4>
+							</div>
+							<div class="post-summary"><p>Vamos a desarrollar la aplicación del tutorial de django 3.1. Vamos a configurar tu equipo como entorno de desarrollo para trabajar con la aplicación.   Realizamos un fork de la aplicación añadiendola a nuestros repositorios y seguidamente lo clonaremos en nuestra maquina:  alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python$ git clone git@github.com:alepeteporico/django_tutorial.git  Crearemos el entorno virtual donde instalaremos las dependencias necesarias para hacer funcionar nuestra aplicación.  alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ python3 -m venv django (django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ pip install -r despliegue_python/django_tutorial/requirements.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/despliegue_python/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/asimetrico/">Cifrado asimétrico con gpg y openssl</a></h4>
 								<h4 class="post-date">2021-11-11</h4>
 							</div>
@@ -212,34 +238,6 @@ vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla 
 							<div class="post-summary"><p>Vamos a realizar e implementar una aplicación web estática, para ello usaremos el generador de páginas estáticas jekyll y usaremos para implementarlo surge. jekyll  Para la instalación de jekyll primero debemos asegurarnos de tener instalado ruby y algunas dependencias ya que la aplicación está escrita en este lenguaje.  sudo apt install ruby ruby-dev  Y ahora si podemos instalar jekyll.  sudo gem install bundler jekyll  Ahora crearemos nuestro sitio web en el entorno de desarrollo  jekyll new jekyll_dinamico  Vamos a visualizar el contenido de este sitio que se nos ha generado por defecto.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/web_estatica/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/herramientas_de_seguridad/">Herramientas de seguridad</a></h4>
-								<h4 class="post-date">2021-09-23</h4>
-							</div>
-							<div class="post-summary"><p>Sistemas de detección de intrusos  Vamos a usar como sistema de detección de intrusos la herramienta SURICATA, parece ser la más usada a día de hoy   Vamos a instalar el paquete de suricata y oinkmaster que usaremos mas adelante.  root@suricata:~# apt install suricata  La instalación ha sido sencilla, para configurar los parametros básicos iremos al fichero /etc/suricata/suricata.yaml, lo primero que haremos será asegurarnos que suricata escucha por la interfaz correcta.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/herramientas_de_seguridad/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/pxe/">Instalación y configuración de un servidor PXE en debian</a></h4>
-								<h4 class="post-date">2021-09-21</h4>
-							</div>
-							<div class="post-summary"><p>En la máquina que usaremos como servidor pxe debemos instalar también un servidor dhcp que dará direccionamiento IP a nuestros clientes.
- vagrant@pxe:~$ sudo apt install isc-dhcp-server    Ahora en el fichero /etc/dhcp/dhcpd.conf añadimos la configuración de nuestro dhcp.
-  option domain-name «servidorpxe.com»; option domain-name-servers «server1.servidorpxe.com»; subnet 192.168.1.100 netmask 255.255.255.0 { range 192.168.1.10 192.168.1.30; option routers 192.168.1.1; option broadcast-address 192.168.1.255; } default-lease-time 600; max-lease-time 7200 authoritative;  Vamos a instalar los paquetes necesarios para nuestro servidor pxe  vagrant@pxe:~$ sudo apt install apache2 tftpd-hpa inetutils-inetd  Ahora añadimos al fichero /etc/default/tftpd-hpa las siguientes líneas para iniciar el demonio.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/pxe/">Read More</a>
 							</div>
 						</div>
 					</li>

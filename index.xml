@@ -6,7 +6,25 @@
     <description>Recent content on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 12 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 18 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Integridad, firmas y autentificación</title>
+      <link>https://alepeteporico.github.io/practicas/firmas/</link>
+      <pubDate>Thu, 18 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/firmas/</guid>
+      <description>Tarea 1:  Firmamos un fichero que enviaremos a nuestros compañeros para que comprueben nuestra firma:  alejandrogv@AlejandroGV:~/Descargas$ gpg --output fichero.sign --sign fichero.txt  He enviado un archivo firmado a un compañero que dispone de mi clave pública, los dos hemos verificado la firma.  alejandrogv@AlejandroGV:~/Descargas$ gpg --verify p2pdf.pdf.sign gpg: Firmado el jue 18 nov 2021 12:25:18 CET gpg: usando RSA clave 47742CCB469EB70E132966EDEDA6F79F602CACBD gpg: Firma correcta de &amp;quot;Daniel Miguel Mesa Mejias &amp;lt;danimesamejias@gmail.</description>
+    </item>
+    
+    <item>
+      <title>Despliegue de una aplicación python</title>
+      <link>https://alepeteporico.github.io/practicas/despliegue_python/</link>
+      <pubDate>Tue, 16 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/despliegue_python/</guid>
+      <description>Vamos a desarrollar la aplicación del tutorial de django 3.1. Vamos a configurar tu equipo como entorno de desarrollo para trabajar con la aplicación.   Realizamos un fork de la aplicación añadiendola a nuestros repositorios y seguidamente lo clonaremos en nuestra maquina:  alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python$ git clone git@github.com:alepeteporico/django_tutorial.git  Crearemos el entorno virtual donde instalaremos las dependencias necesarias para hacer funcionar nuestra aplicación.  alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ python3 -m venv django (django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ pip install -r despliegue_python/django_tutorial/requirements.</description>
+    </item>
+    
     <item>
       <title>Instalación y configuración de un servidor DNS esclavo </title>
       <link>https://alepeteporico.github.io/ejercicios/dns_ejercicio2/</link>
@@ -397,16 +415,6 @@ MariaDB [(none)]&amp;gt; CREATE DATABASE wordpress; Query OK, 1 row affected (0.
     </item>
     
     <item>
-      <title>Integridad, firmas y autentificación</title>
-      <link>https://alepeteporico.github.io/practicas/firmas/</link>
-      <pubDate>Sun, 30 May 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/firmas/</guid>
-      <description>Tarea 1:   He enviado un archivo firmado a un compañero que dispone de mi clave pública, los dos hemos verificado la firma.
- alejandrogv@AlejandroGV:~/Descargas$ gpg --verify firma2.pdf.gpg gpg: Firmado el jue 22 oct 2020 12:11:31 CEST gpg: usando RSA clave 28ED3C3112ED8846BEDFFAF657112B319F2A6170 gpg: emisor &amp;quot;frandh1997@gmail.com&amp;quot; gpg: Firma correcta de &amp;quot;Francisco Javier Madueño Jurado &amp;lt;frandh1997@gmail.com&amp;gt;&amp;quot; [desconocido] gpg: ATENCIÓN: ¡Esta clave no está certificada por una firma de confianza! gpg: No hay indicios de que la firma pertenezca al propietario.</description>
-    </item>
-    
-    <item>
       <title>Despliegue de un cluster de kubernetes</title>
       <link>https://alepeteporico.github.io/practicas/cluster_kubernetes/</link>
       <pubDate>Thu, 27 May 2021 00:00:00 +0000</pubDate>
@@ -523,15 +531,6 @@ MariaDB [(none)]&amp;gt; CREATE DATABASE wordpress; Query OK, 1 row affected (0.
  vagrant@cmsjava:~$ sudo apt install build-essential libcairo2-dev libjpeg62-turbo-dev libpng-dev libtool-bin libossp-uuid-dev libavcodec-dev libavformat-dev libswscale-dev freerdp2-dev libpango1.0-dev libssh2-1-dev libtelnet-dev libvncserver-dev libwebsockets-dev libpulse-dev libvorbis-dev libwebp-dev    Descargaremos la aplicación del sitio oficial.
  vagrant@cmsjava:~$ wget http://archive.apache.org/dist/guacamole/1.2.0/source/guacamole-server-1.2.0.tar.gz    Descomprimimos la carpeta que acabamos de descargar.
  vagrant@cmsjava:~$ tar -zxf guacamole-server-1.2.0.tar.gz vagrant@cmsjava:~$ ls guacamole-server-1.2.0    Entraremos y lo instalaremos siguiendo los siguientes pasos.</description>
-    </item>
-    
-    <item>
-      <title>Despliegue de una aplicación python</title>
-      <link>https://alepeteporico.github.io/practicas/despliegue_python/</link>
-      <pubDate>Mon, 26 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/despliegue_python/</guid>
-      <description>Vamos a desarrollar la aplicación del tutorial de django 3.1. Vamos a configurar tu equipo como entorno de desarrollo para trabajar con la aplicación.   Realizamos un fork de la aplicación añadiendola a nuestros repositorios y seguidamente lo clonaremos en nuestra maquina:  alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python$ git clone git@github.com:alepeteporico/django_tutorial.git  Crearemos el entorno virtual donde instalaremos las dependencias necesarias para hacer funcionar nuestra aplicación.  alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ python3 -m venv django (django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ pip install -r despliegue_python/django_tutorial/requirements.</description>
     </item>
     
     <item>
