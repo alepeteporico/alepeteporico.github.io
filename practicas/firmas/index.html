@@ -119,7 +119,12 @@ gpg: ATENCIÓN: ¡Esta clave no está certificada por una firma de confianza!
 gpg:          No hay indicios de que la firma pertenezca al propietario.
 Huellas dactilares de la clave primaria: 4774 2CCB 469E B70E 1329  66ED EDA6 F79F 602C ACBD
 </code></pre><ul>
-<li>Ahora firmaremos la clave de este compañero:</li>
+<li>
+<p>El mensaje de error que aparece se debe a que no hemos firmado esta clave. El sistema no tiene seguridad de que esta clave pertenece a la persona que dice ser.</p>
+</li>
+<li>
+<p>Ahora firmaremos la clave de este compañero:</p>
+</li>
 </ul>
 <pre><code>alejandrogv@AlejandroGV:~/Descargas$ gpg --sign-key 602CACBD
 
