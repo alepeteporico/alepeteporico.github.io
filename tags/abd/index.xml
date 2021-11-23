@@ -6,7 +6,17 @@
     <description>Recent content in ABD on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 09 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/abd/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 23 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/abd/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>PLSQL</title>
+      <link>https://alepeteporico.github.io/ejercicios/plsql/</link>
+      <pubDate>Tue, 23 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/plsql/</guid>
+      <description>Realiza una función que reciba el código de un aerogenerador y una fecha y devuelva el total de energía producida en esa fecha. Debes controlar las siguientes excepciones: Aerogenerador inexistente y Aerogenerador en desconexión durante ese día.  BEGIN
+END;</description>
+    </item>
+    
     <item>
       <title>Boletín de Triggers</title>
       <link>https://alepeteporico.github.io/ejercicios/boletin_triggers/</link>

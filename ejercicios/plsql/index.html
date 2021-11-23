@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title> Escenario KVM &middot; Alepetepórico Blog </title>
+        <title> PLSQL &middot; Alepetepórico Blog </title>
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -100,52 +100,15 @@
 
         <div class="flex-wrapper">
             <div class="container wrapper">
-                <h1><a href="https://alepeteporico.github.io/practicas/escenario_kvm/">Escenario KVM</a></h1>
-                <span class="post-date">2021-11-08 </span>
+                <h1><a href="https://alepeteporico.github.io/ejercicios/plsql/">PLSQL</a></h1>
+                <span class="post-date">2021-11-23 </span>
                 <div class="post-content">
-                    <ul>
-<li>Definamos nuestra red interna llamada <code>interna_agv</code> en un fichero xml.</li>
-</ul>
-<pre><code>&lt;network&gt;
-  &lt;name&gt;interna_agv&lt;/name&gt;
-  &lt;forward mode=&quot;bridge&quot;/&gt;
-  &lt;bridge name=&quot;br0&quot;/&gt;
-&lt;/network&gt;
-</code></pre><ul>
-<li>Vamos a crear la red.</li>
-</ul>
-<pre><code>alejandrogv@AlejandroGV:~/kvm/redes$ virsh -c qemu:///system net-create --file interna_agv.xml 
-La red interna_agv ha sido creada desde interna_agv.xml
-</code></pre><ul>
-<li>Y hacemos lo mismo con la red DMZ.</li>
-</ul>
-<pre><code>&lt;network&gt;
-  &lt;name&gt;interna_agv&lt;/name&gt;
-  &lt;forward mode=&quot;bridge&quot;/&gt;
-  &lt;bridge name=&quot;br0&quot;/&gt;
-&lt;/network&gt;
-</code></pre><pre><code>alejandrogv@AlejandroGV:~/kvm/redes$ virsh -c qemu:///system net-create --file dmz.xml 
-La red dmz_agv ha sido creada desde dmz.xml
-</code></pre><ul>
-<li>Creamos la máquina:</li>
-</ul>
-<pre><code>virt-install --cdrom /home/alejandrogv/Escritorio/ISOS/debian-11.1.0-amd64-netinst.iso --memory 512 --vcpus 1 --network network=bridge --network network=interna_agv --network network=dmz_agv --disk size=10 --name  zeus
-</code></pre><ul>
-<li>una vez detro lo primero que haremos será habilitar la NAT, para ello descomentaremos la siguiente línea del fichero <code>/etc/sysctl.conf</code></li>
-</ul>
-<pre><code>net.ipv4.ip_forward=1
-</code></pre><ul>
-<li>Para asegurarnos de que el bit de forwarding se activa también podemos usar el siguiente comando:</li>
-</ul>
-<pre><code>root@zeus:~# echo 1 &gt; /proc/sys/net/ipv4/ip_forward
-</code></pre><ul>
-<li>Ahora añadiremos las reglas de iptables:</li>
-</ul>
-<pre><code>root@zeus:~# iptables -t nat -A POSTROUTING -s 172.16.0.0/16 -o enp3s0 -j MASQUERADE
-root@zeus:~# iptables -t nat -A POSTROUTING -s 10.0.1.0/24 -o enp3s0 -j MASQUERADE
-</code></pre><ul>
-<li></li>
-</ul>
+                    <p><img src="/PLSQL/1.png" alt="tablas"></p>
+<ol>
+<li>Realiza una función que reciba el código de un aerogenerador y una fecha y devuelva el total de energía producida en esa fecha. Debes controlar las siguientes excepciones: Aerogenerador inexistente y Aerogenerador en desconexión durante ese día.</li>
+</ol>
+<p>BEGIN</p>
+<p>END;</p>
 
                 </div>
                 

@@ -282,42 +282,81 @@ This password is too common.
 Bypass password validation and create user anyway? [y/N]: y
 Superuser created successfully.
 </code></pre><ul>
-<li>
-<p>Ahora crearemos un VirtualHost que tendrá la siguiente configuración:</p>
-<pre><code>  &lt;VirtualHost *:80&gt;
+<li>Crearemos una unidad de systemd con el siguiente contenido:</li>
+</ul>
+<pre><code>[Unit]
+Description=django_aplicacion
+After=network.target
 
-          ServerName www.alegvdjango.es
+[Install]
+WantedBy=multi-user.target
 
-          ServerAdmin webmaster@localhost
-          WSGIDaemonProcess app_python user=www-data group=www-data processes=1 threads=5 python-path=/var$
-          WSGIScriptAlias / /var/www/django_tutorial/django_tutorial/wsgi.py
-          DocumentRoot /var/www/html
+[Service]
+User=www-data
+Group=www-data
+Restart=always
 
-          Alias /static/ /var/www/django_tutorial/static/
+ExecStart=/home/debian/entornos/django/bin/gunicorn -w 2 -b :8080 wsgi:application
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
 
-          &lt;Directory /var/www/django_tutorial&gt;
-                  WSGIProcessGroup app_python
-                  WSGIApplicationGroup %{GLOBAL}
-                  Require all granted
-          &lt;/Directory&gt;
+WorkingDirectory=/var/www/django_tutorial/django_tutorial
+Environment=PYTHONPATH='/var/www/django_tutorial/django_tutorial:/home/debian/entornos/django/lib/python3.9/site-packages'
 
-          ErrorLog ${APACHE_LOG_DIR}/error.log
-          CustomLog ${APACHE_LOG_DIR}/access.log combined
+PrivateTmp=true
+</code></pre><ul>
+<li>Ahora crearemos un VirtualHost que tendrá la siguiente configuración:</li>
+</ul>
+<pre><code>server
 
-  &lt;/VirtualHost&gt;
-</code></pre>
-</li>
-<li>
-<p>Creamos las carpetas para el contenido estático que tendremos que copiar de los directorios que veremos a continuación:</p>
-<pre><code>  (django) root@python:/var/www/django_tutorial# mkdir -p static/{admin,polls}
+{
 
-  (django) root@python:/var/www/django_tutorial# cp -r /home/debian/django/lib/python3.7/site-packages/django/contrib/admin/static/admin/* static/admin/
-  (django) root@python:/var/www/django_tutorial# cp -r polls/static/polls/* static/polls/
-</code></pre>
-</li>
-<li>
-<p>añadiremos al <code>/etc/hosts</code> de nuestra anfitriona la dirección de nuestra aplicación y comprobaremos su funcionamiento.</p>
-</li>
+    listen 80;
+
+    server_name www.alegvdjango.site;
+
+    index index.php index.html index.htm default.php default.htm default.html;
+
+    root /var/www/django_tutorial;
+
+    #path_to_your_directory
+
+    # Forbidden files or directories
+
+    location ~ ^/(\.user.ini|\.htaccess|\.git|\.svn|\.project|LICENSE|README.md)
+
+    {
+
+        return 404;
+
+    }
+
+     location /static {
+
+        autoindex on;
+
+        alias /var/www/django_tutorial/static/ ;
+
+    }
+
+    location /
+
+{
+
+    proxy_pass http://127.0.0.1:8000;
+
+}
+
+}
+</code></pre><ul>
+<li>Creamos las carpetas para el contenido estático que tendremos que copiar de los directorios que veremos a continuación:</li>
+</ul>
+<pre><code>root@mrrobot:/var/www/django_tutorial# mkdir -p static/{admin,polls}
+
+root@mrrobot:/var/www/django_tutorial# cp -r /home/debian/entornos/django/lib/python3.9/site-packages/django/contrib/admin/static/admin/* static/admin/
+root@mrrobot:/var/www/django_tutorial# cp -r polls/static/polls/* static/polls/
+</code></pre><ul>
+<li>añadiremos al <code>/etc/hosts</code> de nuestra anfitriona la dirección de nuestra aplicación y comprobaremos su funcionamiento.</li>
 </ul>
 <p><img src="/despliegue_python/7.png" alt="exito"></p>
 <ul>
