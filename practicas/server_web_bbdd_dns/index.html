@@ -174,26 +174,25 @@ allow-recursion { any; };
 </code></pre>
 <p><strong>Crearemos los archivos db, lo hacemos en la carpeta &ldquo;/var/cache/bind/&quot;</strong></p>
 <h3 id="dbalegvinterna">db.alegv.interna</h3>
-<pre><code>    $TTL    86400
-    @       IN      SOA     freston.alegv.gonzalonazareno.org. admin.alegv.gonzalonazareno.org. (
-                                  1         ; Serial
-                             604800         ; Refresh
-                              86400         ; Retry
-                            2419200         ; Expire
-                              86400 )       ; Negative Cache TTL
-    ;
-    @       IN      NS      freston.alegv.gonzalonazareno.org.
+<pre><code>$TTL    86400
+@       IN      SOA     freston.alegv.gonzalonazareno.org. admin.alegv.gonzalonazareno.org. (
+                              1         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                          86400 )       ; Negative Cache TTL
+;
+@       IN      NS      freston.alegv.gonzalonazareno.org.
 
-    $ORIGIN alegv.gonzalonazareno.org.
+$ORIGIN alegv.gonzalonazareno.org.
 
-    dulcinea        IN      A       10.0.1.8
-    sancho  IN      A       10.0.1.6
-    quijote IN      A       10.0.2.5
-    freston IN      A       10.0.1.9
-    www     IN      CNAME   quijote
-    bd      IN      CNAME   sancho
-</code></pre>
-<h3 id="dbalegvdmz">db.alegv.dmz</h3>
+dulcinea        IN      A       10.0.1.8
+sancho  IN      A       10.0.1.6
+quijote IN      A       10.0.2.5
+freston IN      A       10.0.1.9
+www     IN      CNAME   quijote
+bd      IN      CNAME   sancho
+</code></pre><h3 id="dbalegvdmz">db.alegv.dmz</h3>
 <pre><code>    $TTL    86400
     @       IN      SOA     freston.alegv.gonzalonazareno.org. admin.alegv.gonzalonazareno.org. (
                                   1         ; Serial

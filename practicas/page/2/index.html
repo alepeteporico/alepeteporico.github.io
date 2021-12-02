@@ -110,6 +110,21 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/libvirt_basico/">Uso básico de libvirt</a></h4>
+								<h4 class="post-date">2021-09-30</h4>
+							</div>
+							<div class="post-summary"><p>Creación de la red.   La red que vamos a crear para este ejercicio será tipo NAT, tendrá direccionamiento 10.0.1.0/24 y de tipo virtio.
+  Veamos el contenido del fichero xml de configuración de la red.
+  &lt;network&gt; &lt;name&gt;red_interna&lt;/name&gt; &lt;bridge name=&quot;virbr10&quot;/&gt; &lt;forward mode=&quot;nat&quot;/&gt; &lt;ip address=&quot;10.0.1.0&quot; netmask=&quot;255.255.255.0&quot;&gt; &lt;dhcp&gt; &lt;range start=&quot;10.0.1.2&quot; end=&quot;10.0.1.254&quot;/&gt; &lt;/dhcp&gt; &lt;/ip&gt; &lt;/network&gt;  Creamos esta red.  alejandrogv@AlejandroGV:~/libvirt$ virsh -c qemu:///system net-create red_interna.xml Creación de escenario.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/libvirt_basico/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/web_estatica/">Implantación y despliegue de una aplicación web estática 2021</a></h4>
 								<h4 class="post-date">2021-09-29</h4>
 							</div>
@@ -236,21 +251,6 @@
  version: &quot;3.1&quot; services: db: container_name: mysql image: mariadb restart: always environment: MYSQL_DATABASE: bookmedik MYSQL_USER: bookmedik MYSQL_PASSWORD: admin MYSQL_ROOT_PASSWORD: admin volumes: - /opt/mysql_wp:/var/lib/mysql    Y en la carpeta build crearemos un fichero Dockerfile que rellenaremos de la siguiente forma.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/php_docker/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/proxy/">Proxy, proxy inverso y balanceadores de carga</a></h4>
-								<h4 class="post-date">2021-06-06</h4>
-							</div>
-							<div class="post-summary"><p>Primero usaremos squid para instalar un proxy.
- vagrant@proxy:~$ sudo apt install squid    Modificamos el fichero /etc/squid/squid.conf para definir las direcciones y puertos que permitiremos y el puerto de funcionamiento.
- acl localnet src 10.0.0.0/24 acl localnet src 172.22.100.0/24 acl SSL_ports port 443 acl Safe_ports port 80 # http acl Safe_ports port 21 # ftp acl Safe_ports port 443 # https acl CONNECT method CONNECT # Deny requests to certain unsafe ports http_access deny !</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/proxy/">Read More</a>
 							</div>
 						</div>
 					</li>

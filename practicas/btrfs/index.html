@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Btrfs &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.80.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://alepeteporico.github.io/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/practicas/btrfs/">Btrfs</a></h1>
+                <span class="post-date">2021-12-02 </span>
+                <div class="post-content">
+                    <ul>
+<li>Tenemos una maquina con varios discos asociados, lo primero que haremos será instalar la paquetería necesaria para el uso de este sistema de archivos.</li>
+</ul>
+<pre><code>vagrant@maquina1:~$ sudo apt install btrfs-progs arch-install-scripts
+</code></pre><ul>
+<li>Montamos en la tabla de particiones los nuevos discos.</li>
+</ul>
+<pre><code>vagrant@maquina1:~$ sudo cfdisk -z /dev/vdb
+vagrant@maquina1:~$ sudo cfdisk -z /dev/vdc
+vagrant@maquina1:~$ sudo cfdisk -z /dev/vdd
+</code></pre><ul>
+<li>Y vamos a crear el sisitema de ficheros de cada una.</li>
+</ul>
+<pre><code>vagrant@maquina1:~$ sudo mkfs.btrfs /dev/vdb1
+btrfs-progs v5.10.1 
+See http://btrfs.wiki.kernel.org for more information.
+
+Label:              (null)
+UUID:               4c153d30-5d89-4342-a2c0-d5429b449f12
+Node size:          16384
+Sector size:        4096
+Filesystem size:    1022.98MiB
+Block group profiles:
+  Data:             single            8.00MiB
+  Metadata:         DUP              51.12MiB
+  System:           DUP               8.00MiB
+SSD detected:       no
+Incompat features:  extref, skinny-metadata
+Runtime features:   
+Checksum:           crc32c
+Number of devices:  1
+Devices:
+   ID        SIZE  PATH
+    1  1022.98MiB  /dev/vdb1
+</code></pre><ul>
+<li>Ya tenemos nuestros discos montandos con btrfs, ahora vamos a montar un RAID con ellos usando este sistema de archivos, para ello tendremos que instalar un paquete necesario para ello.</li>
+</ul>
+<pre><code>vagrant@maquina1:~$ sudo apt install cryptsetup btrfs-progs
+</code></pre><ul>
+<li>Ahora tenemos la opción de crear un fichero <code>KeyFile</code> muy seguro el cual contendrá una clave con la que podremos desbloquear el disco.</li>
+</ul>
+<pre><code>vagrant@maquina1:~$ sudo dd if=/dev/random of=/root/KeyFile bs=1 count=4096
+4096+0 records in
+4096+0 records out
+4096 bytes (4.1 kB, 4.0 KiB) copied, 0.00756422 s, 541 kB/s
+
+vagrant@maquina1:~$ sudo chmod 0400 /root/KeyFile
+</code></pre><ul>
+<li>
+<p>Esto sería más seguro si tuvieramos nuestro disco principal cifrado, ya que a un atacante le resultaría más difícil acceder a el fichero <code>KeyFile</code>.</p>
+</li>
+<li>
+<p>Nuestro siguiente paso será cifrar nuestros dispositivos con este fichero.</p>
+</li>
+</ul>
+<pre><code>vagrant@maquina1:~$ sudo cryptsetup luksFormat --key-file /root/KeyFile /dev/vdb1
+
+vagrant@maquina1:~$ sudo cryptsetup luksFormat --key-file /root/KeyFile /dev/vdc1
+
+vagrant@maquina1:~$ sudo cryptsetup luksFormat --key-file /root/KeyFile /dev/vdd1
+</code></pre><p>(PREGUNTAR JOSEDOM)</p>
+
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2021 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>
