@@ -6,14 +6,23 @@
     <description>Recent content in Practicas on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 02 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 09 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>VPN</title>
+      <link>https://alepeteporico.github.io/practicas/vpn/</link>
+      <pubDate>Thu, 09 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/vpn/</guid>
+      <description>VPN de acceso remoto con OpenVPN y certificados x509  Tenemos dos equipos en openstack a los que queremos configurarles una conexión VPN.  </description>
+    </item>
+    
     <item>
       <title>Btrfs</title>
       <link>https://alepeteporico.github.io/practicas/btrfs/</link>
       <pubDate>Thu, 02 Dec 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/btrfs/</guid>
-      <description>Tenemos una maquina con varios discos asociados, lo primero que haremos será instalar la paquetería necesaria para el uso de este sistema de archivos.  vagrant@maquina1:~$ sudo apt install btrfs-progs arch-install-scripts  Montamos en la tabla de particiones los nuevos discos.  vagrant@maquina1:~$ sudo cfdisk -z /dev/vdb vagrant@maquina1:~$ sudo cfdisk -z /dev/vdc vagrant@maquina1:~$ sudo cfdisk -z /dev/vdd  Y vamos a crear el sisitema de ficheros de cada una.  vagrant@maquina1:~$ sudo mkfs.</description>
+      <description>Tenemos una maquina con varios discos asociados, lo primero que haremos será instalar la paquetería necesaria para el uso de este sistema de archivos.  vagrant@maquina1:~$ sudo apt install btrfs-progs arch-install-scripts  Montamos en la tabla de particiones los nuevos discos.  vagrant@maquina1:~$ sudo cfdisk -z /dev/vdb vagrant@maquina1:~$ sudo cfdisk -z /dev/vdc vagrant@maquina1:~$ sudo cfdisk -z /dev/vdd vagrant@maquina1:~$ sudo cfdisk -z /dev/vde  Y vamos a crear el sisitema de ficheros de cada una.</description>
     </item>
     
     <item>
