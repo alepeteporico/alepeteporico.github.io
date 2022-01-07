@@ -6,7 +6,16 @@
     <description>Recent content on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 09 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 06 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>iSCSI</title>
+      <link>https://alepeteporico.github.io/practicas/iscsi/</link>
+      <pubDate>Thu, 06 Jan 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/iscsi/</guid>
+      <description>Configura un escenario con vagrant o similar que incluya varias máquinas que permita realizar la configuración de un servidor iSCSI y dos clientes (uno linux y otro windows). Explica de forma detallada en la tarea los pasos realizados.   Crea un target con una LUN y conéctala a un cliente GNU/Linux. Explica cómo escaneas desde el cliente buscando los targets disponibles y utiliza la unidad lógica proporcionada, formateándola si es necesario y montándola.</description>
+    </item>
+    
     <item>
       <title>VPN</title>
       <link>https://alepeteporico.github.io/practicas/vpn/</link>
@@ -471,15 +480,6 @@ MariaDB [(none)]&amp;gt; CREATE DATABASE wordpress; Query OK, 1 row affected (0.
       <guid>https://alepeteporico.github.io/practicas/https_openstack/</guid>
       <description>El siguiente paso de nuestro proyecto es configurar de forma adecuada el protocolo HTTPS en nuestro servidor web para nuestra aplicaciones web. Para ello vamos a emitir un certificado wildcard en la AC Gonzalo Nazareno utilizando para la petición la utilidad &amp;ldquo;gestiona&amp;rdquo;.   Lo primero que debemos hacer para llevarlo a cabo es dirigirnos a centos donde crearemos los directorios nesarios y crearemos una clave RSA.
  [centos@quijote ~]$ sudo mkdir /etc/ssl/private [centos@quijote ~]$ sudo chmod 700 /etc/ssl/private Generating RSA private key, 4096 bit long modulus (2 primes) .</description>
-    </item>
-    
-    <item>
-      <title>iSCSI</title>
-      <link>https://alepeteporico.github.io/practicas/iscsi/</link>
-      <pubDate>Tue, 25 May 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/iscsi/</guid>
-      <description>Configura un escenario con vagrant o similar que incluya varias máquinas que permita realizar la configuración de un servidor iSCSI y dos clientes (uno linux y otro windows). Explica de forma detallada en la tarea los pasos realizados.   Crea un target con una LUN y conéctala a un cliente GNU/Linux. Explica cómo escaneas desde el cliente buscando los targets disponibles y utiliza la unidad lógica proporcionada, formateándola si es necesario y montándola.</description>
     </item>
     
     <item>
