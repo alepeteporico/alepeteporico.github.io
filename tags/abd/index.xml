@@ -6,7 +6,18 @@
     <description>Recent content in ABD on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 23 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/abd/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 03 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/abd/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Interconexión de servidores de bases de datos</title>
+      <link>https://alepeteporico.github.io/practicas/interconexion/</link>
+      <pubDate>Mon, 03 Jan 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/interconexion/</guid>
+      <description>Realizar un enlace entre dos servidores de bases de datos ORACLE, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.
+  Realizar un enlace entre dos servidores de bases de datos Postgres, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.
+  Realizar un enlace entre un servidor ORACLE y otro Postgres o MySQL empleando Heterogeneus Services, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.</description>
+    </item>
+    
     <item>
       <title>PLSQL</title>
       <link>https://alepeteporico.github.io/ejercicios/plsql/</link>
@@ -56,17 +67,6 @@ END;</description>
       <guid>https://alepeteporico.github.io/practicas/almacenamiento_bbdd/</guid>
       <description>Muestra los objetos a los que pertenecen las extensiones del tablespace TS2 (creado por tí) y el tamaño de cada una de ellas. Tendrás que crear objetos en él previamente, claro.   Vamos a crear este Tablespace.
  SQL&amp;gt; CREATE TABLESPACE TS2 2 DATAFILE &#39;/home/oracle/ts2.dbf&#39; 3 SIZE 200K 4 AUTOEXTEND ON 5 DEFAULT STORAGE ( 6 INITIAL 200K 7 NEXT 200K 8 MAXEXTENTS 3 9 PCTINCREASE 100); Tablespace created.    Vamos a crear una prueba para ver como funciona y añadamos contenido a ver como funciona.</description>
-    </item>
-    
-    <item>
-      <title>Interconexión de servidores de bases de datos</title>
-      <link>https://alepeteporico.github.io/practicas/interconexion/</link>
-      <pubDate>Wed, 05 May 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/interconexion/</guid>
-      <description>Realizar un enlace entre dos servidores de bases de datos ORACLE, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.
-  Realizar un enlace entre dos servidores de bases de datos Postgres, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.
-  Realizar un enlace entre un servidor ORACLE y otro Postgres o MySQL empleando Heterogeneus Services, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.</description>
     </item>
     
     <item>
