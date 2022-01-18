@@ -110,6 +110,34 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/configuracion_ldap/">Configuración inicial de LDAP</a></h4>
+								<h4 class="post-date">2022-01-14</h4>
+							</div>
+							<div class="post-summary"><p>LDAP es un protocolo de tipo cliente-servidor para acceder a un servicio de directorio. Un directorio es como una base de datos, pero en general contiene información más descriptiva y más basada en atributos. Realizaremos esta configuración inicial en nuestro escenario en kvm, en contreto en nuestra maquina apolo, la cual entre otras cosas contiene por ejemplo nuestro dns  Empezemos con la instalación del paquete de ldap.  debian@apolo:~$ sudo apt install slapd  Durante esta instalación tendremos que introducir una contraseña para el administrador.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/ejercicios/configuracion_ldap/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/ejercicio_correo/">Ejercicio correo</a></h4>
+								<h4 class="post-date">2022-01-14</h4>
+							</div>
+							<div class="post-summary"><p>Tenemos distintos parametros configurables, como por ejemplo en el fichero /etc/postfix/main.cf podemos configurar el parametro myorigin que es el dominio donde se va a enviar nuestro correo y mydestination se refiere a los dominios que considera que son suyos, si llegara algun correo a a cualquiera de los dominios que añadamos el servidor recibirá estos correos.
+  Vamos a enviar un correo a nuestro dominio
+  vagrant@bullseye:~$ mail usuario2@alegv.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/ejercicios/ejercicio_correo/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/plsql/">PLSQL</a></h4>
 								<h4 class="post-date">2021-11-23</h4>
 							</div>
@@ -210,32 +238,6 @@ END;</p></div>
   vagrant@cmsagv:~$ sudo a2enmod userdir  Ahora creamos la carpeta public_html y le damos los permisos necesarios.  vagrant@cmsagv:~$ mkdir public_html vagrant@cmsagv:~$ sudo chmod 0755 public_html/  Y ya tenemos nuestro directorio donde podemos subir contenido. Aunque podemos cambiar el nombre de esta carpeta, vamos a llamarla personal y para que el módulo pueda ver el cambio vamos al fichero /etc/apache2/mods-enabled/php7.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/ejercicios/modulos_apache/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/apache_htaccess/">Configuración de apache mediante archivo .htaccess </a></h4>
-								<h4 class="post-date">2021-04-24</h4>
-							</div>
-							<div class="post-summary"><p>Date de alta en un proveedor de hosting. ¿Si necesitamos configurar el servidor web que han configurado los administradores del proveedor?, ¿qué podemos hacer? Explica la directiva AllowOverride de apache2. Utilizando archivos .htaccess realiza las siguientes configuraciones:  El hosting que usaré será 000webhost  Habilita el listado de ficheros en la URL http://host.dominio/nas.   En nuestro hosting tendremos una carpeta llamada public_html en la cual podremos encontrar un fichero llamado .</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/ejercicios/apache_htaccess/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/control_acceso/">Control de acceso, autentificación y autorización</a></h4>
-								<h4 class="post-date">2021-04-24</h4>
-							</div>
-							<div class="post-summary"><p>Crea un escenario en Vagrant o reutiliza uno de los que tienes en ejercicios anteriores, que tenga un servidor con una red publica, y una privada y un cliente conectada a la red privada. Crea un host virtual departamentos.iesgn.org  Para está práctica podremos usar la misma máquina de vagrant que usamos para las prácticas del cms y de mapeo.  A la URL departamentos.iesgn.org/intranet sólo se debe tener acceso desde el cliente de la red local, y no se pueda acceder desde la anfitriona por la red pública.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/ejercicios/control_acceso/">Read More</a>
 							</div>
 						</div>
 					</li>

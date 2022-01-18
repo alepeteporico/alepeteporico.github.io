@@ -110,12 +110,15 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/configuracion_ldap/">Configuración inicial de LDAP</a></h4>
-								<h4 class="post-date">2021-01-14</h4>
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/centos8/">Actualización de CentOS 7 a CentOS 8</a></h4>
+								<h4 class="post-date">2021-02-19</h4>
 							</div>
-							<div class="post-summary"><p>LDAP es un protocolo de tipo cliente-servidor para acceder a un servicio de directorio. Un directorio es como una base de datos, pero en general contiene información más descriptiva y más basada en atributos. Realizaremos esta configuración inicial en nuestro escenario en kvm, en contreto en nuestra maquina apolo, la cual entre otras cosas contiene por ejemplo nuestro dns  Empezemos con la instalación del paquete de ldap.  debian@apolo:~$ sudo apt install slapd  Durante esta instalación tendremos que introducir una contraseña para el administrador.</p></div>
+							<div class="post-summary"><p>Antes de comenzar debemos instalar si no las tenemos ya las siguientes herramientas:
+ [centos@quijote ~]$ sudo yum install epel-release -y [centos@quijote ~]$ sudo yum install yum-utils -y [centos@quijote ~]$ sudo yum install rpmconf -y  Ahora usaremos rpmconf para verificar conflictos en ficheros de configuración:
+ [centos@quijote ~]$ sudo rpmconf -a  Limpiamos los paquetes innecesarios:
+ [centos@quijote ~]$ sudo package-cleanup --leaves [centos@quijote ~]$ sudo package-cleanup --orphans  Instalamos el nuevo gestor de paquetes que usa CentOS 8, dnf:</p></div>
 							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/ejercicios/configuracion_ldap/">Read More</a>
+								<a href="https://alepeteporico.github.io/practicas/centos8/">Read More</a>
 							</div>
 						</div>
 					</li>

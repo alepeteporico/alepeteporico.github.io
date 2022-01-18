@@ -6,7 +6,18 @@
     <description>Recent content in SRI on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 12 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/sri/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 14 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/sri/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ejercicio correo</title>
+      <link>https://alepeteporico.github.io/ejercicios/ejercicio_correo/</link>
+      <pubDate>Fri, 14 Jan 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/ejercicio_correo/</guid>
+      <description>Tenemos distintos parametros configurables, como por ejemplo en el fichero /etc/postfix/main.cf podemos configurar el parametro myorigin que es el dominio donde se va a enviar nuestro correo y mydestination se refiere a los dominios que considera que son suyos, si llegara algun correo a a cualquiera de los dominios que añadamos el servidor recibirá estos correos.
+  Vamos a enviar un correo a nuestro dominio
+  vagrant@bullseye:~$ mail usuario2@alegv.</description>
+    </item>
+    
     <item>
       <title>Instalación y configuración de un servidor DNS esclavo </title>
       <link>https://alepeteporico.github.io/ejercicios/dns_ejercicio2/</link>
@@ -137,17 +148,6 @@ listen-on { any }; allow-transfer { none }; recursion yes; allow-recursion { any
       <guid>https://alepeteporico.github.io/practicas/dhcp/</guid>
       <description>Lee el documento Teoría: Servidor DHCP y explica el funcionamiento del servidor DHCP resumido en este gráfico.  En primer lugar el cliente manda una petición DHCPDISCOVER en cuanto se inicia, ya que no tiene configuración de IP usa esta petición para ver si hay un servidor DHCP que pueda darle una dirección.
 Después de esto el cliente esperará en estado SELECTING y recibirá las ofertas DHCPOFFER del servidor o servidores DHCP que pueda haber en nuestra red local.</description>
-    </item>
-    
-    <item>
-      <title>Ejercicio correo</title>
-      <link>https://alepeteporico.github.io/ejercicios/ejercicio_correo/</link>
-      <pubDate>Thu, 14 Jan 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/ejercicios/ejercicio_correo/</guid>
-      <description>Tenemos distintos parametros configurables, como por ejemplo en el fichero /etc/postfix/main.cf podemos configurar el parametro myorigin que es el dominio donde se va a enviar nuestro correo y mydestination se refiere a los dominios que considera que son suyos, si llegara algun correo a a cualquiera de los dominios que añadamos el servidor recibirá estos correos.
-  Vamos a enviar un correo a nuestro dominio
-  vagrant@bullseye:~$ mail usuario2@alegv.</description>
     </item>
     
   </channel>
