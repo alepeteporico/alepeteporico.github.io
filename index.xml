@@ -689,12 +689,23 @@ hugo new site [nombre]  Esto creará una carpeta donde podremos configurar nuest
     </item>
     
     <item>
+      <title>Configuración inicial de LDAP</title>
+      <link>https://alepeteporico.github.io/ejercicios/configuracion_ldap/</link>
+      <pubDate>Thu, 14 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/configuracion_ldap/</guid>
+      <description>LDAP es un protocolo de tipo cliente-servidor para acceder a un servicio de directorio. Un directorio es como una base de datos, pero en general contiene información más descriptiva y más basada en atributos. Realizaremos esta configuración inicial en nuestro escenario en kvm, en contreto en nuestra maquina apolo, la cual entre otras cosas contiene por ejemplo nuestro dns  Empezemos con la instalación del paquete de ldap.  debian@apolo:~$ sudo apt install slapd  Durante esta instalación tendremos que introducir una contraseña para el administrador.</description>
+    </item>
+    
+    <item>
       <title>Ejercicio correo</title>
       <link>https://alepeteporico.github.io/ejercicios/ejercicio_correo/</link>
       <pubDate>Thu, 14 Jan 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/ejercicios/ejercicio_correo/</guid>
-      <description>Primero instalaremos el paquete postfix, durante la instalación nos pedira que tipo de servidor de correo queremos, elegiremos Internet site   Otra cosa que nos pedirá en la instalación es que añadamos el dominio en el que estará nuestro servidor de correo    Tenemos distintos parametros configurables, como por ejemplo en el fichero /etc/postfix/main.cf podemos configurar el parametro myorigin que es el dominio donde se va a enviar nuestro correo y mydestination se refiere a los dominios que considera que son suyos, si llegara algun correo a a cualquiera de los dominios que añadamos el servidor recibirá estos correos.</description>
+      <description>Tenemos distintos parametros configurables, como por ejemplo en el fichero /etc/postfix/main.cf podemos configurar el parametro myorigin que es el dominio donde se va a enviar nuestro correo y mydestination se refiere a los dominios que considera que son suyos, si llegara algun correo a a cualquiera de los dominios que añadamos el servidor recibirá estos correos.
+  Vamos a enviar un correo a nuestro dominio
+  vagrant@bullseye:~$ mail usuario2@alegv.</description>
     </item>
     
     <item>

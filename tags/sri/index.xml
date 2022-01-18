@@ -145,7 +145,9 @@ Después de esto el cliente esperará en estado SELECTING y recibirá las oferta
       <pubDate>Thu, 14 Jan 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/ejercicios/ejercicio_correo/</guid>
-      <description>Primero instalaremos el paquete postfix, durante la instalación nos pedira que tipo de servidor de correo queremos, elegiremos Internet site   Otra cosa que nos pedirá en la instalación es que añadamos el dominio en el que estará nuestro servidor de correo    Tenemos distintos parametros configurables, como por ejemplo en el fichero /etc/postfix/main.cf podemos configurar el parametro myorigin que es el dominio donde se va a enviar nuestro correo y mydestination se refiere a los dominios que considera que son suyos, si llegara algun correo a a cualquiera de los dominios que añadamos el servidor recibirá estos correos.</description>
+      <description>Tenemos distintos parametros configurables, como por ejemplo en el fichero /etc/postfix/main.cf podemos configurar el parametro myorigin que es el dominio donde se va a enviar nuestro correo y mydestination se refiere a los dominios que considera que son suyos, si llegara algun correo a a cualquiera de los dominios que añadamos el servidor recibirá estos correos.
+  Vamos a enviar un correo a nuestro dominio
+  vagrant@bullseye:~$ mail usuario2@alegv.</description>
     </item>
     
   </channel>

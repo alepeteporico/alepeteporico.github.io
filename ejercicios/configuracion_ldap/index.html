@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title> Ejercicio correo &middot; Alepetepórico Blog </title>
+        <title> Configuración inicial de LDAP &middot; Alepetepórico Blog </title>
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -100,49 +100,113 @@
 
         <div class="flex-wrapper">
             <div class="container wrapper">
-                <h1><a href="https://alepeteporico.github.io/ejercicios/ejercicio_correo/">Ejercicio correo</a></h1>
+                <h1><a href="https://alepeteporico.github.io/ejercicios/configuracion_ldap/">Configuración inicial de LDAP</a></h1>
                 <span class="post-date">2021-01-14 </span>
                 <div class="post-content">
-                    <ul>
-<li>
-<p>Tenemos distintos parametros configurables, como por ejemplo en el fichero <code>/etc/postfix/main.cf</code> podemos configurar el parametro <code>myorigin</code> que es el dominio donde se va a enviar nuestro correo y <code>mydestination</code> se refiere a los dominios que considera que son suyos, si llegara algun correo a a cualquiera de los dominios que añadamos el servidor recibirá estos correos.</p>
-</li>
-<li>
-<p>Vamos a enviar un correo a nuestro dominio</p>
-</li>
+                    <h4 id="ldap-es-un-protocolo-de-tipo-cliente-servidor-para-acceder-a-un-servicio-de-directorio-un-directorio-es-como-una-base-de-datos-pero-en-general-contiene-información-más-descriptiva-y-más-basada-en-atributos">LDAP es un protocolo de tipo cliente-servidor para acceder a un servicio de directorio. Un directorio es como una base de datos, pero en general contiene información más descriptiva y más basada en atributos.</h4>
+<h4 id="realizaremos-esta-configuración-inicial-en-nuestro-escenario-en-kvm-en-contreto-en-nuestra-maquina-apolo-la-cual-entre-otras-cosas-contiene-por-ejemplo-nuestro-dns">Realizaremos esta configuración inicial en nuestro escenario en kvm, en contreto en nuestra maquina <code>apolo</code>, la cual entre otras cosas contiene por ejemplo nuestro dns</h4>
+<ul>
+<li>Empezemos con la instalación del paquete de ldap.</li>
 </ul>
-<pre><code>vagrant@bullseye:~$ mail usuario2@alegv.gonzalonazareno.org
-Subject: prueba potente
-helo.
-Cc:
+<pre><code>debian@apolo:~$ sudo apt install slapd
 </code></pre><ul>
-<li>Vamos a comprobar que hemos recibido el correo mirando los logs.</li>
+<li>Durante esta instalación tendremos que introducir una contraseña para el administrador.</li>
 </ul>
-<pre><code>agrant@bullseye:~$ sudo cat /var/mail/usuario2 
-From vagrant@alegv.gonzalonazareno.org  Fri Jan 14 12:55:42 2022
-Return-Path: &lt;vagrant@alegv.gonzalonazareno.org&gt;
-X-Original-To: usuario2@alegv.gonzalonazareno.org
-Delivered-To: usuario2@alegv.gonzalonazareno.org
-Received: by bullseye (Postfix, from userid 1000)
-	id 7BB611000B7; Fri, 14 Jan 2022 12:55:42 +0000 (UTC)
-To: usuario2@alegv.gonzalonazareno.org
-Subject: prueba potente
-MIME-Version: 1.0
-Content-Type: text/plain; charset=&quot;UTF-8&quot;
-Content-Transfer-Encoding: 8bit
-Message-Id: &lt;20220114125542.7BB611000B7@bullseye&gt;
-Date: Fri, 14 Jan 2022 12:55:42 +0000 (UTC)
-From: vagrant@alegv.gonzalonazareno.org
-helo
-</code></pre><h3 id="instalación-y-configuración-de-servidor-de-correo-en-apolo">Instalación y configuración de servidor de correo en apolo</h3>
+<p><img src="/ldap/1.png" alt="contraseña"></p>
 <ul>
-<li>Primero instalaremos el paquete postfix, durante la instalación nos pedira que tipo de servidor de correo queremos, elegiremos <code>Internet site</code></li>
+<li>Una vez instalado se habrá abierto un socket en el puerto 389 que usa por defecto LDAP y está escuchando todas las peticiones desde la <code>0.0.0.0</code>, comprobemoslo</li>
 </ul>
-<p><img src="/ejercicio_correo/1.png" alt="tipo"></p>
-<ul>
-<li>Otra cosa que nos pedirá en la instalación es que añadamos el dominio en el que estará nuestro servidor de correo</li>
+<pre><code>debian@apolo:~$ sudo netstat -tlnp
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name             
+tcp        0      0 0.0.0.0:389             0.0.0.0:*               LISTEN      1636/slapd                 
+tcp6       0      0 :::389                  :::*                    LISTEN      1636/slapd
+...
+...
+</code></pre><ul>
+<li>Usemos <code>ldapsearch</code> para ejecutar una busqueda sobre el directorio. Vamos a listar todos los objetos existentes de la estructura que tenemos.</li>
 </ul>
-<p><img src="/ejercicio_correo/2.png" alt="dominio"></p>
+<pre><code>debian@apolo:~$ sudo ldapsearch -x -b &quot;dc=alegv,dc=gonzalonazareno,dc=org&quot;
+# extended LDIF
+#
+# LDAPv3
+# base &lt;dc=alegv,dc=gonzalonazareno,dc=org&gt; with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# alegv.gonzalonazareno.org
+dn: dc=alegv,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: alegv.gonzalonazareno.org
+dc: alegv
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 2
+# numEntries: 1
+</code></pre><ul>
+<li>Podemos crear grupos y unidades organizativas usando un fichero con extensión <code>.ldif</code>, veamos un ejemplo de uno de ellos en el que definiremos dos objetos, uno para almacenar usuarios y otro para grupos.</li>
+</ul>
+<pre><code>debian@apolo:~$ cat prueba.ldif 
+dn: ou=Usuarios,dc=alegv,dc=gonzalonazareno,dc=org
+objectClass: organizationalUnit
+ou: Usuarios 
+
+dn: ou=Grupos,dc=alegv,dc=gonzalonazareno,dc=org
+objectClass: organizationalUnit
+ou: Grupos
+</code></pre><ul>
+<li>Ahora mediante el comando <code>ldapadd</code> importaremos el fichero con sus unidades organizativas.</li>
+</ul>
+<pre><code>debian@apolo:~$ ldapadd -x -D &quot;cn=admin,dc=alegv,dc=gonzalonazareno,dc=org&quot; -f prueba.ldif -W
+Enter LDAP Password: 
+adding new entry &quot;ou=Usuarios,dc=alegv,dc=gonzalonazareno,dc=org&quot;
+
+adding new entry &quot;ou=Grupos,dc=alegv,dc=gonzalonazareno,dc=org&quot;
+</code></pre><ul>
+<li>Vamos a realizar una busqueda anonima simplemente para comprobar que se han añadido estas nuevas unidades organizativas.</li>
+</ul>
+<pre><code>debian@apolo:~$ sudo ldapsearch -x -b &quot;dc=alegv,dc=gonzalonazareno,dc=org&quot;
+# extended LDIF
+#
+# LDAPv3
+# base &lt;dc=alegv,dc=gonzalonazareno,dc=org&gt; with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# alegv.gonzalonazareno.org
+dn: dc=alegv,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: alegv.gonzalonazareno.org
+dc: alegv
+
+# Usuarios, alegv.gonzalonazareno.org
+dn: ou=Usuarios,dc=alegv,dc=gonzalonazareno,dc=org
+objectClass: organizationalUnit
+ou:: VXN1YXJpb3Mg
+
+# Grupos, alegv.gonzalonazareno.org
+dn: ou=Grupos,dc=alegv,dc=gonzalonazareno,dc=org
+objectClass: organizationalUnit
+ou: Grupos
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 4
+# numEntries: 3
+</code></pre><ul>
+<li>Así hemos comprobado que se han creado dos nuevas unidades organizativas.</li>
+</ul>
 
                 </div>
                 
