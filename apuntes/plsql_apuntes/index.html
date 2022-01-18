@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> PLSQL &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.80.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://alepeteporico.github.io/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/apuntes/plsql_apuntes/">PLSQL</a></h1>
+                <span class="post-date">2021-09-20 </span>
+                <div class="post-content">
+                    <h2 id="triggers">TRIGGERS</h2>
+<ul>
+<li>Trozo de código que se ejecuta cuando sucede algo que especifiquemos.</li>
+</ul>
+<h3 id="triggers-de-datos">Triggers de datos</h3>
+<ul>
+<li>
+<p>Se asocian a operaciones que modifica datos de las tablas de la base de datos.</p>
+</li>
+<li>
+<p>Creación del trigger:</p>
+</li>
+</ul>
+<p><strong>Momento:</strong> BEFORE, AFTER O INSTEAD OF</p>
+<ul>
+<li>BEFORE: Antes de la instrucción DML que queramos hacer, normalmente sirve para hacer comprobaciones y saber si realizar esa instrucción o no</li>
+<li>AFTER: Normalmente usado para saber si se ha realizado esa sentencia.</li>
+<li>INSTEAD OF: Sirve para modificar vistas que no se pueden actualizar.</li>
+</ul>
+<p><strong>Evento:</strong> INSERT, UPDATE O DELETE</p>
+<p><strong>Nombre de tabla:</strong> On Nombre_tabla</p>
+<p><strong>Tipo de disparo:</strong> Por sentencia, Por fila</p>
+<ul>
+<li>Por sentencia: Se ejecuta una vez, incluso cuando no haya filas afectadas. Lo usaremos cuando la acción no tenga que ver de los valores a los que afecta la operación por la que se activa.</li>
+<li>Por fila: Se ejecuta tantas veces como filas se vean afectadas por la sentencia. Al contrario que por sentencia, lo usaremos cuando los datos se vean afectados por la operación.</li>
+</ul>
+<p><strong>Cuerpo de trigger:</strong> Puede contener variables, cursores, excepciones&hellip;</p>
+<pre><code>DECLARE
+BEGIN
+EXCEPTION
+END;
+</code></pre><p><strong>Predicados condicionales:</strong></p>
+<ul>
+<li>IF INSERTING THEN&hellip;</li>
+<li>IF UPDATING [(nombre columna)] THEN&hellip;</li>
+<li>IF DELETING THEN&hellip;</li>
+</ul>
+<p><strong>Uso de :old y :new:</strong> Sirve para referirse al valor anterior o nuevo de una modificación.</p>
+<p><strong>Operaciones que no podemos hacer en un trigger:</strong></p>
+<ul>
+<li>Operaciones DDL</li>
+<li>Instrucciones de control de transacciones (COMMIT, ROLLBACK, &hellip;)</li>
+<li>Por fila: No puedo consultar los datos de la tabla que ha disparado el trigger (tablas mutantes).</li>
+</ul>
+<h3 id="ejemplos">EJEMPLOS</h3>
+<ul>
+<li>Trigger que impida insertar datos en la tabla <code>emp</code> fuera del horario normal de oficina:</li>
+</ul>
+<pre><code>CREATE OR REPLACE TRIGGER SeguridadEmp
+BEFORE INSERT ON emp
+BEGIN
+  IF (TO_CHAR(sysdate,'DY') IN ('SAT','SUN') OR
+  TO_CHAR(sysdate,'HH24') NOT BETWEEN '08' AND '15') THEN
+    RAISE_APPLICATION_ERROR(-20100,'No puedes insertar registros fueras del horario de oficina');
+  END IF;
+END;
+</code></pre><ul>
+<li>Trigger que nos impida insertar a un empeado ganar mas de 5000 si no es el presidente (Resolución de problema de tablas mutantes):</li>
+</ul>
+<pre><code>CREATE OR REPLACE TRIGGER ControlSueldo
+BEFORE INSERT OR UPDATE ON EMP
+FOR EACH ROW
+
+BEGIN
+  IF :new.sal&gt;5000 AND :new.job!='PRESIDENT' THEN
+    RAISE_APPLICATION_ERROR(-20100, 'No puede ganar tanto si no es el presidente);
+  END IF;
+END;
+</code></pre><ul>
+<li>Actualización de departamento en cascada:</li>
+</ul>
+<pre><code>CREATE OR REPLACE TRIGGER OnUpdateCacade
+AFTER UPDATE OF deptno ON dept
+FOR EACH ROW
+BEGIN
+  UPDATE emp
+  SET emp.deptno = new.deptno
+  WHERE emp.deptno = :old.deptno
+END;
+</code></pre><h3 id="diccionario-de-datos">Diccionario de datos:</h3>
+<ul>
+<li><a href="https://ss64.com/">Pagina de referencia</a></li>
+</ul>
+
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2022 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>

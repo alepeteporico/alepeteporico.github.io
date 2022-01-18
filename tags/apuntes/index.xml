@@ -29,10 +29,10 @@ MariaDB [(none)]&amp;gt; CREATE DATABASE wordpress; Query OK, 1 row affected (0.
     
     <item>
       <title>PLSQL</title>
-      <link>https://alepeteporico.github.io/apuntes/plsql/</link>
+      <link>https://alepeteporico.github.io/apuntes/plsql_apuntes/</link>
       <pubDate>Mon, 20 Sep 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://alepeteporico.github.io/apuntes/plsql/</guid>
+      <guid>https://alepeteporico.github.io/apuntes/plsql_apuntes/</guid>
       <description>TRIGGERS  Trozo de código que se ejecuta cuando sucede algo que especifiquemos.  Triggers de datos   Se asocian a operaciones que modifica datos de las tablas de la base de datos.
   Creación del trigger:
   Momento: BEFORE, AFTER O INSTEAD OF
