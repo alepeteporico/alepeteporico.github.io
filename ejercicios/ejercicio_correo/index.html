@@ -169,6 +169,18 @@ Jan 19 09:10:27 apolo postfix/smtp[4299]: 48534611AD: to=&lt;tojandro@gmail.com&
 <li>Veamos una prueba de que nos ha llegado.</li>
 </ul>
 <p><img src="/ejercicio_correo/3.png" alt="prueba"></p>
+<h3 id="ejercicio-3-recibir-correos-desde-internet-a-usuarios-del-servidor">Ejercicio 3: Recibir correos desde internet a usuarios del servidor</h3>
+<ul>
+<li>Añadimos un registro mx a nuestra zona externa.</li>
+</ul>
+<pre><code>@       IN      MX 10   zeus.alegv.gonzalonazareno.org.
+</code></pre><ul>
+<li>También en zeus tenemos que añadir una regla <code>dnat</code> para el puerto 25.</li>
+</ul>
+<pre><code>post-up iptables -t nat -A PREROUTING -p tcp -i ens3 --dport 25 -j DNAT --to 10.0.1.102
+</code></pre><ul>
+<li></li>
+</ul>
 
                 </div>
                 
