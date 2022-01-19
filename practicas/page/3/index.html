@@ -110,6 +110,19 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/instalacion_debian11/">Instalación de debian 11 con LVM</a></h4>
+								<h4 class="post-date">2021-09-16</h4>
+							</div>
+							<div class="post-summary"><p>Empezamos la instalación y seguimos todos los pasos normalmente hasta llegar a la configuración de los discos, la haremos manualmente y en mi caso he creado una máquina virtual para simular lo que hice en mi máquina anfitriona, para ello he creado una partición sin usar simulando que tengo en ella una partición con Windows 10.   Seguidamente elegiremos la opción de &ldquo;Configurar el gestor de volúmenes lógicos&rdquo; y crearemos un grupo de volúmenes.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/instalacion_debian11/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/copiasbbdd/">COPIAS DE SEGURIDAD Y RECUPERACIÓN</a></h4>
 								<h4 class="post-date">2021-06-07</h4>
 							</div>
@@ -239,21 +252,6 @@
   server { listen 80; listen [::]:80; root /var/www/iesgn06; index index.html index.htm index.nginx-debian.html; server_name www.iesgn06.es; location / { try_files $uri $uri/ =404; } }   Y creamos el enlace simbólico en sites-enabled.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/lemp/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/auditoria/">Auditoria</a></h4>
-								<h4 class="post-date">2021-05-31</h4>
-							</div>
-							<div class="post-summary"><p>Activa desde SQL*Plus la auditoría de los intentos de acceso fallidos al sistema. Comprueba su funcionamiento.   Primero vamos a visualizar los diferentes parametros de auditorias de los que disponemos.
- SQL&gt; SHOW PARAMETER AUDIT NAME	TYPE	VALUE ------------------------------------ ----------- ------------------------------ audit_file_dest string	/opt/oracle/admin/ORCLCDB/adum p audit_sys_operations	boolean	TRUE audit_syslog_level	string audit_trail	string	DB unified_audit_common_systemlog	string unified_audit_sga_queue_size	integer	1048576 unified_audit_systemlog string    Nosotros usaremos audit_trail
- SQL&gt; ALTER SYSTEM SET audit_trail=db scope=spfile; System altered.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/auditoria/">Read More</a>
 							</div>
 						</div>
 					</li>

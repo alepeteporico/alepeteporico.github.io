@@ -110,6 +110,21 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/auditoria/">Auditoria</a></h4>
+								<h4 class="post-date">2021-05-31</h4>
+							</div>
+							<div class="post-summary"><p>Activa desde SQL*Plus la auditoría de los intentos de acceso fallidos al sistema. Comprueba su funcionamiento.   Primero vamos a visualizar los diferentes parametros de auditorias de los que disponemos.
+ SQL&gt; SHOW PARAMETER AUDIT NAME	TYPE	VALUE ------------------------------------ ----------- ------------------------------ audit_file_dest string	/opt/oracle/admin/ORCLCDB/adum p audit_sys_operations	boolean	TRUE audit_syslog_level	string audit_trail	string	DB unified_audit_common_systemlog	string unified_audit_sga_queue_size	integer	1048576 unified_audit_systemlog string    Nosotros usaremos audit_trail
+ SQL&gt; ALTER SYSTEM SET audit_trail=db scope=spfile; System altered.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/auditoria/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/ldap_openstack/">LDAP</a></h4>
 								<h4 class="post-date">2021-05-31</h4>
 							</div>
@@ -238,20 +253,6 @@
  vagrant@cmsjava:~$ tar -zxf guacamole-server-1.2.0.tar.gz vagrant@cmsjava:~$ ls guacamole-server-1.2.0    Entraremos y lo instalaremos siguiendo los siguientes pasos.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/cms_java/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/serv_client/">Instalación de servidores y clientes</a></h4>
-								<h4 class="post-date">2021-04-05</h4>
-							</div>
-							<div class="post-summary"><p>Tras la instalación de cada servidor, debe crearse una base de datos con al menos tres tablas o colecciones y poblarse de datos adecuadamente. Debe crearse un usuario y dotarlo de los privilegios necesarios para acceder remotamente a los datos. Se proporcionará esta información al resto de los miembros del grupo.
- Los clientes deben estar siempre en máquinas diferentes de los respectivos servidores a los que acceden. Se documentará todo el proceso de configuración de los servidores.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/serv_client/">Read More</a>
 							</div>
 						</div>
 					</li>
