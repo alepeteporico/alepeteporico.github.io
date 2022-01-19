@@ -17,6 +17,17 @@
     </item>
     
     <item>
+      <title>Ejercicios de docker</title>
+      <link>https://alepeteporico.github.io/ejercicios/ejercicios_docker/</link>
+      <pubDate>Wed, 19 Jan 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/ejercicios_docker/</guid>
+      <description>Introducción   Crearemos un contenedor demonio a partir de la imagen nginx, el contenedor se debe llamar servidor_web y se debe acceder a él utilizando el puerto 8181 del ordenador donde tengas instalado docker.
+  Creación y comprobación de que funciona el contenedor
+  alejandrogv@AlejandroGV:~$ docker run --name servidor_web -p 8181:80 -d nginx 964b2c315b83655e5d662a88e620a23f1eaac38666cc64170cd5cd62db72e5fd alejandrogv@AlejandroGV:~$ docker ps -a CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 964b2c315b83 nginx &amp;quot;/docker-entrypoint.</description>
+    </item>
+    
+    <item>
       <title>Configuración inicial de LDAP</title>
       <link>https://alepeteporico.github.io/ejercicios/configuracion_ldap/</link>
       <pubDate>Fri, 14 Jan 2022 00:00:00 +0000</pubDate>
