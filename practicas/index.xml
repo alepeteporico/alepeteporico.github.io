@@ -6,7 +6,18 @@
     <description>Recent content in Practicas on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 19 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 21 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Copias de seguridad con bacula</title>
+      <link>https://alepeteporico.github.io/practicas/copias/</link>
+      <pubDate>Fri, 21 Jan 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/copias/</guid>
+      <description>Usaremos la herramienta bacula para realizar nuestro sistema de copias de seguridad, por supuesto el primer paso que debemos tomar es instalar el paquete de bacula, instalaremos el cliente en todas las máquinas de nuestro escenario, aunque usaremos zeus para alojar las copias de seguridad.
+  Para alojar las copias hemos añadido dos discos que vamos a montar en RAID.
+  debian@zeus:~$ df -h Filesystem Size Used Avail Use% Mounted on /dev/md0 9.</description>
+    </item>
+    
     <item>
       <title>Contenedores LXC</title>
       <link>https://alepeteporico.github.io/practicas/lxc/</link>
@@ -367,16 +378,6 @@ vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla 
     </item>
     
     <item>
-      <title>Copias de seguridad con bacula</title>
-      <link>https://alepeteporico.github.io/practicas/copias/</link>
-      <pubDate>Sat, 22 May 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/copias/</guid>
-      <description>Usaremos la herramienta bacula para realizar nuestro sistema de copias de seguridad, por supuesto el primer paso que debemos tomar es instalar el paquete de bacula, instalaremos el cliente en todas las máquinas de nuestro escenario de openstack, aunque usaremos Dulcinea para alojar las copias de seguridad.
- debian@dulcinea:~$ sudo apt-get install bacula-client    En nuestro Openstack vamos a crear un volumen que asociaremos a Dulcinea y donde almacenaremos nuestras copias de seguridad.</description>
-    </item>
-    
-    <item>
       <title>Instalación y configuración de LDAP</title>
       <link>https://alepeteporico.github.io/practicas/ldap/</link>
       <pubDate>Sat, 15 May 2021 00:00:00 +0000</pubDate>
@@ -459,10 +460,10 @@ Ahora listaremos las interfaces que tenemos en nuestro proyecto</description>
       <pubDate>Tue, 16 Mar 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/server_web_bbdd_dns/</guid>
-      <description>Servidor DNS El servidor DNS estará instalado en freston, por ello instalaremos bind en esta máquina
- root@freston:~# apt install bind9  Configuramos el fichero &amp;ldquo;/etc/bind/named.conf.options&amp;rdquo; y añadimos las siguientes líneas:
-listen-on { any }; allow-transfer { none }; recursion yes; allow-recursion { any; };  Configuramos el DNS local, la DMZ y externa en el fichero de configuración /etc/bind/named.conf.local:
- view interna { match-clients { 10.0.1.0/24; localhost; }; zone &amp;quot;alegv.</description>
+      <description>Servidor DNS *El servidor DNS estará instalado en freston, por ello instalaremos bind en esta máquina
+ root@apolo:~# apt install bind9  *Configuramos el fichero &amp;ldquo;/etc/bind/named.conf.options&amp;rdquo; y añadimos las siguientes líneas:
+ listen-on { any; }; allow-transfer { none; }; recursion yes; allow-recursion { any; }; *Configuramos el DNS local, la DMZ y externa en el fichero de configuración /etc/bind/named.conf.local:
+view interna { match-clients { 10.0.1.0/24; 127.0.0.1; }; allow-recursion { any; }; zone &amp;quot;alegv.</description>
     </item>
     
     <item>

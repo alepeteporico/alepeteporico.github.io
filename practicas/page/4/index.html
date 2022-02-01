@@ -110,6 +110,22 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/lemp/">Servidor LEMP</a></h4>
+								<h4 class="post-date">2021-06-01</h4>
+							</div>
+							<div class="post-summary"><p>Vamos a instalar todos los paquetes necesarios.
+ debian@mrrobot:~$ sudo apt install nginx mariadb-client mariadb-server php php-mysql php-fpm    Crearemos el directorio sobre el que trabajaremos en nuestro virtual host.
+ root@:~# mkdir /var/www/iesgn06    Crearemos un virtual host en sites-available
+  server { listen 80; listen [::]:80; root /var/www/iesgn06; index index.html index.htm index.nginx-debian.html; server_name www.iesgn06.es; location / { try_files $uri $uri/ =404; } }   Y creamos el enlace simbólico en sites-enabled.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/lemp/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/auditoria/">Auditoria</a></h4>
 								<h4 class="post-date">2021-05-31</h4>
 							</div>
@@ -177,20 +193,6 @@
  [centos@quijote ~]$ sudo mkdir /etc/ssl/private [centos@quijote ~]$ sudo chmod 700 /etc/ssl/private Generating RSA private key, 4096 bit long modulus (2 primes) .</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/https_openstack/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/copias/">Copias de seguridad con bacula</a></h4>
-								<h4 class="post-date">2021-05-22</h4>
-							</div>
-							<div class="post-summary"><p>Usaremos la herramienta bacula para realizar nuestro sistema de copias de seguridad, por supuesto el primer paso que debemos tomar es instalar el paquete de bacula, instalaremos el cliente en todas las máquinas de nuestro escenario de openstack, aunque usaremos Dulcinea para alojar las copias de seguridad.
- debian@dulcinea:~$ sudo apt-get install bacula-client    En nuestro Openstack vamos a crear un volumen que asociaremos a Dulcinea y donde almacenaremos nuestras copias de seguridad.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/copias/">Read More</a>
 							</div>
 						</div>
 					</li>

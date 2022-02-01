@@ -123,16 +123,14 @@
 </ol>
 <hr>
 <ul>
-<li>
-<p>Vamos a proceder a realizar nuestro certificado, para ello primero instalamos certbot</p>
-<pre><code>  root@sputnik:~# apt install certbot
-</code></pre>
-</li>
-<li>
-<p>Tenemos que parar el servicio de nginx para dejar el puerto 80 libre.</p>
-<pre><code>  root@sputnik:~# systemctl stop nginx
-</code></pre>
-</li>
+<li>Vamos a proceder a realizar nuestro certificado, para ello primero instalamos certbot</li>
+</ul>
+<pre><code>debian@mrrobot:~$ sudo apt install certbot
+</code></pre><ul>
+<li>Tenemos que parar el servicio de nginx para dejar el puerto 80 libre.</li>
+</ul>
+<pre><code>debian@mrrobot:~$ sudo systemctl stop nginx.service
+</code></pre><ul>
 <li>
 <p>Ahora si, vamos a generar el certificado y rellenar la información, lo primero que nos pedirá será el correo electrónico.</p>
 <pre><code>  root@sputnik:~# certbot certonly --standalone -d www.iesgn06.es

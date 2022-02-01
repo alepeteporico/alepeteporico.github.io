@@ -181,6 +181,81 @@ Superuser created successfully.
 <li>Comprobaremos que funciona la url <code>/polls</code></li>
 </ul>
 <p><img src="/despliegue_python/6.png" alt="polls"></p>
+<h3 id="modificación-de-la-aplicación">Modificación de la aplicación.</h3>
+<ul>
+<li>
+<p>Primero realizaremos estos cambios en el entorno de desarrollo, el primero de ellos será que nuestro nombre aparezca en la pagina de admin. Para ello modificaremos el fichero <code>django_tutorial/polls/templates/polls/index.html</code>.</p>
+<pre><code>  {% load static %}
+
+  &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;{% static 'polls/style.css' %}&quot;&gt;
+
+  &lt;h1&gt;Alejandro Gutiérrez Valencia&lt;h1&gt;
+
+  {% if latest_question_list %}
+      &lt;ul&gt;
+      {% for question in latest_question_list %}
+      &lt;li&gt;&lt;a href=&quot;{% url 'polls:detail' question.id %}&quot;&gt;{{ question.question_text }}&lt;/a&gt;&lt;/li&gt;
+      {% endfor %}
+      &lt;/ul&gt;
+  {% else %}
+      &lt;p&gt;No polls are available.&lt;/p&gt;
+  {% endif %}
+</code></pre>
+</li>
+</ul>
+<p><img src="/despliegue_python/8.png" alt="nombre"></p>
+<ul>
+<li>
+<p>Vamos a modificar la imagen que se ve de fondo en la aplicación, para ello modificamos el archivo <code>django/lib/python3.7/site-packages/django/contrib/admin/static/admin/css/base.css</code> y podemos por ejemplo cambiar el color de fondo</p>
+<pre><code>  body {
+      margin: 0;
+      padding: 0;
+      font-size: 14px;
+      font-family: &quot;Roboto&quot;,&quot;Lucida Grande&quot;,&quot;DejaVu Sans&quot;,&quot;Bitstream Vera Sans&quot;,Verdana,Arial,sans-serif;
+      color: #333;
+      background: #ebe10d;
+  }
+</code></pre>
+</li>
+</ul>
+<p><img src="/despliegue_python/10.png" alt="fondo"></p>
+<ul>
+<li>
+<p>Añadiremos una nueva tabla en la base de datos, para ello añadimos el siguiente modelo a <code>polls/models.py</code></p>
+<pre><code>    class Categoria(models.Model):
+      Abr = models.CharField(max_length=4)
+      Nombre = models.CharField(max_length=50)
+
+      def __str__(self):
+          return self.Abr+&quot; - &quot;+self.Nombre 
+</code></pre>
+</li>
+<li>
+<p>El siguiente paso es crear una nueva migración:</p>
+<pre><code>  (django) alejandrogv@AlejandroGV:~/django_tutorial$ python3 manage.py makemigrations
+  Migrations for 'polls':
+    polls/migrations/0002_categoria.py
+      - Create model Categoria
+</code></pre>
+</li>
+<li>
+<p>Ahora en <code>polls/admin.py</code> debemos añadir el nuevo modelo.</p>
+<pre><code>  from .models import Choice, Question, Categoria
+
+  admin.site.register(Categoria)
+</code></pre>
+</li>
+<li>
+<p>Y migramos por supuesto.</p>
+<pre><code>  (django) alejandrogv@AlejandroGV:~/django_tutorial$ python3 manage.py migrate
+  Operations to perform:
+    Apply all migrations: admin, auth, contenttypes, polls, sessions
+  Running migrations:
+    Applying polls.0002_categoria... OK
+</code></pre>
+</li>
+</ul>
+<p><img src="/despliegue_python/11.png" alt="fondo"></p>
 <h3 id="entorno-de-producción">ENTORNO DE PRODUCCIÓN.</h3>
 <ul>
 <li>Copiaremos nuestro repositorio con la aplicación y la guardaremos en el que se convertirá en nuestro DocumentRoot.</li>
@@ -366,85 +441,9 @@ root@mrrobot:/var/www/django_tutorial# cp -r polls/static/polls/* static/polls/
 <ul>
 <li>
 <p>Para evitar que se pueda mostrar información sensible configuramos el fichero settings.py y quitamos el debug.</p>
-<pre><code>  DEBUG = False
-</code></pre>
+<pre><code>  DEBUG = False</code></pre>
 </li>
 </ul>
-<h3 id="modificación-de-la-aplicación">Modificación de la aplicación.</h3>
-<ul>
-<li>
-<p>Primero realizaremos estos cambios en el entorno de desarrollo, el primero de ellos será que nuestro nombre aparezca en la pagina de admin. Para ello modificaremos el fichero <code>django_tutorial/polls/templates/polls/index.html</code>.</p>
-<pre><code>  {% load static %}
-
-  &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;{% static 'polls/style.css' %}&quot;&gt;
-
-  &lt;h1&gt;Alejandro Gutiérrez Valencia&lt;h1&gt;
-
-  {% if latest_question_list %}
-      &lt;ul&gt;
-      {% for question in latest_question_list %}
-      &lt;li&gt;&lt;a href=&quot;{% url 'polls:detail' question.id %}&quot;&gt;{{ question.question_text }}&lt;/a&gt;&lt;/li&gt;
-      {% endfor %}
-      &lt;/ul&gt;
-  {% else %}
-      &lt;p&gt;No polls are available.&lt;/p&gt;
-  {% endif %}
-</code></pre>
-</li>
-</ul>
-<p><img src="/despliegue_python/8.png" alt="nombre"></p>
-<ul>
-<li>
-<p>Vamos a modificar la imagen que se ve de fondo en la aplicación, para ello modificamos el archivo <code>django/lib/python3.7/site-packages/django/contrib/admin/static/admin/css/base.css</code> y podemos por ejemplo cambiar el color de fondo</p>
-<pre><code>  body {
-      margin: 0;
-      padding: 0;
-      font-size: 14px;
-      font-family: &quot;Roboto&quot;,&quot;Lucida Grande&quot;,&quot;DejaVu Sans&quot;,&quot;Bitstream Vera Sans&quot;,Verdana,Arial,sans-serif;
-      color: #333;
-      background: #ebe10d;
-  }
-</code></pre>
-</li>
-</ul>
-<p><img src="/despliegue_python/10.png" alt="fondo"></p>
-<ul>
-<li>
-<p>Añadiremos una nueva tabla en la base de datos, para ello añadimos el siguiente modelo a <code>polls/models.py</code></p>
-<pre><code>    class Categoria(models.Model):
-      Abr = models.CharField(max_length=4)
-      Nombre = models.CharField(max_length=50)
-
-      def __str__(self):
-          return self.Abr+&quot; - &quot;+self.Nombre 
-</code></pre>
-</li>
-<li>
-<p>El siguiente paso es crear una nueva migración:</p>
-<pre><code>  (django) alejandrogv@AlejandroGV:~/django_tutorial$ python3 manage.py makemigrations
-  Migrations for 'polls':
-    polls/migrations/0002_categoria.py
-      - Create model Categoria
-</code></pre>
-</li>
-<li>
-<p>Ahora en <code>polls/admin.py</code> debemos añadir el nuevo modelo.</p>
-<pre><code>  from .models import Choice, Question, Categoria
-
-  admin.site.register(Categoria)
-</code></pre>
-</li>
-<li>
-<p>Y migramos por supuesto.</p>
-<pre><code>  (django) alejandrogv@AlejandroGV:~/django_tutorial$ python3 manage.py migrate
-  Operations to perform:
-    Apply all migrations: admin, auth, contenttypes, polls, sessions
-  Running migrations:
-    Applying polls.0002_categoria... OK
-</code></pre>
-</li>
-</ul>
-<p><img src="/despliegue_python/11.png" alt="fondo"></p>
 
                 </div>
                 
