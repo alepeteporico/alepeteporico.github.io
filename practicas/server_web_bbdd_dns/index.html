@@ -281,29 +281,117 @@ OPTIONS=&quot;-4 -u bind&quot;
 debian@apolo:~$ sudo systemctl status bind9
 * named.service - BIND Domain Name Server
      Loaded: loaded (/lib/systemd/system/named.service; enabled; vendor preset: enabled)
-     Active: active (running) since Mon 2022-01-31 13:14:39 CET; 10s ago
+     Active: active (running) since Wed 2022-02-02 09:55:21 CET; 1min 23s ago
        Docs: man:named(8)
-   Main PID: 1688 (named)
-      Tasks: 4 (limit: 529)
-     Memory: 18.6M
-        CPU: 302ms
+   Main PID: 1775 (named)
+      Tasks: 5 (limit: 529)
+     Memory: 18.7M
+        CPU: 98ms
      CGroup: /system.slice/named.service
-             `-1688 /usr/sbin/named -f -u bind
+             `-1775 /usr/sbin/named -f -u bind
 
-Jan 31 13:14:40 apolo named[1688]: network unreachable resolving './DNSKEY/IN': 2001:7fe::53#53
-Jan 31 13:14:40 apolo named[1688]: network unreachable resolving './DNSKEY/IN': 2001:503:c27::2:30#53
-Jan 31 13:14:40 apolo named[1688]: network unreachable resolving './DNSKEY/IN': 2001:503:ba3e::2:30#53
-Jan 31 13:14:40 apolo named[1688]: network unreachable resolving './DNSKEY/IN': 2001:500:12::d0d#53
-Jan 31 13:14:40 apolo named[1688]: managed-keys-zone/interna: Key 20326 for zone . is now trusted (accep&gt;
-Jan 31 13:14:40 apolo named[1688]: managed-keys-zone/dmz: Key 20326 for zone . is now trusted (acceptanc&gt;
-Jan 31 13:14:40 apolo named[1688]: resolver priming query complete
-Jan 31 13:14:40 apolo named[1688]: resolver priming query complete
-Jan 31 13:14:40 apolo named[1688]: managed-keys-zone/externa: Key 20326 for zone . is now trusted (accep&gt;
-Jan 31 13:14:40 apolo named[1688]: resolver priming query complete
+Feb 02 09:55:21 apolo named[1775]: zone 168.192.in-addr.arpa/IN/externa: loaded serial 1
+Feb 02 09:55:21 apolo named[1775]: zone alegv.gonzalonazareno.org/IN/externa: loaded serial 1
+Feb 02 09:55:21 apolo named[1775]: all zones loaded
+Feb 02 09:55:21 apolo named[1775]: running
+Feb 02 09:55:21 apolo named[1775]: managed-keys-zone/externa: Key 20326 for zone . is now trusted (accep&gt;
+Feb 02 09:55:21 apolo named[1775]: resolver priming query complete
+Feb 02 09:55:21 apolo named[1775]: managed-keys-zone/dmz: Key 20326 for zone . is now trusted (acceptanc&gt;
+Feb 02 09:55:22 apolo named[1775]: resolver priming query complete
+Feb 02 09:55:22 apolo named[1775]: managed-keys-zone/interna: Key 20326 for zone . is now trusted (accep&gt;
+Feb 02 09:55:22 apolo named[1775]: resolver priming query complete
 </code></pre><ul>
 <li>Vamos a hacer las comprobaciones necesarias en cada máquina:</li>
 </ul>
-<h3 id="dulcinea">Dulcinea</h3>
+<ol>
+<li>El servidor DNS con autoridad sobre la zona del dominio tu_nombre.gonzalonazareno.org.</li>
+</ol>
+<h3 id="interna">Interna</h3>
+<pre><code>debian@zeus:~$ dig alegv.gonzalonazareno.org
+
+; &lt;&lt;&gt;&gt; DiG 9.16.22-Debian &lt;&lt;&gt;&gt; alegv.gonzalonazareno.org
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 26327
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: 673e0e7f90f0376a0100000061fa47a7b129b2cb088a4078 (good)
+;; QUESTION SECTION:
+;alegv.gonzalonazareno.org.	IN	A
+
+;; AUTHORITY SECTION:
+alegv.gonzalonazareno.org. 86400 IN	SOA	apolo.alegv.gonzalonazareno.org. admin.alegv.gonzalonazareno.org. 1 604800 86400 2419200 86400
+
+;; Query time: 0 msec
+;; SERVER: 10.0.1.102#53(10.0.1.102)
+;; WHEN: Wed Feb 02 09:58:15 CET 2022
+;; MSG SIZE  rcvd: 130
+</code></pre><h3 id="externa">Externa</h3>
+<pre><code>alejandrogv@AlejandroGV:~$ dig alegv.gonzalonazareno.org
+
+; &lt;&lt;&gt;&gt; DiG 9.16.22-Debian &lt;&lt;&gt;&gt; alegv.gonzalonazareno.org
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 12856
+;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: d14809270130ee359e88c61961f8ef40775f5cc6025b334e (good)
+;; QUESTION SECTION:
+;alegv.gonzalonazareno.org.	IN	A
+
+;; AUTHORITY SECTION:
+alegv.gonzalonazareno.org. 10748 IN	SOA	zeus.alegv.gonzalonazareno.org. admin.alegv.gonzalonazareno.org. 1 604800 86400 2419200 86400
+
+;; Query time: 0 msec
+;; SERVER: 192.168.202.2#53(192.168.202.2)
+;; WHEN: Tue Feb 01 09:28:48 CET 2022
+;; MSG SIZE  rcvd: 129
+</code></pre><ol start="2">
+<li>La dirección IP de zeus.</li>
+</ol>
+<h3 id="interna-1">Interna</h3>
+<pre><code>[hera@hera ~]$ dig +short zeus.alegv.gonzalonazareno.org
+172.16.0.1
+
+debian@apolo:~$ dig +short zeus.alegv.gonzalonazareno.org
+10.0.1.1
+</code></pre><h3 id="externa-1">Externa</h3>
+<pre><code>alejandrogv@AlejandroGV:~$ dig +short zeus.alegv.gonzalonazareno.org
+172.22.3.191
+</code></pre><ol start="3">
+<li>Una resolución de www.</li>
+</ol>
+<h3 id="interna-2">Interna</h3>
+<pre><code>debian@apolo:~$ dig +short www.alegv.gonzalonazareno.org
+hera.alegv.gonzalonazareno.org.
+172.16.0.200
+</code></pre><h3 id="externa-2">Externa</h3>
+<pre><code>alejandrogv@AlejandroGV:~$ dig +short www.alegv.gonzalonazareno.org
+zeus.alegv.gonzalonazareno.org.
+172.22.3.191
+</code></pre><ol start="4">
+<li>Una resolución de bd.</li>
+</ol>
+<h3 id="interna-3">Interna</h3>
+<pre><code>debian@apolo:~$ dig +short bd.alegv.gonzalonazareno.org
+ares.alegv.gonzalonazareno.org.
+10.0.1.101
+</code></pre><h3 id="externa-3">Externa</h3>
+<pre><code>alejandrogv@AlejandroGV:~$ dig +short bd.alegv.gonzalonazareno.org
+zeus.alegv.gonzalonazareno.org.
+172.22.3.191
+</code></pre><ol start="5">
+<li>Un resolución inversa de IP fija en cada una de las redes.</li>
+</ol>
+<pre><code>debian@zeus:~$ dig +short -x 10.0.1.101
+ares.alegv.gonzalonazareno.org.
+
+
+</code></pre><h3 id="dulcinea">Dulcinea</h3>
 <pre><code>    debian@dulcinea:~$ dig +short @10.0.1.9 dulcinea.alegv.gonzalonazareno.org
     10.0.1.8
     debian@dulcinea:~$ dig +short @10.0.1.9 freston.alegv.gonzalonazareno.org
@@ -340,30 +428,9 @@ Jan 31 13:14:40 apolo named[1688]: resolver priming query complete
     dulcinea.1.0.10.in-addr.arpa.
 </code></pre>
 <h3 id="desde-fuera">Desde fuera:</h3>
-<pre><code>alejandrogv@AlejandroGV:~$ dig alegv.gonzalonazareno.org
+<pre><code>
 
-; &lt;&lt;&gt;&gt; DiG 9.16.22-Debian &lt;&lt;&gt;&gt; alegv.gonzalonazareno.org
-;; global options: +cmd
-;; Got answer:
-;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 12856
-;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 1
 
-;; OPT PSEUDOSECTION:
-; EDNS: version: 0, flags:; udp: 4096
-; COOKIE: d14809270130ee359e88c61961f8ef40775f5cc6025b334e (good)
-;; QUESTION SECTION:
-;alegv.gonzalonazareno.org.	IN	A
-
-;; AUTHORITY SECTION:
-alegv.gonzalonazareno.org. 10748 IN	SOA	zeus.alegv.gonzalonazareno.org. admin.alegv.gonzalonazareno.org. 1 604800 86400 2419200 86400
-
-;; Query time: 0 msec
-;; SERVER: 192.168.202.2#53(192.168.202.2)
-;; WHEN: Tue Feb 01 09:28:48 CET 2022
-;; MSG SIZE  rcvd: 129
-
-alejandrogv@AlejandroGV:~$ dig +short zeus.alegv.gonzalonazareno.org
-172.22.3.191
 
 alejandrogv@AlejandroGV:~$ dig +short www.alegv.gonzalonazareno.org
 zeus.alegv.gonzalonazareno.org.
