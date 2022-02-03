@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title> Aplicación php en docker &middot; Alepetepórico Blog </title>
+        <title> Ejercicio 1 cortafuegos &middot; Alepetepórico Blog </title>
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -100,21 +100,25 @@
 
         <div class="flex-wrapper">
             <div class="container wrapper">
-                <h1><a href="https://alepeteporico.github.io/practicas/docker_bookmedik/">Aplicación php en docker</a></h1>
-                <span class="post-date">2022-02-02 </span>
+                <h1><a href="https://alepeteporico.github.io/ejercicios/ejercicio1_cortafuegos/">Ejercicio 1 cortafuegos</a></h1>
+                <span class="post-date">2022-02-03 </span>
                 <div class="post-content">
-                    <h3 id="creación-de-una-imagen-docker-con-una-aplicación-web-desde-una-imagen-base">Creación de una imagen docker con una aplicación web desde una imagen base</h3>
-<ul>
-<li>
-<p><a href="https://github.com/alepeteporico/docker_php.git">url</a> del repositorio GitHub donde tengas los ficheros necesarios para hacer la construcción de la imagen.</p>
-</li>
-<li>
-<p>Imagen docker con la aplicación desde una imagen base de debian o ubuntu. En el registro de tu entorno de desarrollo.</p>
-</li>
+                    <ul>
+<li>Permite poder hacer conexiones ssh al exterior.</li>
 </ul>
-<pre><code>alejandrogv@AlejandroGV:~/docker/docker_php$ docker image ls
-REPOSITORY          TAG          IMAGE ID       CREATED         SIZE
-usuario/bookmedik   v1           04c149347bc6   3 minutes ago   257MB
+<pre><code>vagrant@bullseye:~$ sudo iptables -A INPUT -s 192.168.121.0/24 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+vagrant@bullseye:~$ sudo iptables -A OUTPUT -d 192.168.121.0/24 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+</code></pre><ul>
+<li>Deniega el acceso a tu servidor web desde una ip concreta.</li>
+</ul>
+<pre><code>vagrant@bullseye:~$ sudo iptables -s 172.22.0.159 -A INPUT -p tcp --sport 80 -m state --state ESTABLISHED -j DROP
+</code></pre><pre><code>alejandrogv@AlejandroGV:~$ curl http://192.168.121.154:80
+curl: (28) Failed to connect to 192.168.121.154 port 80: Expiró el tiempo de conexión
+</code></pre><ul>
+<li>Permite hacer consultas DNS sólo al servidor 192.168.202.2. Comprueba que no puedes hacer un dig @1.1.1.1.</li>
+</ul>
+<pre><code>vagrant@bullseye:~$ sudo iptables -A OUTPUT ! -s 192.168.202.2 -p udp --dport 53 -m state --state NEW,ESTABLISHED -j DROP
+vagrant@bullseye:~$ sudo iptables -A INPUT ! -s 192.168.202.2 -p udp --sport 53 -m state --state ESTABLISHED -j DROP
 </code></pre>
                 </div>
                 

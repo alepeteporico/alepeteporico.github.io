@@ -4,7 +4,37 @@
   
   <url>
     <loc>https://alepeteporico.github.io/</loc>
-    <lastmod>2022-02-02T00:00:00+00:00</lastmod>
+    <lastmod>2022-02-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alepeteporico.github.io/ejercicios/ejercicio1_cortafuegos/</loc>
+    <lastmod>2022-02-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alepeteporico.github.io/ejercicios/</loc>
+    <lastmod>2022-02-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alepeteporico.github.io/ejercicios/ejercicos_kubernetes/</loc>
+    <lastmod>2022-02-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alepeteporico.github.io/tags/hlc/</loc>
+    <lastmod>2022-02-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alepeteporico.github.io/tags/sad/</loc>
+    <lastmod>2022-02-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alepeteporico.github.io/tags/</loc>
+    <lastmod>2022-02-03T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -33,11 +63,6 @@
   </url>
   
   <url>
-    <loc>https://alepeteporico.github.io/tags/</loc>
-    <lastmod>2022-02-02T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://alepeteporico.github.io/tags/aso/</loc>
     <lastmod>2022-01-21T00:00:00+00:00</lastmod>
   </url>
@@ -53,17 +78,7 @@
   </url>
   
   <url>
-    <loc>https://alepeteporico.github.io/ejercicios/</loc>
-    <lastmod>2022-01-19T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://alepeteporico.github.io/ejercicios/ejercicios_docker/</loc>
-    <lastmod>2022-01-19T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://alepeteporico.github.io/tags/hlc/</loc>
     <lastmod>2022-01-19T00:00:00+00:00</lastmod>
   </url>
   
@@ -90,11 +105,6 @@
   <url>
     <loc>https://alepeteporico.github.io/practicas/interconexion/</loc>
     <lastmod>2022-01-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://alepeteporico.github.io/tags/sad/</loc>
-    <lastmod>2021-12-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>

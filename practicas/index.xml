@@ -13,11 +13,13 @@
       <pubDate>Wed, 02 Feb 2022 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/docker_bookmedik/</guid>
-      <description>Creación de una imagen docker con una aplicación web desde una imagen base  url del repositorio GitHub donde tengas los ficheros necesarios para hacer la construcción de la imagen.  </description>
+      <description>Creación de una imagen docker con una aplicación web desde una imagen base   url del repositorio GitHub donde tengas los ficheros necesarios para hacer la construcción de la imagen.
+  Imagen docker con la aplicación desde una imagen base de debian o ubuntu. En el registro de tu entorno de desarrollo.
+  alejandrogv@AlejandroGV:~/docker/docker_php$ docker image ls REPOSITORY TAG IMAGE ID CREATED SIZE usuario/bookmedik v1 04c149347bc6 3 minutes ago 257MB </description>
     </item>
     
     <item>
-      <title>Ejercicio correo</title>
+      <title>Correo en la VPS</title>
       <link>https://alepeteporico.github.io/practicas/correo/</link>
       <pubDate>Wed, 02 Feb 2022 00:00:00 +0000</pubDate>
       

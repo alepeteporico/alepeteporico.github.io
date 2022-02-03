@@ -6,7 +6,16 @@
     <description>Recent content in HLC on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 19 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/hlc/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 03 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/hlc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ejercicios kubernetes</title>
+      <link>https://alepeteporico.github.io/ejercicios/ejercicos_kubernetes/</link>
+      <pubDate>Thu, 03 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/ejercicos_kubernetes/</guid>
+      <description>Ejercicio 1  Fichero yaml que has creado con la definición del Pod.   </description>
+    </item>
+    
     <item>
       <title>Contenedores LXC</title>
       <link>https://alepeteporico.github.io/practicas/lxc/</link>

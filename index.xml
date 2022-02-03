@@ -6,18 +6,38 @@
     <description>Recent content on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 02 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 03 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ejercicio 1 cortafuegos</title>
+      <link>https://alepeteporico.github.io/ejercicios/ejercicio1_cortafuegos/</link>
+      <pubDate>Thu, 03 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/ejercicio1_cortafuegos/</guid>
+      <description>Permite poder hacer conexiones ssh al exterior.  vagrant@bullseye:~$ sudo iptables -A INPUT -s 192.168.121.0/24 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT vagrant@bullseye:~$ sudo iptables -A OUTPUT -d 192.168.121.0/24 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT  Deniega el acceso a tu servidor web desde una ip concreta.  vagrant@bullseye:~$ sudo iptables -s 172.22.0.159 -A INPUT -p tcp --sport 80 -m state --state ESTABLISHED -j DROP alejandrogv@AlejandroGV:~$ curl http://192.</description>
+    </item>
+    
+    <item>
+      <title>Ejercicios kubernetes</title>
+      <link>https://alepeteporico.github.io/ejercicios/ejercicos_kubernetes/</link>
+      <pubDate>Thu, 03 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/ejercicos_kubernetes/</guid>
+      <description>Ejercicio 1  Fichero yaml que has creado con la definición del Pod.   </description>
+    </item>
+    
     <item>
       <title>Aplicación php en docker</title>
       <link>https://alepeteporico.github.io/practicas/docker_bookmedik/</link>
       <pubDate>Wed, 02 Feb 2022 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/docker_bookmedik/</guid>
-      <description>Creación de una imagen docker con una aplicación web desde una imagen base  url del repositorio GitHub donde tengas los ficheros necesarios para hacer la construcción de la imagen.  </description>
+      <description>Creación de una imagen docker con una aplicación web desde una imagen base   url del repositorio GitHub donde tengas los ficheros necesarios para hacer la construcción de la imagen.
+  Imagen docker con la aplicación desde una imagen base de debian o ubuntu. En el registro de tu entorno de desarrollo.
+  alejandrogv@AlejandroGV:~/docker/docker_php$ docker image ls REPOSITORY TAG IMAGE ID CREATED SIZE usuario/bookmedik v1 04c149347bc6 3 minutes ago 257MB </description>
     </item>
     
     <item>
-      <title>Ejercicio correo</title>
+      <title>Correo en la VPS</title>
       <link>https://alepeteporico.github.io/practicas/correo/</link>
       <pubDate>Wed, 02 Feb 2022 00:00:00 +0000</pubDate>
       

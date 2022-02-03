@@ -6,7 +6,16 @@
     <description>Recent content in SAD on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 09 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/sad/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 03 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/sad/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ejercicio 1 cortafuegos</title>
+      <link>https://alepeteporico.github.io/ejercicios/ejercicio1_cortafuegos/</link>
+      <pubDate>Thu, 03 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/ejercicio1_cortafuegos/</guid>
+      <description>Permite poder hacer conexiones ssh al exterior.  vagrant@bullseye:~$ sudo iptables -A INPUT -s 192.168.121.0/24 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT vagrant@bullseye:~$ sudo iptables -A OUTPUT -d 192.168.121.0/24 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT  Deniega el acceso a tu servidor web desde una ip concreta.  vagrant@bullseye:~$ sudo iptables -s 172.22.0.159 -A INPUT -p tcp --sport 80 -m state --state ESTABLISHED -j DROP alejandrogv@AlejandroGV:~$ curl http://192.</description>
+    </item>
+    
     <item>
       <title>VPN</title>
       <link>https://alepeteporico.github.io/practicas/vpn/</link>

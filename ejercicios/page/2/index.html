@@ -110,6 +110,32 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/wsgi/">Desplegando aplicaciones flask con apache2 &#43; mod_wsgi</a></h4>
+								<h4 class="post-date">2021-11-09</h4>
+							</div>
+							<div class="post-summary"><p>Creamos un entorno virtual y lo activamos:  vagrant@cmsagv:~/wsgi$ python3 -m venv wsgi (wsgi) vagrant@cmsagv:~$ source wsgi/bin/activate  Después de clonar la aplicación vamos a instalar los paquetes del fichero requeriments.txt.  (wsgi) vagrant@cmsagv:~/flask_temperaturas$ pip install -r requirements.txt  Tenemos que instalar el módulo de apache para que wsgi funcione  vagrant@cmsagv:~/flask_temperaturas$ sudo apt install libapache2-mod-wsgi-py3  Ahora creamos un fichero en el respositorio llamado wsgi.py donde añadiremos la siguiente línea:  from app import app as application  Creamos un virtual host con la siguiente configuración:  &lt;VirtualHost *:80&gt; WSGIDaemonProcess flask_temp python-path=/home/vagrant/flask_temperaturas:/home/vagrant/venv/fla&gt; WSGIProcessGroup flask_temp WSGIScriptAlias / /home/vagrant/flask_temperaturas/wsgi.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/ejercicios/wsgi/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/ejercico1_dns/">Ejercicio 1 DNS</a></h4>
+								<h4 class="post-date">2021-11-08</h4>
+							</div>
+							<div class="post-summary"><p>Empezaremos a añadir las zonas de las que nuestro servidor tiene autoridad en el fichero /etc/bind/named.conf.local, dejandolo tal que así (tener en cuenta que hay que descomentar la primera línea).  include &quot;/etc/bind/zones.rfc1918&quot;; zone &quot;iesgn.org&quot; { type master; file &quot;db.iesgn.org&quot;; }; zone &quot;0.0.10.in-addr.arpa&quot; { type master; file &quot;db.0.0.10&quot;; };  Ahora definiremos los fichero db.iesgn.org y db.0.0.10 dentro de /var/cache/bind/ vamos primero con la zona directa:  $TTL 86400 @ IN SOA alegv.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/ejercicios/ejercico1_dns/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/modulos_apache/">Módulos en apache</a></h4>
 								<h4 class="post-date">2021-11-08</h4>
 							</div>
