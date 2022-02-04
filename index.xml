@@ -6,7 +6,16 @@
     <description>Recent content on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 03 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 04 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Recolección de logs mediante journald</title>
+      <link>https://alepeteporico.github.io/practicas/logs/</link>
+      <pubDate>Fri, 04 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/logs/</guid>
+      <description>Vamos a usar el paquete systemd-journal-remote primero deberemos instalarlo en nuestro servidor principal, hemos escogido zeus y también deberemos instalarlo en nuestros clientes.  debian@zeus:~$ sudo apt install systemd-journal-remote  Vamos a habilitar dos componentes de systemd necesarios para recibir los logs.  debian@zeus:~$ sudo systemctl enable --now systemd-journal-remote.socket Created symlink /etc/systemd/system/sockets.target.wants/systemd-journal-remote.socket -&amp;gt; /lib/systemd/system/systemd-journal-remote.socket. debian@zeus:~$ sudo systemctl enable systemd-journal-remote.service  Y en los clientes también debemos habilitar uno.  [hera@hera ~]$ sudo systemctl enable systemd-journal-upload.</description>
+    </item>
+    
     <item>
       <title>Ejercicio 1 cortafuegos</title>
       <link>https://alepeteporico.github.io/ejercicios/ejercicio1_cortafuegos/</link>

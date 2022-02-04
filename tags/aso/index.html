@@ -110,6 +110,19 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/logs/">Recolección de logs mediante journald</a></h4>
+								<h4 class="post-date">2022-02-04</h4>
+							</div>
+							<div class="post-summary"><p>Vamos a usar el paquete systemd-journal-remote primero deberemos instalarlo en nuestro servidor principal, hemos escogido zeus y también deberemos instalarlo en nuestros clientes.  debian@zeus:~$ sudo apt install systemd-journal-remote  Vamos a habilitar dos componentes de systemd necesarios para recibir los logs.  debian@zeus:~$ sudo systemctl enable --now systemd-journal-remote.socket Created symlink /etc/systemd/system/sockets.target.wants/systemd-journal-remote.socket -&gt; /lib/systemd/system/systemd-journal-remote.socket. debian@zeus:~$ sudo systemctl enable systemd-journal-remote.service  Y en los clientes también debemos habilitar uno.  [hera@hera ~]$ sudo systemctl enable systemd-journal-upload.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/logs/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/copias/">Copias de seguridad con bacula</a></h4>
 								<h4 class="post-date">2022-01-21</h4>
 							</div>
@@ -231,22 +244,6 @@
  ssh-copy-id -i .ssh/clave usuario@172.22.100.10    Túneles ssh   Se usa para saltarnos un cortafuegos o para acceder por un canal abierto y más seguro, entre otras útilidades.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/apuntes/apuntes-de-ssh-avanzado/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/ldap/">Instalación y configuración de LDAP</a></h4>
-								<h4 class="post-date">2021-05-15</h4>
-							</div>
-							<div class="post-summary"><p>LDAP es un protocolo de tipo cliente-servidor para acceder a un servicio de directorio. Un directorio es como una base de datos, pero en general contiene información más descriptiva y más basada en atributos.
-  Lo primero que debemos hacer es verificar nuestro FQDN (Fully Qualified Domain Name) que usaremos mas tarde para la configuración.
- debian@freston:~$ hostname -f freston.alegv.gonzalonazareno.org    Instalaremos el paquete de LDAP
- debian@freston:~$ sudo apt install slapd    Durante esta instalación tendremos que introducir una contraseña para el administrador.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/ldap/">Read More</a>
 							</div>
 						</div>
 					</li>
