@@ -113,7 +113,7 @@
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/ejercicio1_cortafuegos/">Ejercicio 1 cortafuegos</a></h4>
 								<h4 class="post-date">2022-02-03</h4>
 							</div>
-							<div class="post-summary"><p>Permite poder hacer conexiones ssh al exterior.  vagrant@bullseye:~$ sudo iptables -A INPUT -s 192.168.121.0/24 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT vagrant@bullseye:~$ sudo iptables -A OUTPUT -d 192.168.121.0/24 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT  Deniega el acceso a tu servidor web desde una ip concreta.  vagrant@bullseye:~$ sudo iptables -s 172.22.0.159 -A INPUT -p tcp --sport 80 -m state --state ESTABLISHED -j DROP alejandrogv@AlejandroGV:~$ curl http://192.</p></div>
+							<div class="post-summary"><p>Añadiremos las siguientes reglas.   Limpiamos las tablas iptables -F iptables -t nat -F iptables -Z iptables -t nat -Z # Establecemos la política iptables -P INPUT DROP iptables -P OUTPUT DROP iptables -A INPUT -i lo -p icmp -j ACCEPT iptables -A OUTPUT -o lo -p icmp -j ACCEPT iptables -A INPUT -s 192.168.121.0/24 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT iptables -A OUTPUT -d 192.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/ejercicios/ejercicio1_cortafuegos/">Read More</a>
 							</div>
