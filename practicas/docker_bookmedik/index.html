@@ -115,6 +115,18 @@
 <pre><code>alejandrogv@AlejandroGV:~/docker/docker_php$ docker image ls
 REPOSITORY            TAG          IMAGE ID       CREATED        SIZE
 alejandro/bookmedik   v1           04c149347bc6   2 days ago     257MB
+</code></pre><h3 id="despliegue-en-el-entorno-de-desarrollo">Despliegue en el entorno de desarrollo</h3>
+<ul>
+<li>Instrucción para ver los dos contenedores del escenario funcionando.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/docker/docker_php/deploy$ docker-compose up -d
+Creating servidor_mariadb ... done
+Creating bookmedik        ... done
+
+alejandrogv@AlejandroGV:~/docker/docker_php/deploy$ docker ps -a
+CONTAINER ID   IMAGE                    COMMAND                  CREATED          STATUS          PORTS                  NAMES
+c0a74ef3523e   mariadb                  &quot;docker-entrypoint.s…&quot;   35 seconds ago   Up 21 seconds   3306/tcp               servidor_mariadb
+c6e1d60dcec4   alejandro/bookmedik:v1   &quot;script.sh&quot;              35 seconds ago   Up 20 seconds   0.0.0.0:8081-&gt;80/tcp   bookmedik
 </code></pre><ul>
 <li></li>
 </ul>

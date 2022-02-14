@@ -24,7 +24,7 @@
       <guid>https://alepeteporico.github.io/practicas/docker_bookmedik/</guid>
       <description>Creación de una imagen docker con una aplicación web desde una imagen base   url del repositorio GitHub donde tengas los ficheros necesarios para hacer la construcción de la imagen.
   Imagen docker con la aplicación desde una imagen base de debian o ubuntu. En el registro de tu entorno de desarrollo.
-  alejandrogv@AlejandroGV:~/docker/docker_php$ docker image ls REPOSITORY TAG IMAGE ID CREATED SIZE alejandro/bookmedik v1 04c149347bc6 2 days ago 257MB    </description>
+  alejandrogv@AlejandroGV:~/docker/docker_php$ docker image ls REPOSITORY TAG IMAGE ID CREATED SIZE alejandro/bookmedik v1 04c149347bc6 2 days ago 257MB Despliegue en el entorno de desarrollo  Instrucción para ver los dos contenedores del escenario funcionando.</description>
     </item>
     
     <item>

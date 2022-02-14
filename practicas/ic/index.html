@@ -172,19 +172,19 @@
 </ul>
 <p><img src="/IC/1.png" alt="ic"></p>
 <ul>
-<li>
-<p>Una vez cliquemos ahí nos aparecerá un fichero llamado <code>main.yml</code> que editaremos de la siguiente forma:</p>
-<pre><code>  # This is a basic workflow to help you get started with Actions
+<li>Una vez cliquemos ahí nos aparecerá un fichero llamado <code>main.yml</code> que editaremos de la siguiente forma:</li>
+</ul>
+<pre><code># This is a basic workflow to help you get started with Actions
 
-  name: CI
+name: CI
 
-  # Controls when the action will run. 
-  on:
-    # Triggers the workflow on push or pull request events but only for the master branch
-    push:
-      branches: [ master ]
-    pull_request:
-      branches: [ master ]
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
   jobs:
     build:
@@ -207,11 +207,8 @@
 
       - name: Prueba python3
         run: python3 manage.py test
-</code></pre>
-</li>
-<li>
-<p>Vamos a comprobar un commit con todo correcto.</p>
-</li>
+</code></pre><ul>
+<li>Vamos a comprobar un commit con todo correcto.</li>
 </ul>
 <p><img src="/IC/2.png" alt="bien"></p>
 <ul>

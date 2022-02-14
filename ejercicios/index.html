@@ -113,7 +113,7 @@
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/ejercicio1_cortafuegos/">Ejercicio 1 cortafuegos</a></h4>
 								<h4 class="post-date">2022-02-03</h4>
 							</div>
-							<div class="post-summary"><p>Añadiremos las siguientes reglas.   Limpiamos las tablas iptables -F iptables -t nat -F iptables -Z iptables -t nat -Z # Establecemos la política iptables -P INPUT DROP iptables -P OUTPUT DROP iptables -A INPUT -i lo -p icmp -j ACCEPT iptables -A OUTPUT -o lo -p icmp -j ACCEPT iptables -A INPUT -s 192.168.121.0/24 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT iptables -A OUTPUT -d 192.</p></div>
+							<div class="post-summary"><p>Añadiremos las siguientes reglas.  # Limpiamos las tablas iptables -F iptables -t nat -F iptables -Z iptables -t nat -Z # Establecemos la política iptables -P INPUT DROP iptables -P OUTPUT DROP iptables -A INPUT -i lo -p icmp -j ACCEPT iptables -A OUTPUT -o lo -p icmp -j ACCEPT iptables -A INPUT -s 192.168.121.0/24 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT iptables -A OUTPUT -d 192.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/ejercicios/ejercicio1_cortafuegos/">Read More</a>
 							</div>
@@ -126,7 +126,7 @@
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/ejercicos_kubernetes/">Ejercicios kubernetes</a></h4>
 								<h4 class="post-date">2022-02-03</h4>
 							</div>
-							<div class="post-summary"><p>Ejercicio 1  Fichero yaml que has creado con la definición del Pod.   </p></div>
+							<div class="post-summary"><p>Ejercicio 1  Fichero yaml que has creado con la definición del Pod.  apiVersion: v1 kind: Pod metadata: name: pod-ejercicio1 labels: app: nginx service: web spec: containers: image: iesgn/test_web:latest name: contenedor-ejercicio1 imagePullPolicy: Always  Comprobación de que el Pod ha sido creado.  alejandrogv@AlejandroGV:~/kubernetes/ejercicios/1$ kubectl apply -f ejercicio1.yml pod/pod-ejercicio1 created </p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/ejercicios/ejercicos_kubernetes/">Read More</a>
 							</div>
