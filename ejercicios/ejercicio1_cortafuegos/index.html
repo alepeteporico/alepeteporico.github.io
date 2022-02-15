@@ -234,6 +234,9 @@ ns4.google.com.		90004	IN	AAAA	2001:4860:4802:38::a
 <p>Instala un servidor mariadb, y permite los accesos desde la ip de tu cliente.</p>
 </li>
 </ul>
+<pre><code>root@bullseye:~# iptables -A INPUT -s 172.22.0.159 -p tcp --dport 3306 -j ACCEPT
+</code></pre><p>iptables -A INPUT -s 172.22.0.159 -p tcp &ndash;dport 3306 -j ACCEPT
+iptables -A OUTPUT -d 172.22.0.159 -p tcp &ndash;sport 3306 -j ACCEPT</p>
 
                 </div>
                 

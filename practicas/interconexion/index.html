@@ -120,141 +120,150 @@
 <p>Usaremos dos máquina con centos 7 e instalaremos oracle 19c en cada una.</p>
 </li>
 <li>
-<p>Para comprobar que tenemos conexión por el puerto 1521 que usa oracle para el listener podemos usar el comando tnsping.</p>
-<pre><code>  [oracle@oracle ~]$ tnsping 172.22.100.20
-
-  TNS Ping Utility for Linux: Version 19.0.0.0.0 - Production on 08-JUN-2021 07:35:45
-
-  Copyright (c) 1997, 2019, Oracle.  All rights reserved.
-
-  Used parameter files:
-  /opt/oracle/product/19c/dbhome_1/network/admin/sqlnet.ora
-
-  Used HOSTNAME adapter to resolve the alias
-  Attempting to contact (DESCRIPTION=(CONNECT_DATA=(SERVICE_NAME=))(ADDRESS=(PROTOCOL=tcp)(HOST=172.22.100.20)(PORT=1521)))
-  OK (0 msec)
-</code></pre>
-</li>
-<li>
-<p>Vamos conigurar el que será nuestro servidor definiendo un alias indicando al servidor que nos conectaremos modificando el fichero <code>/opt/oracle/product/19c/dbhome_1/network/admin/tnsnames.ora</code></p>
-<pre><code>  ORCLCDB =
-    (DESCRIPTION =
-      (ADDRESS = (PROTOCOL = TCP)(HOST = myhost)(PORT = 1521))
-      (CONNECT_DATA =
-        (SERVER = DEDICATED)
-        (SERVICE_NAME = ORCLCDB)
-      )
-    )
-    
-  LISTENER_ORCLCDB =
-    (ADDRESS = (PROTOCOL = TCP)(HOST = myhost)(PORT = 1521))
-    
-    
-  ORACLE2 =
-    (DESCRIPTION =
-      (ADDRESS = (PROTOCOL = TCP)(HOST = 172.22.100.20)(PORT = 1521))
-      (CONNECT_DATA =
-        (SERVER = DEDICATED)
-        (SERVICE_NAME = ORCLCDB)
-      )
-    )
-</code></pre>
-</li>
-<li>
-<p>Vamos a crear un usuario al que daremos privilegios y enlazaremos con nuestro otro servidor.</p>
-<pre><code>  SQL&gt; CREATE USER c##remoto IDENTIFIED BY remoto;
-
-  User created.
-
-  SQL&gt; GRANT ALL PRIVILEGES TO c##remoto; 
-    
-  Grant succeeded.
-
-  SQL&gt; CREATE DATABASE LINK oracle2link
-    2  CONNECT TO c##remoto2 IDENTIFIED BY remoto2
-    3  USING 'oracle2';
-
-  Database link created.
-</code></pre>
-</li>
-<li>
-<p>Y el enlace estaría hecho, vamos a probar algunas cosas, como por ejemplo crear una tabla en nuestra base de datos copiando de la remota, para ello he creado algún contenido en ella.</p>
-<pre><code>  SQL&gt; CREATE TABLE prueba
-    2  AS (SELECT *
-    3  FROM prueba2@oracle2link);
-    
-  Tabla creada.
-</code></pre>
-</li>
-<li>
-<p>Ahora realizaremos nuestra conexión desde la otra máquina. entramos y verificamos que tenemos conexión.</p>
-<pre><code>  [oracle@oracle ~]$ tnsping 172.22.100.15
-
-  TNS Ping Utility for Linux: Version 19.0.0.0.0 - Production on 08-JUN-2021 09:59:36
-
-  Copyright (c) 1997, 2019, Oracle.  All rights reserved.
-
-  Used parameter files:
-  /opt/oracle/product/19c/dbhome_1/network/admin/sqlnet.ora
-
-  Used HOSTNAME adapter to resolve the alias
-  Attempting to contact (DESCRIPTION=(CONNECT_DATA=(SERVICE_NAME=))(ADDRESS=(PROTOCOL=tcp)(HOST=172.22.100.15)(PORT=1521)))
-  OK (0 msec)
-</code></pre>
-</li>
-<li>
-<p>Configuramos su fichero <code>tnsnames.ora</code> tal como hicimos anteriormente.</p>
-<pre><code>  ORCLCDB =
-    (DESCRIPTION =
-      (ADDRESS = (PROTOCOL = TCP)(HOST = myhost)(PORT = 1521))
-      (CONNECT_DATA =
-        (SERVER = DEDICATED)
-        (SERVICE_NAME = ORCLCDB)
-      )
-    )
-
-  LISTENER_ORCLCDB =
-    (ADDRESS = (PROTOCOL = TCP)(HOST = myhost)(PORT = 1521))
-
-
-  ORACLE1 =
-    (DESCRIPTION =
-      (ADDRESS = (PROTOCOL = TCP)(HOST = 172.22.100.15)(PORT = 1521))
-      (CONNECT_DATA =
-        (SERVER = DEDICATED)
-        (SERVICE_NAME = ORCLCDB)
-      )
-    )
-</code></pre>
-</li>
-<li>
-<p>Nos conectamos a la base de datos y creamos los usuarios, les damos permisos y conectamos a nuestra base de datos remota.</p>
-<pre><code>  SQL&gt; CREATE USER c##remoto2 IDENTIFIED BY remoto2;
-
-  User created.
-
-  SQL&gt; GRANT ALL PRIVILEGES TO c##remoto2; 
-
-  Grant succeeded.
-
-  SQL&gt; CREATE DATABASE LINK oracle1link
-    2  CONNECT TO c##remoto IDENTIFIED BY remoto
-    3  USING 'oracle1';
-
-  Database link created.
-</code></pre>
-</li>
-<li>
-<p>Vamos a realizar la misma prueba que hicimos antes creando una base de datos.</p>
-<pre><code>  SQL&gt; CREATE TABLE prueba
-    2  AS (SELECT *
-    3  FROM prueba1@oracle1link);
-
-  Tabla creada.
-</code></pre>
+<p>Para que no nos de problemas desactivamos el firewall de centos en las dos máquinas.</p>
 </li>
 </ul>
-<h2 id="conexión-entre-postgres">Conexión entre Postgres.</h2>
+<pre><code>[root@localhost ~]# systemctl mask firewalld
+Created symlink from /etc/systemd/system/firewalld.service to /dev/null.
+[root@localhost ~]# systemctl stop firewalld
+</code></pre><ul>
+<li>Cambiaremos el nombre de dominio de la que será nuestra máquina servidora para posteriormente poder conectarnos mediante resolución dns.</li>
+</ul>
+<pre><code>[root@localhost ~]# hostnamectl set-hostname db.alegv.oracle.com
+</code></pre><ul>
+<li>Añadiremos a nuestro cliente este nombre en el <code>/etc/hosts</code>.</li>
+</ul>
+<pre><code>172.22.9.214	db.alegv.oracle.com	oracle
+</code></pre><ul>
+<li>En el fichero <code>/opt/oracle/product/19c/dbhome_1/network/admin/listener.ora</code> indicaremos el nombre de nuestro host.</li>
+</ul>
+<pre><code># listener.ora Network Configuration File: /opt/oracle/product/19c/dbhome_1/network/admin/listener.ora
+# Generated by Oracle configuration tools.
+
+LISTENER =
+  (DESCRIPTION_LIST =
+    (DESCRIPTION =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = db.alegv.oracle.com)(PORT = 1521))
+      (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1521))
+    )
+  )
+</code></pre><ul>
+<li>Ahora iniciaremos la escucha en nuestro servidor.</li>
+</ul>
+<pre><code>[oracle@db ~]$ lsnrctl start
+
+LSNRCTL for Linux: Version 19.0.0.0.0 - Production on 15-FEB-2022 09:44:37
+
+Copyright (c) 1991, 2019, Oracle.  All rights reserved.
+
+Starting /opt/oracle/product/19c/dbhome_1/bin/tnslsnr: please wait...
+
+TNSLSNR for Linux: Version 19.0.0.0.0 - Production
+System parameter file is /opt/oracle/product/19c/dbhome_1/network/admin/listener.ora
+Log messages written to /opt/oracle/diag/tnslsnr/db/listener/alert/log.xml
+Listening on: (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=db.alegv.oracle.com)(PORT=1521)))
+Listening on: (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(KEY=EXTPROC1521)))
+
+Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=db.alegv.oracle.com)(PORT=1521)))
+STATUS of the LISTENER
+------------------------
+Alias                     LISTENER
+Version                   TNSLSNR for Linux: Version 19.0.0.0.0 - Production
+Start Date                15-FEB-2022 09:44:47
+Uptime                    0 days 0 hr. 0 min. 6 sec
+Trace Level               off
+Security                  ON: Local OS Authentication
+SNMP                      OFF
+Listener Parameter File   /opt/oracle/product/19c/dbhome_1/network/admin/listener.ora
+Listener Log File         /opt/oracle/diag/tnslsnr/db/listener/alert/log.xml
+Listening Endpoints Summary...
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=db.alegv.oracle.com)(PORT=1521)))
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(KEY=EXTPROC1521)))
+The listener supports no services
+The command completed successfully
+</code></pre><ul>
+<li>Podemos comprobar que tenemos conexión con el comando que vemos a continuación.</li>
+</ul>
+<pre><code>[oracle@localhost ~]$ tnsping 172.22.9.214
+
+TNS Ping Utility for Linux: Version 19.0.0.0.0 - Production on 15-FEB-2022 10:03:13
+
+Copyright (c) 1997, 2019, Oracle.  All rights reserved.
+
+Used parameter files:
+/opt/oracle/product/19c/dbhome_1/network/admin/sqlnet.ora
+
+Used HOSTNAME adapter to resolve the alias
+Attempting to contact (DESCRIPTION=(CONNECT_DATA=(SERVICE_NAME=))(ADDRESS=(PROTOCOL=tcp)(HOST=172.22.9.214)(PORT=1521)))
+OK (40 msec)
+</code></pre><ul>
+<li>Por último, desde el cliente nos conectamos al servidor de la siguiente forma:</li>
+</ul>
+<pre><code>[oracle@localhost ~]$ sqlplus c##alegv/alegv@db.alegv.oracle.com/ORCLCDB
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Tue Feb 15 10:03:28 2022
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+Hora de Ultima Conexion Correcta: Mar Feb 15 2022 09:53:52 +01:00
+
+Conectado a:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+SQL&gt;
+</code></pre><ul>
+<li>Desde el cliente vamos a crear algo de contenido simple, una tabla con un registro</li>
+</ul>
+<pre><code>SQL&gt; CREATE TABLE departamentos(
+   depto_id NUMBER(9),
+   nombre VARCHAR2(100),
+   localidad VARCHAR2(300),
+   fecha_creacion DATE DEFAULT SYSDATE
+); 
+
+Tabla creada.
+
+SQL&gt; INSERT INTO departamentos (depto_id, nombre, localidad, fecha_creacion)
+Values(1, 'SISTEMAS', 'MEXICO DF', SYSDATE);
+
+1 fila creada
+</code></pre><ul>
+<li>Ahora vamos a ver desde el servidor con el mismo usuario que esta tabla y registro están creados.</li>
+</ul>
+<pre><code>[oracle@db ~]$ sqlplus / as sysdba
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Tue Feb 15 10:18:28 2022
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+
+Conectado a:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+SQL&gt; DISCONNECT
+Desconectado de Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+SQL&gt; CONNECT c##alegv/alegv
+Conectado.
+SQL&gt; SELECT * FROM departamentos;
+
+  DEPTO_ID
+----------
+NOMBRE
+--------------------------------------------------------------------------------
+LOCALIDAD
+--------------------------------------------------------------------------------
+FECHA_CR
+--------
+	 1
+SISTEMAS
+MEXICO DF
+15/02/22
+</code></pre><h2 id="conexión-entre-postgres">Conexión entre Postgres.</h2>
 <ul>
 <li>
 <p>Usaremos dos máquinas vagrant con debian buster.</p>
