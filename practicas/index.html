@@ -110,6 +110,21 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/selinux/">SElinux</a></h4>
+								<h4 class="post-date">2022-02-18</h4>
+							</div>
+							<div class="post-summary"><p>En esta práctica vamos a habilitar SELinux en un servidor rocky, en este servidor tendremos alojados un SAMBA y NFS, tendremos que asegurarnos que esto servicios funcionan correctamente con SELinux activado y nuestros clientes pueden usarlos sin problemas.
+  Vamos a comprobar que nuestro selinux no permite conexiones samba ni nfs.
+  [vagrant@server ~]$ getsebool -a| grep samba samba_create_home_dirs --&gt; off samba_domain_controller --&gt; off samba_enable_home_dirs --&gt; off samba_export_all_ro --&gt; off samba_export_all_rw --&gt; off samba_load_libgfapi --&gt; off samba_portmapper --&gt; off samba_run_unconfined --&gt; off samba_share_fusefs --&gt; off samba_share_nfs --&gt; off sanlock_use_samba --&gt; off tmpreaper_use_samba --&gt; off use_samba_home_dirs --&gt; off virt_use_samba --&gt; off [vagrant@server ~]$ getsebool -a| grep nfs cobbler_use_nfs --&gt; off colord_use_nfs --&gt; off conman_use_nfs --&gt; off ftpd_use_nfs --&gt; off git_cgi_use_nfs --&gt; off git_system_use_nfs --&gt; off httpd_use_nfs --&gt; off ksmtuned_use_nfs --&gt; off logrotate_use_nfs --&gt; off mpd_use_nfs --&gt; off nagios_use_nfs --&gt; off nfs_export_all_ro --&gt; on nfs_export_all_rw --&gt; on nfsd_anon_write --&gt; off openshift_use_nfs --&gt; off polipo_use_nfs --&gt; off samba_share_nfs --&gt; off sanlock_use_nfs --&gt; off sge_use_nfs --&gt; off tmpreaper_use_nfs --&gt; off use_nfs_home_dirs --&gt; off virt_use_nfs --&gt; off xen_use_nfs --&gt; off  Para poder gestionar selinux vamos a instalar el siguiente paquete.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/selinux/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/logs/">Recolección de logs mediante journald</a></h4>
 								<h4 class="post-date">2022-02-04</h4>
 							</div>
@@ -230,20 +245,6 @@
 						</div>
 					</li>
 				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/certficiados/">Certificados Digitales</a></h4>
-								<h4 class="post-date">2021-11-22</h4>
-							</div>
-							<div class="post-summary"><p>Primero obtendremos nuestro certificado digital en la sede electrónica siguiendo todos los pasos que se nos indican.
-  Una vez tengamos nuestro certificado digital podemos importarlo a cualquier navegador, en mi caso quiero importarlo a un navegador firefox que tengo en mi sistema debian 10. Para ello nos dirigiremos a preferencias &gt; Privaciad y Seguridad &gt; Certificados &gt; Ver certificados aquí aparecerá una vetana emergente donde podremos ver todos los certificados guardados que tenemos.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/certficiados/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
 				</ul>
 				
 
@@ -275,12 +276,15 @@
       ><a href="/practicas/page/5/">5</a></li>
       
       <li
+      ><a href="/practicas/page/6/">6</a></li>
+      
+      <li
       >
           <a href="/practicas/page/2/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
       </li>
       
       <li>
-          <a href="/practicas/page/5/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+          <a href="/practicas/page/6/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
       </li>
       
     </ul>

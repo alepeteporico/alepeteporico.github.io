@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title> Servidor LEMP &middot; Alepetepórico Blog </title>
+        <title> SElinux &middot; Alepetepórico Blog </title>
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -100,106 +100,72 @@
 
         <div class="flex-wrapper">
             <div class="container wrapper">
-                <h1><a href="https://alepeteporico.github.io/practicas/lemp/">Servidor LEMP</a></h1>
-                <span class="post-date">2021-06-01 </span>
+                <h1><a href="https://alepeteporico.github.io/practicas/selinux/">SElinux</a></h1>
+                <span class="post-date">2022-02-18 </span>
                 <div class="post-content">
                     <ul>
-<li>Vamos a instalar todos los paquetes necesarios.</li>
+<li>
+<p>En esta práctica vamos a habilitar SELinux en un servidor rocky, en este servidor tendremos alojados un SAMBA y NFS, tendremos que asegurarnos que esto servicios funcionan correctamente con SELinux activado y nuestros clientes pueden usarlos sin problemas.</p>
+</li>
+<li>
+<p>Vamos a comprobar que nuestro selinux no permite conexiones samba ni nfs.</p>
+</li>
 </ul>
-<pre><code>debian@mrrobot:~$ sudo apt install nginx mariadb-client mariadb-server php php-mysql php-fpm
-</code></pre><ul>
-<li>También debemos instalar el servidor de aplicaciones php-fpm.</li>
-</ul>
-<pre><code>debian@mrrobot:~$ sudo apt install php7.4-fpm php7.4
-</code></pre><ul>
-<li>Crearemos el directorio sobre el que trabajaremos en nuestro virtual host.</li>
-</ul>
-<pre><code>root@:~# mkdir /var/www/alejandrogv
-</code></pre><ul>
-<li>Crearemos un virtual host en <code>sites-available</code></li>
-</ul>
-<pre><code>server {
-        listen 80;
-        listen [::]:80;
+<pre><code>[vagrant@server ~]$ getsebool -a| grep samba
+samba_create_home_dirs --&gt; off
+samba_domain_controller --&gt; off
+samba_enable_home_dirs --&gt; off
+samba_export_all_ro --&gt; off
+samba_export_all_rw --&gt; off
+samba_load_libgfapi --&gt; off
+samba_portmapper --&gt; off
+samba_run_unconfined --&gt; off
+samba_share_fusefs --&gt; off
+samba_share_nfs --&gt; off
+sanlock_use_samba --&gt; off
+tmpreaper_use_samba --&gt; off
+use_samba_home_dirs --&gt; off
+virt_use_samba --&gt; off
 
-        root /var/www/web;
-
-        index index.html index.htm index.nginx-debian.html;
-
-        server_name www.alejandrogv.site;
-
-        location / {
-                try_files $uri $uri/ =404;
-        }
-}
+[vagrant@server ~]$ getsebool -a| grep nfs
+cobbler_use_nfs --&gt; off
+colord_use_nfs --&gt; off
+conman_use_nfs --&gt; off
+ftpd_use_nfs --&gt; off
+git_cgi_use_nfs --&gt; off
+git_system_use_nfs --&gt; off
+httpd_use_nfs --&gt; off
+ksmtuned_use_nfs --&gt; off
+logrotate_use_nfs --&gt; off
+mpd_use_nfs --&gt; off
+nagios_use_nfs --&gt; off
+nfs_export_all_ro --&gt; on
+nfs_export_all_rw --&gt; on
+nfsd_anon_write --&gt; off
+openshift_use_nfs --&gt; off
+polipo_use_nfs --&gt; off
+samba_share_nfs --&gt; off
+sanlock_use_nfs --&gt; off
+sge_use_nfs --&gt; off
+tmpreaper_use_nfs --&gt; off
+use_nfs_home_dirs --&gt; off
+virt_use_nfs --&gt; off
+xen_use_nfs --&gt; off
 </code></pre><ul>
-<li>Para que nuestro virtualhost por defecto sea este, debemos añadir la siguiente línea el el fichero default de el directorio sites-available, dentro del bloque server.</li>
+<li>Para poder gestionar selinux vamos a instalar el siguiente paquete.</li>
 </ul>
-<pre><code>rewrite ^/$ http://www.alejandrogv.site permanent;
+<pre><code>[vagrant@server ~]$ sudo dnf install policycoreutils-python-utils
 </code></pre><ul>
-<li>Y creamos el enlace simbólico en sites-enabled.</li>
+<li>Mediante el comando semanage vamos a hacer que la carpeta de samba tenga permisos de lectura y escritura añadiendo el directorio que usamos para el directorio a la política de selinux <code>samba_share_t</code></li>
 </ul>
-<pre><code>debian@mrrobot:~$ sudo ln -s /etc/nginx/sites-available/web.conf /etc/nginx/sites-enabled/
+<pre><code>[vagrant@server ~]$ sudo semanage fcontext -a -t samba_share_t &quot;/srv/samba(/.*)?&quot;
 </code></pre><ul>
-<li>Después de añadir la ruta a nuestro <code>etc/hosts</code> comprobaremos que podemos acceder desde el navegador.</li>
+<li>También se necesitan una serie de booleanos para que nuestro servicio funcione correctamente, en el caso de samba el booleano que debemos cambiar es el <code>smbd_anon_write</code>.</li>
 </ul>
-<p><img src="/lemp/1.png" alt="nginx"></p>
-<ul>
-<li>
-<p>Ahora crearemos una redirección, cuando se acceda a <a href="http://www.iesgn06.es">www.iesgn06.es</a> se redireccionará a <code>/principal</code>, para ello añadiremos lo siguiente a nuestro fichero de configuración del virtual host.</p>
-<pre><code>  location / {
-          try_files $uri $uri/ =404;
-          return 301 /principal/index.html;
-          location /principal {
-                  autoindex off;
-          }
-  }
-</code></pre>
-</li>
-<li>
-<p>Comprobamos su funcionamiento.</p>
-</li>
-</ul>
-<p><img src="/lemp/2.png" alt="principal"></p>
-<ul>
-<li>
-<p>Ahora vamos a instalar una plantilla, primero debemos descargarla.</p>
-<pre><code>  root@sputnik:~# wget https://plantillashtmlgratis.com/wp-content/themes/helium-child/descargas/page267/brunch.zip
-</code></pre>
-</li>
-<li>
-<p>Lo descomprimimos y movemos todo el contenido a principal.</p>
-<pre><code>  root@sputnik:~# mv 2112_brunch/* /var/www/iesgn06/principal/
-</code></pre>
-</li>
-<li>
-<p>Reiniciamos el servicio y entramos a nuestra web para comprobar que la plantilla se ha instalado exitosamente.</p>
-</li>
-</ul>
-<p><img src="/lemp/3.png" alt="principal"></p>
-<ul>
-<li>
-<p>Ahora configuraremos nuestrovirtual host para que pueda ejectuar php añadiendo de nuevo en nuestro fichero de configuración lo siguiente.</p>
-<pre><code>  location ~ \.php$ {
-          include snippets/fastcgi-php.conf;
-          fastcgi_pass unix:/run/php/php7.3-fpm.sock;
-  }
-</code></pre>
-</li>
-<li>
-<p>Creamos un fichero info.php en principal.</p>
-<pre><code>  root@sputnik:~# cat /var/www/iesgn06/principal/info.php
-  &lt;?php
-  phpinfo();
-  ?&gt;
-</code></pre>
-</li>
-<li>
-<p>Comprobamos que funciona.</p>
-</li>
-</ul>
-<p><img src="/lemp/4.png" alt="principal"></p>
+<pre><code>[vagrant@server ~]$ sudo setsebool -P smbd_anon_write=1
 
+
+</code></pre>
                 </div>
                 
                 <div class="post-comments">

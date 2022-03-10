@@ -78,10 +78,7 @@
       <pubDate>Tue, 01 Jun 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/lemp/</guid>
-      <description>Vamos a instalar todos los paquetes necesarios.
- debian@mrrobot:~$ sudo apt install nginx mariadb-client mariadb-server php php-mysql php-fpm    Crearemos el directorio sobre el que trabajaremos en nuestro virtual host.
- root@:~# mkdir /var/www/iesgn06    Crearemos un virtual host en sites-available
-  server { listen 80; listen [::]:80; root /var/www/iesgn06; index index.html index.htm index.nginx-debian.html; server_name www.iesgn06.es; location / { try_files $uri $uri/ =404; } }   Y creamos el enlace simbólico en sites-enabled.</description>
+      <description>Vamos a instalar todos los paquetes necesarios.  debian@mrrobot:~$ sudo apt install nginx mariadb-client mariadb-server php php-mysql php-fpm  También debemos instalar el servidor de aplicaciones php-fpm.  debian@mrrobot:~$ sudo apt install php7.4-fpm php7.4  Crearemos el directorio sobre el que trabajaremos en nuestro virtual host.  root@:~# mkdir /var/www/alejandrogv  Crearemos un virtual host en sites-available  server { listen 80; listen [::]:80; root /var/www/web; index index.html index.htm index.</description>
     </item>
     
     <item>

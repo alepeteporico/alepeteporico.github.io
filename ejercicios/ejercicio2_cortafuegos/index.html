@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title> Servidor LEMP &middot; Alepetepórico Blog </title>
+        <title> Ejercicio 2 cortafuegos &middot; Alepetepórico Blog </title>
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -100,106 +100,34 @@
 
         <div class="flex-wrapper">
             <div class="container wrapper">
-                <h1><a href="https://alepeteporico.github.io/practicas/lemp/">Servidor LEMP</a></h1>
-                <span class="post-date">2021-06-01 </span>
+                <h1><a href="https://alepeteporico.github.io/ejercicios/ejercicio2_cortafuegos/">Ejercicio 2 cortafuegos</a></h1>
+                <span class="post-date">2022-02-28 </span>
                 <div class="post-content">
                     <ul>
-<li>Vamos a instalar todos los paquetes necesarios.</li>
-</ul>
-<pre><code>debian@mrrobot:~$ sudo apt install nginx mariadb-client mariadb-server php php-mysql php-fpm
-</code></pre><ul>
-<li>También debemos instalar el servidor de aplicaciones php-fpm.</li>
-</ul>
-<pre><code>debian@mrrobot:~$ sudo apt install php7.4-fpm php7.4
-</code></pre><ul>
-<li>Crearemos el directorio sobre el que trabajaremos en nuestro virtual host.</li>
-</ul>
-<pre><code>root@:~# mkdir /var/www/alejandrogv
-</code></pre><ul>
-<li>Crearemos un virtual host en <code>sites-available</code></li>
-</ul>
-<pre><code>server {
-        listen 80;
-        listen [::]:80;
-
-        root /var/www/web;
-
-        index index.html index.htm index.nginx-debian.html;
-
-        server_name www.alejandrogv.site;
-
-        location / {
-                try_files $uri $uri/ =404;
-        }
-}
-</code></pre><ul>
-<li>Para que nuestro virtualhost por defecto sea este, debemos añadir la siguiente línea el el fichero default de el directorio sites-available, dentro del bloque server.</li>
-</ul>
-<pre><code>rewrite ^/$ http://www.alejandrogv.site permanent;
-</code></pre><ul>
-<li>Y creamos el enlace simbólico en sites-enabled.</li>
-</ul>
-<pre><code>debian@mrrobot:~$ sudo ln -s /etc/nginx/sites-available/web.conf /etc/nginx/sites-enabled/
-</code></pre><ul>
-<li>Después de añadir la ruta a nuestro <code>etc/hosts</code> comprobaremos que podemos acceder desde el navegador.</li>
-</ul>
-<p><img src="/lemp/1.png" alt="nginx"></p>
-<ul>
 <li>
-<p>Ahora crearemos una redirección, cuando se acceda a <a href="http://www.iesgn06.es">www.iesgn06.es</a> se redireccionará a <code>/principal</code>, para ello añadiremos lo siguiente a nuestro fichero de configuración del virtual host.</p>
-<pre><code>  location / {
-          try_files $uri $uri/ =404;
-          return 301 /principal/index.html;
-          location /principal {
-                  autoindex off;
-          }
-  }
+<p>En este ejercicio realizaremos todos los que hicimos en iptables en el primero ahora con nftables.</p>
+</li>
+<li>
+<p>Lo primero que haremos será añadir una tabla donde filtraremos los paquetes, ponemos la familia <code>inet</code> ya que estas reglas deben funcionar tanto en ipv4 como ipv6.</p>
+</li>
+</ul>
+<pre><code>root@servidor:~# nft add table inet filter
+</code></pre><ul>
+<li>Debemos crear una cadena que acepte los paquete para poder seguir con nuestra conexión ssh.</li>
+</ul>
+<pre><code>nft add chain inet filter input { type filter hook input priority 0 \; counter \; policy accept \; }
+nft add chain inet filter output { type filter hook output priority 0 \; counter \; policy accept \; }
+</code></pre><ul>
+<li>Una vez hecho eso podemos añadir una regla que permita la conexión ssh.</li>
+</ul>
+<pre><code>nft add rule inet filter input iifname &quot;eth0&quot; tcp dport 22 ct state new,established counter accept
+nft add rule inet filter output oifname &quot;eth0&quot; tcp sport 22 ct state established counter accept
+</code></pre><ul>
+<li>Y entonces podemos poner la política DROP por defecto.</li>
+</ul>
+<pre><code>nft chain inet filter input { policy drop \; }
+nft chain inet filter output { policy drop \; }
 </code></pre>
-</li>
-<li>
-<p>Comprobamos su funcionamiento.</p>
-</li>
-</ul>
-<p><img src="/lemp/2.png" alt="principal"></p>
-<ul>
-<li>
-<p>Ahora vamos a instalar una plantilla, primero debemos descargarla.</p>
-<pre><code>  root@sputnik:~# wget https://plantillashtmlgratis.com/wp-content/themes/helium-child/descargas/page267/brunch.zip
-</code></pre>
-</li>
-<li>
-<p>Lo descomprimimos y movemos todo el contenido a principal.</p>
-<pre><code>  root@sputnik:~# mv 2112_brunch/* /var/www/iesgn06/principal/
-</code></pre>
-</li>
-<li>
-<p>Reiniciamos el servicio y entramos a nuestra web para comprobar que la plantilla se ha instalado exitosamente.</p>
-</li>
-</ul>
-<p><img src="/lemp/3.png" alt="principal"></p>
-<ul>
-<li>
-<p>Ahora configuraremos nuestrovirtual host para que pueda ejectuar php añadiendo de nuevo en nuestro fichero de configuración lo siguiente.</p>
-<pre><code>  location ~ \.php$ {
-          include snippets/fastcgi-php.conf;
-          fastcgi_pass unix:/run/php/php7.3-fpm.sock;
-  }
-</code></pre>
-</li>
-<li>
-<p>Creamos un fichero info.php en principal.</p>
-<pre><code>  root@sputnik:~# cat /var/www/iesgn06/principal/info.php
-  &lt;?php
-  phpinfo();
-  ?&gt;
-</code></pre>
-</li>
-<li>
-<p>Comprobamos que funciona.</p>
-</li>
-</ul>
-<p><img src="/lemp/4.png" alt="principal"></p>
-
                 </div>
                 
                 <div class="post-comments">

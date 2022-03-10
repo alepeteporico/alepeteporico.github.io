@@ -110,6 +110,21 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/selinux/">SElinux</a></h4>
+								<h4 class="post-date">2022-02-18</h4>
+							</div>
+							<div class="post-summary"><p>En esta práctica vamos a habilitar SELinux en un servidor rocky, en este servidor tendremos alojados un SAMBA y NFS, tendremos que asegurarnos que esto servicios funcionan correctamente con SELinux activado y nuestros clientes pueden usarlos sin problemas.
+  Vamos a comprobar que nuestro selinux no permite conexiones samba ni nfs.
+  [vagrant@server ~]$ getsebool -a| grep samba samba_create_home_dirs --&gt; off samba_domain_controller --&gt; off samba_enable_home_dirs --&gt; off samba_export_all_ro --&gt; off samba_export_all_rw --&gt; off samba_load_libgfapi --&gt; off samba_portmapper --&gt; off samba_run_unconfined --&gt; off samba_share_fusefs --&gt; off samba_share_nfs --&gt; off sanlock_use_samba --&gt; off tmpreaper_use_samba --&gt; off use_samba_home_dirs --&gt; off virt_use_samba --&gt; off [vagrant@server ~]$ getsebool -a| grep nfs cobbler_use_nfs --&gt; off colord_use_nfs --&gt; off conman_use_nfs --&gt; off ftpd_use_nfs --&gt; off git_cgi_use_nfs --&gt; off git_system_use_nfs --&gt; off httpd_use_nfs --&gt; off ksmtuned_use_nfs --&gt; off logrotate_use_nfs --&gt; off mpd_use_nfs --&gt; off nagios_use_nfs --&gt; off nfs_export_all_ro --&gt; on nfs_export_all_rw --&gt; on nfsd_anon_write --&gt; off openshift_use_nfs --&gt; off polipo_use_nfs --&gt; off samba_share_nfs --&gt; off sanlock_use_nfs --&gt; off sge_use_nfs --&gt; off tmpreaper_use_nfs --&gt; off use_nfs_home_dirs --&gt; off virt_use_nfs --&gt; off xen_use_nfs --&gt; off  Para poder gestionar selinux vamos a instalar el siguiente paquete.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/selinux/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/logs/">Recolección de logs mediante journald</a></h4>
 								<h4 class="post-date">2022-02-04</h4>
 							</div>
@@ -228,22 +243,6 @@
  debian@freston:~$ sudo mv gonzalonazareno.crt /etc/ssl/certs/ debian@freston:~$ sudo mv openstack.crt /etc/ssl/certs/ debian@freston:~$ sudo mv openstack.key /etc/ssl/private/    Vamos a crear unas acl para que el usuario openldap que es el encargado de ejecutar los servicios de sldap tenga permisos sobre estos certificados.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/ldap_openstack/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/apuntes/apuntes-de-ssh-avanzado/">Apuntes de SSH</a></h4>
-								<h4 class="post-date">2021-05-22</h4>
-							</div>
-							<div class="post-summary"><p>ssh-agent   Tenemos un par de claves, para añadir a nuestro ssh-agent:
- ssh-add .ssh/clave    Nos pedirá la frase de paso y se añadiría la identidad, para comprobarlo:
- ssh-add -l    Pero necesitamos añadir esa clave a la máquina que nos queremos conectar.
- ssh-copy-id -i .ssh/clave usuario@172.22.100.10    Túneles ssh   Se usa para saltarnos un cortafuegos o para acceder por un canal abierto y más seguro, entre otras útilidades.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/apuntes/apuntes-de-ssh-avanzado/">Read More</a>
 							</div>
 						</div>
 					</li>

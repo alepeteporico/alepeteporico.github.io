@@ -392,137 +392,69 @@ ares.alegv.gonzalonazareno.org.
 
 debian@zeus:~$ dig +short -x 172.16.0.200
 hera.alegv.gonzalonazareno.org.
-</code></pre><h3 id="dulcinea">Dulcinea</h3>
-<pre><code>    debian@dulcinea:~$ dig +short @10.0.1.9 dulcinea.alegv.gonzalonazareno.org
-    10.0.1.8
-    debian@dulcinea:~$ dig +short @10.0.1.9 freston.alegv.gonzalonazareno.org
-    10.0.1.9
-    debian@dulcinea:~$ dig +short @10.0.1.9 quijote.alegv.gonzalonazareno.org
-    10.0.2.5
-    debian@dulcinea:~$ dig +short @10.0.1.9 sancho.alegv.gonzalonazareno.org
-    10.0.1.3
-
-    debian@dulcinea:~$ dig +short @10.0.1.9 bd.alegv.gonzalonazareno.org
-    sancho.alegv.gonzalonazareno.org.
-    10.0.1.3
-    debian@dulcinea:~$ dig +short @10.0.1.9 www.alegv.gonzalonazareno.org
-    quijote.alegv.gonzalonazareno.org.
-    10.0.2.2
-</code></pre>
-<h3 id="quijote">Quijote</h3>
-<pre><code>    [centos@quijote ~]$ dig +short @10.0.1.9 -x 10.0.2.5
-    quijote.2.0.10.in-addr.arpa.
-    [centos@quijote ~]$ dig +short @10.0.1.9 -x 10.0.2.10
-    dulcinea.2.0.10.in-addr.arpa.
-</code></pre>
-<h3 id="sancho">Sancho</h3>
-<pre><code>    ubuntu@sancho:~$ dig +short @10.0.1.9 dulcinea.alegv.gonzalonazareno.org
-    10.0.1.8
-    ubuntu@sancho:~$ dig +short @10.0.1.9 freston.alegv.gonzalonazareno.org
-    10.0.1.9
-</code></pre>
-<h3 id="freston">Freston</h3>
-<pre><code>    debian@freston:~$ dig +short @localhost -x 10.0.1.3
-    sancho.1.0.10.in-addr.arpa.
-
-    debian@freston:~$ dig +short @localhost -x 10.0.1.8
-    dulcinea.1.0.10.in-addr.arpa.
-</code></pre>
-<h3 id="desde-fuera">Desde fuera:</h3>
-<pre><code>
-
-
-
-alejandrogv@AlejandroGV:~$ dig +short www.alegv.gonzalonazareno.org
-zeus.alegv.gonzalonazareno.org.
-172.22.3.191
 </code></pre><h3 id="servidor-web">Servidor web</h3>
-<p><strong>Tenemos el servidor DNS, continuemos con el servidor web, este servidor estará situado en Quijote, será un servidor apache capaz de ejecutar php. Lo primero que deberemos hacer es instalar el servidor apache y php (el paquete de apache en CentOS se llama httpd)</strong></p>
-<pre><code>    [centos@quijote ~]$ sudo dnf install httpd php php-fpm
-</code></pre>
-<p><strong>Tenemos que iniciar y habilitar los servicios httpd y php</strong></p>
-<pre><code>    [centos@quijote ~]$ sudo systemctl start php-fpm httpd
-    [centos@quijote ~]$ sudo systemctl enable php-fpm httpd
-    Created symlink /etc/systemd/system/multi-user.target.wants/php-fpm.service → /usr/lib/systemd/system/php-fpm.service.
-    Created symlink /etc/systemd/system/multi-user.target.wants/httpd.service → /usr/lib/systemd/system/httpd.service.
-</code></pre>
-<p><strong>Para que podamos acceder debemos habilitar en el firewall los puertos 443, 80 y 53</strong></p>
-<pre><code>    [centos@quijote ~]$ sudo firewall-cmd --permanent --add-port=443/tcp
-    success
-    [centos@quijote ~]$ sudo firewall-cmd --permanent --add-port=80/tcp
-    success
-    [centos@quijote ~]$ sudo firewall-cmd --permanent --add-port=53/udp
-    success
-</code></pre>
-<p><strong>Para guardarlas debemos hacer un reload y comprobamos las reglas que tenemos:</strong></p>
-<pre><code>    [centos@quijote ~]$ sudo firewall-cmd --reload
-    success
-    [centos@quijote ~]$ sudo firewall-cmd --list-all
-    public (active)
-      target: default
-      icmp-block-inversion: no
-      interfaces: eth0
-      sources: 
-      services: dhcpv6-client ssh
-      ports: 443/tcp 80/tcp 53/udp
-      protocols: 
-      masquerade: no
-      forward-ports: 
-      source-ports: 
-      icmp-blocks: 
-      rich rules:
-</code></pre>
-<p><strong>En CentOS los directorios sites-avaiable y sites-enabled no se crean por defecto, los crearemos nosotros:</strong></p>
-<pre><code>    [centos@quijote ~]$ sudo mkdir /etc/httpd/sites-enabled /etc/httpd/sites-available
-</code></pre>
-<p><strong>Ahora entraremos al fichero de configuración &ldquo;/etc/httpd/conf/httpd.conf&rdquo; para añadir sites-avaiable como nueva ruta comentando la última línea y añadiendo otra</strong></p>
-<pre><code>    #IncludeOptional conf.d/*.conf
-    IncludeOptional	sites-enabled/*.conf
-</code></pre>
-<p><strong>Directamente pasaremos a la configuración de un virtualhost</strong></p>
-<pre><code>    [centos@quijote ~]$ cat /etc/httpd/sites-available/pagina.conf
-    &lt;VirtualHost *:80&gt;
-        ServerName www.alegv.gonzalonazareno.org
-        DocumentRoot /var/www/alegv
+<ul>
+<li>Para que podamos acceder debemos habilitar en el firewall los puertos 443, 80 y 53</li>
+</ul>
+<pre><code>[hera@hera ~]$ sudo firewall-cmd --permanent --add-port=443/tcp
+success
+[hera@hera ~]$ sudo firewall-cmd --permanent --add-port=80/tcp
+success
+[hera@hera ~]$ sudo firewall-cmd --permanent --add-port=53/udp
+success
+[hera@hera ~]$ sudo firewall-cmd --reload
+success
+</code></pre><ul>
+<li>En Rocky los directorios sites-avaiable y sites-enabled no se crean por defecto, los crearemos nosotros:</li>
+</ul>
+<pre><code>[hera@hera ~]$ sudo mkdir /etc/httpd/sites-enabled /etc/httpd/sites-available
+</code></pre><ul>
+<li>Ahora entraremos al fichero de configuración &ldquo;/etc/httpd/conf/httpd.conf&rdquo; para añadir sites-avaiable como nueva ruta comentando la última línea y añadiendo otra</li>
+</ul>
+<pre><code>#IncludeOptional conf.d/*.conf
+IncludeOptional	sites-enabled/*.conf
+</code></pre><p><strong>Directamente pasaremos a la configuración de un virtualhost</strong></p>
+<pre><code>[hera@hera ~]$ cat /etc/httpd/sites-available/pagina.conf
+&lt;VirtualHost *:80&gt;
+    ServerName www.alegv.gonzalonazareno.org
+    DocumentRoot /var/www/alegv
 
-        &lt;Directory /var/www/alegv/&gt;
-            Options FollowSymLinks
-            AllowOverride All
-            Order deny,allow
-            Allow from all
+    &lt;Directory /var/www/alegv/&gt;
+        Options FollowSymLinks
+        AllowOverride All
+        Order deny,allow
+        Allow from all
 
-            &lt;FilesMatch &quot;\.php&quot;&gt;
-                    SetHandler &quot;proxy:unix:/run/php-fpm/www.sock|fcgi://localhost&quot;
-            &lt;/FilesMatch&gt;
+        &lt;FilesMatch &quot;\.php&quot;&gt;
+                SetHandler &quot;proxy:unix:/run/php-fpm/www.sock|fcgi://localhost&quot;
+        &lt;/FilesMatch&gt;
 
-        &lt;/Directory&gt;
+    &lt;/Directory&gt;
 
-        ErrorLog /var/www/alegv/log/error.log
-        CustomLog /var/www/alegv/log/requests.log combined
-    &lt;/VirtualHost&gt;
-</code></pre>
-<p><strong>Creamos el vínculo en sites-enabled y las carpetas necesarias en &ldquo;/var/www/&quot;</strong></p>
-<pre><code>    [centos@quijote sites-available]$ sudo ln -s pagina.conf ../sites-enabled/
-    [centos@quijote ~]$ sudo mkdir -p /var/www/alegv/log
-</code></pre>
-<p><strong>Selinux nos dará problemas con los nuevos directorios, por ello debemos ejecutar los siguientes comandos y reiniciar el servicio httpd</strong></p>
-<pre><code>    [centos@quijote ~]$ sudo semanage fcontext -a -t httpd_log_t &quot;/var/www/alegv/log(/.*)?&quot;
-    [root@quijote ~]# sudo restorecon -R -v /var/www/alegv/log
-    [centos@quijote sites-available]$ sudo setsebool -P httpd_unified 1
-
-    [centos@quijote sites-available]$ sudo systemctl restart httpd
-</code></pre>
-<p><strong>Creamos el fichero info.php</strong></p>
-<pre><code>    [centos@quijote ~]$ cat /var/www/alegv/info.php 
-    &lt;?php phpinfo(); ?&gt;
-</code></pre>
-<p><strong>Comprobemos que funciona</strong></p>
+    ErrorLog /var/www/alegv/log/error.log
+    CustomLog /var/www/alegv/log/requests.log combined
+&lt;/VirtualHost&gt;
+</code></pre><ul>
+<li>Creamos el vínculo en sites-enabled y las carpetas necesarias en &ldquo;/var/www/&rdquo;</li>
+</ul>
+<pre><code>[hera@hera sites-available]$ sudo ln -s pagina.conf ../sites-enabled/
+[hera@hera sites-available]$ sudo mkdir -p /var/www/alegv/log
+</code></pre><ul>
+<li>Selinux nos dará problemas con los nuevos directorios, por ello debemos ejecutar los siguientes comandos y reiniciar el servicio httpd</li>
+</ul>
+<pre><code>[hera@hera ~]$ sudo semanage fcontext -a -t httpd_log_t &quot;/var/www/alegv/log(/.*)?&quot;
+[hera@hera ~]$ sudo restorecon -R -v /var/www/alegv/log
+Relabeled /var/www/alegv/log from unconfined_u:object_r:httpd_sys_content_t:s0 to unconfined_u:object_r:httpd_log_t:s0
+[hera@hera ~]$ sudo setsebool -P httpd_unified 1
+[hera@hera ~]$ sudo systemctl restart httpd
+</code></pre><ul>
+<li>Comprobemos que funciona</li>
+</ul>
 <p><img src="/dns_web_bbdd/1.png" alt="info"></p>
 <h3 id="servidor-base-de-datos">Servidor Base de datos.</h3>
 <p><strong>Usaremos el gestor mariadb</strong></p>
-<pre><code>    ubuntu@sancho:~$ sudo apt install mariadb-server
-</code></pre>
-<p><strong>Y una vez instalado debemos configurarlo para permitir el uso de usuarios remoto accediendo al fichero <code>/etc/mysql/mariadb.conf.d/50-server.cnf</code> y modificando la línea <code>bind-address</code> tal como aparece a continuación</strong></p>
+<pre><code>ubuntu@sancho:~$ sudo apt install mariadb-server
+</code></pre><p><strong>Y una vez instalado debemos configurarlo para permitir el uso de usuarios remoto accediendo al fichero <code>/etc/mysql/mariadb.conf.d/50-server.cnf</code> y modificando la línea <code>bind-address</code> tal como aparece a continuación</strong></p>
 <pre><code>    bind-address            = 0.0.0.0
 </code></pre>
 <p><strong>Ahora vamos a entrar y crear un usuario que usaremos remotamente.</strong></p>

@@ -6,7 +6,18 @@
     <description>Recent content in SAD on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 03 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/sad/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 28 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/sad/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ejercicio 2 cortafuegos</title>
+      <link>https://alepeteporico.github.io/ejercicios/ejercicio2_cortafuegos/</link>
+      <pubDate>Mon, 28 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/ejercicio2_cortafuegos/</guid>
+      <description>En este ejercicio realizaremos todos los que hicimos en iptables en el primero ahora con nftables.
+  Lo primero que haremos será añadir una tabla donde filtraremos los paquetes, ponemos la familia inet ya que estas reglas deben funcionar tanto en ipv4 como ipv6.
+  root@servidor:~# nft add table inet filter  Debemos crear una cadena que acepte los paquete para poder seguir con nuestra conexión ssh.</description>
+    </item>
+    
     <item>
       <title>Ejercicio 1 cortafuegos</title>
       <link>https://alepeteporico.github.io/ejercicios/ejercicio1_cortafuegos/</link>

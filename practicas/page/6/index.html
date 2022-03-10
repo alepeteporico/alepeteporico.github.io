@@ -2,7 +2,7 @@
 <html lang="en">
 
 	<head>
-		<title> ASO &middot; Alepetepórico Blog </title>
+		<title> Practicas &middot; Alepetepórico Blog </title>
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -102,7 +102,7 @@
 			<div class="container wrapper">
 				<div class="row">
 					<div class="col-xs-12 text-center">
-						<h1 id=>ASO</h1>
+						<h1 id=>Practicas</h1>
 					</div>
 				</div>
 				<ul id="post-list">
@@ -110,47 +110,14 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/apuntes/apuntes-de-ssh-avanzado/">Apuntes de SSH</a></h4>
-								<h4 class="post-date">2021-05-22</h4>
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/pagina_est%C3%A1tica/">Implantanción y despliegue de una web estática</a></h4>
+								<h4 class="post-date">2021-02-15</h4>
 							</div>
-							<div class="post-summary"><p>ssh-agent   Tenemos un par de claves, para añadir a nuestro ssh-agent:
- ssh-add .ssh/clave    Nos pedirá la frase de paso y se añadiría la identidad, para comprobarlo:
- ssh-add -l    Pero necesitamos añadir esa clave a la máquina que nos queremos conectar.
- ssh-copy-id -i .ssh/clave usuario@172.22.100.10    Túneles ssh   Se usa para saltarnos un cortafuegos o para acceder por un canal abierto y más seguro, entre otras útilidades.</p></div>
+							<div class="post-summary"><p>La instalación es tan sencilla como usar apt:
+sudo apt install hugo  Una vez instalado el siguiente paso sería crear un sitio web:
+hugo new site [nombre]  Esto creará una carpeta donde podremos configurar nuestra página, para ello primero descargaremos desde la página oficial de hugo un tema. Debemos fijarnos que se corresponde con nuestra versión de hugo o es inferior, si elegimos una plantilla que necesite una versión de hugo superior dará problemas.</p></div>
 							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/apuntes/apuntes-de-ssh-avanzado/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/ldap/">Instalación y configuración de LDAP</a></h4>
-								<h4 class="post-date">2021-05-15</h4>
-							</div>
-							<div class="post-summary"><p>LDAP es un protocolo de tipo cliente-servidor para acceder a un servicio de directorio. Un directorio es como una base de datos, pero en general contiene información más descriptiva y más basada en atributos.
-  Lo primero que debemos hacer es verificar nuestro FQDN (Fully Qualified Domain Name) que usaremos mas tarde para la configuración.
- debian@freston:~$ hostname -f freston.alegv.gonzalonazareno.org    Instalaremos el paquete de LDAP
- debian@freston:~$ sudo apt install slapd    Durante esta instalación tendremos que introducir una contraseña para el administrador.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/ldap/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/centos8/">Actualización de CentOS 7 a CentOS 8</a></h4>
-								<h4 class="post-date">2021-02-19</h4>
-							</div>
-							<div class="post-summary"><p>Antes de comenzar debemos instalar si no las tenemos ya las siguientes herramientas:
- [centos@quijote ~]$ sudo yum install epel-release -y [centos@quijote ~]$ sudo yum install yum-utils -y [centos@quijote ~]$ sudo yum install rpmconf -y  Ahora usaremos rpmconf para verificar conflictos en ficheros de configuración:
- [centos@quijote ~]$ sudo rpmconf -a  Limpiamos los paquetes innecesarios:
- [centos@quijote ~]$ sudo package-cleanup --leaves [centos@quijote ~]$ sudo package-cleanup --orphans  Instalamos el nuevo gestor de paquetes que usa CentOS 8, dnf:</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/centos8/">Read More</a>
+								<a href="https://alepeteporico.github.io/practicas/pagina_est%C3%A1tica/">Read More</a>
 							</div>
 						</div>
 					</li>
@@ -162,19 +129,31 @@
   <ul class="pagination">
       
       <li>
-          <a href="/tags/aso/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+          <a href="/practicas/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
       </li>
       
       <li
       >
-          <a href="/tags/aso/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+          <a href="/practicas/page/5/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
       </li>
       
       <li
-      ><a href="/tags/aso/">1</a></li>
+      ><a href="/practicas/">1</a></li>
       
       <li
-      class="active"><a href="/tags/aso/page/2/">2</a></li>
+      ><a href="/practicas/page/2/">2</a></li>
+      
+      <li
+      ><a href="/practicas/page/3/">3</a></li>
+      
+      <li
+      ><a href="/practicas/page/4/">4</a></li>
+      
+      <li
+      ><a href="/practicas/page/5/">5</a></li>
+      
+      <li
+      class="active"><a href="/practicas/page/6/">6</a></li>
       
       <li
       class="disabled">
@@ -182,7 +161,7 @@
       </li>
       
       <li>
-          <a href="/tags/aso/page/2/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+          <a href="/practicas/page/6/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
       </li>
       
     </ul>

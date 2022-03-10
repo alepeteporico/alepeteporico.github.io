@@ -6,7 +6,29 @@
     <description>Recent content on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 04 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 28 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ejercicio 2 cortafuegos</title>
+      <link>https://alepeteporico.github.io/ejercicios/ejercicio2_cortafuegos/</link>
+      <pubDate>Mon, 28 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/ejercicio2_cortafuegos/</guid>
+      <description>En este ejercicio realizaremos todos los que hicimos en iptables en el primero ahora con nftables.
+  Lo primero que haremos será añadir una tabla donde filtraremos los paquetes, ponemos la familia inet ya que estas reglas deben funcionar tanto en ipv4 como ipv6.
+  root@servidor:~# nft add table inet filter  Debemos crear una cadena que acepte los paquete para poder seguir con nuestra conexión ssh.</description>
+    </item>
+    
+    <item>
+      <title>SElinux</title>
+      <link>https://alepeteporico.github.io/practicas/selinux/</link>
+      <pubDate>Fri, 18 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/selinux/</guid>
+      <description>En esta práctica vamos a habilitar SELinux en un servidor rocky, en este servidor tendremos alojados un SAMBA y NFS, tendremos que asegurarnos que esto servicios funcionan correctamente con SELinux activado y nuestros clientes pueden usarlos sin problemas.
+  Vamos a comprobar que nuestro selinux no permite conexiones samba ni nfs.
+  [vagrant@server ~]$ getsebool -a| grep samba samba_create_home_dirs --&amp;gt; off samba_domain_controller --&amp;gt; off samba_enable_home_dirs --&amp;gt; off samba_export_all_ro --&amp;gt; off samba_export_all_rw --&amp;gt; off samba_load_libgfapi --&amp;gt; off samba_portmapper --&amp;gt; off samba_run_unconfined --&amp;gt; off samba_share_fusefs --&amp;gt; off samba_share_nfs --&amp;gt; off sanlock_use_samba --&amp;gt; off tmpreaper_use_samba --&amp;gt; off use_samba_home_dirs --&amp;gt; off virt_use_samba --&amp;gt; off [vagrant@server ~]$ getsebool -a| grep nfs cobbler_use_nfs --&amp;gt; off colord_use_nfs --&amp;gt; off conman_use_nfs --&amp;gt; off ftpd_use_nfs --&amp;gt; off git_cgi_use_nfs --&amp;gt; off git_system_use_nfs --&amp;gt; off httpd_use_nfs --&amp;gt; off ksmtuned_use_nfs --&amp;gt; off logrotate_use_nfs --&amp;gt; off mpd_use_nfs --&amp;gt; off nagios_use_nfs --&amp;gt; off nfs_export_all_ro --&amp;gt; on nfs_export_all_rw --&amp;gt; on nfsd_anon_write --&amp;gt; off openshift_use_nfs --&amp;gt; off polipo_use_nfs --&amp;gt; off samba_share_nfs --&amp;gt; off sanlock_use_nfs --&amp;gt; off sge_use_nfs --&amp;gt; off tmpreaper_use_nfs --&amp;gt; off use_nfs_home_dirs --&amp;gt; off virt_use_nfs --&amp;gt; off xen_use_nfs --&amp;gt; off  Para poder gestionar selinux vamos a instalar el siguiente paquete.</description>
+    </item>
+    
     <item>
       <title>Recolección de logs mediante journald</title>
       <link>https://alepeteporico.github.io/practicas/logs/</link>
@@ -529,10 +551,7 @@ MariaDB [(none)]&amp;gt; CREATE DATABASE wordpress; Query OK, 1 row affected (0.
       <pubDate>Tue, 01 Jun 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/lemp/</guid>
-      <description>Vamos a instalar todos los paquetes necesarios.
- debian@mrrobot:~$ sudo apt install nginx mariadb-client mariadb-server php php-mysql php-fpm    Crearemos el directorio sobre el que trabajaremos en nuestro virtual host.
- root@:~# mkdir /var/www/iesgn06    Crearemos un virtual host en sites-available
-  server { listen 80; listen [::]:80; root /var/www/iesgn06; index index.html index.htm index.nginx-debian.html; server_name www.iesgn06.es; location / { try_files $uri $uri/ =404; } }   Y creamos el enlace simbólico en sites-enabled.</description>
+      <description>Vamos a instalar todos los paquetes necesarios.  debian@mrrobot:~$ sudo apt install nginx mariadb-client mariadb-server php php-mysql php-fpm  También debemos instalar el servidor de aplicaciones php-fpm.  debian@mrrobot:~$ sudo apt install php7.4-fpm php7.4  Crearemos el directorio sobre el que trabajaremos en nuestro virtual host.  root@:~# mkdir /var/www/alejandrogv  Crearemos un virtual host en sites-available  server { listen 80; listen [::]:80; root /var/www/web; index index.html index.htm index.</description>
     </item>
     
     <item>

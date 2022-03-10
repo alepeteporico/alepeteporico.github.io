@@ -110,6 +110,21 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/ejercicio2_cortafuegos/">Ejercicio 2 cortafuegos</a></h4>
+								<h4 class="post-date">2022-02-28</h4>
+							</div>
+							<div class="post-summary"><p>En este ejercicio realizaremos todos los que hicimos en iptables en el primero ahora con nftables.
+  Lo primero que haremos será añadir una tabla donde filtraremos los paquetes, ponemos la familia inet ya que estas reglas deben funcionar tanto en ipv4 como ipv6.
+  root@servidor:~# nft add table inet filter  Debemos crear una cadena que acepte los paquete para poder seguir con nuestra conexión ssh.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/ejercicios/ejercicio2_cortafuegos/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/ejercicio1_cortafuegos/">Ejercicio 1 cortafuegos</a></h4>
 								<h4 class="post-date">2022-02-03</h4>
 							</div>
@@ -223,19 +238,6 @@ END;</p></div>
 							<div class="post-summary"><p>Haz un trigger que solo permita a los vendedores tener comisiones. CREATE OR REPLACE TRIGGER Com_vend BEFORE INSERT OR UPDATE ON emp BEGIN IF JOB!='Vendedor' THEN RAISE_APPLICATION_ERROR(-20100,'Los empleados que no sean vendedores no pueden tener comisiones'); END IF; END; Registrar todas las operaciones sobre la tabla EMP de SCOTT en una tabla llamada AUDIT_EMP donde se guarde usuario, fecha, tipo de operación y datos que ha modificado. CREATE OR REPLACE TRIGGER audit_empleados AFTER INSERT OR UPDATE OR DELETE ON emp BEGIN INSERT INTO AUDIT_EMP() </p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/ejercicios/boletin_triggers/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/gunicorn/">Desplegando aplicaciones flask con apache2 &#43; gunicorn</a></h4>
-								<h4 class="post-date">2021-11-09</h4>
-							</div>
-							<div class="post-summary"><p>Vamos a instalar este cms llamado gunicorn, para ello creamos un entorno virutal y lo instalamos:  (gunicorn) vagrant@cmsagv:~$ pip install gunicorn  Vamos a instalar las dependencias del fichero requirements  (gunicorn) vagrant@cmsagv:~/guestbook/app$ pip install -r requirements.txt  Ahora vamos a crear un virtualhost donde añadiremos el modulo de proxy inverso ya. Y moveremos el guestbook a /var/www/  &lt;VirtualHost *:80&gt; ServerName www.alegv-guestbook.com DocumentRoot /var/www/guestbook/app/ ProxyPass / http://127.0.0.1:8080/ ProxyPassReverse / http://127.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/ejercicios/gunicorn/">Read More</a>
 							</div>
 						</div>
 					</li>
