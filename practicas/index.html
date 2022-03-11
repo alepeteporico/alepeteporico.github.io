@@ -114,8 +114,8 @@
 								<h4 class="post-date">2022-02-18</h4>
 							</div>
 							<div class="post-summary"><p>En esta práctica vamos a habilitar SELinux en un servidor rocky, en este servidor tendremos alojados un SAMBA y NFS, tendremos que asegurarnos que esto servicios funcionan correctamente con SELinux activado y nuestros clientes pueden usarlos sin problemas.
-  Vamos a comprobar que nuestro selinux no permite conexiones samba ni nfs.
-  [vagrant@server ~]$ getsebool -a| grep samba samba_create_home_dirs --&gt; off samba_domain_controller --&gt; off samba_enable_home_dirs --&gt; off samba_export_all_ro --&gt; off samba_export_all_rw --&gt; off samba_load_libgfapi --&gt; off samba_portmapper --&gt; off samba_run_unconfined --&gt; off samba_share_fusefs --&gt; off samba_share_nfs --&gt; off sanlock_use_samba --&gt; off tmpreaper_use_samba --&gt; off use_samba_home_dirs --&gt; off virt_use_samba --&gt; off [vagrant@server ~]$ getsebool -a| grep nfs cobbler_use_nfs --&gt; off colord_use_nfs --&gt; off conman_use_nfs --&gt; off ftpd_use_nfs --&gt; off git_cgi_use_nfs --&gt; off git_system_use_nfs --&gt; off httpd_use_nfs --&gt; off ksmtuned_use_nfs --&gt; off logrotate_use_nfs --&gt; off mpd_use_nfs --&gt; off nagios_use_nfs --&gt; off nfs_export_all_ro --&gt; on nfs_export_all_rw --&gt; on nfsd_anon_write --&gt; off openshift_use_nfs --&gt; off polipo_use_nfs --&gt; off samba_share_nfs --&gt; off sanlock_use_nfs --&gt; off sge_use_nfs --&gt; off tmpreaper_use_nfs --&gt; off use_nfs_home_dirs --&gt; off virt_use_nfs --&gt; off xen_use_nfs --&gt; off  Para poder gestionar selinux vamos a instalar el siguiente paquete.</p></div>
+  Hemos instalado y configurado un servidor samba y nfs en una máquina servidor.
+  [vagrant@server ~]$ sudo systemctl status smb.service ● smb.service - Samba SMB Daemon Loaded: loaded (/usr/lib/systemd/system/smb.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/selinux/">Read More</a>
 							</div>

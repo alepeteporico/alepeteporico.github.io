@@ -14,8 +14,8 @@
       
       <guid>https://alepeteporico.github.io/practicas/selinux/</guid>
       <description>En esta práctica vamos a habilitar SELinux en un servidor rocky, en este servidor tendremos alojados un SAMBA y NFS, tendremos que asegurarnos que esto servicios funcionan correctamente con SELinux activado y nuestros clientes pueden usarlos sin problemas.
-  Vamos a comprobar que nuestro selinux no permite conexiones samba ni nfs.
-  [vagrant@server ~]$ getsebool -a| grep samba samba_create_home_dirs --&amp;gt; off samba_domain_controller --&amp;gt; off samba_enable_home_dirs --&amp;gt; off samba_export_all_ro --&amp;gt; off samba_export_all_rw --&amp;gt; off samba_load_libgfapi --&amp;gt; off samba_portmapper --&amp;gt; off samba_run_unconfined --&amp;gt; off samba_share_fusefs --&amp;gt; off samba_share_nfs --&amp;gt; off sanlock_use_samba --&amp;gt; off tmpreaper_use_samba --&amp;gt; off use_samba_home_dirs --&amp;gt; off virt_use_samba --&amp;gt; off [vagrant@server ~]$ getsebool -a| grep nfs cobbler_use_nfs --&amp;gt; off colord_use_nfs --&amp;gt; off conman_use_nfs --&amp;gt; off ftpd_use_nfs --&amp;gt; off git_cgi_use_nfs --&amp;gt; off git_system_use_nfs --&amp;gt; off httpd_use_nfs --&amp;gt; off ksmtuned_use_nfs --&amp;gt; off logrotate_use_nfs --&amp;gt; off mpd_use_nfs --&amp;gt; off nagios_use_nfs --&amp;gt; off nfs_export_all_ro --&amp;gt; on nfs_export_all_rw --&amp;gt; on nfsd_anon_write --&amp;gt; off openshift_use_nfs --&amp;gt; off polipo_use_nfs --&amp;gt; off samba_share_nfs --&amp;gt; off sanlock_use_nfs --&amp;gt; off sge_use_nfs --&amp;gt; off tmpreaper_use_nfs --&amp;gt; off use_nfs_home_dirs --&amp;gt; off virt_use_nfs --&amp;gt; off xen_use_nfs --&amp;gt; off  Para poder gestionar selinux vamos a instalar el siguiente paquete.</description>
+  Hemos instalado y configurado un servidor samba y nfs en una máquina servidor.
+  [vagrant@server ~]$ sudo systemctl status smb.service ● smb.service - Samba SMB Daemon Loaded: loaded (/usr/lib/systemd/system/smb.</description>
     </item>
     
     <item>
