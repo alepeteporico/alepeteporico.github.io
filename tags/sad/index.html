@@ -110,6 +110,21 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/ejercicio4_cortafuegos/">Ejercicio 3 cortafuegos</a></h4>
+								<h4 class="post-date">2022-03-11</h4>
+							</div>
+							<div class="post-summary"><p>Realizaremos las mismas reglas que en el ejercicio 3, ahora en nftables, para ello usaremos como hicimos el ejercicio 2 la familia inet sobre las tablas de nftables para que valgan tanto para ipv4 como para ipv6. Hagamos las tabalas y cadenas necesarias para empezar.
+  Añadimos una regla para tener conexión ssh con la máquina.
+  nft add rule inet filter input ip saddr 192.168.1.0/24 tcp dport 22 ct state new,established counter accept nft add rule inet filter output ip daddr 192.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/ejercicios/ejercicio4_cortafuegos/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/ejercicio3_cortafuegos/">Ejercicio 3 cortafuegos</a></h4>
 								<h4 class="post-date">2022-03-10</h4>
 							</div>
@@ -226,20 +241,6 @@
  nft chain inet filter input { policy drop \; } nft chain inet filter forward { policy drop \; } nft chain inet filter output { policy drop \; }    Añadimos las reglas de NAT.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/cortafuegos/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/https_openstack/">OpenStack: Configuración HTTPS</a></h4>
-								<h4 class="post-date">2021-05-27</h4>
-							</div>
-							<div class="post-summary"><p>El siguiente paso de nuestro proyecto es configurar de forma adecuada el protocolo HTTPS en nuestro servidor web para nuestra aplicaciones web. Para ello vamos a emitir un certificado wildcard en la AC Gonzalo Nazareno utilizando para la petición la utilidad &ldquo;gestiona&rdquo;.   Lo primero que debemos hacer para llevarlo a cabo es dirigirnos a centos donde crearemos los directorios nesarios y crearemos una clave RSA.
- [centos@quijote ~]$ sudo mkdir /etc/ssl/private [centos@quijote ~]$ sudo chmod 700 /etc/ssl/private Generating RSA private key, 4096 bit long modulus (2 primes) .</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/https_openstack/">Read More</a>
 							</div>
 						</div>
 					</li>

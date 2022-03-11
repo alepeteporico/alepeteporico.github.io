@@ -110,6 +110,21 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/ejercicio4_cortafuegos/">Ejercicio 3 cortafuegos</a></h4>
+								<h4 class="post-date">2022-03-11</h4>
+							</div>
+							<div class="post-summary"><p>Realizaremos las mismas reglas que en el ejercicio 3, ahora en nftables, para ello usaremos como hicimos el ejercicio 2 la familia inet sobre las tablas de nftables para que valgan tanto para ipv4 como para ipv6. Hagamos las tabalas y cadenas necesarias para empezar.
+  Añadimos una regla para tener conexión ssh con la máquina.
+  nft add rule inet filter input ip saddr 192.168.1.0/24 tcp dport 22 ct state new,established counter accept nft add rule inet filter output ip daddr 192.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/ejercicios/ejercicio4_cortafuegos/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/ejercicio3_cortafuegos/">Ejercicio 3 cortafuegos</a></h4>
 								<h4 class="post-date">2022-03-10</h4>
 							</div>
@@ -225,19 +240,6 @@ END;</p></div>
 							<div class="post-summary"><p></p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/ejercicios/dns_ejercicio2/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/migracion_rocky/">Migración de CentOS 8 a Rocky</a></h4>
-								<h4 class="post-date">2021-11-12</h4>
-							</div>
-							<div class="post-summary"><p>Vamos a usar la distribución Rocky porque es una instalación sencilla, esta distribución está sopoprtada de la misma forma que estaba soportada CentOS. Esto nos asegura que tendremos nuestro sistema actualizado tal como teníamos CentOS, es más, esto no es mas que una distribución &ldquo;hija&rdquo; de la CentOS creada simplemente para sustituir a esta distribución ya sin soporte. Y es exactamente lo que haremos.    Comprobamos la version de centos que tenemos  [centos@migracion ~]$ hostnamectl Static hostname: migracion.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/ejercicios/migracion_rocky/">Read More</a>
 							</div>
 						</div>
 					</li>

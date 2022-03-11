@@ -100,41 +100,53 @@
 
         <div class="flex-wrapper">
             <div class="container wrapper">
-                <h1><a href="https://alepeteporico.github.io/ejercicios/ejercicio3_cortafuegos/">Ejercicio 3 cortafuegos</a></h1>
-                <span class="post-date">2022-03-10 </span>
+                <h1><a href="https://alepeteporico.github.io/ejercicios/ejercicio4_cortafuegos/">Ejercicio 3 cortafuegos</a></h1>
+                <span class="post-date">2022-03-11 </span>
                 <div class="post-content">
                     <ul>
-<li>Tendremos una máquina conectado a dos interfaces red, una que da al exterior y otra interna. Lo una vez preparada debemos hacer una regla snat para que la red interna pueda salir al exterior.</li>
+<li>
+<p>Realizaremos las mismas reglas que en el ejercicio 3, ahora en nftables, para ello usaremos como hicimos el ejercicio 2 la familia inet sobre las tablas de nftables para que valgan tanto para ipv4 como para ipv6. Hagamos las tabalas y cadenas necesarias para empezar.</p>
+</li>
+<li>
+<p>Añadimos una regla para tener conexión ssh con la máquina.</p>
+</li>
 </ul>
-<pre><code>iptables -t nat -A POSTROUTING -s 172.16.0.0/24 -o ens3 -j MASQUERADE
+<pre><code>nft add rule inet filter input ip saddr 192.168.1.0/24 tcp dport 22 ct state new,established counter accept
+nft add rule inet filter output ip daddr 192.168.1.0/24 tcp sport 22 ct state established counter accept
 </code></pre><ul>
-<li>Como hemos estado haciendo vamos a añadir la regla de ssh para poder poner la politica DROP sin problema.</li>
+<li>Y la regla SNAT para que la LAN tenga acceso a internet.</li>
 </ul>
-<pre><code>iptables -A INPUT -s 192.168.1.0/24 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
-iptables -A OUTPUT -d 192.168.1.0/24 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
-</code></pre><pre><code>iptables -P INPUT DROP
-iptables -P OUTPUT DROP
-iptables -P FORWARD DROP
+<pre><code>nft add rule inet nat postrouting oifname &quot;ens3&quot; ip saddr 172.16.0.200/16 counter masquerade
 </code></pre><ul>
-<li>Permitimos el tráfico para la interfaz loopback</li>
+<li>Ahora podemos crear la tabla y las reglas para hacer una politica DROP.</li>
 </ul>
-<pre><code>iptables -A INPUT -i lo -p icmp -j ACCEPT
-iptables -A OUTPUT -o lo -p icmp -j ACCEPT
+<pre><code>nft add table inet filter
+nft add table inet nat
+nft add chain inet filter input { type filter hook input priority 0 \; counter \; policy drop \; }
+nft add chain inet filter output { type filter hook output priority 0 \; counter \; policy drop \; }
+nft add chain inet filter forward { type filter hook forward priority 0 \; counter \; policy drop \; }
+nft add chain inet nat prerouting { type nat hook prerouting priority 0 \; }
+nft add chain inet nat postrouting { type nat hook postrouting priority 100 \; }
 </code></pre><ul>
-<li>Peticiones ICMP desde el exterior a las dos interfaces.</li>
+<li>También debemos permitir el tráfico de la loopback.</li>
 </ul>
-<pre><code>iptables -A OUTPUT -o ens3 -p icmp -m icmp --icmp-type echo-reply -j ACCEPT
-iptables -A INPUT -i ens3 -p icmp -m icmp --icmp-type echo-request -j ACCEPT
+<pre><code>nft add rule inet filter input iifname &quot;lo&quot; counter accept    
+nft add rule inet filter output oifname &quot;lo&quot; counter accept
+</code></pre><ul>
+<li>Permitimos hacer ping desde el exterior a las dos interfaces.</li>
+</ul>
+<pre><code>nft add rule inet filter input iifname &quot;ens3&quot; icmp type echo-request counter accept
+nft add rule inet filter output oifname &quot;ens3&quot; icmp type echo-reply counter accept
 
-iptables -A OUTPUT -o ens8 -p icmp -m icmp --icmp-type echo-reply -j ACCEPT
-iptables -A INPUT -i ens8 -p icmp -m icmp --icmp-type echo-request -j ACCEPT
+nft add rule inet filter input iifname &quot;ens8&quot; icmp type echo-request counter accept
+nft add rule inet filter output oifname &quot;ens8&quot; icmp type echo-reply counter accept
 </code></pre><pre><code>alejandrogv@AlejandroGV:~$ ping 192.168.1.33
 PING 192.168.1.33 (192.168.1.33) 56(84) bytes of data.
-64 bytes from 192.168.1.33: icmp_seq=1 ttl=64 time=0.719 ms
+64 bytes from 192.168.1.33: icmp_seq=1 ttl=64 time=0.614 ms
 ^C
 --- 192.168.1.33 ping statistics ---
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
-rtt min/avg/max/mdev = 0.719/0.719/0.719/0.000 ms
+rtt min/avg/max/mdev = 0.614/0.614/0.614/0.000 ms
 alejandrogv@AlejandroGV:~$ ping 192.16.0.1
 PING 192.16.0.1 (192.16.0.1) 56(84) bytes of data.
 64 bytes from 192.16.0.1: icmp_seq=1 ttl=58 time=7.79 ms
@@ -145,13 +157,13 @@ rtt min/avg/max/mdev = 7.793/7.793/7.793/0.000 ms
 </code></pre><ul>
 <li>Permitir hacer ping desde la LAN.</li>
 </ul>
-<pre><code>iptables -A FORWARD -o ens3 -i ens8 -s 192.168.1.0/24 -p icmp -m icmp --icmp-type echo-request -j ACCEPT
-iptables -A FORWARD -i ens3 -o ens8 -d 192.168.1.0/24 -p icmp -m icmp --icmp-type echo-reply -j ACCEPT
+<pre><code>nft add rule inet filter input iifname &quot;ens8&quot; icmp type echo-reply counter accept
+nft add rule inet filter output oifname &quot;ens8&quot; icmp type echo-request counter accept
 </code></pre><ul>
 <li>Se permitirán hacer consultas DNS unicamente al servidor 192.168.202.2</li>
 </ul>
-<pre><code>iptables -A INPUT -s 192.168.202.2/32 -p udp --sport 53 -m state --state ESTABLISHED -j ACCEPT
-iptables -A OUTPUT -d 192.168.202.2/32 -p udp --dport 53 -m state --state NEW,ESTABLISHED -j ACCEPT
+<pre><code>nft add rule inet filter output oifname &quot;ens3&quot; ip daddr 192.168.202.2/32 udp dport 53 ct state new,established counter accept
+nft add rule inet filter input iifname &quot;ens3&quot; ip saddr 192.168.202.2/32 udp sport 53 ct state established counter accept
 </code></pre><pre><code>root@servidor:~# dig @192.168.202.2 www.google.es
 
 ; &lt;&lt;&gt;&gt; DiG 9.16.22-Debian &lt;&lt;&gt;&gt; www.google.es
@@ -170,31 +182,20 @@ www.google.es.		210	IN	A	142.250.201.67
 
 ;; Query time: 0 msec
 ;; SERVER: 192.168.202.2#53(192.168.202.2)
-;; WHEN: Mon Mar 14 12:33:46 UTC 2022
+;; WHEN: Mon Mar 14 13:00:46 UTC 2022
 ;; MSG SIZE  rcvd: 344
-</code></pre><ul>
-<li>Permitimos la conexión web desde la LAN.</li>
-</ul>
-<pre><code>iptables -A FORWARD -i ens8 -o ens3 -s 192.168.1.0/24 -p tcp -m multiport --dport 80,443 -m state --state NEW,ESTABLISHED -m time \
---timestart 10:00 --timestop 16:30 -j ACCEPT
-iptables -A FORWARD -o ens8 -i ens3 -d 192.168.1.0/24 -p tcp -m multiport --sport 80,443 -m state --state ESTABLISHED -m time \
---timestart 10:00 --timestop 16:30 -j ACCEPT
 </code></pre><ul>
 <li>Permitimos la conexión a nuestro servidor web de la red interna desde el exterior.</li>
 </ul>
-<pre><code>iptables -t nat -A PREROUTING -i ens3 -p tcp --dport 80 -j DNAT --to 172.16.0.200
-iptables -A FORWARD -i ens3 -o ens8 -d 172.16.0.200/16 -p tcp --dport 80 -m state --state NEW,ESTABLISHED  -j ACCEPT
-iptables -A FORWARD -i ens8 -o ens3 -s 172.16.0.200/16 -p tcp --sport 80 -m state --state ESTABLISHED -j ACCEPT
+<pre><code>nft add rule inet nat prerouting iifname &quot;ens3&quot; tcp dport 80 counter dnat ip to 172.16.0.200
+nft add rule inet filter forward iifname &quot;ens3&quot; oifname &quot;ens8&quot; ip daddr 172.16.0.0/16 tcp dport 80 ct state new,established counter accept
+nft add rule inet filter forward iifname &quot;ens8&quot; oifname &quot;ens3&quot; ip saddr 172.16.0.0/16 tcp sport 80 ct state established counter accept
 </code></pre><ul>
-<li>Permitimos hacer conexiones ssh desde la máquina del cortafeugos.</li>
+<li>Permitimos hacer conexiones ssh desde la máquina del cortafeugos al exterior.</li>
 </ul>
-<pre><code>iptables -A INPUT -i ens3 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
-iptables -A OUTPUT -o ens3 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+<pre><code>nft add rule inet filter output oifname &quot;ens3&quot; tcp dport 22 ct state new,established counter accept
+nft add rule inet filter input iifname &quot;ens3&quot; tcp sport 22 ct state established counter accept
 </code></pre><pre><code>root@debian:~# ssh debian@192.168.1.139
-The authenticity of host '192.168.1.139 (192.168.1.139)' can't be established.
-ECDSA key fingerprint is SHA256:l8TgJ0HFoxGaU0vs9JPTeePVkPecz32d/vMFW77BMmg.
-Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
-Warning: Permanently added '192.168.1.139' (ECDSA) to the list of known hosts.
 debian@192.168.1.139's password: 
 Linux zeus 5.10.0-11-amd64 #1 SMP Debian 5.10.92-1 (2022-01-18) x86_64
 
@@ -208,20 +209,16 @@ Last login: Mon Mar 14 13:12:06 2022
 </code></pre><ul>
 <li>Permitimos que la máquina cortafuegos pueda navergar por internet.</li>
 </ul>
-<pre><code>iptables -A INPUT -i ens3 -p tcp --sport 80 -m state --state ESTABLISHED -j ACCEPT
-iptables -A OUTPUT -o ens3 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
-iptables -A INPUT -i ens3 -p tcp --sport 443 -m state --state ESTABLISHED -j ACCEPT
-iptables -A OUTPUT -o ens3 -p tcp --dport 443 -m state --state NEW,ESTABLISHED -j ACCEPT
+<pre><code>nft add rule inet filter output oifname &quot;ens3&quot; tcp dport 80 ct state new,established counter accept
+nft add rule inet filter input iifname &quot;ens3&quot; tcp sport 80 ct state established counter accept
+nft add rule inet filter output oifname &quot;ens3&quot; tcp dport 443 ct state new,established counter accept
+nft add rule inet filter input iifname &quot;ens3&quot; tcp sport 443 ct state established counter accept
 </code></pre><ul>
 <li>Permitiremos hacer ssh desde el cortafuegos a la LAN.</li>
 </ul>
-<pre><code>iptables -A INPUT -i ens8 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
-iptables -A OUTPUT -o ens8 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+<pre><code>nft add rule inet filter output oifname &quot;ens8&quot; tcp dport 22 ct state new,established counter accept
+nft add rule inet filter input iifname &quot;ens8&quot; tcp sport 22 ct state established counter accept
 </code></pre><pre><code>root@debian:~# ssh hera@172.16.0.200
-The authenticity of host '172.16.0.200 (172.16.0.200)' can't be established.
-ECDSA key fingerprint is SHA256:rs9zJTzdWR4/wPrXHywOC8T85qNX1u+BrvLgmK8x+Jk.
-Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
-Warning: Permanently added '172.16.0.200' (ECDSA) to the list of known hosts.
 hera@172.16.0.200's password: 
 Activate the web console with: systemctl enable --now cockpit.socket
 
@@ -230,27 +227,23 @@ Last login: Fri Mar 11 04:18:48 2022
 </code></pre><ul>
 <li>Permitimos hacer ping desde la LAN al cortafuegos.</li>
 </ul>
-<pre><code>iptables -A OUTPUT -o ens8 -p icmp -m icmp --icmp-type echo-reply -j ACCEPT
-iptables -A INPUT -i ens8 -p icmp -m icmp --icmp-type echo-request -j ACCEPT
+<pre><code>nft add rule inet filter output oifname &quot;ens8&quot; icmp type echo-reply counter accept
+nft add rule inet filter input iifname &quot;ens8&quot; icmp type echo-request counter accept
 </code></pre><pre><code>[hera@hera ~]$ ping 192.168.1.33
 PING 192.168.1.33 (192.168.1.33) 56(84) bytes of data.
-64 bytes from 192.168.1.33: icmp_seq=1 ttl=64 time=0.737 ms
+64 bytes from 192.168.1.33: icmp_seq=1 ttl=64 time=0.536 ms
 ^C
 --- 192.168.1.33 ping statistics ---
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
-rtt min/avg/max/mdev = 0.737/0.737/0.737/0.000 ms
+rtt min/avg/max/mdev = 0.536/0.536/0.536/0.000 ms
 </code></pre><ul>
 <li>Permitiremos que los equipos de la LAN puedan hacer ssh.</li>
 </ul>
-<pre><code>iptables -A INPUT -i ens8 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
-iptables -A OUTPUT -o ens8 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
-iptables -A FORWARD -i ens8 -o ens3 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
-iptables -A FORWARD -i ens3 -o ens8 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+<pre><code>nft add rule inet filter output oifname &quot;ens8&quot; tcp sport 22 ct state established counter accept
+nft add rule inet filter input iifname &quot;ens8&quot; tcp dport 22 ct state new,established counter accept
+nft add rule inet filter forward iifname &quot;ens8&quot; oifname &quot;ens3&quot; tcp dport 22 ct state new,established counter accept
+nft add rule inet filter forward iifname &quot;ens3&quot; oifname &quot;ens8&quot; tcp sport 22 ct state established counter accept
 </code></pre><pre><code>[hera@hera ~]$ ssh usuario@192.168.1.33
-The authenticity of host '192.168.1.33 (192.168.1.33)' can't be established.
-ECDSA key fingerprint is SHA256:rUbNqLNtKeypIXzgN8I1+J7cJ070BZrtH/m22naYwOg.
-Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
-Warning: Permanently added '192.168.1.33' (ECDSA) to the list of known hosts.
 usuario@192.168.1.33's password: 
 Linux debian 5.10.0-12-amd64 #1 SMP Debian 5.10.103-1 (2022-03-07) x86_64
 
@@ -260,18 +253,18 @@ individual files in /usr/share/doc/*/copyright.
 
 Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
 permitted by applicable law.
-Last login: Fri Mar 11 11:05:23 2022 from 192.168.1.54
+Last login: Fri Mar 11 12:35:40 2022 from 192.168.1.54
 </code></pre><ul>
 <li>Instalaremos un servidor de correo en la LAN y permitiremos su acceso desde el exterior y desde la máquina cortafuegos.</li>
 </ul>
-<pre><code>iptables -A INPUT -i ens8 -p tcp --sport 25 -m state --state ESTABLISHED -j ACCEPT
-iptables -A OUTPUT -o ens8 -p tcp --dport 25 -m state --state NEW,ESTABLISHED -j ACCEPT
+<pre><code>nft add rule inet filter output oifname &quot;ens8&quot; tcp dport 25 ct state new,established counter accept
+nft add rule inet filter input iifname &quot;ens8&quot; tcp sport 25 ct state established counter accept
 </code></pre><ul>
 <li>Para que esto funcione también debemos crear una regla DNAT sino no funcionará desde el exterior.</li>
 </ul>
-<pre><code>iptables -t nat -A PREROUTING -p tcp --dport 25 -i ens3 -j DNAT --to 172.16.0.200
-iptables -A FORWARD -i ens3 -o ens8 -p tcp --dport 25 -m state --state NEW,ESTABLISHED -j ACCEPT
-iptables -A FORWARD -i ens8 -o ens3 -p tcp --sport 25 -m state --state ESTABLISHED -j ACCEPT
+<pre><code>nft add rule inet nat prerouting iifname &quot;ens3&quot; tcp dport 25 counter dnat ip to 172.16.0.200
+nft add rule inet filter forward iifname &quot;ens3&quot; oifname &quot;ens8&quot; ip daddr 172.16.0.0/16 tcp dport 25 ct state new,established counter accept
+nft add rule inet filter forward iifname &quot;ens8&quot; oifname &quot;ens3&quot; ip saddr 172.16.0.0/16 tcp sport 25 ct state established counter accept
 </code></pre><pre><code>root@debian:~# telnet 172.16.0.200 25
 Trying 172.16.0.200...
 Connected to 172.16.0.200
@@ -291,71 +284,49 @@ HELO hera
 </code></pre><ul>
 <li>Permitiremos las conexiones ssh desde exterior a la LAN.</li>
 </ul>
-<pre><code>iptables -t nat -A PREROUTING -p tcp --dport 22 -i ens3 -j DNAT --to 172.16.0.200
-iptables -A FORWARD -i ens3 -o ens8 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
-iptables -A FORWARD -i ens8 -o ens3 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+<pre><code>nft add rule inet nat prerouting iifname &quot;ens3&quot; tcp dport 22 counter dnat ip to 172.16.0.200
+nft add rule inet filter forward iifname &quot;ens3&quot; oifname &quot;ens8&quot; ip daddr 172.16.0.0/16 tcp dport 22 ct state new,established counter accept
+nft add rule inet filter forward iifname &quot;ens8&quot; oifname &quot;ens3&quot; ip saddr 172.16.0.0/16 tcp sport 22 ct state established counter accept
 </code></pre><pre><code>alejandrogv@AlejandroGV:~$ ssh hera@172.16.0.200
-The authenticity of host '172.16.0.200 (172.16.0.200)' can't be established.
-ECDSA key fingerprint is SHA256:rs9zJTzdWR4/wPrXHywOC8T85qNX1u+BrvLgmK8x+Jk.
-Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
-Warning: Permanently added '172.16.0.200' (ECDSA) to the list of known hosts.
 hera@172.16.0.200's password: 
 Activate the web console with: systemctl enable --now cockpit.socket
 
-Last login: Fri Mar 11 11:51:37 2022
+Last login: Fri Mar 11 13:41:08 2022
 [hera@hera ~]$ 
 </code></pre><ul>
 <li>Modificaremos esta regla para que accedamos por el puerto 2222 en vez del 22.</li>
 </ul>
-<pre><code>iptables -t nat -A PREROUTING -p tcp --dport 2222 -i ens3 -j DNAT --to 172.16.0.200:22
+<pre><code>nft add rule inet nat prerouting iifname &quot;ens3&quot; tcp dport 2222 counter dnat ip to 172.16.0.200:22
 </code></pre><pre><code>alejandrogv@AlejandroGV:~$  ssh hera@172.16.0.200 -p 2222
 hera@172.16.0.200's password: 
 Activate the web console with: systemctl enable --now cockpit.socket
 
-Last login: Fri Mar 11 05:34:20 2022 from 172.16.0.1
+Last login: Fri Mar 11 13:50:53 2022 from 172.16.0.1
 </code></pre><ul>
 <li>Solo permitiremos hacer consultas a la 192.168.202.2 desde la LAN.</li>
 </ul>
-<pre><code>iptables -A FORWARD -i ens8 -o ens3 -d 192.168.202.2 -p udp --dport 53 -m state --state NEW,ESTABLISHED -j ACCEPT
-iptables -A FORWARD -i ens3 -o ens8 -s 192.168.202.2 -p udp --sport 53 -m state --state ESTABLISHED -j ACCEPT
-</code></pre><pre><code>[hera@hera ~]$ dig @192.168.202.2 www.google.es
+<pre><code>nft add rule inet filter forward iifname &quot;ens8&quot; oifname &quot;ens3&quot; ip daddr 192.168.202.2/32 udp dport 53 ct state new,established counter accept
+nft add rule inet filter forward iifname &quot;ens3&quot; oifname &quot;ens8&quot; ip saddr 192.168.202.2/32 udp sport 53 ct state established counter accept
+</code></pre><pre><code>[hera@hera ~]$ dig www.google.es
 
-; &lt;&lt;&gt;&gt; DiG 9.16.22-Debian &lt;&lt;&gt;&gt; @192.168.202.2 www.google.es
-; (1 server found)
+; &lt;&lt;&gt;&gt; DiG 9.16.22-Debian &lt;&lt;&gt;&gt; www.google.es
 ;; global options: +cmd
 ;; Got answer:
-;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 13491
-;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 4, ADDITIONAL: 9
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 42300
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
 
 ;; OPT PSEUDOSECTION:
-; EDNS: version: 0, flags:; udp: 4096
-; COOKIE: 87fa099632a61629d49631bc620a0c47ffb243a5b6209bd8 (good)
+; EDNS: version: 0, flags:; udp: 512
 ;; QUESTION SECTION:
 ;www.google.es.			IN	A
 
 ;; ANSWER SECTION:
-www.google.es.		16	IN	A	216.58.215.131
+www.google.es.		254	IN	A	142.250.201.67
 
-;; AUTHORITY SECTION:
-google.es.		84005	IN	NS	ns3.google.com.
-google.es.		84005	IN	NS	ns2.google.com.
-google.es.		84005	IN	NS	ns4.google.com.
-google.es.		84005	IN	NS	ns1.google.com.
-
-;; ADDITIONAL SECTION:
-ns1.google.com.		90004	IN	A	216.239.32.10
-ns2.google.com.		90004	IN	A	216.239.34.10
-ns3.google.com.		90004	IN	A	216.239.36.10
-ns4.google.com.		90004	IN	A	216.239.38.10
-ns1.google.com.		90004	IN	AAAA	2001:4860:4802:32::a
-ns2.google.com.		90004	IN	AAAA	2001:4860:4802:34::a
-ns3.google.com.		90004	IN	AAAA	2001:4860:4802:36::a
-ns4.google.com.		90004	IN	AAAA	2001:4860:4802:38::a
-
-;; Query time: 0 msec
-;; SERVER: 192.168.202.2#53(192.168.202.2)
-;; WHEN: Mon Mar 14 12:43:17 UTC 2022
-;; MSG SIZE  rcvd: 344
+;; Query time: 12 msec
+;; SERVER: 192.168.1.1#53(192.168.1.1)
+;; WHEN: Fri Mar 11 13:58:47 CET 2022
+;; MSG SIZE  rcvd: 58
 </code></pre><pre><code>[hera@hera ~]$ dig @1.1.1.1 www.google.es
 
 ; &lt;&lt;&gt;&gt; DiG 9.16.22-Debian &lt;&lt;&gt;&gt; @1.1.1.1 www.google.es
@@ -365,10 +336,10 @@ ns4.google.com.		90004	IN	AAAA	2001:4860:4802:38::a
 </code></pre><ul>
 <li>Permitiremos que los equipos de la LAN puedan navegar por internet.</li>
 </ul>
-<pre><code>iptables -A FORWARD -i ens8 -o ens3 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
-iptables -A FORWARD -i ens3 -o ens8 -p tcp --sport 80 -m state --state ESTABLISHED -j ACCEPT
-iptables -A FORWARD -i ens8 -o ens3 -p tcp --dport 443 -m state --state NEW,ESTABLISHED -j ACCEPT
-iptables -A FORWARD -i ens3 -o ens8 -p tcp --sport 443 -m state --state ESTABLISHED -j ACCEPT
+<pre><code>nft add rule inet filter forward iifname &quot;ens8&quot; oifname &quot;ens3&quot; tcp dport 80 ct state new,established counter accept
+nft add rule inet filter forward iifname &quot;ens3&quot; oifname &quot;ens8&quot; tcp sport 80 ct state established counter accept
+nft add rule inet filter forward iifname &quot;ens8&quot; oifname &quot;ens3&quot; tcp dport 443 ct state new,established counter accept
+nft add rule inet filter forward iifname &quot;ens3&quot; oifname &quot;ens8&quot; tcp sport 443 ct state established counter accept
 </code></pre><pre><code>[hera@hera ~]$ curl https://alepeteporico.github.io
 &lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en-us&quot;&gt;

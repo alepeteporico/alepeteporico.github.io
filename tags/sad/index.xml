@@ -6,7 +6,18 @@
     <description>Recent content in SAD on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 10 Mar 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/sad/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 11 Mar 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/sad/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ejercicio 3 cortafuegos</title>
+      <link>https://alepeteporico.github.io/ejercicios/ejercicio4_cortafuegos/</link>
+      <pubDate>Fri, 11 Mar 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/ejercicio4_cortafuegos/</guid>
+      <description>Realizaremos las mismas reglas que en el ejercicio 3, ahora en nftables, para ello usaremos como hicimos el ejercicio 2 la familia inet sobre las tablas de nftables para que valgan tanto para ipv4 como para ipv6. Hagamos las tabalas y cadenas necesarias para empezar.
+  Añadimos una regla para tener conexión ssh con la máquina.
+  nft add rule inet filter input ip saddr 192.168.1.0/24 tcp dport 22 ct state new,established counter accept nft add rule inet filter output ip daddr 192.</description>
+    </item>
+    
     <item>
       <title>Ejercicio 3 cortafuegos</title>
       <link>https://alepeteporico.github.io/ejercicios/ejercicio3_cortafuegos/</link>
