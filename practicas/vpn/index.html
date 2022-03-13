@@ -105,7 +105,7 @@
                 <div class="post-content">
                     <h2 id="vpn-de-acceso-remoto-con-openvpn-y-certificados-x509">VPN de acceso remoto con OpenVPN y certificados x509</h2>
 <ul>
-<li>Tenemos dos equipos en vagrant a los que queremos configurarles una conexión VPN. empezemos con el servidor, este está conectado a una red <code>10.99.99.0/24</code> a parte de la red que usamos para conectarnos a esta.</li>
+<li>Tenemos dos equipos en vagrant a los que queremos configurarles una conexión VPN. empezemos con el servidor, este está conectado a una red <code>10.99.99.0/24</code> a parte de la red que usamos para conectarnos a esta y una interna.</li>
 </ul>
 <pre><code>vagrant@servidor:~$ ip a
 1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
@@ -115,25 +115,55 @@
     inet6 ::1/128 scope host 
        valid_lft forever preferred_lft forever
 2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
-    link/ether 52:54:00:f5:43:54 brd ff:ff:ff:ff:ff:ff
+    link/ether 52:54:00:b1:e4:53 brd ff:ff:ff:ff:ff:ff
     altname enp0s5
     altname ens5
-    inet 192.168.121.231/24 brd 192.168.121.255 scope global dynamic eth0
-       valid_lft 3138sec preferred_lft 3138sec
-    inet6 fe80::5054:ff:fef5:4354/64 scope link 
+    inet 192.168.121.223/24 brd 192.168.121.255 scope global dynamic eth0
+       valid_lft 3515sec preferred_lft 3515sec
+    inet6 fe80::5054:ff:feb1:e453/64 scope link 
        valid_lft forever preferred_lft forever
 3: eth1: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
-    link/ether 52:54:00:2a:f0:f3 brd ff:ff:ff:ff:ff:ff
+    link/ether 52:54:00:e3:f2:0c brd ff:ff:ff:ff:ff:ff
     altname enp0s6
     altname ens6
-    inet 10.99.99.1/24 brd 10.99.99.255 scope global eth1
+    inet 192.168.10.10/24 brd 192.168.10.255 scope global eth1
        valid_lft forever preferred_lft forever
-    inet6 fe80::5054:ff:fe2a:f0f3/64 scope link 
+    inet6 fe80::5054:ff:fee3:f20c/64 scope link 
        valid_lft forever preferred_lft forever
+4: eth2: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 52:54:00:f9:6f:5f brd ff:ff:ff:ff:ff:ff
+    altname enp0s7
+    altname ens7
+    inet 192.168.11.10/24 brd 192.168.11.255 scope global eth2
+       valid_lft forever preferred_lft forever
+    inet6 fe80::5054:ff:fef9:6f5f/64 scope link 
+       valid_lft forever preferred_lft forever
+</code></pre><h3 id="instalación-de-openvpn">Instalación de openvpn</h3>
+<ul>
+<li>La instalación es bastante sencilla pues se encuentra en los repositorios de debian.</li>
+</ul>
+<pre><code>vagrant@servidor:~$ sudo apt install openvpn
+</code></pre><ul>
+<li>También debemos habilitar el forwarding</li>
+</ul>
+<pre><code>root@servidor:~# echo 1 &gt; /proc/sys/net/ipv4/ip_forward
 </code></pre><ul>
 <li>para la autentificación de los extremos vamos a usar certificados digitales con openssl y el parametro Diffie-Helman, para realizar esto haremos uso de la herramienta easy-rsa.</li>
 </ul>
 <pre><code>vagrant@servidor:~$ sudo apt install easy-rsa
+</code></pre><h3 id="creación-de-claves-y-certificados">Creación de claves y certificados</h3>
+<ul>
+<li>Si necesitaramos que esta VPN perdurara en el tiempo deberíamos copiar el contenido de la carpeta <code>/usr/share/easy-rsa</code> en <code>/etc/openvpn</code> esto debido a que podría perderse la configuración que hagamos en actualizaciones futuras del paquete Openvpn.</li>
+</ul>
+<pre><code>root@servidor:~# sudo cp -r /usr/share/easy-rsa /etc/openvpn
+</code></pre><ul>
+<li>Inicializamos easy-rsa</li>
+</ul>
+<pre><code>root@servidor:/etc/openvpn/easy-rsa# ./easyrsa init-pki
+
+init-pki complete; you may now create a CA or requests.
+Your newly created PKI dir is: /etc/openvpn/easy-rsa/pki
+
 </code></pre><h4 id="para-openvpn-necesitamos-crear">Para OpenVPN necesitamos crear:</h4>
 <ul>
 <li>Una clave privada y un certificado x509 para la autoridad certificante que firma (CA)</li>
@@ -143,48 +173,24 @@
 </ul>
 <h2 id="claves">Claves</h2>
 <ul>
-<li>Primero descargaremos el repositorio oficial de easy-rsa, ya que usaremos ficheros del mismo:</li>
+<li>Iniciaremos nuestro directorio pki.</li>
 </ul>
-<pre><code>vagrant@servidor:~$ wget https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.4/EasyRSA-3.0.4.tgz
-
-vagrant@servidor:~$ tar -xvf EasyRSA-3.0.4.tgz
-</code></pre><ul>
-<li>Copiaremos el fichero <code>vars.example</code> que usaremos para especificar la información de la propiedad.</li>
-</ul>
-<pre><code>vagrant@servidor:~/claves$ cp ../EasyRSA-3.0.4/vars.example vars
-</code></pre><ul>
-<li>Y editaremos el fichero:</li>
-</ul>
-<pre><code>set_var EASYRSA_REQ_COUNTRY     &quot;ES&quot;
-set_var EASYRSA_REQ_PROVINCE    &quot;Sevilla&quot;
-set_var EASYRSA_REQ_CITY        &quot;Dos Hermanas&quot;
-set_var EASYRSA_REQ_ORG &quot;prueba alegv&quot;
-set_var EASYRSA_REQ_EMAIL       &quot;tojandro@gmail.com&quot;
-set_var EASYRSA_REQ_OU          &quot;alegv&quot;
-</code></pre><ul>
-<li>Y después de toda esta previa, crearemos nuestras claves. ejecutando el fichero que veremos a continuación crearemos un directorio pki, donde crearemos nuestras claves y certificados.</li>
-</ul>
-<pre><code>vagrant@servidor:~/claves$ ../EasyRSA-3.0.4/easyrsa init-pki
+<pre><code>root@servidor:/etc/openvpn/easy-rsa# ./easyrsa init-pki
 
 init-pki complete; you may now create a CA or requests.
 Your newly created PKI dir is: /home/vagrant/claves/pki
 </code></pre><ul>
-<li>Nuestro siguiente paso será generar los parametros Diffie-Hellman, un algoritmo de intercambio de claves necesario para nuestro servidor Openvpn.</li>
+<li>Crearemos nuestro CA para firmar las claves del servidor y los clientes.</li>
 </ul>
-<pre><code>vagrant@servidor:~/claves$ ../EasyRSA-3.0.4/easyrsa gen-dh
-</code></pre><ul>
-<li>Esto ha generado un fichero <code>dh.pem</code> dentro del directorio pki, ahora crearemos clave RSA y el certificado de la CA</li>
-</ul>
-<pre><code>vagrant@servidor:~/claves$ ../EasyRSA-3.0.4/easyrsa  build-ca
-Can't load /home/vagrant/claves/pki/.rnd into RNG
-140246014035264:error:2406F079:random number generator:RAND_load_file:Cannot open file:../crypto/rand/randfile.c:98:Filename=/home/vagrant/claves/pki/.rnd
-Generating a RSA private key
-....................................................................................+++++
-.......+++++
-writing new private key to '/home/vagrant/claves/pki/private/ca.key.FH9EOnTN3D'
-Enter PEM pass phrase:
-Verifying - Enter PEM pass phrase:
------
+<pre><code>root@servidor:/etc/openvpn/easy-rsa# ./easyrsa build-ca
+Using SSL: openssl OpenSSL 1.1.1k  25 Mar 2021
+
+Enter New CA Key Passphrase: 
+Re-Enter New CA Key Passphrase: 
+Generating RSA private key, 2048 bit long modulus (2 primes)
+...+++++
+.................................+++++
+e is 65537 (0x010001)
 You are about to be asked to enter information that will be incorporated
 into your certificate request.
 What you are about to enter is what is called a Distinguished Name or a DN.
@@ -192,22 +198,229 @@ There are quite a few fields but you can leave some blank
 For some fields there will be a default value,
 If you enter '.', the field will be left blank.
 -----
-Common Name (eg: your user, host, or server name) [Easy-RSA CA]:pruebavpn
+Common Name (eg: your user, host, or server name) [Easy-RSA CA]:servidor CA
 
 CA creation complete and you may now import and sign cert requests.
 Your new CA certificate file for publishing is at:
-/home/vagrant/claves/pki/ca.crt
+/etc/openvpn/easy-rsa/pki/ca.crt
 </code></pre><ul>
-<li>Una vez hecho esto, debemos crear una clave rsa con su certificado para el servidor.</li>
+<li>Nuestro siguiente paso será generar los parametros Diffie-Hellman, un algoritmo de intercambio de claves necesario para nuestro servidor Openvpn.</li>
 </ul>
-<pre><code>vagrant@servidor:~/claves$ ../EasyRSA-3.0.4/easyrsa gen-req servidor
+<pre><code>root@servidor:/etc/openvpn/easy-rsa# ./easyrsa gen-dh
+Using SSL: openssl OpenSSL 1.1.1k  25 Mar 2021
+Generating DH parameters, 2048 bit long safe prime, generator 2
+This is going to take a long time
+..................................................................+.............................................................+........................+........
+
+DH parameters of size 2048 created at /etc/openvpn/easy-rsa/pki/dh.pem
+</code></pre><ul>
+<li>Esto ha generado un fichero <code>dh.pem</code> dentro del directorio pki, ahora crearemos clave privada para el servidor, voy a usar un parametro <code>nopass</code> para no tener que usar frase de paso.</li>
+</ul>
+<pre><code>root@servidor:/etc/openvpn/easy-rsa# ./easyrsa build-server-full server nopass
+Using SSL: openssl OpenSSL 1.1.1k  25 Mar 2021
+Generating a RSA private key
+......+++++
+.............................................................................................................................................+++++
+writing new private key to '/etc/openvpn/easy-rsa/pki/easy-rsa-10420.dUU4xM/tmp.kp2nTj'
+-----
+Using configuration from /etc/openvpn/easy-rsa/pki/easy-rsa-10420.dUU4xM/tmp.1NY3KO
+Enter pass phrase for /etc/openvpn/easy-rsa/pki/private/ca.key:
+Check that the request matches the signature
+Signature ok
+The Subject's Distinguished Name is as follows
+commonName            :ASN.1 12:'server'
+Certificate is to be certified until Jun 13 17:22:43 2024 GMT (825 days)
+
+Write out database with 1 new entries
+Data Base Updated
+</code></pre><ul>
+<li>También debemos crear el certificado y clave privada para nuestro cliente.</li>
+</ul>
+<pre><code>root@servidor:/etc/openvpn/easy-rsa# ./easyrsa build-client-full cliente1 nopass
+Using SSL: openssl OpenSSL 1.1.1k  25 Mar 2021
 Generating a RSA private key
 ..........+++++
-...................................................................................................+++++
-writing new private key to '/home/vagrant/claves/pki/private/servidor.key.iBXXBpYu8c'
-Enter PEM pass phrase:
-Verifying - Enter PEM pass phrase:
+.......................+++++
+writing new private key to '/etc/openvpn/easy-rsa/pki/easy-rsa-10694.qxK5kV/tmp.DEHba0'
 -----
+Using configuration from /etc/openvpn/easy-rsa/pki/easy-rsa-10694.qxK5kV/tmp.9IaoBQ
+Enter pass phrase for /etc/openvpn/easy-rsa/pki/private/ca.key:
+Check that the request matches the signature
+Signature ok
+The Subject's Distinguished Name is as follows
+commonName            :ASN.1 12:'cliente1'
+Certificate is to be certified until Jun 13 17:43:10 2024 GMT (825 days)
+
+Write out database with 1 new entries
+Data Base Updated
+</code></pre><ul>
+<li>Ahora usaremos el fichero de ejemplo para crear el túnel, para ello copiaremos el fichero.</li>
+</ul>
+<pre><code>vagrant@servidor:~$ sudo cp /usr/share/doc/openvpn/examples/sample-config-files/server.conf /etc/openvpn/server/servidor.conf
+</code></pre><ul>
+<li>Vamos a realizar la configuración</li>
+</ul>
+<pre><code>port 1194
+
+# TCP or UDP server?
+proto udp
+dev tun
+
+ca /etc/openvpn/easy-rsa/pki/ca.crt
+cert /etc/openvpn/easy-rsa/pki/issued/server.crt
+key /etc/openvpn/easy-rsa/pki/private/server.key
+dh /etc/openvpn/easy-rsa/pki/dh.pem
+
+topology subnet
+
+server 10.99.99.0 255.255.255.0
+
+ifconfig-pool-persist /var/log/openvpn/ipp.txt
+
+push &quot;route 192.168.11.0 255.255.255.0&quot;
+
+keepalive 10 120
+cipher AES-256-CBC
+persist-key
+persist-tun
+status /var/log/openvpn/openvpn-status.log
+verb 3
+explicit-exit-notify 1
+</code></pre><ul>
+<li>Vamos a habilitar este servicio.</li>
+</ul>
+<pre><code>vagrant@servidor:~$ sudo systemctl enable --now openvpn-server@servidor
+Created symlink /etc/systemd/system/multi-user.target.wants/openvpn-server@servidor.service → /lib/systemd/system/openvpn-server@.service.
+</code></pre><h3 id="cliente-1">Cliente 1</h3>
+<ul>
+<li>Hemos terminado por ahora con el servidor, pasemos al cliente 1, debemos pasar todos los certificados y claves necesarias a este cliente.</li>
+</ul>
+<pre><code>vagrant@cliente1:~$ ls
+ca.crt  cliente1.crt  cliente1.key
+</code></pre><ul>
+<li>Las movemos al directorio correcto de openvpn.</li>
+</ul>
+<pre><code>vagrant@cliente1:~$ sudo mv c* /etc/openvpn/client/
+vagrant@cliente1:~$ ls /etc/openvpn/client/
+ca.crt  cliente1.crt  cliente1.key
+</code></pre><ul>
+<li>El propietario de estos fichero debe ser root</li>
+</ul>
+<pre><code>vagrant@cliente1:~$ sudo chown root: /etc/openvpn/client/*
+</code></pre><ul>
+<li>Tal como hicimos con la configuración del servidor vamos a hacer lo propio con el cliente.</li>
+</ul>
+<pre><code>vagrant@cliente1:~$ sudo cp /usr/share/doc/openvpn/examples/sample-config-files/client.conf /etc/openvpn/client/cliente.conf
+</code></pre><ul>
+<li>Realizamos la configuración</li>
+</ul>
+<pre><code>client
+dev tun
+proto udp
+
+remote 192.168.10.10 1194
+resolv-retry infinite
+nobind
+persist-key
+persist-tun
+
+ca /etc/openvpn/client/ca.crt
+cert /etc/openvpn/client/cliente1.crt
+key /etc/openvpn/client/cliente1.key
+
+remote-cert-tls server
+cipher AES-256-CBC
+verb 3
+</code></pre><ul>
+<li>Ahora habilitemos este servicio.</li>
+</ul>
+<pre><code>vagrant@cliente1:~$ sudo systemctl enable --now openvpn-client@cliente
+Created symlink /etc/systemd/system/multi-user.target.wants/openvpn-client@cliente.service → /lib/systemd/system/openvpn-client@.service.
+</code></pre><h3 id="pruebas-de-funcionamiento">Pruebas de funcionamiento</h3>
+<ul>
+<li>Vamos a comprobar que se han creado dos interfaces, una en el servidor y otra en el ciente llamadas tun0</li>
+</ul>
+<pre><code>vagrant@cliente1:~$ ip a
+...
+...
+...
+4: tun0: &lt;POINTOPOINT,MULTICAST,NOARP,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UNKNOWN group default qlen 500
+    link/none 
+    inet 10.99.99.2/24 scope global tun0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::4ece:ea8d:e88a:e42/64 scope link stable-privacy 
+       valid_lft forever preferred_lft forever
+
+vagrant@servidor:~$ ip a
+...
+...
+...
+5: tun0: &lt;POINTOPOINT,MULTICAST,NOARP,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UNKNOWN group default qlen 500
+    link/none 
+    inet 10.99.99.1/24 scope global tun0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::1d69:af12:a412:7c54/64 scope link stable-privacy 
+       valid_lft forever preferred_lft foreverha
+</code></pre><ul>
+<li>Se puede hacer ping a la otra maquina desde esta interfaz.</li>
+</ul>
+<pre><code>vagrant@servidor:~$ ping 10.99.99.1
+PING 10.99.99.1 (10.99.99.1) 56(84) bytes of data.
+64 bytes from 10.99.99.1: icmp_seq=1 ttl=64 time=0.063 ms
+^C
+--- 10.99.99.1 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.063/0.063/0.063/0.000 ms
+</code></pre><h2 id="vpn-sitio-a-sitio-con-openvpn-y-certificados-x509">VPN sitio a sitio con OpenVPN y certificados x509</h2>
+<ul>
+<li>Para este apartado tendremos dos servidores, cada uno en una red distinta y cada uno tendrá un cliente, el objetivo es crear un tunel que conecta a los dos clientes de las dos distintas redes.</li>
+</ul>
+<h3 id="servidor-1">Servidor 1</h3>
+<h4 id="certificados-y-claves">Certificados y claves.</h4>
+<ul>
+<li>Lo primero será crear un fichero <code>vars</code> en <code>/usr/share/easy-rsa</code> donde copiaremos el contenido de vars.example alojado en la misma carpeta y añadiremos lo siguiente. Esto hará que al crear nuestra unidad certificadora ponga los siguientes valores por defecto.</li>
+</ul>
+<pre><code>set_var EASYRSA_REQ_COUNTRY     &quot;ES&quot;
+set_var EASYRSA_REQ_PROVINCE    &quot;Sevilla&quot;
+set_var EASYRSA_REQ_CITY        &quot;Dos Hermanas&quot;
+set_var EASYRSA_REQ_ORG         &quot;alegv gn&quot;
+set_var EASYRSA_REQ_EMAIL       &quot;tojandro@gmail.com&quot;
+set_var EASYRSA_REQ_OU          &quot;VPN&quot;
+</code></pre><ul>
+<li>Inicializamos un directorio pki.</li>
+</ul>
+<pre><code>vagrant@servidor1:/usr/share/easy-rsa$ sudo ./easyrsa init-pki
+
+Note: using Easy-RSA configuration from: /usr/share/easy-rsa/vars
+
+init-pki complete; you may now create a CA or requests.
+Your newly created PKI dir is: /usr/share/easy-rsa/pki
+</code></pre><ul>
+<li>Y antes de crear la unidad certificadora debemos crear una clave deffie-helman.</li>
+</ul>
+<pre><code>vagrant@servidor1:/usr/share/easy-rsa$ sudo ./easyrsa gen-dh
+
+Note: using Easy-RSA configuration from: /usr/share/easy-rsa/vars
+Using SSL: openssl OpenSSL 1.1.1k  25 Mar 2021
+Generating DH parameters, 2048 bit long safe prime, generator 2
+This is going to take a long time
+...................................................................................+..............................................................................
+
+DH parameters of size 2048 created at /usr/share/easy-rsa/pki/dh.pem
+</code></pre><ul>
+<li>Ahora si, podemos crear el certificado</li>
+</ul>
+<pre><code>vagrant@servidor1:/usr/share/easy-rsa$ sudo ./easyrsa build-ca
+
+Note: using Easy-RSA configuration from: /usr/share/easy-rsa/vars
+Using SSL: openssl OpenSSL 1.1.1k  25 Mar 2021
+
+Enter New CA Key Passphrase: 
+Re-Enter New CA Key Passphrase: 
+Generating RSA private key, 2048 bit long modulus (2 primes)
+........................................+++++
+.............................................+++++
+e is 65537 (0x010001)
 You are about to be asked to enter information that will be incorporated
 into your certificate request.
 What you are about to enter is what is called a Distinguished Name or a DN.
@@ -215,53 +428,22 @@ There are quite a few fields but you can leave some blank
 For some fields there will be a default value,
 If you enter '.', the field will be left blank.
 -----
-Common Name (eg: your user, host, or server name) [servidor]:pruebavpn
+Common Name (eg: your user, host, or server name) [Easy-RSA CA]:Alejandro Gutierrez
 
-Keypair and certificate request completed. Your files are:
-req: /home/vagrant/claves/pki/reqs/servidor.req
-key: /home/vagrant/claves/pki/private/servidor.key
+CA creation complete and you may now import and sign cert requests.
+Your new CA certificate file for publishing is at:
+/usr/share/easy-rsa/pki/ca.crt
 </code></pre><ul>
-<li>Vemos que esto nos ha creado dos ficheros, uno <code>servidor.key</code> y <code>servidor.req</code> el .key es la clave privada, mientras que el .req es la petición de firma que debemos firmar, vamos a hacerlo:</li>
+<li>Ahora debemos crear el certificado que usará nuestro servidor 1.</li>
 </ul>
-<pre><code>vagrant@servidor:~/claves$ ../EasyRSA-3.0.4/easyrsa sign-req server servidor
+<pre><code>vagrant@servidor1:/usr/share/easy-rsa$ sudo ./easyrsa gen-req servidor1
 
-
-You are about to sign the following certificate.
-Please check over the details shown below for accuracy. Note that this request
-has not been cryptographically verified. Please be sure it came from a trusted
-source or that you have verified the request checksum with the sender.
-
-Request subject, to be signed as a server certificate for 3650 days:
-
-subject=
-    commonName                = pruebavpn
-
-
-Type the word 'yes' to continue, or any other input to abort.
-  Confirm request details: yes
-Using configuration from ../EasyRSA-3.0.4/openssl-easyrsa.cnf
-Enter pass phrase for /home/vagrant/claves/pki/private/ca.key:
-Check that the request matches the signature
-Signature ok
-The Subject's Distinguished Name is as follows
-commonName            :ASN.1 12:'pruebavpn'
-Certificate is to be certified until Jan 15 08:09:53 2032 GMT (3650 days)
-
-Write out database with 1 new entries
-Data Base Updated
-
-Certificate created at: /home/vagrant/claves/pki/issued/servidor.crts
-</code></pre><h2 id="claves-del-cliente">Claves del cliente</h2>
-<ul>
-<li>Vamos a realizar algunos de los pasos del servidor en el cliente, crearemos la clave RSA y su propio certificado.</li>
-</ul>
-<pre><code>vagrant@cliente1:~/claves$ ../EasyRSA-3.0.4/easyrsa gen-req cliente1 
-Can't load /home/vagrant/claves/pki/.rnd into RNG
-140701260715328:error:2406F079:random number generator:RAND_load_file:Cannot open file:../crypto/rand/randfile.c:98:Filename=/home/vagrant/claves/pki/.rnd
+Note: using Easy-RSA configuration from: /usr/share/easy-rsa/vars
+Using SSL: openssl OpenSSL 1.1.1k  25 Mar 2021
 Generating a RSA private key
-.................................+++++
-.......+++++
-writing new private key to '/home/vagrant/claves/pki/private/cliente1.key.kpMaGbzsu8'
+......................................+++++
+....................................................................+++++
+writing new private key to '/usr/share/easy-rsa/pki/easy-rsa-18818.A1xROb/tmp.ah7B0R'
 Enter PEM pass phrase:
 Verifying - Enter PEM pass phrase:
 -----
@@ -272,15 +454,18 @@ There are quite a few fields but you can leave some blank
 For some fields there will be a default value,
 If you enter '.', the field will be left blank.
 -----
-Common Name (eg: your user, host, or server name) [cliente1]:cliente1-algv
+Common Name (eg: your user, host, or server name) [servidor1]:Alejandro Gutierrez
 
 Keypair and certificate request completed. Your files are:
-req: /home/vagrant/claves/pki/reqs/cliente1.req
-key: /home/vagrant/claves/pki/private/cliente1.key
+req: /usr/share/easy-rsa/pki/reqs/servidor1.req
+key: /usr/share/easy-rsa/pki/private/servidor1.key
 </code></pre><ul>
-<li>Enviaremos el .req al servidor y lo firmaremos con su clave.</li>
+<li>Y lo firmamos con la unidad certificadora que creamos al principio.</li>
 </ul>
-<pre><code>vagrant@servidor:~/claves$ ../EasyRSA-3.0.4/easyrsa sign-req client cliente1
+<pre><code>vagrant@servidor1:/usr/share/easy-rsa$ sudo ./easyrsa sign-req server servidor1
+
+Note: using Easy-RSA configuration from: /usr/share/easy-rsa/vars
+Using SSL: openssl OpenSSL 1.1.1k  25 Mar 2021
 
 
 You are about to sign the following certificate.
@@ -288,42 +473,481 @@ Please check over the details shown below for accuracy. Note that this request
 has not been cryptographically verified. Please be sure it came from a trusted
 source or that you have verified the request checksum with the sender.
 
-Request subject, to be signed as a client certificate for 3650 days:
+Request subject, to be signed as a server certificate for 825 days:
 
 subject=
-    commonName                = cliente1-algv
+    commonName                = Alejandro Gutierrez
 
 
 Type the word 'yes' to continue, or any other input to abort.
   Confirm request details: yes
-Using configuration from ../EasyRSA-3.0.4/openssl-easyrsa.cnf
-Enter pass phrase for /home/vagrant/claves/pki/private/ca.key:
+Using configuration from /usr/share/easy-rsa/pki/easy-rsa-18883.1sNsw0/tmp.I6fNto
+Enter pass phrase for /usr/share/easy-rsa/pki/private/ca.key:
 Check that the request matches the signature
 Signature ok
 The Subject's Distinguished Name is as follows
-commonName            :ASN.1 12:'cliente1-algv'
-Certificate is to be certified until Jan 15 08:57:52 2032 GMT (3650 days)
+commonName            :ASN.1 12:'Alejandro Gutierrez'
+Certificate is to be certified until Jun 14 15:29:36 2024 GMT (825 days)
 
 Write out database with 1 new entries
 Data Base Updated
 
-Certificate created at: /home/vagrant/claves/pki/issued/cliente1.crt
-</code></pre><h2 id="configurando-las-claves">Configurando las claves</h2>
-<ul>
-<li>Ya tenemos todas las claves y certificados necesarios para realizar el tunel, vamos a moverlos al directorio de openvpn de manera apropiada, empezemos en el servidor.</li>
-</ul>
-<pre><code>vagrant@servidor:~$ sudo mkdir /etc/openvpn/keys
-vagrant@servidor:~$ sudo cp claves/pki/dh.pem /etc/openvpn/keys/
-vagrant@servidor:~$ sudo cp claves/pki/ca.crt /etc/openvpn/keys/
-vagrant@servidor:~$ sudo cp claves/pki/private/servidor.key /etc/openvpn/keys/
-vagrant@servidor:~$ sudo cp claves/pki/issued/servidor.crt /etc/openvpn/keys/
+Certificate created at: /usr/share/easy-rsa/pki/issued/servidor1.crt
 </code></pre><ul>
-<li>Vayamos con las del cliente.</li>
+<li>Ahora en el mismo servidor 1 vamos a crear y firmar el certificado que usara el servidor 2.</li>
 </ul>
-<pre><code>vagrant@cliente1:~/claves$ sudo mkdir /etc/openvpn/keys
-vagrant@cliente1:~/claves$ sudo mv pki/private/cliente1.key /etc/openvpn/keys/
-vagrant@cliente1:~/claves$ sudo mv pki/issued/cliente1.crt /etc/openvpn/keys/
-vagrant@cliente1:~/claves$ sudo mv pki/ca.crt /etc/openvpn/keys/
+<pre><code>vagrant@servidor1:/usr/share/easy-rsa$ sudo ./easyrsa gen-req servidor2
+
+Note: using Easy-RSA configuration from: /usr/share/easy-rsa/vars
+Using SSL: openssl OpenSSL 1.1.1k  25 Mar 2021
+Generating a RSA private key
+............+++++
+.................................................................................................................................................+++++
+writing new private key to '/usr/share/easy-rsa/pki/easy-rsa-18981.BFl10N/tmp.JaluUr'
+Enter PEM pass phrase:
+Verifying - Enter PEM pass phrase:
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Common Name (eg: your user, host, or server name) [servidor2]:servidor2
+
+Keypair and certificate request completed. Your files are:
+req: /usr/share/easy-rsa/pki/reqs/servidor2.req
+key: /usr/share/easy-rsa/pki/private/servidor2.key
+</code></pre><pre><code>vagrant@servidor1:/usr/share/easy-rsa$ sudo ./easyrsa sign-req client servidor2
+
+Note: using Easy-RSA configuration from: /usr/share/easy-rsa/vars
+Using SSL: openssl OpenSSL 1.1.1k  25 Mar 2021
+
+
+You are about to sign the following certificate.
+Please check over the details shown below for accuracy. Note that this request
+has not been cryptographically verified. Please be sure it came from a trusted
+source or that you have verified the request checksum with the sender.
+
+Request subject, to be signed as a client certificate for 825 days:
+
+subject=
+    commonName                = servidor2
+
+
+Type the word 'yes' to continue, or any other input to abort.
+  Confirm request details: yes
+Using configuration from /usr/share/easy-rsa/pki/easy-rsa-19004.YLjnYV/tmp.q13nxi
+Enter pass phrase for /usr/share/easy-rsa/pki/private/ca.key:
+Check that the request matches the signature
+Signature ok
+The Subject's Distinguished Name is as follows
+commonName            :ASN.1 12:'servidor2'
+Certificate is to be certified until Jun 14 15:32:40 2024 GMT (825 days)
+
+Write out database with 1 new entries
+Data Base Updated
+
+Certificate created at: /usr/share/easy-rsa/pki/issued/servidor2.crt
+</code></pre><ul>
+<li>Necesitamos copiar los siguientes ficheros en el directorio <code>/etc/openvpn/server/</code></li>
+</ul>
+<pre><code>root@servidor1:/usr/share/easy-rsa/pki# cp ca.crt /etc/openvpn/server/
+root@servidor1:/usr/share/easy-rsa/pki# cp dh.pem /etc/openvpn/server/
+root@servidor1:/usr/share/easy-rsa/pki# cp issued/servidor1.crt /etc/openvpn/server/
+root@servidor1:/usr/share/easy-rsa/pki# cp private/servidor1.key /etc/openvpn/server/
+</code></pre><h4 id="configuración-del-tunel">Configuración del tunel</h4>
+<ul>
+<li>Vamos a configurar el servicio, para ello crearemos un fichero en <code>/etc/openvpn/server/</code> al que llamaré servidor1.conf con la siguiente información</li>
+</ul>
+<pre><code>port 1194
+
+dev tun
+
+ifconfig 10.99.99.1 10.99.99.2
+route 172.100.0.0 255.255.255.0
+
+tls-server                                                                                            
+
+ca ca.crt                                              
+cert servidor1.crt
+key servidor1.key
+dh dh.pem                                                          
+
+comp-lzo                                                                                              
+keepalive 10 120                                                                                      
+log /var/log/openvpn/server.log                                
+verb 3                                                                    
+
+askpass passwd.txt
+</code></pre><ul>
+<li>
+<p>Como vemos en la última línea hacemos referencia a un fichero llamado passwd.txt, es un fichero que vamos a crear en <code>/etc/openvpn/server/</code> con ese nombre donde pondremos la contraseña de la unidad certificadora.</p>
+</li>
+<li>
+<p>Necesitaremos tener el bit de forwarding acivo.</p>
+</li>
+</ul>
+<pre><code>root@servidor1:/etc/openvpn/server# echo 1 &gt; /proc/sys/net/ipv4/ip_forward
+</code></pre><ul>
+<li>Ahora iniciamos el servicio.</li>
+</ul>
+<pre><code>root@servidor1:/etc/openvpn/server# systemctl start openvpn-server@servidor1
+
+root@servidor1:/etc/openvpn/server# systemctl status openvpn-server@servidor1
+● openvpn-server@servidor1.service - OpenVPN service for servidor1
+     Loaded: loaded (/lib/systemd/system/openvpn-server@.service; disabled; vendor preset: enabled)
+     Active: active (running) since Sat 2022-03-12 16:55:35 UTC; 1min 46s ago
+       Docs: man:openvpn(8)
+             https://community.openvpn.net/openvpn/wiki/Openvpn24ManPage
+             https://community.openvpn.net/openvpn/wiki/HOWTO
+   Main PID: 12841 (openvpn)
+     Status: &quot;Pre-connection initialization successful&quot;
+      Tasks: 1 (limit: 1132)
+     Memory: 1.0M
+        CPU: 52ms
+     CGroup: /system.slice/system-openvpn\x2dserver.slice/openvpn-server@servidor1.service
+             └─12841 /usr/sbin/openvpn --status /run/openvpn-server/status-servidor1.log --status-version 2 --suppress-timestamps --config servidor1.conf
+
+Mar 12 16:55:35 servidor1 systemd[1]: Starting OpenVPN service for servidor1...
+Mar 12 16:55:35 servidor1 systemd[1]: Started OpenVPN service for servidor1.
+</code></pre><h3 id="cliente-1-1">Cliente 1</h3>
+<ul>
+<li>Lo unico que debemos hacer aquí es quitar el enrutamiento que tiene por defecto.</li>
+</ul>
+<pre><code>vagrant@cliente1:~$ sudo ip r del default
+vagrant@cliente1:~$ sudo ip r add default via 172.50.0.10
+</code></pre><h3 id="servidor-2">Servidor 2</h3>
+<ul>
+<li>Debemos pasar las siguentes claves y certificados al servidor 2 que creamos en el servidor 1.</li>
+</ul>
+<pre><code>vagrant@servidor2:~$ ls
+ca.crt  servidor2.crt  servidor2.key
+</code></pre><ul>
+<li>Después de mover estos ficheros a la carpeta <code>/etc/openvpn/client/</code> vamos a realizar la configuración de este servidor creando un fichero que en mi caso llamaré servidor2.conf dentro de <code>/etc/openvpn/client/</code>.</li>
+</ul>
+<pre><code>dev tun
+
+remote 192.168.121.151
+ifconfig 10.99.99.2 10.99.99.1
+route 172.50.0.0 255.255.255.0
+
+tls-client
+
+ca ca.crt
+cert servidor2.crt
+key servidor2.key
+
+comp-lzo
+keepalive 10 60
+verb 3
+
+askpass passwd2.txt
+</code></pre><ul>
+<li>Iniciamos el servicio.</li>
+</ul>
+<pre><code>vagrant@servidor2:~$ sudo systemctl start openvpn-client@servidor2
+
+vagrant@servidor2:~$ sudo systemctl status openvpn-client@servidor2
+● openvpn-client@servidor2.service - OpenVPN tunnel for servidor2
+     Loaded: loaded (/lib/systemd/system/openvpn-client@.service; disabled; vendor preset: enabled)
+     Active: active (running) since Sat 2022-03-12 17:09:52 UTC; 44s ago
+       Docs: man:openvpn(8)
+             https://community.openvpn.net/openvpn/wiki/Openvpn24ManPage
+             https://community.openvpn.net/openvpn/wiki/HOWTO
+   Main PID: 18882 (openvpn)
+     Status: &quot;Initialization Sequence Completed&quot;
+      Tasks: 1 (limit: 1132)
+     Memory: 1016.0K
+        CPU: 1.055s
+     CGroup: /system.slice/system-openvpn\x2dclient.slice/openvpn-client@servidor2.service
+             └─18882 /usr/sbin/openvpn --suppress-timestamps --nobind --config servidor2.conf
+
+Mar 12 17:09:53 servidor2 openvpn[18882]: WARNING: INSECURE cipher (BF-CBC) with block size less than 128 bit (64 bit).  This allows attacks like SWEET32.  Mitigate by using a --cipher with a larger block size &gt;
+Mar 12 17:09:53 servidor2 openvpn[18882]: Incoming Data Channel: Using 160 bit message hash 'SHA1' for HMAC authentication
+Mar 12 17:09:53 servidor2 openvpn[18882]: WARNING: cipher with small block size in use, reducing reneg-bytes to 64MB to mitigate SWEET32 attacks.
+Mar 12 17:09:53 servidor2 openvpn[18882]: Control Channel: TLSv1.3, cipher TLSv1.3 TLS_AES_256_GCM_SHA384, 2048 bit RSA
+Mar 12 17:09:53 servidor2 openvpn[18882]: [Alejandro Gutierrez] Peer Connection Initiated with [AF_INET]192.168.121.151:1194
+Mar 12 17:09:54 servidor2 openvpn[18882]: Initialization Sequence Completed
+Mar 12 17:10:03 servidor2 openvpn[18882]: Bad LZO decompression header byte: 42
+Mar 12 17:10:13 servidor2 openvpn[18882]: Bad LZO decompression header byte: 42
+Mar 12 17:10:23 servidor2 openvpn[18882]: Bad LZO decompression header byte: 42
+Mar 12 17:10:33 servidor2 openvpn[18882]: Bad LZO decompression header byte: 42
+</code></pre><ul>
+<li>También debemos activar aquí el bit de forwading.</li>
+</ul>
+<pre><code>root@servidor2:~# echo 1 &gt; /proc/sys/net/ipv4/ip_forward
+</code></pre><h3 id="cliente-2">Cliente 2</h3>
+<ul>
+<li>Realizamos el mismo paso que con el anterior cliente, cambiar la ruta de direccionamiento.</li>
+</ul>
+<pre><code>vagrant@cliente2:~$ sudo ip r del default
+vagrant@cliente2:~$ sudo ip r add default via 172.100.0.10
+</code></pre><h3 id="comprobaciones">Comprobaciones</h3>
+<ul>
+<li>Rutas del servidor 1.</li>
+</ul>
+<pre><code>vagrant@servidor1:~$ ip r
+default via 192.168.121.1 dev eth0 
+10.99.99.2 dev tun0 proto kernel scope link src 10.99.99.1 
+172.50.0.0/24 dev eth1 proto kernel scope link src 172.50.0.10 
+172.100.0.0/24 via 10.99.99.2 dev tun0 
+192.168.121.0/24 dev eth0 proto kernel scope link src 192.168.121.151 
+</code></pre><ul>
+<li>Rutas del servidor 2.</li>
+</ul>
+<pre><code>vagrant@servidor2:~$ ip r
+default via 192.168.121.1 dev eth0 
+10.99.99.1 dev tun0 proto kernel scope link src 10.99.99.2 
+172.50.0.0/24 via 10.99.99.1 dev tun0 
+172.100.0.0/24 dev eth1 proto kernel scope link src 172.100.0.10 
+192.168.121.0/24 dev eth0 proto kernel scope link src 192.168.121.56
+</code></pre><ul>
+<li>Ping desde el cliente 1 al cliente 2.</li>
+</ul>
+<pre><code>vagrant@cliente1:~$ ping 172.100.0.15
+PING 172.100.0.15 (172.100.0.15) 56(84) bytes of data.
+64 bytes from 172.100.0.15: icmp_seq=1 ttl=64 time=2.108 ms
+^C
+--- 172.100.0.15 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 2.108/2.108/2.108/0.033 ms
+</code></pre><ul>
+<li>Ping desde el cliente 2 al cliente 1.</li>
+</ul>
+<pre><code>vagrant@cliente2:~$ ping 172.50.0.15
+PING 172.50.0.15 (172.50.0.15) 56(84) bytes of data.
+64 bytes from 172.50.0.15: icmp_seq=1 ttl=64 time=2.476 ms
+^C
+--- 172.50.0.15 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 2.476/2.476/2.476/0.021 ms
+</code></pre><h2 id="vpn-de-acceso-remoto-con-wireguard">VPN de acceso remoto con WireGuard.</h2>
+<ul>
+<li>Esta vez vamos a montar una vpn con wireward y tendremos un servidor con varios clientes, uno debian, otro windows y un último android</li>
+</ul>
+<h3 id="servidor">Servidor</h3>
+<ul>
+<li>Instalamos wireguard.</li>
+</ul>
+<pre><code>vagrant@servervpn:~$ sudo apt install wireguard
+</code></pre><ul>
+<li>Creamos un par de claves usando un comando de wireguard, que tendremos que copiar y pegar en el fichero de configuración que crearemos después de este paso.</li>
+</ul>
+<pre><code>vagrant@servervpn:~$ sudo wg genkey | tee privada.key | wg pubkey &gt; publica.key
+</code></pre><ul>
+<li>Crearemos y configuraremos un fichero que se ubicará en <code>/etc/wireguard/</code> donde crearemos la interfaz.</li>
+</ul>
+<pre><code>[Interface]
+Address = 10.99.99.1/24
+ListenPort = 51820
+PrivateKey = yDf5Us9NjerWSaELL/ftiUBawBYit8oDUqgUIIpGMU0=
+
+# IP forwarding
+PreUp = sysctl -w net.ipv4.ip_forward=1
+
+[Peer]
+PublicKey = Tg6VLcM/ZFPdX99NIPewNTKLxsHdXCmL2y8YzwxU+HU=
+AllowedIPs = 10.99.99.2/32
+</code></pre><ul>
+<li>Y podemos iniciarla.</li>
+</ul>
+<pre><code>vagrant@servervpn:~$ sudo wg-quick up /etc/wireguard/wg0.conf
+[#] sysctl -w net.ipv4.ip_forward=1
+net.ipv4.ip_forward = 1
+[#] ip link add wg0 type wireguard
+[#] wg setconf wg0 /dev/fd/63
+[#] ip -4 address add 10.99.99.1/24 dev wg0
+[#] ip link set mtu 1420 up dev wg0
+</code></pre><ul>
+<li>Se ha creado la nueva interfaz y la ruta.</li>
+</ul>
+<pre><code>vagrant@servervpn:~$ ip a
+5: wg0: &lt;POINTOPOINT,NOARP,UP,LOWER_UP&gt; mtu 1420 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/none 
+    inet 10.99.99.1/24 scope global wg0
+       valid_lft forever preferred_lft forever
+
+vagrant@servervpn:~$ ip r
+default via 192.168.121.1 dev eth0 
+10.99.99.0/24 dev wg0 proto kernel scope link src 10.99.99.1
+</code></pre><h3 id="cliente-debian-externo">Cliente debian externo.</h3>
+<ul>
+<li>Volvemos a instalar wireguard en este cliente y creamos las claves.</li>
+</ul>
+<pre><code>vagrant@cliente1:~$ wg genkey | sudo tee /etc/wireguard/cliente1_privada.key | wg pubkey | sudo tee /etc/wireguard/cliente1_publica.key
+</code></pre><ul>
+<li>Creamos el fichero de configuración para crear la interfaz esta vez apuntando hacia la red interna que conecta este cliente al servidor.</li>
+</ul>
+<pre><code>[Interface]
+Address = 10.99.99.2/24
+PrivateKey = 8EmkDCVWG8wzkZC4CvfA4Rf7SOPB2fg4LT3dhkqaj3Y=
+
+[Peer]
+PublicKey = p+betf59P45dPQG98xrAghMXqyObidHMru/eXkBx1Tk=
+AllowedIPs = 0.0.0.0/0
+Endpoint = 192.100.50.10:51820
+PersistentKeepalive = 25
+</code></pre><ul>
+<li>Levantamos esta interfaz.</li>
+</ul>
+<pre><code>vagrant@cliente1:~$ sudo wg-quick up /etc/wireguard/wg-cliente0.conf
+[#] ip link add wg-cliente0 type wireguard
+[#] wg setconf wg-cliente0 /dev/fd/63
+[#] ip -4 address add 10.99.99.2/24 dev wg-cliente0
+[#] ip link set mtu 1420 up dev wg-cliente0
+[#] wg set wg-cliente0 fwmark 51820
+[#] ip -4 route add 0.0.0.0/0 dev wg-cliente0 table 51820
+[#] ip -4 rule add not fwmark 51820 table 51820
+[#] ip -4 rule add table main suppress_prefixlength 0
+[#] sysctl -q net.ipv4.conf.all.src_valid_mark=1
+[#] nft -f /dev/fd/63
+</code></pre><ul>
+<li>Se ha creado la interfaz y el enrutamiento.</li>
+</ul>
+<pre><code>vagrant@cliente1:~$ ip a
+4: wg-cliente0: &lt;POINTOPOINT,NOARP,UP,LOWER_UP&gt; mtu 1420 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/none 
+    inet 10.99.99.2/24 scope global wg-cliente0
+       valid_lft forever preferred_lft forever
+
+vagrant@cliente1:~$ ip r
+default via 192.168.121.1 dev eth0 
+10.99.99.0/24 dev wg-cliente0 proto kernel scope link src 10.99.99.2
+</code></pre><h3 id="cliente-interno">Cliente interno.</h3>
+<ul>
+<li>Aquí solo debemos cambiar la ruta por defecto.</li>
+</ul>
+<pre><code>vagrant@cliente2:~$ sudo ip route del default
+vagrant@cliente2:~$ sudo ip route add default via 192.168.0.15
+</code></pre><h3 id="pruebas-clientes-debian">Pruebas clientes debian.</h3>
+<pre><code>vagrant@cliente1:~$ ping 10.99.99.1
+PING 10.99.99.1 (10.99.99.1) 56(84) bytes of data.
+64 bytes from 10.99.99.1: icmp_seq=1 ttl=64 time=1.39 ms
+64 bytes from 10.99.99.1: icmp_seq=2 ttl=64 time=0.676 ms
+64 bytes from 10.99.99.1: icmp_seq=3 ttl=64 time=0.673 ms
+</code></pre><pre><code>vagrant@clientevpn:~$ ping 192.168.0.15
+PING 192.168.0.15 (192.168.0.15) 56(84) bytes of data.
+64 bytes from 192.168.0.15: icmp_seq=1 ttl=63 time=1.56 ms
+64 bytes from 192.168.0.15: icmp_seq=2 ttl=63 time=0.360 ms
+</code></pre><h3 id="cliente-windows">Cliente windows.</h3>
+<ul>
+<li>Descargamos e instalamos el programa de wireguard para windows.</li>
+</ul>
+<p><img src="/vpn/1.png" alt="descargar"></p>
+<ul>
+<li>Añadimos un túnel.</li>
+</ul>
+<p><img src="/vpn/2.png" alt="tunel"></p>
+<ul>
+<li>Configuramos este tunel tal como hicimos con el cliente.</li>
+</ul>
+<p><img src="/vpn/3.png" alt="configuracion"></p>
+<ul>
+<li>Debemos añadir un nuevo peer en el fichero de configuración del servidor.</li>
+</ul>
+<pre><code>[Interface]
+Address = 10.99.99.1/24
+ListenPort = 51820
+PrivateKey = yDf5Us9NjerWSaELL/ftiUBawBYit8oDUqgUIIpGMU0=
+
+# IP forwarding
+PreUp = sysctl -w net.ipv4.ip_forward=1
+
+[Peer]
+PublicKey = Tg6VLcM/ZFPdX99NIPewNTKLxsHdXCmL2y8YzwxU+HU=
+AllowedIPs = 10.99.99.2/32
+
+[Peer]
+PublicKey = 2Ybw5JsflgMu8LtmE7xcyJi1iyXW29hoZm1abxKKqUS=
+AllowedIPs = 10.99.99.3/32
+</code></pre><ul>
+<li>Activamos el tunel</li>
+</ul>
+<p><img src="/vpn/4.png" alt="activar"></p>
+<ul>
+<li>Comprobamos que se ha creado la interfaz.</li>
+</ul>
+<p><img src="/vpn/5.png" alt="configuracion"></p>
+<h3 id="cliente-android">Cliente Android</h3>
+<ul>
+<li>Descargamos la aplicación de wireguard en playstore.</li>
+</ul>
+<p><img src="/vpn/6.png" alt="descargar"></p>
+<ul>
+<li>Ahora tenemos varias opciones de configuración vamos a usar la que parece más sencilla, mediante el codigo qr.</li>
+</ul>
+<p><img src="/vpn/7.png" alt="qr"></p>
+<ul>
+<li>Para hacerlo primero creamos un par de claves en el servidor para nuestro cliente.</li>
+</ul>
+<pre><code>vagrant@servervpn:~$ sudo wg genkey | tee privado-android.key | wg pubkey &gt; publica-android.key
+</code></pre><ul>
+<li>Ahora creamos un fichero de configuración tal que así.</li>
+</ul>
+<pre><code>[Interface]
+Address = 10.99.99.4
+PrivateKey = 2K74Pj7F1Si95c1i+hTjaS3W//NsAksvEW0+AZ5X+VU=
+ListenPort = 51820
+
+[Peer]
+Publickey = Tg6VLcM/ZFPdX99NIPewNTKLxsHdXCmL2y8YzwxU+HU=
+AllowedIPs = 0.0.0.0/0
+Endpoint = 192.168.1.118:51820
+</code></pre><ul>
+<li>Ahora instalaremos un paquete que nos generará el codigo qr.</li>
+</ul>
+<pre><code>vagrant@servervpn:~$ sudo apt install qrencode
+</code></pre><ul>
+<li>Generamos el código.</li>
+</ul>
+<pre><code>vagrant@servervpn:~$ qrencode -t ansiutf8 &lt; cliente_android.conf 
+█████████████████████████████████████████████████████████████
+█████████████████████████████████████████████████████████████
+████ ▄▄▄▄▄ █▀ █▀▀█▄▄ ▄▄ ▀▀▀ ▀█ █▄▀▀▀▄▄▀█  █▄ ▀ ▀██ ▄▄▄▄▄ ████
+████ █   █ █▄   ▀▀▀▀ ▀▄  ▀██▄    ▀ █▀▄▄   ██▄▄▀▄▀█ █   █ ████
+████ █▄▄▄█ █  ▀█  ▀▀▄█ ▀███▄ ▄▄▄  ▀▄▀█▄▄█▄█▄█▄ ███ █▄▄▄█ ████
+████▄▄▄▄▄▄▄█ █ █▄█▄▀ ▀▄▀▄▀▄▀ █▄█ █ █ ▀ █▄█ ▀▄█▄▀▄█▄▄▄▄▄▄▄████
+████  █ ▀█▄ ██▀ ▄▀█▀█▀█▀▄ ▄█ ▄  ▄▀ █▄▄▄▀█ ▀██▀▄▄██▄ ▄█▄ ▀████
+████▄█▄█▀▀▄▀▀▄▀███ ▀█▄ ▀▀▄█ ▄▀ █▀▀█▀ ██ █▄ ▀ ▀▄▄██▄▄▄ ▀ █████
+████ █▄ █▄▄ ▀▄   ▀▀▀ ▄▀ ▄ ▀█▄█▄█▄▄█▄▀ ██▀▀  ▀ ▄█▀▄ ▀ ▀█▄ ████
+████▀▀▄▄▀▄▄ ████▄   █ ██▄▄ ▀▄ ▄█▄▀█ █▀█▀ ██ ▄▄▄▄██▄  ▄█▄ ████
+████ █ ▄▀█▄▄    █▀▀▀▀▀▀█ ▀█▀▄▄  ▄ ▄▀▀ ▀▀▄█▄▄▄ ▄█ ██ ▄█▀▄▀████
+████ ▄▀▄▄▀▄ ███▄  ▄█ ▄  ▄█▀▀▀▄ ▀▄▄▄ ██▀▀▀ ▄█▄█▄█▄▄▀█▄▀▀ ▄████
+█████▄█▄▄▀▄██▄██▄▀█▀█  ██▄█ ▄▀▄█ ▄█▀█▄█▄   ▄ ▄█▄ ███▀▀█ █████
+████▀▄ ▄▀▄▄▀▀█▀▄▀▄  ▄  █▀ ▀▄▄▄█▀▄▄▄▀   █▄   █▀▄ ▀ ▄█▄▄▀██████
+████▀█▄▀ ▄▄▄ ██▀▄▀▄ █  ▀█▄█▀ ▄▄▄   ▀██▄ █▄ ▄ ██▀ ▄▄▄ ▀█ ▄████
+████▄██▀ █▄█ ▀▄   ▀▀▄█ ▀  ▀▄ █▄█ ▄█ ▀▄▄ ▄▄█████▀ █▄█ ▀ ▄▄████
+█████▄▀▀  ▄▄ ▄▀█▀█ ▀▀▄▄▀▀ ██▄ ▄▄ ▀█ ▀  ▄█▀▀ ▀▄ ▀▄   ▄█ ▀ ████
+█████▀ ▀▀▀▄ █▄▀▄▀▄▀ ▀█  █ ▄██ █▄▄▀ ▀▄█▄ ▄ █ ▄▀ ▄▀ ▄▀▀▀█▀▀████
+████  ██▄ ▄▀ ▀ ▀▀ ▄▄▄▀▀▀███ ▀ ▄ █▀  ▄ ▄ █ █▀▄▀▀ ▀█  ▄█▄▀▄████
+████  ▄█▄ ▄▄▄█▀▀▄▀▄ ▄█  ▀▄▀▀▄▄▄  ▀▄█ ▄█ ▄▄▀▀▄▄█▄▀ ▀██ ▀▄▀████
+████▀▄ ▄▄█▄ ▄▀▀ ▄ ▄  ▀▄▄ ▄▄▄▀█▄█▄▀  ▀▄  ▀█ █  ▀█▄▄ ▀▄▄██▀████
+████ █▀  █▄▀▀▀█ ███ █▀██▄  █▄▄▄▀▄█▄▀▀  █ █▀▄ █▄█▄▄ █ ▄█▄█████
+████  ██▄▀▄█▀▀  █▄ ▀▀▄ █▄  ▀ █▀▀▄ ▄▀▀█▀▄█▀▄▀▄▄ ▄▄▄█▄ ▄▀▄█████
+████▄ ▀▄▄▄▄ █▀▄ ██▄▀ █ ▄██▄▀██ ▄ █▄ ▄▀ █  ▄█  ▄▀▄ ▄▄██▀▄ ████
+███████▄██▄▄▀▄▄▀▀▄ ▄▄███▀▄█  ▄▄▄ ▀▄▄█▀▀ ▄█▄▀█▀▀█ ▄▄▄  ▄  ████
+████ ▄▄▄▄▄ █▄███▄▄  ▄█▄▄ ▄▀█ █▄█ ▀ ▀▄▄▄▄▄▄ ▄█▄ ▀ █▄█ █▀█▀████
+████ █   █ █▀█▀▄ ▀▄██▄██▄  █   ▄ █ ▀█▄ ▀█  █ ▄▀█▄  ▄▄▀█▄ ████
+████ █▄▄▄█ █▀▀▄▄▄█ ▄█  ▀▄▀▄ ▄▀ ▄▀▄▄ ▄█▄▀▄█▄▀ ██ ▄▄██▄█▄▀▄████
+████▄▄▄▄▄▄▄█▄▄▄█▄▄▄███▄▄██▄██▄▄██▄█▄██████▄▄▄█▄█▄▄▄▄▄█▄▄█████
+█████████████████████████████████████████████████████████████
+█████████████████████████████████████████████████████████████
+</code></pre><ul>
+<li>Escaneamos el codigo y le ponemos nombre a la interfaz.</li>
+</ul>
+<p><a href="/vpn/8.png">qr</a></p>
+<ul>
+<li>Y vemos la interfaz activada.</li>
+</ul>
+<p><a href="/vpn/9.png">qr</a></p>
+<ul>
+<li>Creamos el nuevo peer en el servidor</li>
+</ul>
+<pre><code>[Peer]
+Publickey = I1gwDiuESB9FGjZ0Q/B6aJdiyyiY+arekkjt0ZK8FQI=
+AllowedIPs = 10.99.99.4/32
 </code></pre><ul>
 <li></li>
 </ul>
