@@ -937,21 +937,139 @@ Endpoint = 192.168.1.118:51820
 </code></pre><ul>
 <li>Escaneamos el codigo y le ponemos nombre a la interfaz.</li>
 </ul>
-<p><a href="/vpn/8.jpg">qr</a></p>
+<p><img src="/vpn/8.jpg" alt="qr"></p>
 <ul>
 <li>Y vemos la interfaz activada.</li>
 </ul>
-<p><a href="/vpn/9.jpg">qr</a></p>
+<p><img src="/vpn/9.jpg" alt="qr"></p>
 <ul>
 <li>Creamos el nuevo peer en el servidor</li>
 </ul>
 <pre><code>[Peer]
 Publickey = I1gwDiuESB9FGjZ0Q/B6aJdiyyiY+arekkjt0ZK8FQI=
 AllowedIPs = 10.99.99.4/32
-</code></pre><ul>
-<li></li>
+</code></pre><h2 id="vpn-sitio-a-sitio-con-wireguard">VPN sitio a sitio con WireGuard.</h2>
+<ul>
+<li>Tendremos el mismo escenario que usamos para hacer la VPN sitio a sitio con OpenVPN.</li>
 </ul>
+<h3 id="servidor-1-1">Servidor 1.</h3>
+<ul>
+<li>Generamos el par de claves con wireguard.</li>
+</ul>
+<pre><code>vagrant@servidor1:~$ wg genkey | sudo tee /etc/wireguard/servidor1-privada.key | wg pubkey | sudo tee /etc/wireguard/servidor1-publica.key
+Fsz5MIL2DGfbAZj+bDgUSFMltex7bhPLkQ+mYiq7mXI=
+</code></pre><ul>
+<li>Creamos la interfaz como hemos hecho anteriormente, aunque ahora tendremos que añadir unas reglas iptables para hacer forwarding, por supuesto tendremos que activar el bit de forwarding anteriormente.</li>
+</ul>
+<pre><code>[Interface]
+Address = 10.99.99.1
+PrivateKey = 8HT6kBnwZFn/XoG6GLhLMxtJwbxaBJE1ev4WJ6byFHw=
+ListenPort = 51820
+PostUp = iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+</code></pre><ul>
+<li>Levantamos la interfaz.</li>
+</ul>
+<pre><code>vagrant@servidor1:~$ wg-quick up wg0
+[#] ip link add wg0 type wireguard
+[#] wg setconf wg0 /dev/fd/63
+[#] ip -4 address add 10.99.99.1 dev wg0
+[#] ip link set mtu 1420 up dev wg0
+[#] iptables -A FORWARD -i wg0 -j ACCEPT; iptables -A FORWARD -o wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+</code></pre><h3 id="cliente-1-2">Cliente 1.</h3>
+<ul>
+<li>En el cliente solo debemos cambiar la ruta por defecto y apuntar a la ip interna del servidor 1.</li>
+</ul>
+<pre><code>vagrant@cliente1:~$ sudo ip r del default
+vagrant@cliente1:~$ sudo ip r add default via 172.30.0.10
+</code></pre><h3 id="servidor-2-1">Servidor 2.</h3>
+<ul>
+<li>Crearemos el par de claves para este servidor.</li>
+</ul>
+<pre><code>vagrant@servidor2:~$ wg genkey | sudo tee /etc/wireguard/servidor2-privada.key | wg pubkey | sudo tee /etc/wireguard/servidor2-publica.key
+rq8H+vq7gIz1qosbDT4v50h/bTXVo7YVoPi564U3byc=
+</code></pre><ul>
+<li>Configuramos la interfaz añadiendo un peer con la ip publica de esta maquina y la clave publica del servidor 1.</li>
+</ul>
+<pre><code>[Interface]
+Address = 10.99.99.2
+PrivateKey = 2Bo+GwOmLyKzYpCmsXjY7sSRswEB478Y+0HXfDmhU1k=
+ListenPort = 51820
 
+[Peer]
+PublicKey = Fsz5MIL2DGfbAZj+bDgUSFMltex7bhPLkQ+mYiq7mXI=
+AllowedIPs = 10.99.99.0/24, 172.30.0.0/24
+Endpoint = 192.168.121.8:51820
+</code></pre><ul>
+<li>Antes de levantar la interfaz volvemos al servidor 1, donde añadiremos un peer en la interfaz con la clave publica de nuestro servidor 2 y la red privada del mismo.</li>
+</ul>
+<pre><code>[Interface]
+Address = 10.99.99.1
+PrivateKey = 8HT6kBnwZFn/XoG6GLhLMxtJwbxaBJE1ev4WJ6byFHw=
+ListenPort = 51820
+PostUp = iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A PO&gt;
+PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT; iptables -t nat -D &gt;
+
+[Peer]
+Publickey = rq8H+vq7gIz1qosbDT4v50h/bTXVo7YVoPi564U3byc=
+AllowedIPs = 10.99.99.0/24, 172.20.0.0/24
+PersistentKeepAlive = 25
+</code></pre><ul>
+<li>Una vez hecho esto y reiniciada la interfaz del servidor 1 podemos levantar la del servidor 2.</li>
+</ul>
+<pre><code>vagrant@servidor2:~$ wg-quick up wg0
+[#] ip link add wg0 type wireguard
+[#] wg setconf wg0 /dev/fd/63
+[#] ip -4 address add 10.99.99.2 dev wg0
+[#] ip link set mtu 65456 up dev wg0
+[#] ip -4 route add 172.30.0.0/24 dev wg0
+[#] ip -4 route add 10.99.99.0/24 dev wg0
+</code></pre><h3 id="cliente-2-1">Cliente 2.</h3>
+<ul>
+<li>Cambiamos la interfaz por defecto de este cliente tal como hicimos con el primero.</li>
+</ul>
+<pre><code>vagrant@cliente2:~$ sudo ip r del default
+vagrant@cliente2:~$ sudo ip r add default via 172.20.0.10
+</code></pre><h3 id="comprobaciones-1">Comprobaciones.</h3>
+<ul>
+<li>Vemos las rutas del servidor 2.</li>
+</ul>
+<pre><code>vagrant@servidor2:~$ ip r
+default via 192.168.121.1 dev eth0 
+10.99.99.0/24 dev wg0 scope link 
+172.20.0.0/24 dev eth1 proto kernel scope link src 172.20.0.10 
+172.30.0.0/24 dev wg0 scope link 
+192.168.121.0/24 dev eth0 proto kernel scope link src 192.168.121.8 
+</code></pre><ul>
+<li>Ahora las del servidor 1.</li>
+</ul>
+<pre><code>vagrant@servidor1:~$ ip r
+default via 192.168.121.1 dev eth0 
+10.99.99.0/24 dev wg0 scope link 
+172.20.0.0/24 dev wg0 scope link 
+172.30.0.0/24 dev eth1 proto kernel scope link src 172.30.0.10 
+192.168.121.0/24 dev eth0 proto kernel scope link src 192.168.121.86
+</code></pre><ul>
+<li>Ping desde el cliente 2 al cliente 1</li>
+</ul>
+<pre><code>vagrant@cliente2:~$ ping 172.30.0.15
+PING 172.30.0.15 (172.30.0.15) 56(84) bytes of data.
+64 bytes from 172.30.0.15: icmp_seq=1 ttl=64 time=2.017 ms
+^C
+--- 172.30.0.15 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 2.017/2.017/2.017/0.030 ms
+</code></pre><ul>
+<li>Ping desde el cliente 1 al cliente 2.</li>
+</ul>
+<pre><code>vagrant@cliente1:~$ ping 172.20.0.15
+PING 172.20.0.15 (172.20.0.15) 56(84) bytes of data.
+64 bytes from 172.20.0.15: icmp_seq=1 ttl=64 time=2.531 ms
+^C
+--- 172.20.0.15 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 2.531/2.531/2.531/0.031 ms
+</code></pre>
                 </div>
                 
                 <div class="post-comments">
