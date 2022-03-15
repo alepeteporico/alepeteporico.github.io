@@ -110,6 +110,21 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/copias/">Copias de seguridad con bacula</a></h4>
+								<h4 class="post-date">2022-03-14</h4>
+							</div>
+							<div class="post-summary"><p>Usaremos la herramienta bacula para realizar nuestro sistema de copias de seguridad, por supuesto el primer paso que debemos tomar es instalar el paquete de bacula, instalaremos el cliente en todas las máquinas de nuestro escenario, aunque usaremos zeus para alojar las copias de seguridad.
+  Para alojar las copias hemos añadido dos discos que vamos a montar en RAID.
+  debian@zeus:~$ df -h Filesystem Size Used Avail Use% Mounted on /dev/md0 9.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/copias/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/selinux/">SElinux</a></h4>
 								<h4 class="post-date">2022-02-18</h4>
 							</div>
@@ -166,21 +181,6 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/copias/">Copias de seguridad con bacula</a></h4>
-								<h4 class="post-date">2022-01-21</h4>
-							</div>
-							<div class="post-summary"><p>Usaremos la herramienta bacula para realizar nuestro sistema de copias de seguridad, por supuesto el primer paso que debemos tomar es instalar el paquete de bacula, instalaremos el cliente en todas las máquinas de nuestro escenario, aunque usaremos zeus para alojar las copias de seguridad.
-  Para alojar las copias hemos añadido dos discos que vamos a montar en RAID.
-  debian@zeus:~$ df -h Filesystem Size Used Avail Use% Mounted on /dev/md0 9.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/copias/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/lxc/">Contenedores LXC</a></h4>
 								<h4 class="post-date">2022-01-19</h4>
 							</div>
@@ -222,12 +222,15 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/vpn/">VPN</a></h4>
-								<h4 class="post-date">2021-12-09</h4>
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/server_web_bbdd_dns/">DNS, servidor web y base de datos</a></h4>
+								<h4 class="post-date">2021-12-10</h4>
 							</div>
-							<div class="post-summary"><p>VPN de acceso remoto con OpenVPN y certificados x509  Tenemos dos equipos en vagrant a los que queremos configurarles una conexión VPN. empezemos con el servidor, este está conectado a una red 10.99.99.0/24 a parte de la red que usamos para conectarnos a esta y una interna.  vagrant@servidor:~$ ip a 1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000 link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00 inet 127.</p></div>
+							<div class="post-summary"><p>Servidor DNS *El servidor DNS estará instalado en freston, por ello instalaremos bind en esta máquina
+ root@apolo:~# apt install bind9  *Configuramos el fichero &ldquo;/etc/bind/named.conf.options&rdquo; y añadimos las siguientes líneas:
+ listen-on { any; }; allow-transfer { none; }; recursion yes; allow-recursion { any; }; *Configuramos el DNS local, la DMZ y externa en el fichero de configuración /etc/bind/named.conf.local:
+view interna { match-clients { 10.0.1.0/24; 127.0.0.1; }; allow-recursion { any; }; zone &quot;alegv.</p></div>
 							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/vpn/">Read More</a>
+								<a href="https://alepeteporico.github.io/practicas/server_web_bbdd_dns/">Read More</a>
 							</div>
 						</div>
 					</li>
@@ -235,12 +238,12 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/btrfs/">Btrfs</a></h4>
-								<h4 class="post-date">2021-12-02</h4>
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/vpn/">VPN</a></h4>
+								<h4 class="post-date">2021-12-09</h4>
 							</div>
-							<div class="post-summary"><p>Tenemos una maquina con varios discos asociados, lo primero que haremos será instalar la paquetería necesaria para el uso de este sistema de archivos.  vagrant@maquina1:~$ sudo apt install btrfs-progs arch-install-scripts  Montamos en la tabla de particiones los nuevos discos.  vagrant@maquina1:~$ sudo cfdisk -z /dev/vdb vagrant@maquina1:~$ sudo cfdisk -z /dev/vdc vagrant@maquina1:~$ sudo cfdisk -z /dev/vdd vagrant@maquina1:~$ sudo cfdisk -z /dev/vde  Y vamos a crear el sisitema de ficheros de cada una.</p></div>
+							<div class="post-summary"><p>VPN de acceso remoto con OpenVPN y certificados x509  Tenemos dos equipos en vagrant a los que queremos configurarles una conexión VPN. empezemos con el servidor, este está conectado a una red 10.99.99.0/24 a parte de la red que usamos para conectarnos a esta y una interna.  vagrant@servidor:~$ ip a 1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000 link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00 inet 127.</p></div>
 							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/btrfs/">Read More</a>
+								<a href="https://alepeteporico.github.io/practicas/vpn/">Read More</a>
 							</div>
 						</div>
 					</li>

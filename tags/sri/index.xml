@@ -26,6 +26,18 @@
     </item>
     
     <item>
+      <title>DNS, servidor web y base de datos</title>
+      <link>https://alepeteporico.github.io/practicas/server_web_bbdd_dns/</link>
+      <pubDate>Fri, 10 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/server_web_bbdd_dns/</guid>
+      <description>Servidor DNS *El servidor DNS estará instalado en freston, por ello instalaremos bind en esta máquina
+ root@apolo:~# apt install bind9  *Configuramos el fichero &amp;ldquo;/etc/bind/named.conf.options&amp;rdquo; y añadimos las siguientes líneas:
+ listen-on { any; }; allow-transfer { none; }; recursion yes; allow-recursion { any; }; *Configuramos el DNS local, la DMZ y externa en el fichero de configuración /etc/bind/named.conf.local:
+view interna { match-clients { 10.0.1.0/24; 127.0.0.1; }; allow-recursion { any; }; zone &amp;quot;alegv.</description>
+    </item>
+    
+    <item>
       <title>Instalación y configuración de un servidor DNS esclavo </title>
       <link>https://alepeteporico.github.io/ejercicios/dns_ejercicio2/</link>
       <pubDate>Fri, 12 Nov 2021 00:00:00 +0000</pubDate>
@@ -130,18 +142,6 @@
       <guid>https://alepeteporico.github.io/ejercicios/mapeo/</guid>
       <description>Crea un nuevo host virtual que es accedido con el nombre www.mapeo.com, cuyo DocumentRoot sea /srv/mapeo.   En primer lugar para que nuestro apache pueda acceder a /srv/ y reconocer esta ruta como DocumentRoot debemos modificar el fichero etc/apache2/apache2.conf y descomentar las siguientes líneas.
  &amp;lt;Directory /srv/&amp;gt; Options Indexes FollowSymLinks AllowOverride None Require all granted &amp;lt;/Directory&amp;gt;    Una vez hecho esto creamos la carpeta mapeo en /srv/ y añadimos el nuevo host virtual en sites-avaiable, veamos como quedaría el fichero de sites-avaiable.</description>
-    </item>
-    
-    <item>
-      <title>DNS, servidor web y base de datos</title>
-      <link>https://alepeteporico.github.io/practicas/server_web_bbdd_dns/</link>
-      <pubDate>Tue, 16 Mar 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/server_web_bbdd_dns/</guid>
-      <description>Servidor DNS *El servidor DNS estará instalado en freston, por ello instalaremos bind en esta máquina
- root@apolo:~# apt install bind9  *Configuramos el fichero &amp;ldquo;/etc/bind/named.conf.options&amp;rdquo; y añadimos las siguientes líneas:
- listen-on { any; }; allow-transfer { none; }; recursion yes; allow-recursion { any; }; *Configuramos el DNS local, la DMZ y externa en el fichero de configuración /etc/bind/named.conf.local:
-view interna { match-clients { 10.0.1.0/24; 127.0.0.1; }; allow-recursion { any; }; zone &amp;quot;alegv.</description>
     </item>
     
     <item>

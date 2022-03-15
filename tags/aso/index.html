@@ -110,6 +110,21 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/copias/">Copias de seguridad con bacula</a></h4>
+								<h4 class="post-date">2022-03-14</h4>
+							</div>
+							<div class="post-summary"><p>Usaremos la herramienta bacula para realizar nuestro sistema de copias de seguridad, por supuesto el primer paso que debemos tomar es instalar el paquete de bacula, instalaremos el cliente en todas las máquinas de nuestro escenario, aunque usaremos zeus para alojar las copias de seguridad.
+  Para alojar las copias hemos añadido dos discos que vamos a montar en RAID.
+  debian@zeus:~$ df -h Filesystem Size Used Avail Use% Mounted on /dev/md0 9.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/copias/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/selinux/">SElinux</a></h4>
 								<h4 class="post-date">2022-02-18</h4>
 							</div>
@@ -131,21 +146,6 @@
 							<div class="post-summary"><p>Vamos a usar el paquete systemd-journal-remote primero deberemos instalarlo en nuestro servidor principal, hemos escogido zeus y también deberemos instalarlo en nuestros clientes.  debian@zeus:~$ sudo apt install systemd-journal-remote  Vamos a habilitar dos componentes de systemd necesarios para recibir los logs.  debian@zeus:~$ sudo systemctl enable --now systemd-journal-remote.socket Created symlink /etc/systemd/system/sockets.target.wants/systemd-journal-remote.socket -&gt; /lib/systemd/system/systemd-journal-remote.socket. debian@zeus:~$ sudo systemctl enable systemd-journal-remote.service  Y en los clientes también debemos habilitar uno.  [hera@hera ~]$ sudo systemctl enable systemd-journal-upload.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/logs/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/copias/">Copias de seguridad con bacula</a></h4>
-								<h4 class="post-date">2022-01-21</h4>
-							</div>
-							<div class="post-summary"><p>Usaremos la herramienta bacula para realizar nuestro sistema de copias de seguridad, por supuesto el primer paso que debemos tomar es instalar el paquete de bacula, instalaremos el cliente en todas las máquinas de nuestro escenario, aunque usaremos zeus para alojar las copias de seguridad.
-  Para alojar las copias hemos añadido dos discos que vamos a montar en RAID.
-  debian@zeus:~$ df -h Filesystem Size Used Avail Use% Mounted on /dev/md0 9.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/copias/">Read More</a>
 							</div>
 						</div>
 					</li>

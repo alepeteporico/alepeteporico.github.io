@@ -136,6 +136,22 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/server_web_bbdd_dns/">DNS, servidor web y base de datos</a></h4>
+								<h4 class="post-date">2021-12-10</h4>
+							</div>
+							<div class="post-summary"><p>Servidor DNS *El servidor DNS estará instalado en freston, por ello instalaremos bind en esta máquina
+ root@apolo:~# apt install bind9  *Configuramos el fichero &ldquo;/etc/bind/named.conf.options&rdquo; y añadimos las siguientes líneas:
+ listen-on { any; }; allow-transfer { none; }; recursion yes; allow-recursion { any; }; *Configuramos el DNS local, la DMZ y externa en el fichero de configuración /etc/bind/named.conf.local:
+view interna { match-clients { 10.0.1.0/24; 127.0.0.1; }; allow-recursion { any; }; zone &quot;alegv.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/server_web_bbdd_dns/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/dns_ejercicio2/">Instalación y configuración de un servidor DNS esclavo </a></h4>
 								<h4 class="post-date">2021-11-12</h4>
 							</div>
@@ -224,22 +240,6 @@
  debian@nginx:~$ sudo apt install nginx    Comprobamos que podemos acceder perfectamente desde fuera.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/nginx/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/dns/">Servidor DNS</a></h4>
-								<h4 class="post-date">2021-05-10</h4>
-							</div>
-							<div class="post-summary"><p>En nuestra red local tenemos un servidor Web que sirve dos páginas web: www.iesgn.org, departamentos.iesgn.org
-  Vamos a instalar en nuestra red local un servidor DNS (lo puedes instalar en el mismo equipo que tiene el servidor web)
-  Voy a suponer en este documento que el nombre del servidor DNS va a ser pandora.iesgn.org. El nombre del servidor de tu prácticas será tunombre.iesgn.org.
-   DNSmasq Instala el servidor dns dnsmasq en pandora.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/dns/">Read More</a>
 							</div>
 						</div>
 					</li>

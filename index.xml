@@ -6,7 +6,18 @@
     <description>Recent content on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 11 Mar 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 14 Mar 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Copias de seguridad con bacula</title>
+      <link>https://alepeteporico.github.io/practicas/copias/</link>
+      <pubDate>Mon, 14 Mar 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/copias/</guid>
+      <description>Usaremos la herramienta bacula para realizar nuestro sistema de copias de seguridad, por supuesto el primer paso que debemos tomar es instalar el paquete de bacula, instalaremos el cliente en todas las máquinas de nuestro escenario, aunque usaremos zeus para alojar las copias de seguridad.
+  Para alojar las copias hemos añadido dos discos que vamos a montar en RAID.
+  debian@zeus:~$ df -h Filesystem Size Used Avail Use% Mounted on /dev/md0 9.</description>
+    </item>
+    
     <item>
       <title>Ejercicio 4 cortafuegos</title>
       <link>https://alepeteporico.github.io/ejercicios/ejercicio4_cortafuegos/</link>
@@ -97,17 +108,6 @@
     </item>
     
     <item>
-      <title>Copias de seguridad con bacula</title>
-      <link>https://alepeteporico.github.io/practicas/copias/</link>
-      <pubDate>Fri, 21 Jan 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/copias/</guid>
-      <description>Usaremos la herramienta bacula para realizar nuestro sistema de copias de seguridad, por supuesto el primer paso que debemos tomar es instalar el paquete de bacula, instalaremos el cliente en todas las máquinas de nuestro escenario, aunque usaremos zeus para alojar las copias de seguridad.
-  Para alojar las copias hemos añadido dos discos que vamos a montar en RAID.
-  debian@zeus:~$ df -h Filesystem Size Used Avail Use% Mounted on /dev/md0 9.</description>
-    </item>
-    
-    <item>
       <title>Contenedores LXC</title>
       <link>https://alepeteporico.github.io/practicas/lxc/</link>
       <pubDate>Wed, 19 Jan 2022 00:00:00 +0000</pubDate>
@@ -163,6 +163,18 @@
       <description>Realizar un enlace entre dos servidores de bases de datos ORACLE, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.
   Realizar un enlace entre dos servidores de bases de datos Postgres, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.
   Realizar un enlace entre un servidor ORACLE y otro Postgres o MySQL empleando Heterogeneus Services, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.</description>
+    </item>
+    
+    <item>
+      <title>DNS, servidor web y base de datos</title>
+      <link>https://alepeteporico.github.io/practicas/server_web_bbdd_dns/</link>
+      <pubDate>Fri, 10 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/server_web_bbdd_dns/</guid>
+      <description>Servidor DNS *El servidor DNS estará instalado en freston, por ello instalaremos bind en esta máquina
+ root@apolo:~# apt install bind9  *Configuramos el fichero &amp;ldquo;/etc/bind/named.conf.options&amp;rdquo; y añadimos las siguientes líneas:
+ listen-on { any; }; allow-transfer { none; }; recursion yes; allow-recursion { any; }; *Configuramos el DNS local, la DMZ y externa en el fichero de configuración /etc/bind/named.conf.local:
+view interna { match-clients { 10.0.1.0/24; 127.0.0.1; }; allow-recursion { any; }; zone &amp;quot;alegv.</description>
     </item>
     
     <item>
@@ -766,18 +778,6 @@ sudo apt-get install qemu-kvm libvirt-daemon-system Explicación de los paquetes
 Nosotros tenemos nuestra propia red, pero debemos crear dos nuevas para el escenario y añadir las redes conrrespondientes a sus máquinas
 Nuestro siguiente paso será deshabilitar los puertos de Dulcinea que será la máquina que usaremos para conectarnos a las demás y salir al exterior Para este proposito usaremos OpenStack Client alejandrogv@AlejandroGV:~$ source Escritorio/ASIR/hlc/openstackclient/bin/activate source ~/Descargas/Proyecto\ de\ a.gutierrez-openrc.sh
 Ahora listaremos las interfaces que tenemos en nuestro proyecto</description>
-    </item>
-    
-    <item>
-      <title>DNS, servidor web y base de datos</title>
-      <link>https://alepeteporico.github.io/practicas/server_web_bbdd_dns/</link>
-      <pubDate>Tue, 16 Mar 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/server_web_bbdd_dns/</guid>
-      <description>Servidor DNS *El servidor DNS estará instalado en freston, por ello instalaremos bind en esta máquina
- root@apolo:~# apt install bind9  *Configuramos el fichero &amp;ldquo;/etc/bind/named.conf.options&amp;rdquo; y añadimos las siguientes líneas:
- listen-on { any; }; allow-transfer { none; }; recursion yes; allow-recursion { any; }; *Configuramos el DNS local, la DMZ y externa en el fichero de configuración /etc/bind/named.conf.local:
-view interna { match-clients { 10.0.1.0/24; 127.0.0.1; }; allow-recursion { any; }; zone &amp;quot;alegv.</description>
     </item>
     
     <item>

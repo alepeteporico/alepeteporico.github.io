@@ -101,7 +101,7 @@
         <div class="flex-wrapper">
             <div class="container wrapper">
                 <h1><a href="https://alepeteporico.github.io/practicas/copias/">Copias de seguridad con bacula</a></h1>
-                <span class="post-date">2022-01-21 </span>
+                <span class="post-date">2022-03-14 </span>
                 <div class="post-content">
                     <ul>
 <li>
@@ -130,161 +130,605 @@ Filesystem      Size  Used Avail Use% Mounted on
 |   |-- hera
 |   `-- zeus
 </code></pre><ul>
+<li>Nuestro esquema para realizar las copias de seguridad será una copia completa a la semana y una incremental diaria.</li>
+</ul>
+<h2 id="componentes-de-bacula">Componentes de bacula</h2>
+<ul>
 <li>
-<p>Nuestro esquema para realizar las copias de seguridad será una copia completa a la semana y una incremental diaria.</p>
+<p>Director: el server o componente central que ejecuta los jobs.</p>
 </li>
 <li>
-<p>Ahora vamos a dirigirnos a apolo, donde configuraremos nuestro primer cliente usando el fichero <code>/etc/bacula/bacula-fd.conf</code>, aunque todos tendrán la misma configuración.</p>
-<pre><code>  Director {
-    Name = sancho-dir
-    Password = &quot;admin&quot;
-  }
-
-  #
-  # Restricted Director, used by tray-monitor to get the
-  #   status of the file daemon
-  #
-  Director {
-    Name = sancho-mon
-    Password = &quot;admin&quot;
-    Monitor = yes
-  }
-
-  #
-  # &quot;Global&quot; File daemon configuration specifications
-  #
-  FileDaemon {                          # this is me
-    Name = sancho-fd
-    FDport = 9102                  # where we listen for the director
-    WorkingDirectory = /var/lib/bacula
-    Pid Directory = /run/bacula
-    Maximum Concurrent Jobs = 20
-    Plugin Directory = /usr/lib/bacula
-    FDAddress = 10.0.1.6 #Direccion de este daemon
-  }
-
-  # Send all messages except skipped files back to Director
-  Messages {
-    Name = Standard
-    director = sancho-dir = all, !skipped, !restored
-  }
-</code></pre>
+<p>Jobs: tareas, bien de realización de backups o bien de restauración de estos.</p>
 </li>
 <li>
-<p>Instalaremos en Dulcinea el servidor.</p>
-<pre><code>  debian@dulcinea:~$ sudo apt-get install bacula-sd
-</code></pre>
+<p>Bacula-fd: file daemon, o cliente. Sistemas de los que vamos a hacer los backups.</p>
 </li>
 <li>
-<p>Vamos a definir alguna información en el servidor.</p>
-<pre><code>  Storage {                             # definition of myself
-    Name = dulcinea-sd
-    SDPort = 9103                  # Director's port
-    WorkingDirectory = &quot;/var/lib/bacula&quot;
-    Pid Directory = &quot;/run/bacula&quot;
-    Plugin Directory = &quot;/usr/lib/bacula&quot;
-    Maximum Concurrent Jobs = 20
-    SDAddress = 10.0.1.8
-  }
-
-  Director {
-    Name = dulcinea-dir
-    Password = &quot;admin&quot;
-  }
-
-
-  Director {
-    Name = dulcinea-mon
-    Password = &quot;admin&quot;
-    Monitor = yes
-  }
-
-
-  Autochanger {
-    Name = FileAutochanger1
-    Device = Dispositivo
-    Changer Command = &quot;&quot;
-    Changer Device = /dev/null
-  }
-
-  #Definimos el disco de almacenamiento de las copias
-
-  Device {
-    Name = Dispositivo
-    Media Type = File
-    Archive Device = /mnt/backups
-    LabelMedia = yes;                   # lets Bacula label unlabeled media
-    Random Access = Yes;
-    AutomaticMount = yes;               # when device opened, read it
-    RemovableMedia = no;
-    AlwaysOpen = no;
-    Maximum Concurrent Jobs = 5
-  }
-
-  Messages {
-    Name = Standard
-    director = dulcinea-dir = all
-  }
-</code></pre>
+<p>Bacula-sd: storage daemon, o fileserver. Lugar donde se almacenan los backups físicamente.</p>
 </li>
 <li>
-<p>Podemos comprobar que no hay ningún error de sintaxis mediante una herramienta que nos proporciona bacula.</p>
-<pre><code>  debian@dulcinea:~$ sudo bacula-sd /etc/bacula/bacula-sd.conf
-</code></pre>
-</li>
-<li>
-<p>Ahora tenemos que configurar el que es el demonio principal <code>bacula-dir</code> antes de instalarlo tenemos que configurar un servidor mariadb</p>
-<pre><code>  debian@dulcinea:~$ sudo apt-get install mariadb-server mariadb-client
-
-  debian@dulcinea:~$ sudo apt-get install bacula bacula-common-mysql bacula-director-mysql bacula-server
-</code></pre>
-</li>
-<li>
-<p>Una vez instalado lo necesario vamos a configurar el fichero <code>/etc/bacula/bacula-dir.conf</code>.</p>
-<pre><code>  Director {                            # define myself
-    Name = dulcinea-dir
-    DIRport = 9101                # where we listen for UA connections
-    QueryFile = &quot;/etc/bacula/scripts/query.sql&quot;
-    WorkingDirectory = &quot;/var/lib/bacula&quot;
-    PidDirectory = &quot;/run/bacula&quot;
-    Maximum Concurrent Jobs = 20
-    Password = &quot;5aGsxsTfzMQTaN8Vrk8PR2DSBRY29sDOQ&quot;         # Console password
-    Messages = Daemon
-    DirAddress = 10.0.1.8
-  }
-</code></pre>
+<p>Base de datos: aquí se almacenan los metadatos de todas las tareas realizadas.</p>
 </li>
 </ul>
-<p>Job {
-Name = &ldquo;restauracion_dulcinea&rdquo;
-Type = Restore
-Client=dulcinea-fd
-FileSet= &ldquo;Copia_Dulcinea&rdquo;
-Storage = Backup
-Pool = Res-Backup
-Messages = Standard
-}</p>
-<h1 id="quijote">Quijote</h1>
-<p>Job {
-Name = &ldquo;restauracion_quijote&rdquo;
-Type = Restore
-Client=quijote-fd
-FileSet= &ldquo;Copia_Quijote&rdquo;
-Storage = Backup
-Pool = Res-Backup
-Messages = Standard
-}</p>
-<h1 id="freston">Freston</h1>
-<p>Job {
-Name = &ldquo;restauracion_freston&rdquo;
-Type = Restore
-Client=freston-fd
-FileSet= &ldquo;Copia_Freston&rdquo;
-Storage = VolBackup
-Pool = Vol-Backup
-Messages = Standard
-}</p>
+<h2 id="instalación-y-configuración-de-bacula-en-zeus">Instalación y configuración de bacula en zeus.</h2>
+<ul>
+<li>Instalamos bacula.</li>
+</ul>
+<pre><code>debian@zeus:~$ sudo apt install bacula bacula-common-mysql bacula-director-mysql
+</code></pre><ul>
+<li>Vamos a configurar zeus como director de bacula, para ello nos dirigimos al fichero <code>/etc/bacula/bacula-dir.conf</code></li>
+</ul>
+<pre><code>Director {                            # define myself
+  Name = zeus-dir
+  DIRport = 9101                # where we listen for UA connections
+  QueryFile = &quot;/etc/bacula/scripts/query.sql&quot;
+  WorkingDirectory = &quot;/var/lib/bacula&quot;
+  PidDirectory = &quot;/run/bacula&quot;
+  Maximum Concurrent Jobs = 20
+  Password = &quot;admin&quot;         # Console password
+  Messages = Daemon
+  DirAddress = 127.0.0.1
+}
+</code></pre><ul>
+<li>Más adelante nos encontraremos el recurso JobDefs, que es una plantilla de configuración para los trabajos que vayamos a crear mas tarde de parametros que podemos especificar aquí ya que serán comunes a todos. Definiremos dos, uno para las copias incrementales diarias y otro para las copias completas semanales.</li>
+</ul>
+<pre><code>JobDefs {
+  Name = &quot;CopiaDiaria&quot;
+  Type = Backup
+  Level = Incremental
+  Client = zeus-fd
+  FileSet = &quot;Full Set&quot;
+  Schedule = &quot;Daily&quot;
+  Storage = volcopias
+  Messages = Standard
+  Pool = Daily
+  SpoolAttributes = yes
+  Priority = 10
+  Write Bootstrap = &quot;/var/lib/bacula/%c.bsr&quot;
+}
 
+JobDefs {
+  Name = &quot;CopiaSemanal&quot;
+  Type = Backup
+  Level = Full
+  Client = zeus-fd
+  FileSet = &quot;Full Set&quot;
+  Schedule = &quot;Weekly&quot;
+  Storage = volcopias
+  Messages = Standard
+  Pool = Weekly
+  SpoolAttributes = yes
+  Priority = 10
+  Write Bootstrap = &quot;/var/lib/bacula/%c.bsr&quot;
+}
+</code></pre><ul>
+<li>Ahora definiremos los jobs que usarán esta plantilla, dos para cada maquina.</li>
+</ul>
+<pre><code># Zeus
+Job {
+  Name = &quot;Zeus-Diario&quot;
+  Client = &quot;zeus-fd&quot;
+  JobDefs = &quot;CopiaDiaria&quot;
+  FileSet= &quot;Zeus-Datos&quot;
+}
+
+Job {
+  Name = &quot;Zeus-Semanal&quot;
+  Client = &quot;zeus-fd&quot;
+  JobDefs = &quot;CopiaSemanal&quot;
+  FileSet= &quot;Zeus-Datos&quot;
+}
+
+# Ares
+Job {
+  Name = &quot;Ares-Diario&quot;
+  Client = &quot;ares-fd&quot;
+  JobDefs = &quot;CopiaDiaria&quot;
+  FileSet= &quot;Ares-Datos&quot;
+}
+
+Job {
+  Name = &quot;Ares-Semanal&quot;
+  Client = &quot;ares-fd&quot;
+  JobDefs = &quot;CopiaSemanal&quot;
+  FileSet= &quot;Ares-Datos&quot;
+}
+
+# Apolo
+Job {
+  Name = &quot;Apolo-Diario&quot;
+  Client = &quot;apolo-fd&quot;
+  JobDefs = &quot;CopiaDiaria&quot;
+  FileSet= &quot;Apolo-Datos&quot;
+}
+
+Job {
+  Name = &quot;Apolo-Semanal&quot;
+  Client = &quot;apolo-fd&quot;
+  JobDefs = &quot;CopiaSemanal&quot;
+  FileSet= &quot;Apolo-Datos&quot;
+}
+
+# Hera
+Job {
+  Name = &quot;Hera-Diario&quot;
+  Client = &quot;hera-fd&quot;
+  JobDefs = &quot;CopiaDiaria&quot;
+  FileSet= &quot;Hera-Datos&quot;
+}
+
+Job {
+  Name = &quot;Hera-Semanal&quot;
+  Client = &quot;hera-fd&quot;
+  JobDefs = &quot;CopiaSemanal&quot;
+  FileSet= &quot;Hera-Datos&quot;
+}
+</code></pre><ul>
+<li>Los jobs que hemos creado son para crear las copias de seguridad, pero necesitamos tambien los de restauración.</li>
+</ul>
+<pre><code># Zeus
+Job {
+  Name = &quot;ZeusRestore&quot;
+  Type = Restore
+  Client=zeus-fd
+  Storage = volcopias
+  FileSet=&quot;Zeus-Datos&quot;
+  Pool = Backup-Restore
+  Messages = Standard
+}
+
+# Ares
+Job {
+  Name = &quot;AresRestore&quot;
+  Type = Restore
+  Client=ares-fd
+  Storage = volcopias
+  FileSet=&quot;Ares-Datos&quot;
+  Pool = Backup-Restore
+  Messages = Standard
+}
+
+# Apolo
+Job {
+  Name = &quot;ApoloRestore&quot;
+  Type = Restore
+  Client=apolo-fd
+  Storage = volcopias
+  FileSet=&quot;Apolo-Datos&quot;
+  Pool = Backup-Restore
+  Messages = Standard
+}
+
+# Hera
+Job {
+  Name = &quot;HeraRestore&quot;
+  Type = Restore
+  Client=hera-fd
+  Storage = volcopias
+  FileSet=&quot;Hera-Datos&quot;
+  Pool = Backup-Restore
+  Messages = Standard
+}
+</code></pre><ul>
+<li>Ahora en el apartado FileSet definiremos los directorios que queremos que sean copiados y cuales excluidos. También añadiremos, si queremos, la compresion y de que tipo será.</li>
+</ul>
+<pre><code>FileSet {
+ Name = &quot;Full Set&quot;
+ Include {
+   Options {
+     signature = MD5
+     compression = GZIP
+   }
+   File = /home
+   File = /etc
+   File = /var
+   File = /usr/share
+ }
+ Exclude {
+    File = /var/lib/bacula
+    File = /nonexistant/path/to/file/archive/dir
+    File = /proc
+    File = /etc/fstab
+    File = /var/run/systemd/generator
+    File = /tmp
+    File = /sys
+    File = /.journal
+    File = /.fsck
+  }
+}
+
+# Zeus
+FileSet {
+ Name = &quot;Zeus-Datos&quot;
+ Include {
+   Options {
+     signature = MD5
+     compression = GZIP
+   }
+   File = /home
+   File = /etc
+   File = /var
+   File = /usr/share 
+}
+ Exclude {
+   File = /var/lib/bacula
+   File = /nonexistant/path/to/file/archive/dir
+   File = /proc
+   File = /etc/fstab
+   File = /var/run/systemd/generator
+   File = /var/cache
+   File = /var/tmp
+   File = /tmp
+   File = /sys
+   File = /.journal
+   File = /.fsck
+ }
+}
+
+# Ares
+FileSet {
+ Name = &quot;Ares-Datos&quot;
+ Include {
+   Options {
+     signature = MD5
+     compression = GZIP
+   }
+   File = /home
+   File = /etc
+   File = /var
+   File = /opt
+   File = /usr/share
+ }
+ Exclude {
+   File = /nonexistant/path/to/file/archive/dir
+   File = /proc
+   File = /var/cache
+   File = /var/tmp
+   File = /etc/fstab
+   File = /var/run/systemd/generator
+   File = /tmp
+   File = /sys
+   File = /.journal
+   File = /.fsck
+ }
+}
+
+# Apolo
+FileSet {
+ Name = &quot;Apolo-Datos&quot;
+ Include {
+   Options {
+     signature = MD5
+     compression = GZIP
+   }
+   File = /home
+   File = /etc
+   File = /var
+   File = /opt
+   File = /usr/share
+ }
+ Exclude {
+   File = /var/lib/bacula
+   File = /nonexistant/path/to/file/archive/dir
+   File = /proc
+   File = /etc/fstab
+   File = /var/run/systemd/generator
+   File = /var/tmp
+   File = /tmp
+   File = /sys
+   File = /.journal
+   File = /.fsck
+ }
+}
+
+# Hera
+FileSet {
+ Name = &quot;Hera-Datos&quot;
+ Include {
+   Options {
+     signature = MD5
+     compression = GZIP
+   }
+   File = /home
+   File = /etc
+   File = /var
+   File = /usr/share
+ }
+ Exclude {
+   File = /var/lib/bacula
+   File = /nonexistant/path/to/file/archive/dir
+   File = /proc
+   File = /etc/fstab
+   File = /var/run/systemd/generator
+   File = /var/tmp
+   File = /tmp
+   File = /sys
+   File = /.journal
+   File = /.fsck
+ }
+}
+</code></pre><ul>
+<li>Ahora pasamos al apartado Schedule, el cual definirá el periodo de tiempo en que se realizará cada copia.</li>
+</ul>
+<pre><code>Schedule {
+ Name = &quot;Daily&quot;
+ Run = Level=Incremental Pool=Daily daily at 10:00
+}
+
+Schedule {
+ Name = &quot;Weekly&quot;
+ Run = Level=Full Pool=Weekly mon at 10:30
+}
+</code></pre><ul>
+<li>Debemos definir los clientes</li>
+</ul>
+<pre><code># Zeus
+Client {
+ Name = zeus-fd
+ Address = 10.0.1.1
+ FDPort = 9102
+ Catalog = MyCatalog
+ Password = &quot;admin&quot;
+ File Retention = 60 days
+ Job Retention = 6 months
+ AutoPrune = yes
+}
+
+# Ares
+Client {
+ Name = ares-fd
+ Address = 10.0.1.101
+ FDPort = 9102
+ Catalog = MyCatalog
+ Password = &quot;admin&quot;
+ File Retention = 60 days
+ Job Retention = 6 months
+ AutoPrune = yes
+}
+
+# Apolo
+Client {
+ Name = apolo-fd
+ Address = 10.0.1.102
+ FDPort = 9102
+ Catalog = MyCatalog
+ Password = &quot;admin&quot;
+ File Retention = 60 days
+ Job Retention = 6 months
+ AutoPrune = yes
+}
+
+# Hera
+Client {
+ Name = hera-fd
+ Address = 172.16.0.200
+ FDPort = 9102
+ Catalog = MyCatalog
+ Password = &quot;admin&quot;
+ File Retention = 60 days
+ Job Retention = 6 months
+ AutoPrune = yes
+}
+</code></pre><ul>
+<li>Pasamos con el almacenamiento, primero debemos definir que tipo de almacenamiento queremos.</li>
+</ul>
+<pre><code>Storage {
+  Name = volcopias
+  Address = 10.0.1.1 
+  SDPort = 9103
+  Password = &quot;admin&quot;
+  Device = FileChgr1  
+  Media Type = File
+  Maximum Concurrent Jobs = 10
+}
+</code></pre><ul>
+<li>Saltamos a catalog, donde pondremos las crendenciales de la base de datos.</li>
+</ul>
+<pre><code>Catalog {
+  Name = MyCatalog
+  dbname = &quot;bacula&quot;; DB Address = &quot;localhost&quot;; dbuser = &quot;bacula&quot;; dbpassword = &quot;admin&quot;
+}
+</code></pre><ul>
+<li>Y el último apartado que configuraremos serán los pool.</li>
+</ul>
+<pre><code>Pool {
+  Name = Daily
+  Pool Type = Backup
+  Recycle = yes
+  AutoPrune = yes
+  Volume Retention = 8d
+}
+
+Pool {
+  Name = Weekly
+  Pool Type = Backup
+  Recycle = yes
+  AutoPrune = yes
+  Volume Retention = 32d
+}
+
+Pool {
+  Name = Backup-Restore
+  Pool Type = Backup
+  Recycle = yes
+  AutoPrune = yes
+  Volume Retention = 366 days
+  Maximum Volume Bytes = 50G
+  Maximum Volumes = 100
+  Label Format = &quot;Remoto&quot;
+}
+</code></pre><p><strong>IMPORTANTE: PUEDES ELIMANAR TODO LO RESTANTE DEL FICHERO QUE VIENE PREDEFINIDO EXCEPTO LOS APARTADOS DE MESSAGE, ESTOS PUEDEN CONFIGURARSE PARA ENVIAR MENSAJES, EN NUESTRO CASO LO DEJAREMOS POR DEFECTO.</strong></p>
+<ul>
+<li>Una vez terminada la configuración de este fichero vamos a dirigirnos a <code>/etc/bacula/bacula-sd.conf</code> donde configuraremos mas detalladamente donde se almacenarán las copias.</li>
+</ul>
+<pre><code>Storage {
+  Name = zeus-sd
+  SDPort = 9103
+  WorkingDirectory = &quot;/var/lib/bacula&quot;
+  Pid Directory = &quot;/run/bacula&quot;
+  Plugin Directory = &quot;/usr/lib/bacula&quot;
+  Maximum Concurrent Jobs = 20
+  SDAddress = 10.0.1.1
+}
+</code></pre><ul>
+<li>Pasemos al apartado Director, definiremos dos, uno para definir los directores autorizados a ejecutar el demonio del almacenamiento y otro que indicará cual puede monitorizarlo.</li>
+</ul>
+<pre><code>Director {
+  Name = zeus-dir
+  Password = &quot;bacula&quot;
+}
+
+Director {
+  Name = zeus-mon
+  Password = &quot;bacula&quot;
+  Monitor = yes
+}
+</code></pre><ul>
+<li>A continuacion tenemos el autochanger, que hace referencia a uno de los apartados anteriores del director.</li>
+</ul>
+<pre><code>Autochanger {
+  Name = FileChgr1
+  Device = FileStorage
+  Changer Command = &quot;&quot;
+  Changer Device = /dev/null
+}
+</code></pre><ul>
+<li>Y device, que también hace referencia y es donde definiremos donde se encuentra el volumen en el que realizaremos las copias.</li>
+</ul>
+<pre><code>Device {
+  Name = FileStorage
+  Media Type = File
+  Archive Device = /mnt/copias/  
+  LabelMedia = yes;
+  Random Access = Yes;
+  AutomaticMount = yes;
+  RemovableMedia = no;
+  AlwaysOpen = no;
+  Maximum Concurrent Jobs = 5
+}
+</code></pre><ul>
+<li>Una vez terminado, debemos reiniciar el servicio y habilitarlo.</li>
+</ul>
+<pre><code>debian@zeus:~$ sudo systemctl restart bacula-sd.service
+debian@zeus:~$ sudo systemctl enable bacula-sd.service
+Synchronizing state of bacula-sd.service with SysV service script with /lib/systemd/systemd-sysv-install.
+Executing: /lib/systemd/systemd-sysv-install enable bacula-sd
+debian@zeus:~$ sudo systemctl restart bacula-director.service
+debian@zeus:~$ sudo systemctl enable bacula-director.service
+Synchronizing state of bacula-director.service with SysV service script with /lib/systemd/systemd-sysv-install.
+Executing: /lib/systemd/systemd-sysv-install enable bacula-director
+</code></pre><h2 id="clientes">Clientes</h2>
+<ul>
+<li>Ya tenemos instalado nuestro servidor, ahora configuraremos los clientes.</li>
+</ul>
+<h3 id="zeus">Zeus</h3>
+<ul>
+<li>Aunque zeus sea el servidor tambien queremos hacer copias de el, por ello vamos a configurarlo, aquí ya tenemos instalado bacula-client, por lo que directamente nos dirigimos a <code>/etc/bacula/bacula-fd.conf</code> y definimos los parametros necesarios.</li>
+</ul>
+<pre><code>Director {
+  Name = zeus-dir
+  Password = &quot;admin&quot;
+}
+
+Director {
+  Name = zeus-mon
+  Password = &quot;admin&quot;
+  Monitor = yes
+}
+
+FileDaemon {
+  Name = ares-fd
+  FDport = 9102
+  WorkingDirectory = /var/lib/bacula
+  Pid Directory = /run/bacula
+  Maximum Concurrent Jobs = 20
+  Plugin Directory = /usr/lib/bacula
+  FDAddress = 10.0.1.1
+}
+
+Messages {
+  Name = Standard
+  director = zeus-dir = all, !skipped, !restored
+}
+</code></pre><h3 id="ares">Ares.</h3>
+<pre><code>Director {
+  Name = zeus-dir
+  Password = &quot;admin&quot;
+}
+
+Director {
+  Name = zeus-mon
+  Password = &quot;admin&quot;
+  Monitor = yes
+}
+
+FileDaemon {
+  Name = ares-fd
+  FDport = 9102
+  WorkingDirectory = /var/lib/bacula
+  Pid Directory = /run/bacula
+  Maximum Concurrent Jobs = 20
+  Plugin Directory = /usr/lib/bacula
+  FDAddress = 10.0.1.101
+}
+
+Messages {
+  Name = Standard
+  director = zeus-dir = all, !skipped, !restored
+}
+</code></pre><h3 id="apolo">Apolo</h3>
+<pre><code>Director {
+  Name = zeus-dir
+  Password = &quot;admin&quot;
+}
+
+Director {
+  Name = zeus-mon
+  Password = &quot;admin&quot;
+  Monitor = yes
+}
+
+FileDaemon {
+  Name = apolo-fd
+  FDport = 9102
+  WorkingDirectory = /var/lib/bacula
+  Pid Directory = /run/bacula
+  Maximum Concurrent Jobs = 20
+  Plugin Directory = /usr/lib/bacula
+  FDAddress = 10.0.1.102
+}
+
+Messages {
+  Name = Standard
+  director = zeus-dir = all, !skipped, !restored
+}
+</code></pre><h3 id="hera">Hera</h3>
+<pre><code>Director {
+  Name = zeus-dir
+  Password = &quot;admin&quot;
+}
+
+Director {
+  Name = zeus-mon
+  Password = &quot;admin&quot;
+  Monitor = yes
+}
+
+FileDaemon {
+  Name = hera-fd
+  FDport = 9102
+  WorkingDirectory = /var/lib/bacula
+  Pid Directory = /run/bacula
+  Maximum Concurrent Jobs = 20
+  Plugin Directory = /usr/lib/bacula
+  FDAddress = 172.16.0.200
+}
+
+Messages {
+  Name = Standard
+  director = zeus-dir = all, !skipped, !restored
+}
+</code></pre>
                 </div>
                 
                 <div class="post-comments">

@@ -105,7 +105,7 @@
                 <div class="post-content">
                     <hr>
 <h3 id="vamos-a-realizar-e-implementar-una-aplicación-web-estática-para-ello-usaremos-el-generador-de-páginas-estáticas-jekyll-y-usaremos-para-implementarlo-surge">Vamos a realizar e implementar una aplicación web estática, para ello usaremos el generador de páginas estáticas <code>jekyll</code> y usaremos para implementarlo <code>surge</code>.</h3>
-<h1 id="jekyll"><strong>jekyll</strong></h1>
+<h2 id="jekyll">jekyll</h2>
 <ul>
 <li>Para la instalación de jekyll primero debemos asegurarnos de tener instalado ruby y algunas dependencias ya que la aplicación está escrita en este lenguaje.</li>
 </ul>
@@ -135,14 +135,142 @@
 
 1 directory, 8 files
 </code></pre><ul>
+<li>Vamos a ejecutar esta web</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/jekyll/jekyll_dinamico$ bundle exec jekyll serve
+Configuration file: /home/alejandrogv/Escritorio/ASIR/IWEB/jekyll/jekyll_dinamico/_config.yml
+            Source: /home/alejandrogv/Escritorio/ASIR/IWEB/jekyll/jekyll_dinamico
+       Destination: /home/alejandrogv/Escritorio/ASIR/IWEB/jekyll/jekyll_dinamico/_site
+ Incremental build: disabled. Enable with --incremental
+      Generating... 
+       Jekyll Feed: Generating feed for posts
+                    done in 0.366 seconds.
+ Auto-regeneration: enabled for '/home/alejandrogv/Escritorio/ASIR/IWEB/jekyll/jekyll_dinamico'
+    Server address: http://127.0.0.1:4000/
+  Server running... press ctrl-c to stop.
+</code></pre><ul>
+<li>Si entramos a la URL que aparece podremos ver la pagina de prueba.</li>
+</ul>
+<p><img src="/web_estatica2021/1.png" alt="ejemplo"></p>
+<ul>
 <li>
-<p>Ahora escogemos una plantilla de <a href="https://jekyllthemes.io/">la pagina oficial de jekyll</a> en mi caso es escogido el tema <a href="https://github.com/mmistakes/minimal-mistakes">minimal mistakes</a></p>
+<p>Ya hemos visto la web que se crea por defecto y que podriamos modifcar, sin embargo, nosotros vamos a escoger una plantilla de <a href="https://jekyllthemes.io/">la pagina oficial de jekyll</a> en mi caso es escogido el tema <a href="https://github.com/daattali/beautiful-jekyll.git">minimal mistakes</a></p>
 </li>
 <li>
 <p>Debemos leer en el repositorio el fichero <code>README</code>, ahí se nos darán los pasos necesarios para instalar este tema.</p>
 </li>
+<li>
+<p>El primer paso para este tema sera instalar dos gems de ruby.</p>
+</li>
 </ul>
+<pre><code>sudo gem install jekyll bundler
+</code></pre><ul>
+<li>Clonamos el repositorio.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/jekyll$ git clone https://github.com/daattali/beautiful-jekyll.git
+Clonando en 'beautiful-jekyll'...
+remote: Enumerating objects: 3847, done.
+remote: Total 3847 (delta 0), reused 0 (delta 0), pack-reused 3847
+Recibiendo objetos: 100% (3847/3847), 4.68 MiB | 2.07 MiB/s, listo.
+Resolviendo deltas: 100% (2139/2139), listo.
+</code></pre><ul>
+<li>En el fichero <code>_config.yml</code> añadimos este tema al theme.</li>
+</ul>
+<pre><code>theme: beautiful-jekyll-theme
+</code></pre><ul>
+<li>Si quisiermos iniciar el servidor vemos que nos da un error.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/jekyll/beautiful-jekyll$ bundle exec jekyll server
+Could not find gem 'rake (~&gt; 12.0)' in locally installed gems.
 
+The source contains the following gems matching 'rake':
+  * rake-13.0.3
+  * rake-13.0.6
+</code></pre><ul>
+<li>Como nos indica debemo ejecutar <code>bundle install</code> para instalar las gemas necesarias.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/jekyll/beautiful-jekyll$ bundle install
+Fetching gem metadata from https://rubygems.org/..........
+Resolving dependencies...
+Following files may not be writable, so sudo is needed:
+  /usr/local/bin
+  /var/lib/gems/2.7.0
+  /var/lib/gems/2.7.0/build_info
+  /var/lib/gems/2.7.0/cache
+  /var/lib/gems/2.7.0/doc
+  /var/lib/gems/2.7.0/extensions
+  /var/lib/gems/2.7.0/gems
+  /var/lib/gems/2.7.0/plugins
+  /var/lib/gems/2.7.0/specifications
+Fetching rake 12.3.3
+...
+...
+...
+</code></pre><ul>
+<li>Al ejectuar este servidor vemos la plantilla que hemos descargado.</li>
+</ul>
+<p><img src="/web_estatica2021/1.png" alt="ejemplo"></p>
+<ul>
+<li>Modificamos un poco los ficheros, la pagina principal estará en el fichero <code>_config.yml</code> y podremos añadir posts en la carpeta <code>_posts</code>.</li>
+</ul>
+<p><img src="/web_estatica2021/3.png" alt="ejemplo"></p>
+<ul>
+<li>
+<p>Hemos añadido a nuestro github este <a href="https://github.com/alepeteporico/blog_jekyll">repositorio</a></p>
+</li>
+<li>
+<p>Pero para poder implementar nuestra web debemos generar el contenido estatico.</p>
+</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/jekyll/blog_jekyll$ bundle exec jekyll build
+Configuration file: /home/alejandrogv/Escritorio/ASIR/IWEB/jekyll/blog_jekyll/_config.yml
+            Source: /home/alejandrogv/Escritorio/ASIR/IWEB/jekyll/blog_jekyll
+       Destination: /home/alejandrogv/Escritorio/ASIR/IWEB/jekyll/blog_jekyll/_site
+ Incremental build: disabled. Enable with --incremental
+      Generating... 
+                    done in 0.934 seconds.
+ Auto-regeneration: disabled. Use --watch to enable.
+</code></pre><ul>
+<li>esto creará una carpeta llamada <code>_site</code> que será la que implementemos.</li>
+</ul>
+<h2 id="surge">Surge</h2>
+<ul>
+<li>Ahora tenemos que implementar nuestra web de forma estatica, esto lo haremos mediante surge, para ello lo instalaremos primero.</li>
+</ul>
+<pre><code>sudo npm install --global surge
+</code></pre><ul>
+<li>Y la implementamos, tendremos que especificar el directorio y el dominio.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/jekyll/blog_jekyll$ surge
+
+   Running as tojandro@gmail.com (Student)
+
+        project: /home/alejandrogv/Escritorio/ASIR/IWEB/jekyll/blog_jekyll/
+         domain: alepeteporico.surge.sh
+         upload: [====================] 100% eta: 0.0s (87 files, 4038235 bytes)
+            CDN: [====================] 100%
+     encryption: *.surge.sh, surge.sh (41 days)
+             IP: 138.197.235.123
+
+   Success! - Published to alepeteporico.surge.sh
+</code></pre><ul>
+<li>Y ya estará desplegada nuestra web.</li>
+</ul>
+<p><img src="/web_estatica2021/3.png" alt="ejemplo"></p>
+<h2 id="script">Script</h2>
+<ul>
+<li>Este es el script que automatiza la generacion estatica, despliega y hace un commit en el repositorio de github.</li>
+</ul>
+<pre><code>read -p &quot;¿Cual va a ser el commit? &quot; comentario
+
+cd blog_jekyll
+git add .
+git commit -am &quot;$comentario&quot;
+git push
+
+bundle exec jekyll build
+surge _site/ alepeteporico.surge.sh
+</code></pre>
                 </div>
                 
                 <div class="post-comments">
