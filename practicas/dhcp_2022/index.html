@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Servidor DHCP 2022 &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.80.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://alepeteporico.github.io/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/practicas/dhcp_2022/">Servidor DHCP 2022</a></h1>
+                <span class="post-date">2022-03-16 </span>
+                <div class="post-content">
+                    <h3 id="creación-del-escenario">Creación del escenario</h3>
+<ul>
+<li>Primero creamos la imagen inicial.</li>
+</ul>
+<pre><code>virt-install --connect qemu:///system --cdrom /home/alejandrogv/Escritorio/ISOS/debian-11.1.0-amd64-netinst.iso --network network=bridge --name servidor --memory 1024 --vcpus 1 --disk size=10
+</code></pre><ul>
+<li>Ahora con el volumen que se ha creado crearemos las imagenes de los clientes y el servidor.</li>
+</ul>
+<pre><code>sudo qemu-img create -b /var/lib/libvirt/images/servidor.qcow2 -f qcow2 /var/lib/libvirt/images/server.qcow2
+
+sudo qemu-img create -b /var/lib/libvirt/images/servidor.qcow2 -f qcow2 /var/lib/libvirt/images/cliente1.qcow2
+
+sudo qemu-img create -b /var/lib/libvirt/images/servidor.qcow2 -f qcow2 /var/lib/libvirt/images/cliente2.qcow2
+</code></pre><ul>
+<li>Y creamos las máquinas a partir de estas imagenes</li>
+</ul>
+<pre><code>sudo virt-install --connect qemu:///system --name server --memory 1024 --vcpus 1 --disk /var/lib/libvirt/images/server.qcow2 --import
+
+sudo virt-install --connect qemu:///system --name cliente1 --memory 1024 --vcpus 1 --disk /var/lib/libvirt/images/cliente1.qcow2 --import
+
+sudo virt-install --connect qemu:///system --name cliente2 --memory 1024 --vcpus 1 --disk /var/lib/libvirt/images/cliente2.qcow2 --import
+</code></pre><ul>
+<li>Hemos creado dos redes muy aisladas que vamos a añadir al servidor y los distintos clientes.</li>
+</ul>
+<pre><code>virsh -c qemu:///system attach-interface --domain server --persistent network dhcp1
+virsh -c qemu:///system attach-interface --domain server --persistent network dhcp2
+
+virsh -c qemu:///system attach-interface --domain cliente1 --persistent network dhcp1
+virsh -c qemu:///system attach-interface --domain cliente2 --persistent network dhcp2
+</code></pre><h3 id="configuración-del-servidor-dhcp">Configuración del servidor dhcp.</h3>
+<ul>
+<li>Primero instalamos el servicio.</li>
+</ul>
+<pre><code>apt install isc-dhcp-server
+</code></pre><ul>
+<li>Nos dirigimos al fichero <code>/etc/default/isc-dhcp-server</code> y añadimos las dos interfaces que usaremos para esta práctica.</li>
+</ul>
+<pre><code>INTERFACESv4=&quot;ens8 ens9&quot;
+</code></pre><ul>
+<li>Ahora vamos al fichero <code>/etc/dhcp/dhcpd.conf</code> donde añadiremos la concesión de las dos redes.</li>
+</ul>
+<pre><code>subnet 192.168.100.0 netmask 255.255.255.0 {
+  range 192.168.100.2 192.168.100.253;
+  option domain-name-servers 1.1.1.1, 1.0.0.1;
+  option routers 192.168.100.1;
+  option broadcast-address 192.168.100.253;
+  default-lease-time 43200;
+  max-lease-time 43200;
+}
+
+subnet 192.168.200.0 netmask 255.255.255.0 {
+  range 192.168.200.2 192.168.200.253;
+  option domain-name-servers 1.1.1.1, 1.0.0.1;
+  option routers 192.168.200.1;
+  option broadcast-address 192.168.200.253;
+  default-lease-time 3600;
+  max-lease-time 3600;
+}
+</code></pre><ul>
+<li>Reiniciamos el servicio. Y entramos en los clientes para configurar su interfaz tal que así en ambos.</li>
+</ul>
+<pre><code>auto ens8
+allow-hotplug ens8
+iface ens8 inet dhcp
+</code></pre><ul>
+<li>Al reiniciar los clientes comprobamos que se la ha concedido dirección.</li>
+</ul>
+<pre><code>debian@debian:~$ ip a
+
+2: ens8: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 52:54:00:81:11:a4 brd ff:ff:ff:ff:ff:ff
+    altname enp0s8
+    inet 192.168.100.2/24 brd 192.168.100.253 scope global dynamic ens8
+       valid_lft 43139sec preferred_lft 43139sec
+    inet6 fe80::5054:ff:fe81:11a4/64 scope link 
+       valid_lft forever preferred_lft forever
+
+debian@debian:~$ ip a
+
+2: ens8: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 52:54:00:21:6e:04 brd ff:ff:ff:ff:ff:ff
+    altname enp0s8
+    inet 192.168.200.2/24 brd 192.168.200.253 scope global dynamic ens8
+       valid_lft 43132sec preferred_lft 43132sec
+    inet6 fe80::5054:ff:fe21:6e04/64 scope link 
+       valid_lft forever preferred_lft forever
+</code></pre><ul>
+<li>Vamos a visualizar la lista de concesiones, que se encuentra en <code>/var/lib/dhcp/dhcp.leases</code>.</li>
+</ul>
+<pre><code>lease 192.168.100.2 {
+  starts 1 2022/03/21 09:56:06;
+  ends 1 2022/03/21 21:56:06;
+  cltt 1 2022/03/21 09:56:06;
+  binding state active;
+  next binding state free;
+  rewind binding state free;
+  hardware ethernet 52:54:00:81:11:a4;
+  uid &quot;\377\000\201\021\244\000\001\000\001)\313\0106RT\000\201\021\244&quot;;
+  client-hostname &quot;debian&quot;;
+}
+lease 192.168.200.2 {
+  starts 1 2022/03/21 09:56:52;
+  ends 1 2022/03/21 10:56:52;
+  cltt 1 2022/03/21 09:56:52;
+  binding state active;
+  next binding state free;
+  rewind binding state free;
+  hardware ethernet 52:54:00:21:6e:04;
+  uid &quot;\377\000!n\004\000\001\000\001)\313\010dRT\000!n\004&quot;;
+  client-hostname &quot;debian&quot;;
+}
+</code></pre><h3 id="configuración-de-snat">Configuración de SNAT.</h3>
+<ul>
+<li>Vamos a hacer que el servidor sirva como router y NAT, para ello lo primero que tenemos que hacer es activar el bit de forwarding.</li>
+</ul>
+<pre><code>root@debian:~# echo 1 &gt; /proc/sys/net/ipv4/ip_forward
+</code></pre><ul>
+<li>Y añadimos la regla de iptables que nos servirá como SNAT.</li>
+</ul>
+<pre><code>root@debian:~# iptables -t nat -A POSTROUTING -s 192.168.100.0/24 -o ens8 -j MASQUERADE
+root@debian:~# iptables -t nat -A POSTROUTING -s 192.168.200.0/24 -o ens9 -j MASQUERADE
+</code></pre><ul>
+<li>Hacemos ping desde los clientes a fuera.</li>
+</ul>
+<pre><code>debian@debian:~$ ping www.google.es
+PING www.google.es (142.250.185.3) 56(84) bytes of data.
+64 bytes from mad41s11-in-f3.1e100.net (142.250.185.3): icmp_seq=1 ttl=113 time=48.7 ms
+64 bytes from mad41s11-in-f3.1e100.net (142.250.185.3): icmp_seq=2 ttl=113 time=47.5 ms
+^C
+--- www.google.es ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 47.465/48.079/48.693/0.614 ms
+</code></pre><ul>
+<li>Vamos a ver las rutas.</li>
+</ul>
+<pre><code>debian@debian:~$ ip r
+default via 192.168.100.1 dev ens8 
+192.168.100.0/24 dev ens8 proto kernel scope link src 192.168.100.2
+
+debian@debian:~$ ip r
+default via 192.168.200.1 dev ens8 
+192.168.200.0/24 dev ens8 proto kernel scope link src 192.168.200.2
+
+root@debian:~# ip r
+default via 172.22.0.1 dev ens3 
+172.22.0.0/16 dev ens3 proto kernel scope link src 172.22.9.142 
+192.168.100.0/24 dev ens8 proto kernel scope link src 192.168.100.1 
+192.168.200.0/24 dev ens9 proto kernel scope link src 192.168.200.1
+</code></pre><h3 id="los-clientes-toman-una-configuración-y-a-continuación-apagamos-el-servidor-dhcphttpsyoutubejjnvnotwtp0-qué-ocurre-con-el-cliente-windows-y-con-el-cliente-linux">Los clientes toman una configuración, y a continuación <a href="https://youtu.be/JJNVnoTwtP0">apagamos el servidor dhcp</a>. ¿qué ocurre con el cliente windows? ¿Y con el cliente linux?</h3>
+<h3 id="los-clientes-toman-una-configuración-y-a-continuación-cambiamos-la-configuración-del-servidor-dhcphttpsyoutubebsoo-1icjla-por-ejemplo-el-rango-qué-ocurriría-con-un-cliente-windows-y-con-el-cliente-linux">Los clientes toman una configuración, y a continuación <a href="https://youtu.be/Bsoo-1iCjLA">cambiamos la configuración del servidor dhcp</a> (por ejemplo el rango). ¿qué ocurriría con un cliente windows? ¿Y con el cliente linux?</h3>
+<h3 id="realiza-un-playbook-con-ansible-que-configure-de-forma-automática-el-servidor-para-que-haga-de-servidor-dhcp-y-de-router-nat">Realiza un playbook con ansible que configure de forma automática el servidor, para que haga de servidor DHCP y de router-NAT</h3>
+<ul>
+<li><a href="">URL del repositorio</a></li>
+</ul>
+
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2022 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>
