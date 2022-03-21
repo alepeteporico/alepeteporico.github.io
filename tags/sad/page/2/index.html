@@ -110,6 +110,22 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cortafuegos_antiguo/">Cortafuegos - OpenStack</a></h4>
+								<h4 class="post-date">2021-06-07</h4>
+							</div>
+							<div class="post-summary"><p>Nuestro primer paso será instalar nftables.
+ debian@dulcinea:~$ sudo apt install nftables    Activamos y habilitamos este servicio.
+ debian@dulcinea:~$ sudo systemctl start nftables debian@dulcinea:~$ sudo systemctl enable nftables    Configuraremos la política por defecto a DROP.
+ nft chain inet filter input { policy drop \; } nft chain inet filter forward { policy drop \; } nft chain inet filter output { policy drop \; }    Añadimos las reglas de NAT.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/cortafuegos_antiguo/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/https_openstack/">OpenStack: Configuración HTTPS</a></h4>
 								<h4 class="post-date">2021-05-27</h4>
 							</div>

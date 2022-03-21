@@ -31,10 +31,8 @@
       <pubDate>Fri, 10 Dec 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/server_web_bbdd_dns/</guid>
-      <description>Servidor DNS *El servidor DNS estará instalado en freston, por ello instalaremos bind en esta máquina
- root@apolo:~# apt install bind9  *Configuramos el fichero &amp;ldquo;/etc/bind/named.conf.options&amp;rdquo; y añadimos las siguientes líneas:
- listen-on { any; }; allow-transfer { none; }; recursion yes; allow-recursion { any; }; *Configuramos el DNS local, la DMZ y externa en el fichero de configuración /etc/bind/named.conf.local:
-view interna { match-clients { 10.0.1.0/24; 127.0.0.1; }; allow-recursion { any; }; zone &amp;quot;alegv.</description>
+      <description>Servidor DNS  Configuramos el fichero &amp;ldquo;/etc/bind/named.conf.options&amp;rdquo; y añadimos las siguientes líneas:   listen-on { any; }; allow-transfer { none; }; recursion yes; allow-recursion { any; }; *Configuramos el DNS local, la DMZ y externa en el fichero de configuración /etc/bind/named.conf.local:
+view interna { match-clients { 10.0.1.0/24; 127.0.0.1; }; allow-recursion { any; }; zone &amp;quot;alegv.gonzalonazareno.org&amp;quot; { type master; file &amp;quot;db.alegv.interna&amp;quot;; }; zone &amp;quot;1.0.10.in-addr-arpa&amp;quot; { type master; file &amp;quot;db.1.0.10&amp;quot;; }; zone &amp;quot;16.</description>
     </item>
     
     <item>

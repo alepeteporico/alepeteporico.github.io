@@ -110,12 +110,26 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/paqueteria/">Gestión de paquetería en debian</a></h4>
+								<h4 class="post-date">2021-10-01</h4>
+							</div>
+							<div class="post-summary"><p>APT, APTITUDE Y DPKG  Que acciones consigo al realizar apt update y apt upgrade. Explica detalladamente.    update: actualiza la lista de paquetes que están disponibles y la versión actual usando los repositorios que se alojan en el fichero sources.list
+  upgrade: Esta opción la usaríamos después del update, pues la lista de paquetes y sus versiones estaría actualizada y este comando instalaría estas nuevas versiones</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/paqueteria/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/libvirt_basico/">Uso básico de libvirt</a></h4>
 								<h4 class="post-date">2021-09-30</h4>
 							</div>
 							<div class="post-summary"><p>Creación de la red.   La red que vamos a crear para este ejercicio será tipo NAT, tendrá direccionamiento 10.0.1.0/24 y de tipo virtio.
   Veamos el contenido del fichero xml de configuración de la red.
-  &lt;network&gt; &lt;name&gt;red_interna&lt;/name&gt; &lt;bridge name=&quot;virbr10&quot;/&gt; &lt;forward mode=&quot;nat&quot;/&gt; &lt;ip address=&quot;10.0.1.0&quot; netmask=&quot;255.255.255.0&quot;&gt; &lt;dhcp&gt; &lt;range start=&quot;10.0.1.2&quot; end=&quot;10.0.1.254&quot;/&gt; &lt;/dhcp&gt; &lt;/ip&gt; &lt;/network&gt;  Creamos esta red.  alejandrogv@AlejandroGV:~/libvirt$ virsh -c qemu:///system net-create red_interna.xml Creación de escenario.</p></div>
+  &lt;network&gt; &lt;name&gt;red_interna&lt;/name&gt; &lt;bridge name=&quot;virbr20&quot;/&gt; &lt;forward mode=&quot;nat&quot;/&gt; &lt;ip address=&quot;10.0.1.0&quot; netmask=&quot;255.255.255.0&quot;&gt; &lt;dhcp&gt; &lt;range start=&quot;10.0.1.2&quot; end=&quot;10.0.1.254&quot;/&gt; &lt;/dhcp&gt; &lt;/ip&gt; &lt;/network&gt;  Creamos esta red.  alejandrogv@AlejandroGV:~/libvirt$ virsh -c qemu:///system net-create red_interna.xml Creación de escenario.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/libvirt_basico/">Read More</a>
 							</div>
@@ -226,7 +240,7 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cortafuegos/">Cortafuegos - OpenStack</a></h4>
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cortafuegos_antiguo/">Cortafuegos - OpenStack</a></h4>
 								<h4 class="post-date">2021-06-07</h4>
 							</div>
 							<div class="post-summary"><p>Nuestro primer paso será instalar nftables.
@@ -234,23 +248,7 @@
  debian@dulcinea:~$ sudo systemctl start nftables debian@dulcinea:~$ sudo systemctl enable nftables    Configuraremos la política por defecto a DROP.
  nft chain inet filter input { policy drop \; } nft chain inet filter forward { policy drop \; } nft chain inet filter output { policy drop \; }    Añadimos las reglas de NAT.</p></div>
 							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/cortafuegos/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/php_docker/">Implantación de aplicaciones web PHP en docker</a></h4>
-								<h4 class="post-date">2021-06-07</h4>
-							</div>
-							<div class="post-summary"><p>Vamos a clonar el repositorio necesario para la aplicación.
- alejandrogv@AlejandroGV:~/docker/php$ git clone https://github.com/evilnapsis/bookmedik.git    Crearemos un repositorio con la siguiente estructura.
- alejandrogv@AlejandroGV:~/docker/php/php_docker$ tree . ├── build │ ├── bookmedik │ ├── Dockerfile │ └── script.sh ├── deploy │ └── docker-compose.yml └── README.md    En el fichero docker-compose añadimos lo siguiente.
- version: &quot;3.1&quot; services: db: container_name: mysql image: mariadb restart: always environment: MYSQL_DATABASE: bookmedik MYSQL_USER: bookmedik MYSQL_PASSWORD: admin MYSQL_ROOT_PASSWORD: admin volumes: - /opt/mysql_wp:/var/lib/mysql    Y en la carpeta build crearemos un fichero Dockerfile que rellenaremos de la siguiente forma.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/php_docker/">Read More</a>
+								<a href="https://alepeteporico.github.io/practicas/cortafuegos_antiguo/">Read More</a>
 							</div>
 						</div>
 					</li>

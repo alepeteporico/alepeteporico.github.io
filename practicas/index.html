@@ -110,6 +110,19 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cortafuegos/">Cortafuegos perimetral sobre el escenario</a></h4>
+								<h4 class="post-date">2022-03-21</h4>
+							</div>
+							<div class="post-summary"><p>Política por defecto DROP para las cadenas INPUT, FORWARD y OUTPUT.    Se pueden usar las extensiones que creamos adecuadas, pero al menos debe implementarse seguimiento de la conexión.    Debemos implementar que el cortafuegos funcione después de un reinicio de la máquina.    La máquina Zeus tiene un servidor ssh escuchando por el puerto 22, pero al acceder desde el exterior habrá que conectar al puerto 2222.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/cortafuegos/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/copias/">Copias de seguridad con bacula</a></h4>
 								<h4 class="post-date">2022-03-14</h4>
 							</div>
@@ -225,25 +238,10 @@
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/server_web_bbdd_dns/">DNS, servidor web y base de datos</a></h4>
 								<h4 class="post-date">2021-12-10</h4>
 							</div>
-							<div class="post-summary"><p>Servidor DNS *El servidor DNS estará instalado en freston, por ello instalaremos bind en esta máquina
- root@apolo:~# apt install bind9  *Configuramos el fichero &ldquo;/etc/bind/named.conf.options&rdquo; y añadimos las siguientes líneas:
- listen-on { any; }; allow-transfer { none; }; recursion yes; allow-recursion { any; }; *Configuramos el DNS local, la DMZ y externa en el fichero de configuración /etc/bind/named.conf.local:
-view interna { match-clients { 10.0.1.0/24; 127.0.0.1; }; allow-recursion { any; }; zone &quot;alegv.</p></div>
+							<div class="post-summary"><p>Servidor DNS  Configuramos el fichero &ldquo;/etc/bind/named.conf.options&rdquo; y añadimos las siguientes líneas:   listen-on { any; }; allow-transfer { none; }; recursion yes; allow-recursion { any; }; *Configuramos el DNS local, la DMZ y externa en el fichero de configuración /etc/bind/named.conf.local:
+view interna { match-clients { 10.0.1.0/24; 127.0.0.1; }; allow-recursion { any; }; zone &quot;alegv.gonzalonazareno.org&quot; { type master; file &quot;db.alegv.interna&quot;; }; zone &quot;1.0.10.in-addr-arpa&quot; { type master; file &quot;db.1.0.10&quot;; }; zone &quot;16.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/server_web_bbdd_dns/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/vpn/">VPN</a></h4>
-								<h4 class="post-date">2021-12-09</h4>
-							</div>
-							<div class="post-summary"><p>VPN de acceso remoto con OpenVPN y certificados x509  Tenemos dos equipos en vagrant a los que queremos configurarles una conexión VPN. empezemos con el servidor, este está conectado a una red 10.99.99.0/24 a parte de la red que usamos para conectarnos a esta y una interna.  vagrant@servidor:~$ ip a 1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000 link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00 inet 127.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/vpn/">Read More</a>
 							</div>
 						</div>
 					</li>

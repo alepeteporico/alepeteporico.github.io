@@ -115,7 +115,7 @@
 </ul>
 <pre><code>&lt;network&gt;
   &lt;name&gt;red_interna&lt;/name&gt;
-  &lt;bridge name=&quot;virbr10&quot;/&gt;
+  &lt;bridge name=&quot;virbr20&quot;/&gt;
   &lt;forward mode=&quot;nat&quot;/&gt;
   &lt;ip address=&quot;10.0.1.0&quot; netmask=&quot;255.255.255.0&quot;&gt;
     &lt;dhcp&gt;
@@ -154,8 +154,8 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABA.....
 <li>Y por supuesto modificamos el fichero hostname y hosts para cambiar el nombre de la máquina.</li>
 </ul>
 <pre><code>alejandrogv@AlejandroGV:~/libvirt$ sudo cat volumen/etc/hosts
-127.0.0.1	localhost
-127.0.1.1	maquina_alejandro
+127.0.0.1	maquina1_alejandro
+127.0.1.1	localhost
 
 # The following lines are desirable for IPv6 capable hosts
 ::1     localhost ip6-localhost ip6-loopback
@@ -224,6 +224,16 @@ Se ha creado el volumen ejercicio1
     &lt;graphics type='vnc' port='-1' autoport='yes' listen='0.0.0.0' /&gt;
   &lt;/devices&gt;
 &lt;/domain&gt;
+</code></pre><ul>
+<li>Definimos el dominio.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/libvirt$ virsh -c qemu:///system define dominio1.xml 
+Domain 'dominio1' defined from dominio1.xml
+</code></pre><ul>
+<li>iniciamos el dominio.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/libvirt$ virsh -c qemu:///system start dominio1
+Domain 'dominio1' started
 </code></pre>
                 </div>
                 

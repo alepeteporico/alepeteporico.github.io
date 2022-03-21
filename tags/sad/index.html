@@ -110,6 +110,19 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cortafuegos/">Cortafuegos perimetral sobre el escenario</a></h4>
+								<h4 class="post-date">2022-03-21</h4>
+							</div>
+							<div class="post-summary"><p>Política por defecto DROP para las cadenas INPUT, FORWARD y OUTPUT.    Se pueden usar las extensiones que creamos adecuadas, pero al menos debe implementarse seguimiento de la conexión.    Debemos implementar que el cortafuegos funcione después de un reinicio de la máquina.    La máquina Zeus tiene un servidor ssh escuchando por el puerto 22, pero al acceder desde el exterior habrá que conectar al puerto 2222.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/cortafuegos/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/ejercicio4_cortafuegos/">Ejercicio 4 cortafuegos</a></h4>
 								<h4 class="post-date">2022-03-11</h4>
 							</div>
@@ -225,22 +238,6 @@
 							<div class="post-summary"><p>Sistemas de detección de intrusos  Vamos a usar como sistema de detección de intrusos la herramienta SURICATA, parece ser la más usada a día de hoy   Vamos a instalar el paquete de suricata y oinkmaster que usaremos mas adelante.  root@suricata:~# apt install suricata  La instalación ha sido sencilla, para configurar los parametros básicos iremos al fichero /etc/suricata/suricata.yaml, lo primero que haremos será asegurarnos que suricata escucha por la interfaz correcta.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/herramientas_de_seguridad/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cortafuegos/">Cortafuegos - OpenStack</a></h4>
-								<h4 class="post-date">2021-06-07</h4>
-							</div>
-							<div class="post-summary"><p>Nuestro primer paso será instalar nftables.
- debian@dulcinea:~$ sudo apt install nftables    Activamos y habilitamos este servicio.
- debian@dulcinea:~$ sudo systemctl start nftables debian@dulcinea:~$ sudo systemctl enable nftables    Configuraremos la política por defecto a DROP.
- nft chain inet filter input { policy drop \; } nft chain inet filter forward { policy drop \; } nft chain inet filter output { policy drop \; }    Añadimos las reglas de NAT.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/cortafuegos/">Read More</a>
 							</div>
 						</div>
 					</li>

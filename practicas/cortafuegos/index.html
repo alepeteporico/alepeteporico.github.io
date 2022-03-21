@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title> Cortafuegos - OpenStack &middot; Alepetepórico Blog </title>
+        <title> Cortafuegos perimetral sobre el escenario &middot; Alepetepórico Blog </title>
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -100,110 +100,90 @@
 
         <div class="flex-wrapper">
             <div class="container wrapper">
-                <h1><a href="https://alepeteporico.github.io/practicas/cortafuegos/">Cortafuegos - OpenStack</a></h1>
-                <span class="post-date">2021-06-07 </span>
+                <h1><a href="https://alepeteporico.github.io/practicas/cortafuegos/">Cortafuegos perimetral sobre el escenario</a></h1>
+                <span class="post-date">2022-03-21 </span>
                 <div class="post-content">
                     <ul>
-<li>
-<p>Nuestro primer paso será instalar nftables.</p>
-<pre><code>  debian@dulcinea:~$ sudo apt install nftables
-</code></pre>
-</li>
-<li>
-<p>Activamos y habilitamos este servicio.</p>
-<pre><code>  debian@dulcinea:~$ sudo systemctl start nftables
-  debian@dulcinea:~$ sudo systemctl enable nftables
-</code></pre>
-</li>
-<li>
-<p>Configuraremos la política por defecto a DROP.</p>
-<pre><code>  nft chain inet filter input { policy drop \; }
-  nft chain inet filter forward { policy drop \; }
-  nft chain inet filter output { policy drop \; }
-</code></pre>
-</li>
-<li>
-<p>Añadimos las reglas de NAT.</p>
-<pre><code>  root@dulcinea:~# nft add table nat
-  root@dulcinea:~# nft add chain nat postrouting { type nat hook postrouting priority 100 \; }
-  root@dulcinea:~# nft add rule ip nat postrouting oifname &quot;eth0&quot; ip saddr 10.0.1.0/24 counter snat to 10.0.0.6
-  root@dulcinea:~# nft add rule ip nat postrouting oifname &quot;eth0&quot; ip saddr 10.0.2.0/24 counter snat to 10.0.0.6
-</code></pre>
-</li>
-<li>
-<p>También necesitaremos configurar las reglas dnat para que los servicios de DNS, http y https salgan al exterior.</p>
-<pre><code>  root@dulcinea:~# nft add chain nat prerouting { type nat hook prerouting priority 0 \; }
-  root@dulcinea:~# nft add rule ip nat prerouting iifname &quot;eth0&quot; udp dport 53 counter dnat to 10.0.1.9
-  root@dulcinea:~# nft add rule ip nat prerouting iifname &quot;eth0&quot; tcp dport 80 counter dnat to 10.0.2.5
-  root@dulcinea:~# nft add rule ip nat prerouting iifname &quot;eth0&quot; tcp dport 443 counter dnat to 10.0.2.5
-</code></pre>
-</li>
-<li>
-<p>Añadiremos una regla para que las máquinas de nuestra red interna puedan hacerse ping a la DMZ.</p>
-<pre><code>  debian@dulcinea:~$ sudo nft add rule inet filter forward ip saddr 10.0.1.0/24 iifname &quot;eth1&quot; ip daddr 10.0.2.0/24 oifname &quot;eth2&quot; icmp type echo-request counter accept
-
-  debian@dulcinea:~$ sudo nft add rule inet filter forward ip saddr 10.0.2.0/24 iifname &quot;eth2&quot; ip daddr 10.0.1.0/24 oifname &quot;eth1&quot; icmp type echo-reply counter accept
-</code></pre>
-</li>
-<li>
-<p>Vamos a comprobarlo.</p>
-<pre><code>  ubuntu@sancho:~$ ping 10.0.2.5
-  PING 10.0.2.5 (10.0.2.5) 56(84) bytes of data.
-  64 bytes from 10.0.2.5: icmp_seq=1 ttl=63 time=2.77 ms
-  ^C
-  --- 10.0.2.5 ping statistics ---
-  1 packets transmitted, 1 received, 0% packet loss, time 0ms
-  rtt min/avg/max/mdev = 2.770/2.770/2.770/0.000 ms
-</code></pre>
-</li>
-<li>
-<p>También configuraremos lo contrario, desde la DMZ se podrá hacer ping a la red interna.</p>
-<pre><code>  debian@dulcinea:~$ sudo nft add rule inet filter forward ip saddr 10.0.2.0/24 iifname &quot;eth2&quot; ip daddr 10.0.1.0/24 oifname &quot;eth1&quot; icmp type echo-request counter accept
-  debian@dulcinea:~$ sudo nft add rule inet filter forward ip saddr 10.0.2.0/24 iifname &quot;eth2&quot; ip daddr 10.0.1.0/24 oifname &quot;eth1&quot; icmp type echo-request counter accept
-</code></pre>
-</li>
-<li>
-<p>Comprobemoslo.</p>
-<pre><code>  [centos@quijote ~]$ ping 10.0.1.6
-  PING 10.0.1.6 (10.0.1.6) 56(84) bytes of data.
-  64 bytes from 10.0.1.6: icmp_seq=1 ttl=63 time=1.56 ms
-  ^C64 bytes from 10.0.1.6: icmp_seq=2 ttl=63 time=1.84 ms
-
-  --- 10.0.1.6 ping statistics ---
-  2 packets transmitted, 2 received, 0% packet loss, time 3ms
-  rtt min/avg/max/mdev = 1.556/1.699/1.843/0.149 ms
-</code></pre>
-</li>
-<li>
-<p>Y también podrán hacer ping al exterior.</p>
-<pre><code>  debian@dulcinea:~$ sudo nft add rule inet filter forward ip saddr 10.0.1.0/24 iifname &quot;eth1&quot; oifname &quot;eth0&quot; icmp type echo-request counter accept
-  debian@dulcinea:~$ sudo nft add rule inet filter forward ip daddr 10.0.1.0/24 iifname &quot;eth0&quot; oifname &quot;eth1&quot; icmp type echo-reply counter accept
-
-  debian@dulcinea:~$ sudo nft add rule inet filter forward ip saddr 10.0.2.0/24 iifname &quot;eth2&quot; oifname &quot;eth0&quot; icmp type echo-request counter accept
-  debian@dulcinea:~$ sudo nft add rule inet filter forward ip daddr 10.0.2.0/24 iifname &quot;eth0&quot; oifname &quot;eth2&quot; icmp type echo-reply counter accept
-</code></pre>
-</li>
-<li>
-<p>Vamos a realizar las pruebas.</p>
-<pre><code>  ubuntu@sancho:~$ ping 8.8.8.8
-  PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
-  64 bytes from 8.8.8.8: icmp_seq=1 ttl=111 time=42.5 ms
-  64 bytes from 8.8.8.8: icmp_seq=2 ttl=111 time=43.1 ms
-  ^C
-  --- 8.8.8.8 ping statistics ---
-  2 packets transmitted, 2 received, 0% packet loss, time 1002ms
-  rtt min/avg/max/mdev = 42.471/42.762/43.053/0.291 ms
-</code></pre>
-</li>
-<li>
-<p>Y también debemos permitirselo a Dulciena.</p>
-<pre><code>  debian@dulcinea:~$ sudo nft add rule inet filter input iifname &quot;eth0&quot; icmp type echo-request counter accept
-  debian@dulcinea:~$ sudo nft add rule inet filter output oifname &quot;eth0&quot; icmp type echo-reply counter accept
-</code></pre>
-</li>
-<li></li>
+<li>Política por defecto DROP para las cadenas INPUT, FORWARD y OUTPUT.</li>
 </ul>
-
+<pre><code>
+</code></pre><ul>
+<li>Se pueden usar las extensiones que creamos adecuadas, pero al menos debe implementarse seguimiento de la conexión.</li>
+</ul>
+<pre><code>
+</code></pre><ul>
+<li>Debemos implementar que el cortafuegos funcione después de un reinicio de la máquina.</li>
+</ul>
+<pre><code>
+</code></pre><ul>
+<li>La máquina Zeus tiene un servidor ssh escuchando por el puerto 22, pero al acceder desde el exterior habrá que conectar al puerto 2222.</li>
+</ul>
+<pre><code>
+</code></pre><ul>
+<li>Desde Apolo y Hera se debe permitir la conexión ssh por el puerto 22 a la máquina Zeus.</li>
+</ul>
+<pre><code>
+</code></pre><ul>
+<li>La máquina Zeus debe tener permitido el tráfico para la interfaz loopback.</li>
+</ul>
+<pre><code>
+</code></pre><ul>
+<li>A la máquina Zeus se le puede hacer ping desde la DMZ, pero desde la LAN se le debe rechazar la conexión (REJECT) y desde el exterior se rechazará de manera silenciosa.</li>
+</ul>
+<pre><code>
+</code></pre><ul>
+<li>La máquina Zeus puede hacer ping a la LAN, la DMZ y al exterior.</li>
+</ul>
+<pre><code>
+</code></pre><ul>
+<li>Desde la máquina Hera se puede hacer ping y conexión ssh a las máquinas de la LAN.</li>
+</ul>
+<pre><code>
+</code></pre><ul>
+<li>Desde cualquier máquina de la LAN se puede conectar por ssh a la máquina Hera.</li>
+</ul>
+<pre><code>
+</code></pre><ul>
+<li>Configura la máquina Zeus para que las máquinas de LAN y DMZ puedan acceder al exterior.</li>
+</ul>
+<pre><code>
+</code></pre><ul>
+<li>Las máquinas de la LAN pueden hacer ping al exterior y navegar.</li>
+</ul>
+<pre><code>
+</code></pre><ul>
+<li>La máquina Hera puede navegar. Instala un servidor web, un servidor ftp y un servidor de correos si no los tienes aún.</li>
+</ul>
+<pre><code>
+</code></pre><ul>
+<li>Configura la máquina Zeus para que los servicios web y ftp sean accesibles desde el exterior.</li>
+</ul>
+<pre><code>
+</code></pre><ul>
+<li>El servidor web y el servidor ftp deben ser accesibles desde la LAN y desde el exterior.</li>
+</ul>
+<pre><code>
+</code></pre><ul>
+<li>El servidor de correos sólo debe ser accesible desde la LAN.</li>
+</ul>
+<pre><code>
+</code></pre><ul>
+<li>En la máquina Ares instala un servidor mysql si no lo tiene aún. A este servidor se puede acceder desde la DMZ, pero no desde el exterior.</li>
+</ul>
+<pre><code>
+</code></pre><ul>
+<li>Evita ataques DoS por ICMP Flood, limitando el número de peticiones por segundo desde una misma IP.</li>
+</ul>
+<pre><code>
+</code></pre><ul>
+<li>Evita ataques DoS por SYN Flood.</li>
+</ul>
+<pre><code>
+</code></pre><ul>
+<li>Evita que realicen escaneos de puertos a Zeus.</li>
+</ul>
+<pre><code>
+</code></pre>
                 </div>
                 
                 <div class="post-comments">

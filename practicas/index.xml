@@ -6,7 +6,16 @@
     <description>Recent content in Practicas on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 14 Mar 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 21 Mar 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Cortafuegos perimetral sobre el escenario</title>
+      <link>https://alepeteporico.github.io/practicas/cortafuegos/</link>
+      <pubDate>Mon, 21 Mar 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/cortafuegos/</guid>
+      <description>Política por defecto DROP para las cadenas INPUT, FORWARD y OUTPUT.    Se pueden usar las extensiones que creamos adecuadas, pero al menos debe implementarse seguimiento de la conexión.    Debemos implementar que el cortafuegos funcione después de un reinicio de la máquina.    La máquina Zeus tiene un servidor ssh escuchando por el puerto 22, pero al acceder desde el exterior habrá que conectar al puerto 2222.</description>
+    </item>
+    
     <item>
       <title>Copias de seguridad con bacula</title>
       <link>https://alepeteporico.github.io/practicas/copias/</link>
@@ -93,10 +102,8 @@
       <pubDate>Fri, 10 Dec 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/server_web_bbdd_dns/</guid>
-      <description>Servidor DNS *El servidor DNS estará instalado en freston, por ello instalaremos bind en esta máquina
- root@apolo:~# apt install bind9  *Configuramos el fichero &amp;ldquo;/etc/bind/named.conf.options&amp;rdquo; y añadimos las siguientes líneas:
- listen-on { any; }; allow-transfer { none; }; recursion yes; allow-recursion { any; }; *Configuramos el DNS local, la DMZ y externa en el fichero de configuración /etc/bind/named.conf.local:
-view interna { match-clients { 10.0.1.0/24; 127.0.0.1; }; allow-recursion { any; }; zone &amp;quot;alegv.</description>
+      <description>Servidor DNS  Configuramos el fichero &amp;ldquo;/etc/bind/named.conf.options&amp;rdquo; y añadimos las siguientes líneas:   listen-on { any; }; allow-transfer { none; }; recursion yes; allow-recursion { any; }; *Configuramos el DNS local, la DMZ y externa en el fichero de configuración /etc/bind/named.conf.local:
+view interna { match-clients { 10.0.1.0/24; 127.0.0.1; }; allow-recursion { any; }; zone &amp;quot;alegv.gonzalonazareno.org&amp;quot; { type master; file &amp;quot;db.alegv.interna&amp;quot;; }; zone &amp;quot;1.0.10.in-addr-arpa&amp;quot; { type master; file &amp;quot;db.1.0.10&amp;quot;; }; zone &amp;quot;16.</description>
     </item>
     
     <item>
@@ -210,7 +217,7 @@ vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla 
       <guid>https://alepeteporico.github.io/practicas/libvirt_basico/</guid>
       <description>Creación de la red.   La red que vamos a crear para este ejercicio será tipo NAT, tendrá direccionamiento 10.0.1.0/24 y de tipo virtio.
   Veamos el contenido del fichero xml de configuración de la red.
-  &amp;lt;network&amp;gt; &amp;lt;name&amp;gt;red_interna&amp;lt;/name&amp;gt; &amp;lt;bridge name=&amp;quot;virbr10&amp;quot;/&amp;gt; &amp;lt;forward mode=&amp;quot;nat&amp;quot;/&amp;gt; &amp;lt;ip address=&amp;quot;10.0.1.0&amp;quot; netmask=&amp;quot;255.255.255.0&amp;quot;&amp;gt; &amp;lt;dhcp&amp;gt; &amp;lt;range start=&amp;quot;10.0.1.2&amp;quot; end=&amp;quot;10.0.1.254&amp;quot;/&amp;gt; &amp;lt;/dhcp&amp;gt; &amp;lt;/ip&amp;gt; &amp;lt;/network&amp;gt;  Creamos esta red.  alejandrogv@AlejandroGV:~/libvirt$ virsh -c qemu:///system net-create red_interna.xml Creación de escenario.</description>
+  &amp;lt;network&amp;gt; &amp;lt;name&amp;gt;red_interna&amp;lt;/name&amp;gt; &amp;lt;bridge name=&amp;quot;virbr20&amp;quot;/&amp;gt; &amp;lt;forward mode=&amp;quot;nat&amp;quot;/&amp;gt; &amp;lt;ip address=&amp;quot;10.0.1.0&amp;quot; netmask=&amp;quot;255.255.255.0&amp;quot;&amp;gt; &amp;lt;dhcp&amp;gt; &amp;lt;range start=&amp;quot;10.0.1.2&amp;quot; end=&amp;quot;10.0.1.254&amp;quot;/&amp;gt; &amp;lt;/dhcp&amp;gt; &amp;lt;/ip&amp;gt; &amp;lt;/network&amp;gt;  Creamos esta red.  alejandrogv@AlejandroGV:~/libvirt$ virsh -c qemu:///system net-create red_interna.xml Creación de escenario.</description>
     </item>
     
     <item>
@@ -288,10 +295,10 @@ vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla 
     
     <item>
       <title>Cortafuegos - OpenStack</title>
-      <link>https://alepeteporico.github.io/practicas/cortafuegos/</link>
+      <link>https://alepeteporico.github.io/practicas/cortafuegos_antiguo/</link>
       <pubDate>Mon, 07 Jun 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://alepeteporico.github.io/practicas/cortafuegos/</guid>
+      <guid>https://alepeteporico.github.io/practicas/cortafuegos_antiguo/</guid>
       <description>Nuestro primer paso será instalar nftables.
  debian@dulcinea:~$ sudo apt install nftables    Activamos y habilitamos este servicio.
  debian@dulcinea:~$ sudo systemctl start nftables debian@dulcinea:~$ sudo systemctl enable nftables    Configuraremos la política por defecto a DROP.
