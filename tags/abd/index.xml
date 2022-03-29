@@ -79,5 +79,14 @@ END;</description>
  Los clientes deben estar siempre en máquinas diferentes de los respectivos servidores a los que acceden. Se documentará todo el proceso de configuración de los servidores.</description>
     </item>
     
+    <item>
+      <title>Práctica de PLSQL</title>
+      <link>https://alepeteporico.github.io/practicas/practica_plsql/</link>
+      <pubDate>Mon, 29 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/practica_plsql/</guid>
+      <description> Realiza una función que reciba el código de un aerogenerador y una fecha y devuelva el total de energía producida en esa fecha. Debes controlar las siguientes excepciones: Aerogenerador inexistente y Aerogenerador en desconexión durante ese día.  create or replace function </description>
+    </item>
+    
   </channel>
 </rss>

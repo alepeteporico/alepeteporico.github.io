@@ -499,6 +499,24 @@ vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla 
     </item>
     
     <item>
+      <title>Práctica de PLSQL</title>
+      <link>https://alepeteporico.github.io/practicas/practica_plsql/</link>
+      <pubDate>Mon, 29 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/practica_plsql/</guid>
+      <description> Realiza una función que reciba el código de un aerogenerador y una fecha y devuelva el total de energía producida en esa fecha. Debes controlar las siguientes excepciones: Aerogenerador inexistente y Aerogenerador en desconexión durante ese día.  create or replace function </description>
+    </item>
+    
+    <item>
+      <title>Instalación/migración de aplicaciones web PHP eb tu VPS</title>
+      <link>https://alepeteporico.github.io/practicas/cms_php_vps/</link>
+      <pubDate>Sat, 20 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/cms_php_vps/</guid>
+      <description>Primero migraremos la aplicación de drupal que tenemos instalada localmente. para ello vamos a migrar la base de datos.  root@cmsagv:~# mysqldump drupal &amp;gt; ./backup.sql  Seguidamente nos iremos a nuestra VPS donde instalaremos mariadb y crearemos una base de datos y un usuario con privilegios sobre ella.  MariaDB [(none)]&amp;gt; CREATE DATABASE drupal; Query OK, 1 row affected (0.000 sec) MariaDB [(none)]&amp;gt; CREATE USER &#39;usuario1&#39;@&#39;localhost&#39;; Query OK, 0 rows affected (0.</description>
+    </item>
+    
+    <item>
       <title>Práctica mdadm y rclone</title>
       <link>https://alepeteporico.github.io/practicas/mdadm_rclone/</link>
       <pubDate>Wed, 17 Mar 2021 00:00:00 +0000</pubDate>
