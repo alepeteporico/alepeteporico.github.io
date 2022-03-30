@@ -92,15 +92,6 @@ view interna { match-clients { 10.0.1.0/24; 127.0.0.1; }; allow-recursion { any;
     </item>
     
     <item>
-      <title>Servidor LEMP</title>
-      <link>https://alepeteporico.github.io/practicas/lemp/</link>
-      <pubDate>Tue, 01 Jun 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/lemp/</guid>
-      <description>Vamos a instalar todos los paquetes necesarios.  debian@mrrobot:~$ sudo apt install nginx mariadb-client mariadb-server php php-mysql php-fpm  También debemos instalar el servidor de aplicaciones php-fpm.  debian@mrrobot:~$ sudo apt install php7.4-fpm php7.4  Crearemos el directorio sobre el que trabajaremos en nuestro virtual host.  root@:~# mkdir /var/www/alejandrogv  Crearemos un virtual host en sites-available  server { listen 80; listen [::]:80; root /var/www/web; index index.html index.htm index.</description>
-    </item>
-    
-    <item>
       <title>Servidor nginx</title>
       <link>https://alepeteporico.github.io/practicas/nginx/</link>
       <pubDate>Mon, 31 May 2021 00:00:00 +0000</pubDate>
@@ -159,6 +150,15 @@ view interna { match-clients { 10.0.1.0/24; 127.0.0.1; }; allow-recursion { any;
       <guid>https://alepeteporico.github.io/practicas/dhcp/</guid>
       <description>Lee el documento Teoría: Servidor DHCP y explica el funcionamiento del servidor DHCP resumido en este gráfico.  En primer lugar el cliente manda una petición DHCPDISCOVER en cuanto se inicia, ya que no tiene configuración de IP usa esta petición para ver si hay un servidor DHCP que pueda darle una dirección.
 Después de esto el cliente esperará en estado SELECTING y recibirá las ofertas DHCPOFFER del servidor o servidores DHCP que pueda haber en nuestra red local.</description>
+    </item>
+    
+    <item>
+      <title>Servidor LEMP</title>
+      <link>https://alepeteporico.github.io/practicas/lemp/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/lemp/</guid>
+      <description>Vamos a instalar todos los paquetes necesarios.  debian@mrrobot:~$ sudo apt install nginx mariadb-client mariadb-server php php-mysql php-fpm  También debemos instalar el servidor de aplicaciones php-fpm.  debian@mrrobot:~$ sudo apt install php7.4-fpm php7.4 Virtualhosting  Crearemos un virtual host en sites-available  server { listen 80; listen [::]:80; root /var/www/web; index index.html index.htm index.nginx-debian.html; server_name www.alejandrogv.site; location / { try_files $uri $uri/ =404; } }  Para que nuestro virtualhost por defecto sea este, debemos añadir la siguiente línea el el fichero default de el directorio sites-available, dentro del bloque server.</description>
     </item>
     
   </channel>

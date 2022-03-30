@@ -53,7 +53,7 @@
       <pubDate>Fri, 04 Feb 2022 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/logs/</guid>
-      <description>Vamos a usar el paquete systemd-journal-remote primero deberemos instalarlo en nuestro servidor principal, hemos escogido zeus y también deberemos instalarlo en nuestros clientes.  debian@zeus:~$ sudo apt install systemd-journal-remote  Vamos a habilitar dos componentes de systemd necesarios para recibir los logs.  debian@zeus:~$ sudo systemctl enable --now systemd-journal-remote.socket Created symlink /etc/systemd/system/sockets.target.wants/systemd-journal-remote.socket -&amp;gt; /lib/systemd/system/systemd-journal-remote.socket. debian@zeus:~$ sudo systemctl enable systemd-journal-remote.service  Y en los clientes también debemos habilitar uno.  [hera@hera ~]$ sudo systemctl enable systemd-journal-upload.</description>
+      <description>Vamos a usar el paquete systemd-journal-remote primero deberemos instalarlo en nuestro servidor principal, hemos escogido ares y también deberemos instalarlo en nuestros clientes.  usuario@ares:~$ sudo apt install systemd-journal-remote  Vamos a habilitar dos componentes de systemd necesarios para recibir los logs.  usuario@ares:~$ sudo systemctl enable --now systemd-journal-remote.socket Created symlink /etc/systemd/system/sockets.target.wants/systemd-journal-remote.socket -&amp;gt; /lib/systemd/system/systemd-journal-remote.socket. usuario@ares:~$ sudo systemctl enable systemd-journal-remote.service  Y en los clientes también debemos habilitar uno.  [hera@hera ~]$ sudo systemctl enable systemd-journal-upload.</description>
     </item>
     
     <item>
@@ -380,15 +380,6 @@ vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla 
     </item>
     
     <item>
-      <title>Servidor LEMP</title>
-      <link>https://alepeteporico.github.io/practicas/lemp/</link>
-      <pubDate>Tue, 01 Jun 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/lemp/</guid>
-      <description>Vamos a instalar todos los paquetes necesarios.  debian@mrrobot:~$ sudo apt install nginx mariadb-client mariadb-server php php-mysql php-fpm  También debemos instalar el servidor de aplicaciones php-fpm.  debian@mrrobot:~$ sudo apt install php7.4-fpm php7.4  Crearemos el directorio sobre el que trabajaremos en nuestro virtual host.  root@:~# mkdir /var/www/alejandrogv  Crearemos un virtual host en sites-available  server { listen 80; listen [::]:80; root /var/www/web; index index.html index.htm index.</description>
-    </item>
-    
-    <item>
       <title>Auditoria</title>
       <link>https://alepeteporico.github.io/practicas/auditoria/</link>
       <pubDate>Mon, 31 May 2021 00:00:00 +0000</pubDate>
@@ -504,7 +495,7 @@ vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla 
       <pubDate>Mon, 29 Mar 2021 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/practica_plsql/</guid>
-      <description> Realiza una función que reciba el código de un aerogenerador y una fecha y devuelva el total de energía producida en esa fecha. Debes controlar las siguientes excepciones: Aerogenerador inexistente y Aerogenerador en desconexión durante ese día.  create or replace function </description>
+      <description> Realiza una función que reciba el código de un aerogenerador y una fecha y devuelva el total de energía producida en esa fecha. Debes controlar las siguientes excepciones: Aerogenerador inexistente y Aerogenerador en desconexión durante ese día.  create or replace function EnergiaDiaria (v_codigo AEROGENERADORES.CODIGO%type, v_fecha) </description>
     </item>
     
     <item>
@@ -568,6 +559,15 @@ Después de esto el cliente esperará en estado SELECTING y recibirá las oferta
       <description>La instalación es tan sencilla como usar apt:
 sudo apt install hugo  Una vez instalado el siguiente paso sería crear un sitio web:
 hugo new site [nombre]  Esto creará una carpeta donde podremos configurar nuestra página, para ello primero descargaremos desde la página oficial de hugo un tema. Debemos fijarnos que se corresponde con nuestra versión de hugo o es inferior, si elegimos una plantilla que necesite una versión de hugo superior dará problemas.</description>
+    </item>
+    
+    <item>
+      <title>Servidor LEMP</title>
+      <link>https://alepeteporico.github.io/practicas/lemp/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/lemp/</guid>
+      <description>Vamos a instalar todos los paquetes necesarios.  debian@mrrobot:~$ sudo apt install nginx mariadb-client mariadb-server php php-mysql php-fpm  También debemos instalar el servidor de aplicaciones php-fpm.  debian@mrrobot:~$ sudo apt install php7.4-fpm php7.4 Virtualhosting  Crearemos un virtual host en sites-available  server { listen 80; listen [::]:80; root /var/www/web; index index.html index.htm index.nginx-debian.html; server_name www.alejandrogv.site; location / { try_files $uri $uri/ =404; } }  Para que nuestro virtualhost por defecto sea este, debemos añadir la siguiente línea el el fichero default de el directorio sites-available, dentro del bloque server.</description>
     </item>
     
   </channel>

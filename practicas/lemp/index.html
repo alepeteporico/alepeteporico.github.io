@@ -101,7 +101,7 @@
         <div class="flex-wrapper">
             <div class="container wrapper">
                 <h1><a href="https://alepeteporico.github.io/practicas/lemp/">Servidor LEMP</a></h1>
-                <span class="post-date">2021-06-01 </span>
+                <span class="post-date">0001-01-01 </span>
                 <div class="post-content">
                     <ul>
 <li>Vamos a instalar todos los paquetes necesarios.</li>
@@ -111,11 +111,8 @@
 <li>También debemos instalar el servidor de aplicaciones php-fpm.</li>
 </ul>
 <pre><code>debian@mrrobot:~$ sudo apt install php7.4-fpm php7.4
-</code></pre><ul>
-<li>Crearemos el directorio sobre el que trabajaremos en nuestro virtual host.</li>
-</ul>
-<pre><code>root@:~# mkdir /var/www/alejandrogv
-</code></pre><ul>
+</code></pre><h3 id="virtualhosting">Virtualhosting</h3>
+<ul>
 <li>Crearemos un virtual host en <code>sites-available</code></li>
 </ul>
 <pre><code>server {
@@ -141,64 +138,80 @@
 </ul>
 <pre><code>debian@mrrobot:~$ sudo ln -s /etc/nginx/sites-available/web.conf /etc/nginx/sites-enabled/
 </code></pre><ul>
-<li>Después de añadir la ruta a nuestro <code>etc/hosts</code> comprobaremos que podemos acceder desde el navegador.</li>
+<li>Comprobaremos que podemos acceder desde el navegador.</li>
 </ul>
 <p><img src="/lemp/1.png" alt="nginx"></p>
+<h3 id="mapeo-url">Mapeo URL</h3>
 <ul>
-<li>
-<p>Ahora crearemos una redirección, cuando se acceda a <a href="http://www.iesgn06.es">www.iesgn06.es</a> se redireccionará a <code>/principal</code>, para ello añadiremos lo siguiente a nuestro fichero de configuración del virtual host.</p>
-<pre><code>  location / {
-          try_files $uri $uri/ =404;
-          return 301 /principal/index.html;
-          location /principal {
-                  autoindex off;
-          }
-  }
-</code></pre>
-</li>
-<li>
-<p>Comprobamos su funcionamiento.</p>
-</li>
+<li>Ahora crearemos una redirección, cuando se acceda a <a href="http://www.iesgn06.es">www.iesgn06.es</a> se redireccionará a <code>/principal</code>, para ello añadiremos lo siguiente a nuestro fichero de configuración del virtual host.</li>
 </ul>
-<p><img src="/lemp/2.png" alt="principal"></p>
-<ul>
-<li>
-<p>Ahora vamos a instalar una plantilla, primero debemos descargarla.</p>
-<pre><code>  root@sputnik:~# wget https://plantillashtmlgratis.com/wp-content/themes/helium-child/descargas/page267/brunch.zip
-</code></pre>
-</li>
-<li>
-<p>Lo descomprimimos y movemos todo el contenido a principal.</p>
-<pre><code>  root@sputnik:~# mv 2112_brunch/* /var/www/iesgn06/principal/
-</code></pre>
-</li>
-<li>
-<p>Reiniciamos el servicio y entramos a nuestra web para comprobar que la plantilla se ha instalado exitosamente.</p>
-</li>
+<pre><code>location / {
+        try_files $uri $uri/ =404;
+        return 301 /principal/index.html;
+        location /principal {
+                autoindex off;
+        }
+}
+</code></pre><ul>
+<li>Ahora vamos a instalar una plantilla, primero debemos descargarla.</li>
+</ul>
+<pre><code>debian@mrrobot:~$ wget https://plantillashtmlgratis.com/wp-content/themes/helium-child/descargas/page267/brunch.zip
+</code></pre><ul>
+<li>Lo descomprimimos y movemos todo el contenido a principal.</li>
+</ul>
+<pre><code>debian@mrrobot:~$ sudo mv 2112_brunch/* /var/www/web
+</code></pre><ul>
+<li>Reiniciamos el servicio y entramos a nuestra web para comprobar que la plantilla se ha instalado exitosamente.</li>
 </ul>
 <p><img src="/lemp/3.png" alt="principal"></p>
 <ul>
-<li>
-<p>Ahora configuraremos nuestrovirtual host para que pueda ejectuar php añadiendo de nuevo en nuestro fichero de configuración lo siguiente.</p>
-<pre><code>  location ~ \.php$ {
-          include snippets/fastcgi-php.conf;
-          fastcgi_pass unix:/run/php/php7.3-fpm.sock;
-  }
-</code></pre>
-</li>
-<li>
-<p>Creamos un fichero info.php en principal.</p>
-<pre><code>  root@sputnik:~# cat /var/www/iesgn06/principal/info.php
-  &lt;?php
-  phpinfo();
-  ?&gt;
-</code></pre>
-</li>
-<li>
-<p>Comprobamos que funciona.</p>
-</li>
+<li>Si entramos en /principal/documentos se deberán ver los documentos de /srv/doc para ello añadimos las siguiente líneas en en virtualhost.</li>
+</ul>
+<pre><code>location /principal/documentos {
+        alias /srv/doc;
+        autoindex on;
+        disable_symlinks off;
+}
+</code></pre><ul>
+<li>Vemos que funciona.</li>
 </ul>
 <p><img src="/lemp/4.png" alt="principal"></p>
+<h3 id="autentificación">Autentificación</h3>
+<ul>
+<li>Vamos a limitar el acceso en <code>www.alejandrogv.site/secreto</code>, para ello primero debemos crear un htaccess en nginx, lo haremos de la siguiente forma.</li>
+</ul>
+<pre><code>debian@mrrobot:~$ sudo sh -c &quot;echo -n 'usuario:' &gt;&gt; /etc/nginx/.htpasswd&quot;
+debian@mrrobot:~$ sudo sh -c &quot;openssl passwd -apr1 &gt;&gt; /etc/nginx/.htpasswd&quot;
+Password: 
+Verifying - Password:
+</code></pre><ul>
+<li>Añadimos la localicación correspondiente haciendo referencia a que es restringido y donde encontrar el usario y contraseña en el virtualhost.</li>
+</ul>
+<pre><code>location /secreto {
+        auth_basic           “Restringido”;
+        auth_basic_user_file /etc/nginx/.htpasswd;
+}
+</code></pre><ul>
+<li>Reiniciamos el servicio y comprobamos que nos pide usuario y contraseña al entrar en secreto.</li>
+</ul>
+<p><img src="/lemp/5.png" alt="principal"></p>
+<p><img src="/lemp/6.png" alt="principal"></p>
+<h3 id="php">PHP</h3>
+<ul>
+<li>Ahora configuraremos nuestrovirtual host para que pueda ejectuar php añadiendo de nuevo en nuestro fichero de configuración lo siguiente.</li>
+</ul>
+<pre><code>location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php7.3-fpm.sock;
+}
+</code></pre><ul>
+<li>Comprobamos que funciona.</li>
+</ul>
+<p><img src="/lemp/7.png" alt="principal"></p>
+<h3 id="ansible">Ansible</h3>
+<ul>
+<li>Aquí tenemos nuestro <a href="">repositorio</a> ansible</li>
+</ul>
 
                 </div>
                 

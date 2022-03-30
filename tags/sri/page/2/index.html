@@ -110,21 +110,6 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/nginx/">Servidor nginx</a></h4>
-								<h4 class="post-date">2021-05-31</h4>
-							</div>
-							<div class="post-summary"><p>Crea una máquina del cloud con una red pública. Añade la clave pública del profesor a la máquina. Instala el servidor web nginx en la máquina. Modifica la página index.html que viene por defecto y accede a ella desde un navegador.   La IP del servidor es la 172.22.201.5
-  Una vez añadida la clave pública del profesor instalamos el servidor web nginx.
- debian@nginx:~$ sudo apt install nginx    Comprobamos que podemos acceder perfectamente desde fuera.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/nginx/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/dns/">Servidor DNS</a></h4>
 								<h4 class="post-date">2021-05-10</h4>
 							</div>
@@ -188,6 +173,19 @@
 Después de esto el cliente esperará en estado SELECTING y recibirá las ofertas DHCPOFFER del servidor o servidores DHCP que pueda haber en nuestra red local.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/dhcp/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/lemp/">Servidor LEMP</a></h4>
+								<h4 class="post-date">0001-01-01</h4>
+							</div>
+							<div class="post-summary"><p>Vamos a instalar todos los paquetes necesarios.  debian@mrrobot:~$ sudo apt install nginx mariadb-client mariadb-server php php-mysql php-fpm  También debemos instalar el servidor de aplicaciones php-fpm.  debian@mrrobot:~$ sudo apt install php7.4-fpm php7.4 Virtualhosting  Crearemos un virtual host en sites-available  server { listen 80; listen [::]:80; root /var/www/web; index index.html index.htm index.nginx-debian.html; server_name www.alejandrogv.site; location / { try_files $uri $uri/ =404; } }  Para que nuestro virtualhost por defecto sea este, debemos añadir la siguiente línea el el fichero default de el directorio sites-available, dentro del bloque server.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/lemp/">Read More</a>
 							</div>
 						</div>
 					</li>

@@ -110,19 +110,6 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/mdadm_rclone/">Práctica mdadm y rclone</a></h4>
-								<h4 class="post-date">2021-03-17</h4>
-							</div>
-							<div class="post-summary"><p>RAID 5 Fichero VagrantFile:  # -*- mode: ruby -*- # vi: set ft=ruby : Vagrant.configure(&quot;2&quot;) do |config| config.vm.box = &quot;debian/buster64&quot; config.vm.hostname = &quot;practica1&quot; config.vm.provider :virtualbox do |v| disco = '.vagrant/disco.vdi' v.customize [&quot;createhd&quot;,&quot;--filename&quot;,disco,&quot;--size&quot;, 1024] v.customize [&quot;storageattach&quot;,:id,&quot;--storagectl&quot;,&quot;SATA Controller&quot;,&quot;--port&quot;,1,&quot;--device&quot;,0,&quot;--type&quot;,&quot;hdd&quot;,&quot;--medium&quot;,disco] disco2 = '.vagrant/disco2.vdi' v.customize [&quot;createhd&quot;,&quot;--filename&quot;,disco2,&quot;--size&quot;, 1024] v.customize [&quot;storageattach&quot;,:id,&quot;--storagectl&quot;,&quot;SATA Controller&quot;,&quot;--port&quot;,2,&quot;--device&quot;,0,&quot;--type&quot;,&quot;hdd&quot;,&quot;--medium&quot;,disco2] disco3 = '.vagrant/disco3.vdi' v.customize [&quot;createhd&quot;,&quot;--filename&quot;,disco3,&quot;--size&quot;, 1024] v.customize [&quot;storageattach&quot;,:id,&quot;--storagectl&quot;,&quot;SATA Controller&quot;,&quot;--port&quot;,3,&quot;--device&quot;,0,&quot;--type&quot;,&quot;hdd&quot;,&quot;--medium&quot;,disco3] disco4 = '.vagrant/disco4.vdi' v.customize [&quot;createhd&quot;,&quot;--filename&quot;,disco4,&quot;--size&quot;, 1024] v.customize [&quot;storageattach&quot;,:id,&quot;--storagectl&quot;,&quot;SATA Controller&quot;,&quot;--port&quot;,4,&quot;--device&quot;,0,&quot;--type&quot;,&quot;hdd&quot;,&quot;--medium&quot;,disco4] disco5 = '.vagrant/disco5.vdi' v.customize [&quot;createhd&quot;,&quot;--filename&quot;,disco5,&quot;--size&quot;, 1024] v.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/mdadm_rclone/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/escenearioos/">Configuración del escenario en OpenStack</a></h4>
 								<h4 class="post-date">2021-03-16</h4>
 							</div>
@@ -177,6 +164,19 @@ sudo apt install hugo  Una vez instalado el siguiente paso sería crear un sitio
 hugo new site [nombre]  Esto creará una carpeta donde podremos configurar nuestra página, para ello primero descargaremos desde la página oficial de hugo un tema. Debemos fijarnos que se corresponde con nuestra versión de hugo o es inferior, si elegimos una plantilla que necesite una versión de hugo superior dará problemas.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/pagina_est%C3%A1tica/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/lemp/">Servidor LEMP</a></h4>
+								<h4 class="post-date">0001-01-01</h4>
+							</div>
+							<div class="post-summary"><p>Vamos a instalar todos los paquetes necesarios.  debian@mrrobot:~$ sudo apt install nginx mariadb-client mariadb-server php php-mysql php-fpm  También debemos instalar el servidor de aplicaciones php-fpm.  debian@mrrobot:~$ sudo apt install php7.4-fpm php7.4 Virtualhosting  Crearemos un virtual host en sites-available  server { listen 80; listen [::]:80; root /var/www/web; index index.html index.htm index.nginx-debian.html; server_name www.alejandrogv.site; location / { try_files $uri $uri/ =404; } }  Para que nuestro virtualhost por defecto sea este, debemos añadir la siguiente línea el el fichero default de el directorio sites-available, dentro del bloque server.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/lemp/">Read More</a>
 							</div>
 						</div>
 					</li>

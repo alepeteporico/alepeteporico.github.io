@@ -104,16 +104,16 @@
                 <span class="post-date">2022-02-04 </span>
                 <div class="post-content">
                     <ul>
-<li>Vamos a usar el paquete <code>systemd-journal-remote</code> primero deberemos instalarlo en nuestro servidor principal, hemos escogido zeus y también deberemos instalarlo en nuestros clientes.</li>
+<li>Vamos a usar el paquete <code>systemd-journal-remote</code> primero deberemos instalarlo en nuestro servidor principal, hemos escogido ares y también deberemos instalarlo en nuestros clientes.</li>
 </ul>
-<pre><code>debian@zeus:~$ sudo apt install systemd-journal-remote
+<pre><code>usuario@ares:~$ sudo apt install systemd-journal-remote
 </code></pre><ul>
 <li>Vamos a habilitar dos componentes de systemd necesarios para recibir los logs.</li>
 </ul>
-<pre><code>debian@zeus:~$ sudo systemctl enable --now systemd-journal-remote.socket
+<pre><code>usuario@ares:~$ sudo systemctl enable --now systemd-journal-remote.socket
 Created symlink /etc/systemd/system/sockets.target.wants/systemd-journal-remote.socket -&gt; /lib/systemd/system/systemd-journal-remote.socket.
 
-debian@zeus:~$ sudo systemctl enable systemd-journal-remote.service
+usuario@ares:~$ sudo systemctl enable systemd-journal-remote.service
 </code></pre><ul>
 <li>Y en los clientes también debemos habilitar uno.</li>
 </ul>
@@ -128,8 +128,9 @@ debian@zeus:~$ sudo systemctl enable systemd-journal-remote.service
 </ul>
 <pre><code>debian@apolo:~$ sudo apt install certbot
 </code></pre><ul>
-<li></li>
+<li>Ahora</li>
 </ul>
+<p>sudo certbot certonly &ndash;standalone &ndash;agree-tos &ndash;email <a href="mailto:tojandro@gmail.com">tojandro@gmail.com</a> -d alegv.gonzalonazareno.org</p>
 
                 </div>
                 
