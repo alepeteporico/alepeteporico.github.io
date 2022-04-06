@@ -101,9 +101,10 @@
         <div class="flex-wrapper">
             <div class="container wrapper">
                 <h1><a href="https://alepeteporico.github.io/practicas/cms_php_vps/">Instalación/migración de aplicaciones web PHP eb tu VPS</a></h1>
-                <span class="post-date">2021-03-20 </span>
+                <span class="post-date">2022-03-20 </span>
                 <div class="post-content">
-                    <ul>
+                    <h3 id="drupal">Drupal</h3>
+<ul>
 <li>Primero migraremos la aplicación de drupal que tenemos instalada localmente. para ello vamos a migrar la base de datos.</li>
 </ul>
 <pre><code>root@cmsagv:~# mysqldump drupal &gt; ./backup.sql
@@ -180,6 +181,65 @@ Query OK, 0 rows affected (0.002 sec)
 <li>Y ya tenemos funcionando <a href="http://portal.alejandrogv.site/">nuestra página</a></li>
 </ul>
 <p><img src="/php_vps/1.png" alt="pagina"></p>
+<h3 id="nextcloud">Nextcloud</h3>
+<ul>
+<li>Vamos a descargar el cms.</li>
+</ul>
+<pre><code>debian@mrrobot:~$ curl -LO https://download.nextcloud.com/server/releases/nextcloud-23.0.0.zip
+</code></pre><ul>
+<li>Después de descomprimirlo y alojarlo en nuestra carpeta de <code>/var/www/web</code> con el nombre de cloud vamos a realizar la migración de la base de datos que hemos creado previamente.</li>
+</ul>
+<pre><code>root@mrrobot:~# mysql nextcloud &lt; /home/debian/nextcloud.sql
+</code></pre><ul>
+<li>Seguidamente editaremos el fichero de configuración alojandro en <code>config/config.php</code> para que use esta base de datos y el usuario correspondiente.</li>
+</ul>
+<pre><code>&lt;?php
+$CONFIG = array (
+  'instanceid' =&gt; 'oc63uzaegkwf',
+  'passwordsalt' =&gt; '1uzMp83xWHH46hMPcF+hxeFbHp+bE4',
+  'secret' =&gt; 'cTynvVtIdkPmKRHCJHLinjVbuSic0hYo9sSzv3n387dFy6hp',
+  'trusted_domains' =&gt; 
+  array (
+    0 =&gt; 'www.alejandrogv.site',
+  ),
+  'datadirectory' =&gt; '/var/www/web/cloud/data',
+  'dbtype' =&gt; 'mysql',
+  'version' =&gt; '23.0.0.10',
+  'overwrite.cli.url' =&gt; 'http://www.alejandrogv.site/cloud',
+  'dbname' =&gt; 'nextcloud',
+  'dbhost' =&gt; 'bd.alejandrogv.site',
+  'dbport' =&gt; '',
+  'dbtableprefix' =&gt; 'oc_',
+  'mysql.utf8mb4' =&gt; true,
+  'dbuser' =&gt; 'usuario1',
+  'dbpassword' =&gt; 'usuario1',
+  'installed' =&gt; true,
+);
+</code></pre><ul>
+<li>Comprobamos que tenemos acceso.</li>
+</ul>
+<p><img src="/php_vps/3.png" alt="pagina"></p>
+<ul>
+<li>Nuestro siguiente paso será instalar un cliente de nextcloud, debemos instalar el paquete <code>nextcloud-desktop</code> en la máquina que hará de cliente, seguidamente ejecutaremos el comando <code>nextcloud</code> y se nos abrirá la siguiente ventana.</li>
+</ul>
+<p><img src="/php_vps/4.png" alt="cliente"></p>
+<ul>
+<li>Clicamos en entrar y nos pedirá la url de nuestro servidor.</li>
+</ul>
+<p><img src="/php_vps/5.png" alt="pagina"></p>
+<ul>
+<li>Después de loggearnos ya estaríamos conectados.</li>
+</ul>
+<p><img src="/php_vps/6.png" alt="pagina"></p>
+<ul>
+<li>Ahora tendremos una carpeta de nextcloud donde podremos manegar nuestros ficheros.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/Nextcloud$ touch ficheronuevo.txt
+
+alejandrogv@AlejandroGV:~/Nextcloud$ ls
+ Documents         'Nextcloud intro.mp4'    Nextcloud.png   Plantillas
+ ficheronuevo.txt  'Nextcloud Manual.pdf'   Photos         'Reasons to use Nextcloud.pdf'
+</code></pre><p><img src="/php_vps/7.png" alt="pagina"></p>
 
                 </div>
                 
