@@ -126,7 +126,7 @@
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cms_php_vps/">Instalación/migración de aplicaciones web PHP eb tu VPS</a></h4>
 								<h4 class="post-date">2022-03-20</h4>
 							</div>
-							<div class="post-summary"><p>Drupal  Primero migraremos la aplicación de drupal que tenemos instalada localmente. para ello vamos a migrar la base de datos.  root@cmsagv:~# mysqldump drupal &gt; ./backup.sql  Seguidamente nos iremos a nuestra VPS donde instalaremos mariadb y crearemos una base de datos y un usuario con privilegios sobre ella.  MariaDB [(none)]&gt; CREATE DATABASE drupal; Query OK, 1 row affected (0.000 sec) MariaDB [(none)]&gt; CREATE USER 'usuario1'@'localhost'; Query OK, 0 rows affected (0.</p></div>
+							<div class="post-summary"><p>Drupal  Primero migraremos la aplicación de drupal que tenemos instalada localmente. para ello vamos a migrar la base de datos.  root@cmsagv:~# mysqldump drupal &gt; ./backup.sql  Migramos la aplicación  alejandrogv@AlejandroGV:~$ scp drupal/ debian@mrrobot.alejandrogv.site/home/debian/  Seguidamente nos iremos a nuestra VPS donde instalaremos mariadb y crearemos una base de datos y un usuario con privilegios sobre ella.  MariaDB [(none)]&gt; CREATE DATABASE drupal; Query OK, 1 row affected (0.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/cms_php_vps/">Read More</a>
 							</div>
