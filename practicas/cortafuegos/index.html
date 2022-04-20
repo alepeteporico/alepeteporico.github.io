@@ -106,55 +106,88 @@
                     <ul>
 <li>Política por defecto DROP para las cadenas INPUT, FORWARD y OUTPUT.</li>
 </ul>
-<pre><code>
-</code></pre><ul>
-<li>Se pueden usar las extensiones que creamos adecuadas, pero al menos debe implementarse seguimiento de la conexión.</li>
-</ul>
-<pre><code>
-</code></pre><ul>
-<li>Debemos implementar que el cortafuegos funcione después de un reinicio de la máquina.</li>
-</ul>
-<pre><code>
+<pre><code>iptables -P INPUT DROP
+iptables -P OUTPUT DROP
+iptables -P FORWARD DROP
 </code></pre><ul>
 <li>La máquina Zeus tiene un servidor ssh escuchando por el puerto 22, pero al acceder desde el exterior habrá que conectar al puerto 2222.</li>
 </ul>
-<pre><code>
+<pre><code>iptables -t nat -A PREROUTING -p tcp --dport 2222 -i enp0s8 -j DNAT --to 172.22.0.27:22
+iptables -A INPUT -i enp0s8 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -o enp0s8 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
 </code></pre><ul>
 <li>Desde Apolo y Hera se debe permitir la conexión ssh por el puerto 22 a la máquina Zeus.</li>
 </ul>
-<pre><code>
+<pre><code>iptables -A OUTPUT -d 10.0.1.0/24 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -s 10.0.1.0/24 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A OUTPUT -d 172.16.0.0/16 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -s 172.16.0.0/16 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
 </code></pre><ul>
 <li>La máquina Zeus debe tener permitido el tráfico para la interfaz loopback.</li>
 </ul>
-<pre><code>
+<pre><code>iptables -A OUTPUT -d 10.0.1.102/32 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+iptables -A INPUT -s 10.0.1.102/32 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+
+iptables -A OUTPUT -d 172.16.0.200/32 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+iptables -A INPUT -s 172.16.0.200/32 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+</code></pre><ul>
+<li>Permitimos la conexión por la loopback.</li>
+</ul>
+<pre><code>iptables -A INPUT -i lo -p icmp -j ACCEPT
+iptables -A OUTPUT -o lo -p icmp -j ACCEPT
 </code></pre><ul>
 <li>A la máquina Zeus se le puede hacer ping desde la DMZ, pero desde la LAN se le debe rechazar la conexión (REJECT) y desde el exterior se rechazará de manera silenciosa.</li>
 </ul>
-<pre><code>
+<pre><code>iptables -A INPUT -s 172.16.0.200/16 -p icmp -m icmp --icmp-type echo-request -j ACCEPT
+iptables -A OUTPUT -d 172.16.0.200/16 -p icmp -m icmp --icmp-type echo-reply -j ACCEPT
+
+iptables -A INPUT -s 10.0.1.0/24 -p icmp -m icmp --icmp-type echo-request -j REJECT
+iptables -A OUTPUT -d 10.0.1.0/24 -p icmp -m icmp --icmp-type echo-reply -j REJECT
 </code></pre><ul>
 <li>La máquina Zeus puede hacer ping a la LAN, la DMZ y al exterior.</li>
 </ul>
-<pre><code>
+<pre><code>iptables -A OUTPUT -p icmp -m icmp --icmp-type echo-request -j ACCEPT
+iptables -A INPUT -p icmp -m icmp --icmp-type echo-reply -j ACCEPT
 </code></pre><ul>
 <li>Desde la máquina Hera se puede hacer ping y conexión ssh a las máquinas de la LAN.</li>
 </ul>
-<pre><code>
+<pre><code>iptables -A FORWARD -s 172.16.0.200/32 -d 10.0.1.0/24 -p icmp -m icmp --icmp-type echo-request -j ACCEPT
+iptables -A FORWARD -d 172.16.0.200/32 -s 10.0.1.0/24 -p icmp -m icmp --icmp-type echo-reply -j ACCEPT
+
+iptables -A FORWARD -s 172.16.0.200/32 -d 10.0.1.0/24 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -d 172.16.0.200/32 -s 10.0.1.0/24 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
 </code></pre><ul>
 <li>Desde cualquier máquina de la LAN se puede conectar por ssh a la máquina Hera.</li>
 </ul>
-<pre><code>
+<pre><code>iptables -A FORWARD -s 10.0.1.0/24 -d 172.16.0.200/32 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -s 172.16.0.200/32 -d 10.0.1.0/24 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
 </code></pre><ul>
 <li>Configura la máquina Zeus para que las máquinas de LAN y DMZ puedan acceder al exterior.</li>
 </ul>
-<pre><code>
+<pre><code>iptables -t nat -A POSTROUTING -s 172.16.0.0/16 -o enp0s8 -j MASQUERADE
+iptables -A FORWARD -i enp0s6 -o enp0s8 -p icmp -m icmp --icmp-type echo-request -j ACCEPT
+iptables -A FORWARD -i enp0s8 -o enp0s6 -p icmp -m icmp --icmp-type echo-reply -j ACCEPT
+
+iptables -t nat -A POSTROUTING -s 10.0.1.0/24 -o enp0s8 -j MASQUERADE
+iptables -A FORWARD -i enp0s7 -o enp0s8 -p icmp -m icmp --icmp-type echo-request -j ACCEPT
+iptables -A FORWARD -i enp0s8 -o enp0s7 -p icmp -m icmp --icmp-type echo-reply -j ACCEPT
 </code></pre><ul>
 <li>Las máquinas de la LAN pueden hacer ping al exterior y navegar.</li>
 </ul>
-<pre><code>
+<pre><code>iptables -A FORWARD -i enp0s7 -o enp0s8 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s8 -o enp0s7 -p tcp --sport 80 -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A FORWARD -i enp0s7 -o enp0s8 -p tcp --dport 443 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s8 -o enp0s7 -p tcp --sport 443 -m state --state ESTABLISHED -j ACCEPT
 </code></pre><ul>
-<li>La máquina Hera puede navegar. Instala un servidor web, un servidor ftp y un servidor de correos si no los tienes aún.</li>
+<li>La máquina Hera puede navegar.</li>
 </ul>
-<pre><code>
+<pre><code>iptables -A FORWARD -i enp0s6 -o enp0s8 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s8 -o enp0s6 -p tcp --sport 80 -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A FORWARD -i enp0s6 -o enp0s8 -p tcp --dport 443 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s8 -o enp0s6 -p tcp --sport 443 -m state --state ESTABLISHED -j ACCEPT
 </code></pre><ul>
 <li>Configura la máquina Zeus para que los servicios web y ftp sean accesibles desde el exterior.</li>
 </ul>
@@ -181,6 +214,10 @@
 <pre><code>
 </code></pre><ul>
 <li>Evita que realicen escaneos de puertos a Zeus.</li>
+</ul>
+<pre><code>
+</code></pre><ul>
+<li>Debemos implementar que el cortafuegos funcione después de un reinicio de la máquina.</li>
 </ul>
 <pre><code>
 </code></pre>

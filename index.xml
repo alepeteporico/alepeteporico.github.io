@@ -6,14 +6,32 @@
     <description>Recent content on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 21 Mar 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 11 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Desplegando aplicaciones flask con apache2 &#43; uwsgi</title>
+      <link>https://alepeteporico.github.io/ejercicios/apache_uwsgi/</link>
+      <pubDate>Mon, 11 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/apache_uwsgi/</guid>
+      <description>Tendremos nuestro entorno virtual donde debemos instalar los siguientes paquetes.  (ejercicio3) alejandrogv@AlejandroGV:~$ pip install flask uwsgi  Clonamos la aplicación que instalaremos.  alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ git clone https://github.com/josedom24/guestbook.git  En este repositorio encontraremos una carpeta llamada app donde se alojará un fichero llamado app.py ahí debemos crear un fichero llamado wsgi.py con el siguiente contenido.  from app import prog as application  Instalamos los paquetes del requirementes.txt que se aloja también la carpeta app.</description>
+    </item>
+    
+    <item>
+      <title>Instalación y configuración de un servidor DNS esclavo </title>
+      <link>https://alepeteporico.github.io/ejercicios/dns_ejercicio2/</link>
+      <pubDate>Tue, 05 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/dns_ejercicio2/</guid>
+      <description>creamos una máquina que actuara de DNS secundario, el primer paso será cambiar el hostname de está maquina.  vagrant@gutierrezvalencia:~$ hostname -f gutierrezvalencia.iesgn.org  Nos dirigimos al DNS primario y configuramos el fichero /etc/bind/named.conf.options  options { directory &amp;quot;/var/cache/bind&amp;quot;; allow-query { 10.0.0.0/24; }; allow-transfer { none; }; auth-nxdomain no; # conform to RFC1035 recursion no; dnssec-validation auto; listen-on-v6 { any; }; };  Y también debemos cambiar el /etc/bind/named.conf.local para añadir el rol de maestro.</description>
+    </item>
+    
     <item>
       <title>Cortafuegos perimetral sobre el escenario</title>
       <link>https://alepeteporico.github.io/practicas/cortafuegos/</link>
       <pubDate>Mon, 21 Mar 2022 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/cortafuegos/</guid>
-      <description>Política por defecto DROP para las cadenas INPUT, FORWARD y OUTPUT.    Se pueden usar las extensiones que creamos adecuadas, pero al menos debe implementarse seguimiento de la conexión.    Debemos implementar que el cortafuegos funcione después de un reinicio de la máquina.    La máquina Zeus tiene un servidor ssh escuchando por el puerto 22, pero al acceder desde el exterior habrá que conectar al puerto 2222.</description>
+      <description>Política por defecto DROP para las cadenas INPUT, FORWARD y OUTPUT.  iptables -P INPUT DROP iptables -P OUTPUT DROP iptables -P FORWARD DROP  La máquina Zeus tiene un servidor ssh escuchando por el puerto 22, pero al acceder desde el exterior habrá que conectar al puerto 2222.  iptables -t nat -A PREROUTING -p tcp --dport 2222 -i enp0s8 -j DNAT --to 172.22.0.27:22 iptables -A INPUT -i enp0s8 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT iptables -A OUTPUT -o enp0s8 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT  Desde Apolo y Hera se debe permitir la conexión ssh por el puerto 22 a la máquina Zeus.</description>
     </item>
     
     <item>
@@ -256,15 +274,6 @@ END;</description>
       
       <guid>https://alepeteporico.github.io/practicas/despliegue_python/</guid>
       <description>Vamos a desarrollar la aplicación del tutorial de django 3.1. Vamos a configurar tu equipo como entorno de desarrollo para trabajar con la aplicación.   Realizamos un fork de la aplicación añadiendola a nuestros repositorios y seguidamente lo clonaremos en nuestra maquina:  alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python$ git clone git@github.com:alepeteporico/django_tutorial.git  Crearemos el entorno virtual donde instalaremos las dependencias necesarias para hacer funcionar nuestra aplicación.  alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ python3 -m venv django (django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ pip install -r despliegue_python/django_tutorial/requirements.</description>
-    </item>
-    
-    <item>
-      <title>Instalación y configuración de un servidor DNS esclavo </title>
-      <link>https://alepeteporico.github.io/ejercicios/dns_ejercicio2/</link>
-      <pubDate>Fri, 12 Nov 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/ejercicios/dns_ejercicio2/</guid>
-      <description></description>
     </item>
     
     <item>

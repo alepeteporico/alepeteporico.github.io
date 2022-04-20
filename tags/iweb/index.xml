@@ -6,7 +6,16 @@
     <description>Recent content in IWEB on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 20 Mar 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/iweb/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 11 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/iweb/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Desplegando aplicaciones flask con apache2 &#43; uwsgi</title>
+      <link>https://alepeteporico.github.io/ejercicios/apache_uwsgi/</link>
+      <pubDate>Mon, 11 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/apache_uwsgi/</guid>
+      <description>Tendremos nuestro entorno virtual donde debemos instalar los siguientes paquetes.  (ejercicio3) alejandrogv@AlejandroGV:~$ pip install flask uwsgi  Clonamos la aplicación que instalaremos.  alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ git clone https://github.com/josedom24/guestbook.git  En este repositorio encontraremos una carpeta llamada app donde se alojará un fichero llamado app.py ahí debemos crear un fichero llamado wsgi.py con el siguiente contenido.  from app import prog as application  Instalamos los paquetes del requirementes.txt que se aloja también la carpeta app.</description>
+    </item>
+    
     <item>
       <title>Instalación/migración de aplicaciones web PHP eb tu VPS</title>
       <link>https://alepeteporico.github.io/practicas/cms_php_vps/</link>

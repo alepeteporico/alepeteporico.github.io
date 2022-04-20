@@ -6,7 +6,25 @@
     <description>Recent content in Ejercicios on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 11 Mar 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/ejercicios/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 11 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/ejercicios/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Desplegando aplicaciones flask con apache2 &#43; uwsgi</title>
+      <link>https://alepeteporico.github.io/ejercicios/apache_uwsgi/</link>
+      <pubDate>Mon, 11 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/apache_uwsgi/</guid>
+      <description>Tendremos nuestro entorno virtual donde debemos instalar los siguientes paquetes.  (ejercicio3) alejandrogv@AlejandroGV:~$ pip install flask uwsgi  Clonamos la aplicación que instalaremos.  alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ git clone https://github.com/josedom24/guestbook.git  En este repositorio encontraremos una carpeta llamada app donde se alojará un fichero llamado app.py ahí debemos crear un fichero llamado wsgi.py con el siguiente contenido.  from app import prog as application  Instalamos los paquetes del requirementes.txt que se aloja también la carpeta app.</description>
+    </item>
+    
+    <item>
+      <title>Instalación y configuración de un servidor DNS esclavo </title>
+      <link>https://alepeteporico.github.io/ejercicios/dns_ejercicio2/</link>
+      <pubDate>Tue, 05 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/dns_ejercicio2/</guid>
+      <description>creamos una máquina que actuara de DNS secundario, el primer paso será cambiar el hostname de está maquina.  vagrant@gutierrezvalencia:~$ hostname -f gutierrezvalencia.iesgn.org  Nos dirigimos al DNS primario y configuramos el fichero /etc/bind/named.conf.options  options { directory &amp;quot;/var/cache/bind&amp;quot;; allow-query { 10.0.0.0/24; }; allow-transfer { none; }; auth-nxdomain no; # conform to RFC1035 recursion no; dnssec-validation auto; listen-on-v6 { any; }; };  Y también debemos cambiar el /etc/bind/named.conf.local para añadir el rol de maestro.</description>
+    </item>
+    
     <item>
       <title>Ejercicio 4 cortafuegos</title>
       <link>https://alepeteporico.github.io/ejercicios/ejercicio4_cortafuegos/</link>
@@ -93,15 +111,6 @@
       <guid>https://alepeteporico.github.io/ejercicios/plsql/</guid>
       <description>Realiza una función que reciba el código de un aerogenerador y una fecha y devuelva el total de energía producida en esa fecha. Debes controlar las siguientes excepciones: Aerogenerador inexistente y Aerogenerador en desconexión durante ese día.  BEGIN
 END;</description>
-    </item>
-    
-    <item>
-      <title>Instalación y configuración de un servidor DNS esclavo </title>
-      <link>https://alepeteporico.github.io/ejercicios/dns_ejercicio2/</link>
-      <pubDate>Fri, 12 Nov 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/ejercicios/dns_ejercicio2/</guid>
-      <description></description>
     </item>
     
     <item>

@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title> Instalación y configuración de un servidor DNS esclavo  &middot; Alepetepórico Blog </title>
+        <title> Desplegando aplicaciones flask con apache2 &#43; uwsgi &middot; Alepetepórico Blog </title>
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -100,104 +100,101 @@
 
         <div class="flex-wrapper">
             <div class="container wrapper">
-                <h1><a href="https://alepeteporico.github.io/ejercicios/dns_ejercicio2/">Instalación y configuración de un servidor DNS esclavo </a></h1>
-                <span class="post-date">2022-04-05 </span>
+                <h1><a href="https://alepeteporico.github.io/ejercicios/apache_uwsgi/">Desplegando aplicaciones flask con apache2 &#43; uwsgi</a></h1>
+                <span class="post-date">2022-04-11 </span>
                 <div class="post-content">
                     <ul>
-<li>creamos una máquina que actuara de DNS secundario, el primer paso será cambiar el hostname de está maquina.</li>
+<li>Tendremos nuestro entorno virtual donde debemos instalar los siguientes paquetes.</li>
 </ul>
-<pre><code>vagrant@gutierrezvalencia:~$ hostname -f
-gutierrezvalencia.iesgn.org
+<pre><code>(ejercicio3) alejandrogv@AlejandroGV:~$ pip install flask uwsgi
 </code></pre><ul>
-<li>Nos dirigimos al DNS primario y configuramos el fichero <code>/etc/bind/named.conf.options</code></li>
+<li>Clonamos la aplicación que instalaremos.</li>
 </ul>
-<pre><code>options {
-        directory &quot;/var/cache/bind&quot;;
-        allow-query { 10.0.0.0/24; };
-        allow-transfer { none; };
-
-        auth-nxdomain no;    # conform to RFC1035
-        recursion no;
-
-        dnssec-validation auto;
-
-        listen-on-v6 { any; };
-};
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ git clone https://github.com/josedom24/guestbook.git
 </code></pre><ul>
-<li>Y también debemos cambiar el <code>/etc/bind/named.conf.local</code> para añadir el rol de maestro.</li>
+<li>En este repositorio encontraremos una carpeta llamada app donde se alojará un fichero llamado <code>app.py</code> ahí debemos crear un fichero llamado <code>wsgi.py</code> con el siguiente contenido.</li>
 </ul>
-<pre><code>zone &quot;iesgn.org&quot; {
-        type master;
-        file &quot;db.iesgn.org&quot;;
-        allow-transfer { slaves; };
-        notify yes;
-};
-
-zone &quot;0.0.10.in-addr.arpa&quot; {
-        type master;
-        file &quot;db.0.0.10&quot;;
-        allow-transfer { slaves; };
-        notify yes;
-};
+<pre><code>from app import prog as application
 </code></pre><ul>
-<li>Y también debemos añadirlo en las zonas directas e inversas.</li>
+<li>Instalamos los paquetes del requirementes.txt que se aloja también la carpeta app.</li>
 </ul>
-<pre><code>$TTL    86400
-@       IN      SOA     alegv.iesgn.org. admin.iesgn.org. (
-                         24367          ; Serial
-                         604800         ; Refresh
-                          86400         ; Retry
-                        2419200         ; Expire
-                          86400 )       ; Negative Cache TTL
-;
-@       IN      NS      alegv.iesgn.org.
-@       IN      NS      gutierrezvalencia.iesgn.org
-@       IN      MX 10   correo.iesgn.org.
-
-$ORIGIN iesgn.org.
-
-alegv   IN      A       10.0.0.10
-gutierrezvalencia       IN      A       10.0.0.20
-correo  IN      A       10.0.0.200
-ftp     IN      A       10.0.0.201
-www             IN      CNAME   alegv
-departamentos   IN      CNAME   alegv
-</code></pre><pre><code>$TTL    86400
-@       IN      SOA     alegv.iesgn.org. admin.iesgn.org. (
-                         24367          ; Serial
-                         604800         ; Refresh
-                          86400         ; Retry
-                        2419200         ; Expire
-                          86400 )       ; Negative Cache TTL
-;
-@       IN      NS      alegv.iesgn.org.
-@       IN      NS      gutierrezvalencia.iesgn.org
-
-$ORIGIN 0.0.10.in-addr.arpa.
-
-10      IN      PTR     alegv.iesgn.org.
-20      IN      PTR     gutierrezvalencia.iesgn.org.
-200     IN      PTR     correo.iesgn.org.
-201     IN      PTR     ftp.iesgn.org.
+<pre><code>pip install -r requirements.txt
 </code></pre><ul>
-<li>Nos dirigimos al DNS secundario para modificar nuevamente el fichero <code>named.conf.local</code></li>
+<li>Una vez hecho esto podemos usar el siguiente comando para ejecutar la aplicación.</li>
 </ul>
-<pre><code>include &quot;/etc/bind/zones.rfc1918&quot;;
-
-zone &quot;iesgn.org&quot; {
-        type slave;
-        file &quot;db.iesgn.org&quot;;
-        masters { 10.0.0.10; };
-};
-
-zone &quot;121.168.192.in-addr.arpa&quot; {
-        type slave;
-        file &quot;db.0.0.10&quot;;
-        masters { 10.0.0.10; };
-};
+<pre><code>uwsgi --http :8082 --chdir /home/alejandrogv/Escritorio/ASIR/IWEB/guestbook/app/ --wsgi-file    wsgi.py --process 4 --threads 2 --master
+</code></pre><p><img src="/apache_uwsgi/1.png" alt="prueba"></p>
+<ul>
+<li>Pero en vez de tener que ejecutar este comando vamos a crear un fichero <code>.ini</code>.</li>
+</ul>
+<pre><code>[uwsgi]
+http = :8082
+chdir = /home/alejandrogv/Escritorio/ASIR/IWEB/guestbook/app/             
+wsgi-file = wsgi.py
+processes = 4
+threads = 2
 </code></pre><ul>
-<li></li>
+<li>Lo ejecutariamos con el siguiente comando.</li>
 </ul>
+<pre><code>uwsgi guestbook.ini
+</code></pre><ul>
+<li>Ahora crearemos una unidad de systemd, para poder ejecutar la aplicación. tendremos que crearla en la carpeta <code>/etc/systemd/system/</code>, lo llamaremos <code>uwsgi-guestbook.service</code>.</li>
+</ul>
+<pre><code>[Unit]
+Description=uwsgi-guestbook
+After=network.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+User=www-data
+Group=www-data
+Restart=always
+
+ExecStart=/home/alejandrogv/entornos/ejercicio3/bin/uwsgi /home/alejandrogv/Escritorio/ASIR/IWEB/guestbook/app/guestbook.ini
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+
+WorkingDirectory=/home/alejandrogv/Escritorio/ASIR/IWEB/guestbook/app/
+Environment=PYTHONPATH='/home/alejandrogv/Escritorio/ASIR/IWEB/guestbook/app/:/home/alejandrogv/entornos/ejercicio3/lib/python3.9/site-packages'
+
+PrivateTmp=true
+</code></pre><ul>
+<li>La habilitamos e inicializamos.</li>
+</ul>
+<pre><code>sudo systemctl enable uwsgi-guestbook.service
+Created symlink /etc/systemd/system/multi-user.target.wants/uwsgi-guestbook.service → /etc/systemd/system/uwsgi-guestbook.service.
+
+sudo systemctl start uwsgi-guestbook.service
+</code></pre><ul>
+<li>Creamos un virtualhost en apache tal que así:</li>
+</ul>
+<pre><code>&lt;VirtualHost *:80&gt;
+
+        ServerName www.guestbook.com
+        ServerAdmin webmaster@localhost
+        DocumentRoot /home/alejandrogv/Escritorio/ASIR/IWEB/guestbook/app/
+        ProxyPass / http://127.0.0.1:8082/
+        ProxyPassReverse / http://127.0.0.1:8082/
+        &lt;Directory /home/alejandrogv/Escritorio/ASIR/IWEB/guestbook/app/&gt;
+                Require all granted
+        &lt;/Directory&gt;
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+&lt;/VirtualHost&gt;
+</code></pre><ul>
+<li>Lo habilitamos y activamos 2 módulos de proxy necesarios.</li>
+</ul>
+<pre><code>a2ensite guestbook.conf
+
+sudo a2enmod proxy proxy_http
+</code></pre><ul>
+<li>Después de reiniciar apache podemos comprobar que tenemos nuestra aplicación funcionando.</li>
+</ul>
+<p><img src="/apache_uwsgi/2.png" alt="prueba con apache"></p>
 
                 </div>
                 
