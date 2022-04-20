@@ -181,7 +181,136 @@ Superuser created successfully.
 <li>Comprobaremos que funciona la url <code>/polls</code></li>
 </ul>
 <p><img src="/despliegue_python/6.png" alt="polls"></p>
-<h3 id="modificación-de-la-aplicación">Modificación de la aplicación.</h3>
+<h3 id="entorno-de-producción">Entorno de producción</h3>
+<ul>
+<li>Clonamos nuevamente el repositorio, esta vez en nuestra VPS.</li>
+</ul>
+<pre><code>debian@mrrobot:~/aplicaciones$ git clone https://github.com/alepeteporico/django_tutorial.git
+</code></pre><ul>
+<li>Como hicimos anteriormente, crearemos un entorno virtual donde instalaremos las dependencias necesarias y como novedad debemos instalar el paquete que permitirá a python trabajar con mysql.</li>
+</ul>
+<pre><code>pip install mysqlclient
+</code></pre><ul>
+<li>Nos dirigimos a mariadb donde crearemos una base de datos y un usuario con privilegios sobre ella.</li>
+</ul>
+<pre><code>MariaDB [(none)]&gt; create database django_tutorial;
+
+MariaDB [(none)]&gt; grant all on django_tutorial.* to 'admin'@'%' identified by 'admin' with grant option;
+</code></pre><ul>
+<li>Ahora configuramos el fichero <code>settings,py</code> de la aplicación para añadir esta base de datos.</li>
+</ul>
+<pre><code>DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'django_tutorial',
+        'USER': 'admin',
+        'PASSWORD': 'admin',
+        'HOST': 'db.alejandrogv.site',
+        'PORT': '3306',
+    }
+}
+</code></pre><ul>
+<li>Realizamos la migración.</li>
+</ul>
+<pre><code>(django) debian@mrrobot:~/aplicaciones/django_tutorial$ python3 manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, polls, sessions
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying polls.0001_initial... OK
+  Applying sessions.0001_initial... OK
+</code></pre><ul>
+<li>Y creamos un super usuario.</li>
+</ul>
+<pre><code>(django) debian@mrrobot:~/aplicaciones/django_tutorial$ python3 manage.py createsuperuser
+Username (leave blank to use 'debian'): admin
+Email address: tojandro@gmail.com
+Password: 
+Password (again):
+Bypass password validation and create user anyway? [y/N]: y
+Superuser created successfully.
+</code></pre><ul>
+<li>Usaremos gunicorn como servidor de aplicaciones python, para ello debemos instalarlo.</li>
+</ul>
+<pre><code>pip install gunicorn
+</code></pre><ul>
+<li>Vamos a crear una unidad de systemd para poder tener encendida nuestra aplicación continuamente.</li>
+</ul>
+<pre><code>[Unit]
+Description=django_tutorial
+After=network.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+User=www-data
+Group=www-data
+Restart=always
+
+ExecStart=/home/debian/entornos/django/bin/gunicorn django_tutorial.wsgi
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+
+WorkingDirectory=/home/debian/aplicaciones/django_tutorial
+Environment=PYTHONPATH='/home/debian/aplicaciones/django_tutorial:/home/debian/entornos/django/lib/python3.9/site-packages'
+
+PrivateTmp=true
+</code></pre><ul>
+<li>Creamos el virtual host en nginx.</li>
+</ul>
+<pre><code>server {
+        listen 80;
+        listen [::]:80;
+
+        root /home/debian/aplicaciones/django_tutorial;
+
+        index index.html index.php index.htm index.nginx-debian.html;
+
+        server_name django.alejandrogv.site;
+
+        location / {
+                proxy_pass http://localhost:8000;
+                include proxy_params;
+        }
+
+        location /static {
+                alias /home/debian/entornos/django/lib/python3.9/site-packages/django/contrib/admin/static;
+        }
+}
+</code></pre><ul>
+<li>Creamos el enlace a sites-enabled.</li>
+</ul>
+<pre><code>sudo ln -s /etc/nginx/sites-available/django_tutorial.conf /etc/nginx/sites-enabled/
+</code></pre><ul>
+<li>Debemos añadir el host de acceso a la línea de allowed host en el fichero <code>settings.py</code> de la aplicación.</li>
+</ul>
+<pre><code>ALLOWED_HOSTS = ['django.alejandrogv.site']
+</code></pre><ul>
+<li>Comprobamos que podemos acceder.</li>
+</ul>
+<p><img src="/despliegue_python/12.png" alt="acceso"></p>
+<ul>
+<li>Ahora para que no aparezcan errores de ejecución mientras se está sirviendo la aplicación cambiamos la línea de debug a false en el fichero <code>settings.py</code> y reiniciamos nginx y la unidad de systemdb que creamos.</li>
+</ul>
+<pre><code>DEBUG = False
+</code></pre><h3 id="modificación-de-la-aplicación">Modificación de la aplicación.</h3>
 <ul>
 <li>
 <p>Primero realizaremos estos cambios en el entorno de desarrollo, el primero de ellos será que nuestro nombre aparezca en la pagina de admin. Para ello modificaremos el fichero <code>django_tutorial/polls/templates/polls/index.html</code>.</p>
@@ -256,194 +385,6 @@ Superuser created successfully.
 </li>
 </ul>
 <p><img src="/despliegue_python/11.png" alt="fondo"></p>
-<h3 id="entorno-de-producción">ENTORNO DE PRODUCCIÓN.</h3>
-<ul>
-<li>Copiaremos nuestro repositorio con la aplicación y la guardaremos en el que se convertirá en nuestro DocumentRoot.</li>
-</ul>
-<pre><code>debian@mrrobot:~$ git clone https://github.com/alepeteporico/django_tutorial.git
-
-debian@mrrobot:~$ sudo mv django_tutorial/ /var/www/
-</code></pre><ul>
-<li>Seguidamente crearemos un entorno virtual con python para instalar las dependencias de nuestra aplicación, tal como hicimos anteriormente en el entorno de prueba.</li>
-</ul>
-<pre><code>debian@mrrobot:~$ python3 -m venv entornos/django
-
-(django) debian@mrrobot:~$ pip install -r /var/www/django/requirements.txt 
-Collecting Django
-  Downloading Django-3.2.9-py3-none-any.whl (7.9 MB)
-     |████████████████████████████████| 7.9 MB 7.7 MB/s 
-Collecting pytz
-  Downloading pytz-2021.3-py2.py3-none-any.whl (503 kB)
-     |████████████████████████████████| 503 kB 14.8 MB/s 
-Collecting sqlparse&gt;=0.2.2
-  Downloading sqlparse-0.4.2-py3-none-any.whl (42 kB)
-     |████████████████████████████████| 42 kB 2.2 MB/s 
-Collecting asgiref&lt;4,&gt;=3.3.2
-  Downloading asgiref-3.4.1-py3-none-any.whl (25 kB)
-Installing collected packages: sqlparse, pytz, asgiref, Django
-Successfully installed Django-3.2.9 asgiref-3.4.1 pytz-2021.3 sqlparse-0.4.2
-</code></pre><ul>
-<li>A parte, instalaremos unos módulos y dependencias que le permitirán a python trabajar con mysql.</li>
-</ul>
-<pre><code>(django) debian@mrrobot:~$ sudo apt-get install python3-dev default-libmysqlclient-dev build-essential
-(django) debian@mrrobot:~$ pip install mysqlclient
-</code></pre><ul>
-<li>Accederemos a la mysql y crearemos una base de datos y un usuario que tendrá permisos sobre esta base de datos.</li>
-</ul>
-<pre><code>(django) debian@mrrobot:~$ sudo mysql -u root -p
-
-MariaDB [(none)]&gt; CREATE DATABASE django_bbdd;
-Query OK, 1 row affected (0.007 sec)
-
-MariaDB [(none)]&gt; CREATE USER 'usuario'@'localhost' IDENTIFIED BY 'usuario';
-Query OK, 0 rows affected (0.010 sec)
-
-MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON django_bbdd.* TO 'usuario'@'localhost';
-Query OK, 0 rows affected (0.001 sec)
-</code></pre><ul>
-<li>El siguiente paso será modificar el fichero de configuración de django donde teníamos la configuración de la base de datos llamado <code>settings.py</code>, veamos como quedaría nuestra configuración:</li>
-</ul>
-<pre><code>DATABASES = {
-    'default': {
-        'ENGINE': 'mysql.connector.django',
-        'NAME': 'django_bbdd',
-        'USER': 'usuario',
-        'PASSWORD': 'usuario',
-        'HOST': 'localhost',
-        'PORT': '3306',
-    }
-}
-</code></pre><ul>
-<li>A parte, en este fichero tendremos que especificar el nombre de dominio por el que vamos a acceder a la aplicación, esto lo configuraremos mas tarde.</li>
-</ul>
-<pre><code>ALLOWED_HOSTS = ['www.alegvdjango.site']
-</code></pre><ul>
-<li>Migramos la base de datos.</li>
-</ul>
-<pre><code>(django) root@mrrobot:/var/www/django_tutorial# python3 manage.py migrate
-Operations to perform:
-  Apply all migrations: admin, auth, contenttypes, polls, sessions
-Running migrations:
-  Applying contenttypes.0001_initial... OK
-  Applying auth.0001_initial... OK
-  Applying admin.0001_initial... OK
-  Applying admin.0002_logentry_remove_auto_add... OK
-  Applying admin.0003_logentry_add_action_flag_choices... OK
-  Applying contenttypes.0002_remove_content_type_name... OK
-  Applying auth.0002_alter_permission_name_max_length... OK
-  Applying auth.0003_alter_user_email_max_length... OK
-  Applying auth.0004_alter_user_username_opts... OK
-  Applying auth.0005_alter_user_last_login_null... OK
-  Applying auth.0006_require_contenttypes_0002... OK
-  Applying auth.0007_alter_validators_add_error_messages... OK
-  Applying auth.0008_alter_user_username_max_length... OK
-  Applying auth.0009_alter_user_last_name_max_length... OK
-  Applying auth.0010_alter_group_name_max_length... OK
-  Applying auth.0011_update_proxy_permissions... OK
-  Applying auth.0012_alter_user_first_name_max_length... OK
-  Applying polls.0001_initial... OK
-  Applying sessions.0001_initial... OK
-</code></pre><ul>
-<li>Como hicimos anteriormente crearemos un usuario.</li>
-</ul>
-<pre><code>(django) root@mrrobot:/var/www/django_tutorial# python3 manage.py createsuperuser
-Username (leave blank to use 'root'): admin
-Email address: tojandro@gmail.com
-Password: 
-Password (again): 
-The password is too similar to the username.
-This password is too short. It must contain at least 8 characters.
-This password is too common.
-Bypass password validation and create user anyway? [y/N]: y
-Superuser created successfully.
-</code></pre><ul>
-<li>Crearemos una unidad de systemd con el siguiente contenido:</li>
-</ul>
-<pre><code>[Unit]
-Description=django_aplicacion
-After=network.target
-
-[Install]
-WantedBy=multi-user.target
-
-[Service]
-User=www-data
-Group=www-data
-Restart=always
-
-ExecStart=/home/debian/entornos/django/bin/gunicorn -w 2 -b :8080 wsgi:application
-ExecReload=/bin/kill -s HUP $MAINPID
-ExecStop=/bin/kill -s TERM $MAINPID
-
-WorkingDirectory=/var/www/django_tutorial/django_tutorial
-Environment=PYTHONPATH='/var/www/django_tutorial/django_tutorial:/home/debian/entornos/django/lib/python3.9/site-packages'
-
-PrivateTmp=true
-</code></pre><ul>
-<li>Ahora crearemos un VirtualHost que tendrá la siguiente configuración:</li>
-</ul>
-<pre><code>server
-
-{
-
-    listen 80;
-
-    server_name django.alejandrogv.site;
-
-    index index.php index.html index.htm default.php default.htm default.html;
-
-    root /var/www/django_tutorial;
-
-    #path_to_your_directory
-
-    # Forbidden files or directories
-
-    location ~ ^/(\.user.ini|\.htaccess|\.git|\.svn|\.project|LICENSE|README.md)
-
-    {
-
-        return 404;
-
-    }
-
-     location /static {
-
-        autoindex on;
-
-        alias /var/www/django_tutorial/static/ ;
-
-    }
-
-    location /
-
-{
-
-    proxy_pass http://127.0.0.1:8000;
-
-}
-
-}
-</code></pre><ul>
-<li>Creamos las carpetas para el contenido estático que tendremos que copiar de los directorios que veremos a continuación:</li>
-</ul>
-<pre><code>root@mrrobot:/var/www/django_tutorial# mkdir -p static/{admin,polls}
-
-root@mrrobot:/var/www/django_tutorial# cp -r /home/debian/entornos/django/lib/python3.9/site-packages/django/contrib/admin/static/admin/* static/admin/
-root@mrrobot:/var/www/django_tutorial# cp -r polls/static/polls/* static/polls/
-</code></pre><ul>
-<li>añadiremos al <code>/etc/hosts</code> de nuestra anfitriona la dirección de nuestra aplicación y comprobaremos su funcionamiento.</li>
-</ul>
-<p><img src="/despliegue_python/7.png" alt="exito"></p>
-<ul>
-<li>Podemos comprobar que nuestro sitio hace uso de las hojas de estilo</li>
-</ul>
-<p><img src="/despliegue_python/8.png" alt="hojas estilo"></p>
-<ul>
-<li>
-<p>Para evitar que se pueda mostrar información sensible configuramos el fichero settings.py y quitamos el debug.</p>
-<pre><code>  DEBUG = False</code></pre>
-</li>
-</ul>
 
                 </div>
                 
