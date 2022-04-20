@@ -312,79 +312,93 @@ PrivateTmp=true
 <pre><code>DEBUG = False
 </code></pre><h3 id="modificación-de-la-aplicación">Modificación de la aplicación.</h3>
 <ul>
-<li>
-<p>Primero realizaremos estos cambios en el entorno de desarrollo, el primero de ellos será que nuestro nombre aparezca en la pagina de admin. Para ello modificaremos el fichero <code>django_tutorial/polls/templates/polls/index.html</code>.</p>
-<pre><code>  {% load static %}
-
-  &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;{% static 'polls/style.css' %}&quot;&gt;
-
-  &lt;h1&gt;Alejandro Gutiérrez Valencia&lt;h1&gt;
-
-  {% if latest_question_list %}
-      &lt;ul&gt;
-      {% for question in latest_question_list %}
-      &lt;li&gt;&lt;a href=&quot;{% url 'polls:detail' question.id %}&quot;&gt;{{ question.question_text }}&lt;/a&gt;&lt;/li&gt;
-      {% endfor %}
-      &lt;/ul&gt;
-  {% else %}
-      &lt;p&gt;No polls are available.&lt;/p&gt;
-  {% endif %}
-</code></pre>
-</li>
+<li>Primero realizaremos estos cambios en el entorno de desarrollo, el primero de ellos será que nuestro nombre aparezca en la pagina de admin. Para ello modificaremos el fichero <code>django_tutorial/polls/templates/polls/index.html</code>.</li>
 </ul>
-<p><img src="/despliegue_python/8.png" alt="nombre"></p>
+<pre><code>{% load static %}
+
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;{% static 'polls/style.css' %}&quot;&gt;
+Alejandro Gutierrez Valencia
+{% if latest_question_list %}
+    &lt;ul&gt;
+    {% for question in latest_question_list %}
+    &lt;li&gt;&lt;a href=&quot;{% url 'polls:detail' question.id %}&quot;&gt;{{ question.question_text }}&lt;/a&gt;&lt;/li&gt;
+    {% endfor %}
+    &lt;/ul&gt;
+{% else %}
+    &lt;p&gt;No polls are available.&lt;/p&gt;
+{% endif %}
+</code></pre><p><img src="/despliegue_python/8.png" alt="nombre"></p>
 <ul>
-<li>
-<p>Vamos a modificar la imagen que se ve de fondo en la aplicación, para ello modificamos el archivo <code>django/lib/python3.7/site-packages/django/contrib/admin/static/admin/css/base.css</code> y podemos por ejemplo cambiar el color de fondo</p>
-<pre><code>  body {
-      margin: 0;
-      padding: 0;
-      font-size: 14px;
-      font-family: &quot;Roboto&quot;,&quot;Lucida Grande&quot;,&quot;DejaVu Sans&quot;,&quot;Bitstream Vera Sans&quot;,Verdana,Arial,sans-serif;
-      color: #333;
-      background: #ebe10d;
-  }
-</code></pre>
-</li>
+<li>En <code>django_tutorial/polls/templates/index.html</code> cambiaremos la imagen que aparece de fondo en la aplicación.</li>
 </ul>
-<p><img src="/despliegue_python/10.png" alt="fondo"></p>
+<p><img src="/despliegue_python/9.png" alt="imagen"></p>
 <ul>
-<li>
-<p>Añadiremos una nueva tabla en la base de datos, para ello añadimos el siguiente modelo a <code>polls/models.py</code></p>
-<pre><code>    class Categoria(models.Model):
-      Abr = models.CharField(max_length=4)
-      Nombre = models.CharField(max_length=50)
-
-      def __str__(self):
-          return self.Abr+&quot; - &quot;+self.Nombre 
-</code></pre>
-</li>
-<li>
-<p>El siguiente paso es crear una nueva migración:</p>
-<pre><code>  (django) alejandrogv@AlejandroGV:~/django_tutorial$ python3 manage.py makemigrations
-  Migrations for 'polls':
-    polls/migrations/0002_categoria.py
-      - Create model Categoria
-</code></pre>
-</li>
-<li>
-<p>Ahora en <code>polls/admin.py</code> debemos añadir el nuevo modelo.</p>
-<pre><code>  from .models import Choice, Question, Categoria
-
-  admin.site.register(Categoria)
-</code></pre>
-</li>
-<li>
-<p>Y migramos por supuesto.</p>
-<pre><code>  (django) alejandrogv@AlejandroGV:~/django_tutorial$ python3 manage.py migrate
-  Operations to perform:
-    Apply all migrations: admin, auth, contenttypes, polls, sessions
-  Running migrations:
-    Applying polls.0002_categoria... OK
-</code></pre>
-</li>
+<li>Añadiremos una nueva tabla en la base de datos, para ello añadimos el siguiente modelo a <code>polls/models.py</code></li>
 </ul>
-<p><img src="/despliegue_python/11.png" alt="fondo"></p>
+<pre><code>class Categoria(models.Model):
+        Abr = models.CharField(max_length=4)
+        Nombre = models.CharField(max_length=50)
+
+        def __str__(self):
+                return self.Abr+&quot; - &quot;+self.Nombre
+</code></pre><ul>
+<li>El siguiente paso es crear una nueva migración:</li>
+</ul>
+<pre><code>(django) alejandrogv@AlejandroGV:~/django_tutorial$ python3 manage.py makemigrations
+Migrations for 'polls':
+  polls/migrations/0002_categoria.py
+    - Create model Categoria
+</code></pre><ul>
+<li>Migramos.</li>
+</ul>
+<pre><code>(django) alejandrogv@AlejandroGV:~/django_tutorial$ python3 manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, polls, sessions
+Running migrations:
+  Applying polls.0002_categoria... OK
+</code></pre><ul>
+<li>Ahora en <code>polls/admin.py</code> debemos añadir el nuevo modelo.</li>
+</ul>
+<pre><code>from .models import Choice, Question, Categoria
+
+admin.site.register(Categoria)
+</code></pre><p><img src="/despliegue_python/10.png" alt="categoria "></p>
+<ul>
+<li>Después de hacer estos cambios, la forma de migrarlos en subir los cambios a github y hacer un pull en el entorno de desarrollo.</li>
+</ul>
+<pre><code>debian@mrrobot:~/aplicaciones/django_tutorial$ git pull
+hint: Pulling without specifying how to reconcile divergent branches is
+hint: discouraged. You can squelch this message by running one of the following
+hint: commands sometime before your next pull:
+hint: 
+hint:   git config pull.rebase false  # merge (the default strategy)
+hint:   git config pull.rebase true   # rebase
+hint:   git config pull.ff only       # fast-forward only
+hint: 
+hint: You can replace &quot;git config&quot; with &quot;git config --global&quot; to set a default
+hint: preference for all repositories. You can also pass --rebase, --no-rebase,
+hint: or --ff-only on the command line to override the configured default per
+hint: invocation.
+remote: Enumerating objects: 17, done.
+remote: Counting objects: 100% (17/17), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 9 (delta 6), reused 9 (delta 6), pack-reused 0
+Unpacking objects: 100% (9/9), 990 bytes | 247.00 KiB/s, done.
+From https://github.com/alepeteporico/django_tutorial
+   2e1a38a..6b3b604  master     -&gt; origin/master
+Updating 2e1a38a..6b3b604
+Fast-forward
+ polls/admin.py                   | 3 ++-
+ polls/models.py                  | 7 +++++++
+ polls/templates/index.html       | 4 ++--
+ polls/templates/polls/index.html | 4 ++--
+ 4 files changed, 13 insertions(+), 5 deletions(-)
+</code></pre><ul>
+<li>Comprobamos que se han migrado los cambios.</li>
+</ul>
+<p><img src="/despliegue_python/13.png" alt="cambios"></p>
+<p><img src="/despliegue_python/14.png" alt="cambios"></p>
+<p><img src="/despliegue_python/15.png" alt="cambios"></p>
 
                 </div>
                 
