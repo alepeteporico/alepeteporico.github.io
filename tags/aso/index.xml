@@ -6,7 +6,16 @@
     <description>Recent content in ASO on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 14 Mar 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/aso/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 17 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/aso/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HTTPS OVH</title>
+      <link>https://alepeteporico.github.io/practicas/https_ovh/</link>
+      <pubDate>Sun, 17 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/https_ovh/</guid>
+      <description>Explica los pasos fundamentales para la creación del certificado. Especificando los campos que has rellenado en el fichero CSR.  Para este cometido usaremos el servicio letsencrypt, esta unidad certificadora hace use del protocolo ACME que lleva a cabo dos sencillos pasos mediante un agente llamadao certbot los pasos son:   Validación del dominio. Tenemos que demostrar que somos administradores del dominio en el que queremos generar este certificado, esto se puede hacer de dos formas:    Creando un fichero de configuración en una ruta determinada, si la autoridad certificadora puede acceder por el puerto 80 y verificar este fichero y validar las firmas de las claves que se generarían para hacer dicha conexión, entonces verificará que somos administradores del dominio.</description>
+    </item>
+    
     <item>
       <title>Copias de seguridad con bacula</title>
       <link>https://alepeteporico.github.io/practicas/copias/</link>
@@ -85,15 +94,6 @@
  alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ sudo apt install build-essential qtbase5-dev    Necesitamos saber que versión del kernel estamos usando.
  alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ uname -r 5.10.0-8-amd64    Descargaremos la versión de nuestro kernel desde la página oficial
  alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ wget https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.10.tar.gz alejandrogv@AlejandroGV:~/Escritorio/ASIR/sistemas/kernel$ ls linux-5.10.tar.gz    Descomprimos este archivo y el resultado será una carpeta con muchisima información.</description>
-    </item>
-    
-    <item>
-      <title>HTTPS OVH</title>
-      <link>https://alepeteporico.github.io/practicas/https_ovh/</link>
-      <pubDate>Tue, 01 Jun 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/https_ovh/</guid>
-      <description>Explica los pasos fundamentales para la creación del certificado. Especificando los campos que has rellenado en el fichero CSR.  Para este cometido usaremos el servicio letsencrypt, esta unidad certificadora hace use del protocolo ACME que lleva a cabo dos sencillos pasos mediante un agente llamadao certbot los pasos son:   Validación del dominio. Tenemos que demostrar que somos administradores del dominio en el que queremos generar este certificado, esto se puede hacer de dos formas:    Creando un fichero de configuración en una ruta determinada, si la autoridad certificadora puede acceder por el puerto 80 y verificar este fichero y validar las firmas de las claves que se generarían para hacer dicha conexión, entonces verificará que somos administradores del dominio.</description>
     </item>
     
     <item>

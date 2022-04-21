@@ -101,7 +101,7 @@
         <div class="flex-wrapper">
             <div class="container wrapper">
                 <h1><a href="https://alepeteporico.github.io/practicas/https_ovh/">HTTPS OVH</a></h1>
-                <span class="post-date">2021-06-01 </span>
+                <span class="post-date">2022-04-17 </span>
                 <div class="post-content">
                     <h3 id="explica-los-pasos-fundamentales-para-la-creación-del-certificado-especificando-los-campos-que-has-rellenado-en-el-fichero-csr">Explica los pasos fundamentales para la creación del certificado. Especificando los campos que has rellenado en el fichero CSR.</h3>
 <ul>
@@ -155,21 +155,21 @@ IMPORTANT NOTES:
 
    Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
    Donating to EFF:                    https://eff.org/donate-le
-</code></pre><pre><code>root@mrrobot:~# certbot certonly --standalone -d python.alejandrogv.site
+</code></pre><pre><code>root@mrrobot:~# certbot certonly --standalone -d django.alejandrogv.site
 Saving debug log to /var/log/letsencrypt/letsencrypt.log
 Plugins selected: Authenticator standalone, Installer None
-Requesting a certificate for python.alejandrogv.site
+Requesting a certificate for django.alejandrogv.site
 Performing the following challenges:
-http-01 challenge for python.alejandrogv.site
+http-01 challenge for django.alejandrogv.site
 Waiting for verification...
 Cleaning up challenges
 
 IMPORTANT NOTES:
  - Congratulations! Your certificate and chain have been saved at:
-   /etc/letsencrypt/live/python.alejandrogv.site/fullchain.pem
+   /etc/letsencrypt/live/django.alejandrogv.site/fullchain.pem
    Your key file has been saved at:
-   /etc/letsencrypt/live/python.alejandrogv.site/privkey.pem
-   Your certificate will expire on 2022-07-17. To obtain a new or
+   /etc/letsencrypt/live/django.alejandrogv.site/privkey.pem
+   Your certificate will expire on 2022-07-19. To obtain a new or
    tweaked version of this certificate in the future, simply run
    certbot again. To non-interactively renew *all* of your
    certificates, run &quot;certbot renew&quot;
@@ -185,13 +185,13 @@ Saving debug log to /var/log/letsencrypt/letsencrypt.log
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Found the following certs:
-  Certificate Name: python.alejandrogv.site
-    Serial Number: 366a35d4554012842c0a6e15479a6bbff69
+  Certificate Name: django.alejandrogv.site
+    Serial Number: 473148e2b4e29b9e07d399fbdd8502de63b
     Key Type: RSA
-    Domains: python.alejandrogv.site
-    Expiry Date: 2022-07-17 09:08:03+00:00 (VALID: 89 days)
-    Certificate Path: /etc/letsencrypt/live/python.alejandrogv.site/fullchain.pem
-    Private Key Path: /etc/letsencrypt/live/python.alejandrogv.site/privkey.pem
+    Domains: django.alejandrogv.site
+    Expiry Date: 2022-07-19 14:34:56+00:00 (VALID: 89 days)
+    Certificate Path: /etc/letsencrypt/live/django.alejandrogv.site/fullchain.pem
+    Private Key Path: /etc/letsencrypt/live/django.alejandrogv.site/privkey.pem
   Certificate Name: www.alejandrogv.site
     Serial Number: 312daa9a75a50f34e8519be31472dbb8656
     Key Type: RSA
@@ -200,7 +200,78 @@ Found the following certs:
     Certificate Path: /etc/letsencrypt/live/www.alejandrogv.site/fullchain.pem
     Private Key Path: /etc/letsencrypt/live/www.alejandrogv.site/privkey.pem
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-</code></pre>
+</code></pre><ul>
+<li>Ya tenemos nuestro certificados alojados en <code>/etc/letsencrypt/live/</code> veamos un ejemplo.</li>
+</ul>
+<pre><code>root@mrrobot:~# ls /etc/letsencrypt/live/django.alejandrogv.site/
+README	cert.pem  chain.pem  fullchain.pem  privkey.pem
+</code></pre><ul>
+<li>Vamos a decir para que sirven cada uno de los ficheros.</li>
+</ul>
+<ul>
+<li>
+<p><code>cert.pem</code>: Contiene nuestras claves públicas, es nuestro certificado tal cual.</p>
+</li>
+<li>
+<p><code>chain.pem</code>: Es el certificado de Let&rsquo;s Encrypt con la que ha sido firmado nuestro certificado, así los clientes podrán comprobar la firma de nuestro certificado.</p>
+</li>
+<li>
+<p><code>fullchain.pem</code>: Es una unión de los dos anteriores ficheros, normalmente usaremos solo este, ya que es más sencillo.</p>
+</li>
+<li>
+<p><code>privkey.pem</code>: nuestra clave privada.</p>
+</li>
+</ul>
+<ul>
+<li>Nos dirigimos a nuestros virtual host, el primero que configuraremos será el de <code>www.alejandrogv.site</code>, para ello las primeras líneas del fichero deberían estar así.</li>
+</ul>
+<pre><code>server {
+        listen 443 ssl http2;
+        listen [::]:443 http2;
+
+        ssl on;
+        ssl_certificate /etc/letsencrypt/live/www.alejandrogv.site/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/www.alejandrogv.site/privkey.pem;
+</code></pre><ul>
+<li>Reiniciamos nginx y comprobamos que accedemos mediante https.</li>
+</ul>
+<p><img src="/https_vps/1.png" alt="prueba"></p>
+<ul>
+<li>Hacemos lo mismo con el sitio de django.</li>
+</ul>
+<p><img src="/https_vps/2.png" alt="prueba"></p>
+<ul>
+<li>Comprobamos que tiene el certificado de Let&rsquo;s Encrypt.</li>
+</ul>
+<p><img src="/https_vps/3.png" alt="certificado"></p>
+<ul>
+<li>Si queremos que se redirija a https cuando alguien escriba la dirección en http crearemos un nuevo virtual host con el siguiente contenido.</li>
+</ul>
+<pre><code>server {
+        listen 80;
+        listen [::]:80;
+
+        server_name django.alejandrogv.site;
+
+    return 301 https://$host$request_uri;
+}
+</code></pre><ul>
+<li>Comprobemos que nuestro cliente de escritorio de nextloud también accede por https.</li>
+</ul>
+<p><img src="/https_vps/4.png" alt="certificado"></p>
+<h3 id="qué-función-tiene-el-cliente-acme">¿Qué función tiene el cliente ACME?</h3>
+<ul>
+<li>es un protocolo estándar para automatizar la validación, instalación y gestión de dominios de certificados.</li>
+</ul>
+<h3 id="qué-pruebas-realiza-lets-encrypt-para-asegurar-que-somos-los-administrados-del-sitio-web">¿Qué pruebas realiza Let’s Encrypt para asegurar que somos los administrados del sitio web?</h3>
+<ul>
+<li>Certbot coloca un token en un fichero que sea accesible por el servidor web que estamos configurando y lo firma con su clave privada. Entonces Let&rsquo;s Encrypt intenta acceder a este fichero y verificar la firma, si puede hacerlo se valida que somos los administradores del dominio.</li>
+</ul>
+<h3 id="se-puede-usar-el-dns-para-verificar-que-somos-administradores-del-sitio">¿Se puede usar el DNS para verificar que somos administradores del sitio?</h3>
+<ul>
+<li>Podriamos hacer que Let&rsquo;s Encrypt confirmara que somos los administradores del dominio DNS, esto lo hará creando un registro en la zona con una información especifica.</li>
+</ul>
+
                 </div>
                 
                 <div class="post-comments">
