@@ -170,6 +170,17 @@ END;</description>
     </item>
     
     <item>
+      <title>Uso básico de libvirt</title>
+      <link>https://alepeteporico.github.io/ejercicios/libvirt_basico/</link>
+      <pubDate>Thu, 30 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/libvirt_basico/</guid>
+      <description>Creación de la red.   La red que vamos a crear para este ejercicio será tipo NAT, tendrá direccionamiento 10.0.1.0/24 y de tipo virtio.
+  Veamos el contenido del fichero xml de configuración de la red.
+  &amp;lt;network&amp;gt; &amp;lt;name&amp;gt;red_interna&amp;lt;/name&amp;gt; &amp;lt;bridge name=&amp;quot;virbr20&amp;quot;/&amp;gt; &amp;lt;forward mode=&amp;quot;nat&amp;quot;/&amp;gt; &amp;lt;ip address=&amp;quot;10.0.1.0&amp;quot; netmask=&amp;quot;255.255.255.0&amp;quot;&amp;gt; &amp;lt;dhcp&amp;gt; &amp;lt;range start=&amp;quot;10.0.1.2&amp;quot; end=&amp;quot;10.0.1.254&amp;quot;/&amp;gt; &amp;lt;/dhcp&amp;gt; &amp;lt;/ip&amp;gt; &amp;lt;/network&amp;gt;  Creamos esta red.  alejandrogv@AlejandroGV:~/libvirt$ virsh -c qemu:///system net-create red_interna.xml Creación de escenario.</description>
+    </item>
+    
+    <item>
       <title>Configuración de apache mediante archivo .htaccess </title>
       <link>https://alepeteporico.github.io/ejercicios/apache_htaccess/</link>
       <pubDate>Sat, 24 Apr 2021 00:00:00 +0000</pubDate>

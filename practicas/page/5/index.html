@@ -110,21 +110,6 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/nginx/">Servidor nginx</a></h4>
-								<h4 class="post-date">2021-05-31</h4>
-							</div>
-							<div class="post-summary"><p>Crea una máquina del cloud con una red pública. Añade la clave pública del profesor a la máquina. Instala el servidor web nginx en la máquina. Modifica la página index.html que viene por defecto y accede a ella desde un navegador.   La IP del servidor es la 172.22.201.5
-  Una vez añadida la clave pública del profesor instalamos el servidor web nginx.
- debian@nginx:~$ sudo apt install nginx    Comprobamos que podemos acceder perfectamente desde fuera.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/nginx/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cluster_kubernetes/">Despliegue de un cluster de kubernetes</a></h4>
 								<h4 class="post-date">2021-05-27</h4>
 							</div>
@@ -249,6 +234,22 @@
 							<div class="post-summary"><p>RAID 5 Fichero VagrantFile:  # -*- mode: ruby -*- # vi: set ft=ruby : Vagrant.configure(&quot;2&quot;) do |config| config.vm.box = &quot;debian/buster64&quot; config.vm.hostname = &quot;practica1&quot; config.vm.provider :virtualbox do |v| disco = '.vagrant/disco.vdi' v.customize [&quot;createhd&quot;,&quot;--filename&quot;,disco,&quot;--size&quot;, 1024] v.customize [&quot;storageattach&quot;,:id,&quot;--storagectl&quot;,&quot;SATA Controller&quot;,&quot;--port&quot;,1,&quot;--device&quot;,0,&quot;--type&quot;,&quot;hdd&quot;,&quot;--medium&quot;,disco] disco2 = '.vagrant/disco2.vdi' v.customize [&quot;createhd&quot;,&quot;--filename&quot;,disco2,&quot;--size&quot;, 1024] v.customize [&quot;storageattach&quot;,:id,&quot;--storagectl&quot;,&quot;SATA Controller&quot;,&quot;--port&quot;,2,&quot;--device&quot;,0,&quot;--type&quot;,&quot;hdd&quot;,&quot;--medium&quot;,disco2] disco3 = '.vagrant/disco3.vdi' v.customize [&quot;createhd&quot;,&quot;--filename&quot;,disco3,&quot;--size&quot;, 1024] v.customize [&quot;storageattach&quot;,:id,&quot;--storagectl&quot;,&quot;SATA Controller&quot;,&quot;--port&quot;,3,&quot;--device&quot;,0,&quot;--type&quot;,&quot;hdd&quot;,&quot;--medium&quot;,disco3] disco4 = '.vagrant/disco4.vdi' v.customize [&quot;createhd&quot;,&quot;--filename&quot;,disco4,&quot;--size&quot;, 1024] v.customize [&quot;storageattach&quot;,:id,&quot;--storagectl&quot;,&quot;SATA Controller&quot;,&quot;--port&quot;,4,&quot;--device&quot;,0,&quot;--type&quot;,&quot;hdd&quot;,&quot;--medium&quot;,disco4] disco5 = '.vagrant/disco5.vdi' v.customize [&quot;createhd&quot;,&quot;--filename&quot;,disco5,&quot;--size&quot;, 1024] v.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/mdadm_rclone/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/escenearioos/">Configuración del escenario en OpenStack</a></h4>
+								<h4 class="post-date">2021-03-16</h4>
+							</div>
+							<div class="post-summary"><p>El escenario que debemos montar es el siguiente:
+Nosotros tenemos nuestra propia red, pero debemos crear dos nuevas para el escenario y añadir las redes conrrespondientes a sus máquinas
+Nuestro siguiente paso será deshabilitar los puertos de Dulcinea que será la máquina que usaremos para conectarnos a las demás y salir al exterior Para este proposito usaremos OpenStack Client alejandrogv@AlejandroGV:~$ source Escritorio/ASIR/hlc/openstackclient/bin/activate source ~/Descargas/Proyecto\ de\ a.gutierrez-openrc.sh
+Ahora listaremos las interfaces que tenemos en nuestro proyecto</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/escenearioos/">Read More</a>
 							</div>
 						</div>
 					</li>

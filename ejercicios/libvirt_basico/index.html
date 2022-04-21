@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Uso básico de libvirt &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.80.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://alepeteporico.github.io/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/ejercicios/libvirt_basico/">Uso básico de libvirt</a></h1>
+                <span class="post-date">2021-09-30 </span>
+                <div class="post-content">
+                    <hr>
+<h2 id="creación-de-la-red">Creación de la red.</h2>
+<ul>
+<li>
+<p><strong>La red que vamos a crear para este ejercicio será tipo NAT, tendrá direccionamiento <code>10.0.1.0/24</code> y de tipo virtio.</strong></p>
+</li>
+<li>
+<p>Veamos el contenido del fichero xml de configuración de la red.</p>
+</li>
+</ul>
+<pre><code>&lt;network&gt;
+  &lt;name&gt;red_interna&lt;/name&gt;
+  &lt;bridge name=&quot;virbr20&quot;/&gt;
+  &lt;forward mode=&quot;nat&quot;/&gt;
+  &lt;ip address=&quot;10.0.1.0&quot; netmask=&quot;255.255.255.0&quot;&gt;
+    &lt;dhcp&gt;
+      &lt;range start=&quot;10.0.1.2&quot; end=&quot;10.0.1.254&quot;/&gt;
+    &lt;/dhcp&gt;
+  &lt;/ip&gt;
+&lt;/network&gt;
+</code></pre><ul>
+<li>Creamos esta red.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/libvirt$ virsh -c qemu:///system net-create red_interna.xml
+</code></pre><h2 id="creación-de-escenario">Creación de escenario.</h2>
+<ul>
+<li>
+<p><strong>Usaremos una imagen ya creada para montar nuestro escenario</strong></p>
+</li>
+<li>
+<p>Tenemos una imagen con extensión <code>qcow2</code> para montarla usaremos ndb y nuestro primer paso será habilitar este módulo.</p>
+</li>
+</ul>
+<pre><code>modprobe nbd max_part=8
+</code></pre><ul>
+<li>Conectamos la imagen con un dispositivo de bloques.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/libvirt$ sudo qemu-nbd --connect=/dev/nbd0 debiantest.qcow2
+</code></pre><ul>
+<li>Y montamos esta partición donde queramos.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/libvirt$ sudo mount /dev/nbd0p1 volumen/
+</code></pre><ul>
+<li>para añadir nuestra clave antes tendremos que crear la carpeta <code>.ssh</code> en el home del usuario y añadir el authorized_keys</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/libvirt$ cat volumen/home/usuario/.ssh/authorized_keys
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABA.....
+</code></pre><ul>
+<li>Y por supuesto modificamos el fichero hostname y hosts para cambiar el nombre de la máquina.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/libvirt$ sudo cat volumen/etc/hosts
+127.0.0.1	maquina1_alejandro
+127.0.1.1	localhost
+
+# The following lines are desirable for IPv6 capable hosts
+::1     localhost ip6-localhost ip6-loopback
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+
+alejandrogv@AlejandroGV:~/libvirt$ sudo cat volumen/etc/hostname 
+maquina_alejandro
+</code></pre><ul>
+<li>Desmontamos la imagen y directamente cambiaría nuestro fichero qcow.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/libvirt$ sudo umount volumen
+
+alejandrogv@AlejandroGV:~/libvirt$ sudo qemu-nbd --disconnect /dev/nbd0
+/dev/nbd0 disconnected
+
+alejandrogv@AlejandroGV:~/libvirt$ sudo rmmod nbd
+</code></pre><ul>
+<li>El siguiente paso sería crear un volumen en el pool por defecto con esta imagen. Para ello debemos saber el espacio que ocupa nuestra imagen.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/libvirt$ qemu-img info debiantest.qcow2 
+image: debiantest.qcow2
+file format: qcow2
+virtual size: 10 GiB (10737418240 bytes)
+disk size: 2.31 GiB
+cluster_size: 65536
+Format specific information:
+    compat: 1.1
+    compression type: zlib
+    lazy refcounts: false
+    refcount bits: 16
+    corrupt: false
+    extended l2: false
+</code></pre><ul>
+<li>Creamos un volumen con las caracteriscas que necesitamos.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/libvirt$ virsh -c qemu:///system vol-create-as --format qcow2 --name ejercicio1 --capacity 10GiB --pool default
+Se ha creado el volumen ejercicio1
+</code></pre><ul>
+<li>Ahora volcamos el contenido de nuestra imagen al volumen.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/libvirt$ virsh -c qemu:///system vol-upload ejercicio1 debiantest.qcow2 --pool default
+</code></pre><ul>
+<li>Creamos un dominio mediante un fichero xml.</li>
+</ul>
+<pre><code>&lt;domain type=&quot;kvm&quot;&gt;
+  &lt;name&gt;dominio1&lt;/name&gt;
+  &lt;memory unit=&quot;G&quot;&gt;1&lt;/memory&gt;
+  &lt;vcpu&gt;1&lt;/vcpu&gt;
+  &lt;os&gt;
+    &lt;type arch=&quot;x86_64&quot;&gt;hvm&lt;/type&gt;
+  &lt;/os&gt;
+  &lt;devices&gt;
+    &lt;emulator&gt;/usr/bin/kvm&lt;/emulator&gt;
+    &lt;disk type='file' device='disk'&gt;
+      &lt;driver name='qemu' type='qcow2'/&gt;
+      &lt;source file='/var/lib/libvirt/images/ejercicio1'/&gt;
+      &lt;target dev='vda'/&gt;
+      &lt;model type='virtio'/&gt;
+    &lt;/disk&gt;
+    &lt;interface type=&quot;network&quot;&gt;
+      &lt;source network=&quot;red_interna&quot;/&gt;
+      &lt;mac address=&quot;52:54:00:86:c6:a9&quot;/&gt;
+      &lt;model type='virtio'/&gt;
+    &lt;/interface&gt;
+    &lt;graphics type='vnc' port='-1' autoport='yes' listen='0.0.0.0' /&gt;
+  &lt;/devices&gt;
+&lt;/domain&gt;
+</code></pre><ul>
+<li>Definimos el dominio.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/libvirt$ virsh -c qemu:///system define dominio1.xml 
+Domain 'dominio1' defined from dominio1.xml
+</code></pre><ul>
+<li>iniciamos el dominio.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/libvirt$ virsh -c qemu:///system start dominio1
+Domain 'dominio1' started
+</code></pre><ul>
+<li>Para acceder a la máquina por ssh podemos listar las direcciones ip que ha direccionado la red que hemos creado, sin embargo, no se el motivo de que la red que he creado no reparte niguna dirección.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/libvirt$ sudo virsh net-dhcp-leases red_interna
+ Expiry Time   dirección MAC   Protocol   IP address   Hostname   Client ID or DUID
+-------------------------------------------------------------------------------------
+
+</code></pre><ul>
+<li>Una vez sepamos la dirección ip solo tendríamos que acceder normalmente por ssh</li>
+</ul>
+
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2022 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>
