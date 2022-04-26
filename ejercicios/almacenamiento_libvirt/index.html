@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Trabajo con almacenamiento en libvirt &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.80.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://alepeteporico.github.io/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/ejercicios/almacenamiento_libvirt/">Trabajo con almacenamiento en libvirt</a></h1>
+                <span class="post-date">2022-04-20 </span>
+                <div class="post-content">
+                    <ul>
+<li>Crea un nuevo pool de almacenamiento de tipo lvm, y crea un volumen de 3Gi dentro que sea una volumen lógico. Con virt-install instala una máquina que se llame original_tunombre cuyo disco sea el volumen creado.</li>
+</ul>
+<pre><code>&lt;pool type='logical'&gt;
+  &lt;name&gt;pool_lvm&lt;/name&gt;
+  &lt;capacity unit='bytes'&gt;5368709120&lt;/capacity&gt;
+  &lt;source&gt;
+  &lt;name&gt;debian&lt;/name&gt;
+  &lt;/source&gt;
+  &lt;target&gt;
+    &lt;path&gt;/home/alejandrogv/libvirt/pool&lt;/path&gt;
+    &lt;permissions&gt;
+      &lt;mode&gt;0711&lt;/mode&gt;
+      &lt;owner&gt;0&lt;/owner&gt;
+      &lt;group&gt;0&lt;/group&gt;
+    &lt;/permissions&gt;
+  &lt;/target&gt;
+&lt;/pool&gt;
+</code></pre><pre><code>virsh -c qemu:///system pool-define --file pool.xml
+
+virsh -c qemu:///system pool-start pool_lvm
+</code></pre><pre><code>sudo lvcreate -L 3G -n pool1 debian
+</code></pre><pre><code>virt-install --connect qemu:///system --network network=default --name=original_alegv --memory 1024 --vcpus 1 --disk /dev/debian/pool1 --cdrom /home/alejandrogv/Escritorio/ISOS/debian-11.1.0-amd64-netinst.iso
+</code></pre><h3 id="un-pantallazo-de-la-definición-del-dominio-original_nombre-donde-se-vea-el-dispositivo-de-disco-que-está-utilizando">Un pantallazo de la definición del dominio original_nombre, donde se vea el dispositivo de disco que está utilizando.</h3>
+<pre><code>alejandrogv@AlejandroGV:~$ virsh -c qemu:///system dumpxml --domain original_alegv
+...
+...
+    &lt;disk type='block' device='disk'&gt;
+      &lt;driver name='qemu' type='raw' cache='none' io='native'/&gt;
+      &lt;source dev='/dev/debian/pool1' index='2'/&gt;
+      &lt;backingStore/&gt;
+      &lt;target dev='hda' bus='ide'/&gt;
+      &lt;alias name='ide0-0-0'/&gt;
+      &lt;address type='drive' controller='0' bus='0' target='0' unit='0'/&gt;
+    &lt;/disk&gt;
+...
+...
+</code></pre><ul>
+<li>Convierte el volumen anterior en un fichero de imagen qcow2 que estará en el pool default.</li>
+</ul>
+<pre><code>sudo qemu-img convert -O qcow2 /dev/debian/pool1 /home/alejandrogv/libvirt/original_alegv.qcow2
+</code></pre><h3 id="pantallazo-de-la-definición-del-dominio-nodo1_tunombre-donde-se-vea-el-dispositivo-de-disco-que-está-utilizando-que-se-vea-claramente-que-has-usado-aprovisonamiento-ligero">pantallazo de la definición del dominio nodo1_tunombre, donde se vea el dispositivo de disco que está utilizando (que se vea claramente que has usado aprovisonamiento ligero).</h3>
+<pre><code>alejandrogv@AlejandroGV:~/libvirt$ qemu-img info original_alegv.qcow2 
+image: original_alegv.qcow2
+file format: qcow2
+virtual size: 3 GiB (3221225472 bytes)
+disk size: 2.24 GiB
+cluster_size: 65536
+Format specific information:
+    compat: 1.1
+    compression type: zlib
+    lazy refcounts: false
+    refcount bits: 16
+    corrupt: false
+    extended l2: false
+</code></pre><ul>
+<li>Crea dos máquinas virtuales (nodo1_tunombre y nodo2_tunombre) que utilicen la imagen construida en el punto anterior como imagen base (aprovisonamiento ligero). Una vez creada accede a las máquinas para cambiarle el nombre.</li>
+</ul>
+<pre><code>qemu-img create -b original_alegv.qcow2 -f qcow2 aprov1_alegv.qcow2
+
+qemu-img create -b original_alegv.qcow2 -f qcow2 aprov2_alegv.qcow2
+</code></pre><pre><code>virt-install --connect qemu:///system --network network=default --name=nodo1_alegv --memory 1024 --vcpus 1 --disk aprov1_alegv.qcow2 --import
+
+virt-install --connect qemu:///system --network network=default --name=nodo2_alegv --memory 1024 --vcpus 1 --disk aprov2_alegv.qcow2 --import
+</code></pre><h3 id="un-pantallazo-donde-se-compruebe-que-nodo2_tunombre-tiene-acceso-a-internet-y-que-le-has-cambiado-el-nombre">Un pantallazo donde se compruebe que nodo2_tunombre tiene acceso a internet y que le has cambiado el nombre.</h3>
+<p><img src="/redes_libvirt/5.png" alt="ping"></p>
+<ul>
+<li>Transforma la imagen de la máquina nodo1_tunombre a formato raw. Realiza las modificaciones necesarias en la definición de la máquina virtual (virsh edit &ldquo;maquina&rdquo;), para que pueda seguir funcionando con el nuevo formato de imagen.</li>
+</ul>
+<pre><code>sudo qemu-img convert aprov1_alegv.qcow2 aprov1_alegv.raw
+</code></pre><h3 id="pantallazo-de-la-definición-del-dominio-nodo1_tunombre-donde-se-vea-el-dispositivo-de-disco-que-está-utilizando-y-una-captura-de-pantalla-donde-se-vea-que-está-funcionando">Pantallazo de la definición del dominio nodo1_tunombre, donde se vea el dispositivo de disco que está utilizando. Y una captura de pantalla donde se vea que está funcionando.</h3>
+<pre><code>alejandrogv@AlejandroGV:~/libvirt$ sudo virsh edit --domain nodo1_alegv
+...
+...
+    &lt;disk type='file' device='disk'&gt;
+      &lt;driver name='qemu' type='raw'/&gt;
+      &lt;source file='/home/alejandrogv/libvirt/aprov1_alegv.raw'/&gt;
+      &lt;target dev='hda' bus='ide'/&gt;
+      &lt;address type='drive' controller='0' bus='0' target='0' unit='0'/&gt;
+    &lt;/disk&gt;
+...
+...
+</code></pre><p><img src="/redes_libvirt/6.png" alt="ping"></p>
+<ul>
+<li>Redimensiona la imagen de la máquina nodo2_tunombre, añadiendo 1 GiB y utiliza la herramienta guestfish para redimensionar también el sistema de ficheros definido dentro de la imagen.</li>
+</ul>
+<pre><code>sudo apt install libguestfs-tools
+</code></pre><ul>
+<li>Miramos la indormacion de la imagen que está usando el nodo 2.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/libvirt$ qemu-img info aprov2_alegv.qcow2 
+image: aprov2_alegv.qcow2
+file format: qcow2
+virtual size: 3 GiB (3221225472 bytes)
+disk size: 81.1 MiB
+cluster_size: 65536
+backing file: original_alegv.qcow2
+backing file format: qcow2
+Format specific information:
+    compat: 1.1
+    compression type: zlib
+    lazy refcounts: false
+    refcount bits: 16
+    corrupt: false
+    extended l2: false
+</code></pre><ul>
+<li>Creamos una nueva imagen de 4G</li>
+</ul>
+<pre><code>qemu-img create -f qcow2 -o preallocation=metadata aprov3_alegv.qcow2 4G
+</code></pre><ul>
+<li>Usamos la herramienta requerida para redimensionar el disco nuevo a partir del antiguo.</li>
+</ul>
+<pre><code>sudo virt-resize --expand /dev/sda1 aprov2_alegv.qcow2 aprov3_alegv.qcow2
+</code></pre><ul>
+<li>Debemos cambiarles los nombres.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/libvirt$ mv aprov2_alegv.qcow2 aprov2_alegv_antiguo.qcow2 
+alejandrogv@AlejandroGV:~/libvirt$ mv aprov3_alegv.qcow2 aprov2_alegv.qcow2
+</code></pre><h3 id="pantallazo-de-la-ejecución-de-nodo2_tunombre-donde-se-vea-el-comando-lsblk-y-df--h-para-comprobar-que-se-ha-redimensionado-el-dispositivo-de-bloque-y-el-sistema-de-fichero">Pantallazo de la ejecución de nodo2_tunombre, donde se vea el comando lsblk, y df -h. Para comprobar que se ha redimensionado el dispositivo de bloque y el sistema de fichero.</h3>
+<p><img src="/redes_libvirt/7.png" alt="ping"></p>
+<ul>
+<li>Crea un snapshot de la máquina nodo2_tunombre, modifica algún fichero de la máquina y alguna caracteristica de la misma (por ejemplo cantidad e memoria). Recupera el estado de la máquina desde el snapshot y comprueba que lo cambios se han perdido.</li>
+</ul>
+<ul>
+<li>El formato raw no tiene soporte para crear snapshots usando virsh. Por ello debemos volver a cambiar el formato por el qcow2.</li>
+</ul>
+<pre><code>sudo qemu-img convert aprov1_alegv.raw aprov1_alegv.qcow2
+</code></pre><ul>
+<li>Creamos la snapshot.</li>
+</ul>
+<pre><code>virsh snapshot-create-as --domain nodo1_alegv --name nodo1_alegv_snap --description &quot;snapshot para ejercicio&quot;
+</code></pre><ul>
+<li>Después de algunos cambios volvemos a la snapshot</li>
+</ul>
+<pre><code>virsh -c qemu:///system snapshot-revert --domain nodo1_alegv --snapshotname nodo1_alegv_snap --running
+</code></pre><h3 id="muestra-información-del-volumen-donde-se-vea-que-se-ha-creado-un-snapshot-explica-los-cambios-que-has-hecho-en-la-máquina-y-demuestra-que-al-recuperar-el-estado-del-snapshot-se-han-recuperado-los-cambios">Muestra información del volumen donde se vea que se ha creado un snapshot. Explica los cambios que has hecho en la máquina y demuestra que al recuperar el estado del snapshot se han recuperado los cambios.</h3>
+<pre><code>alejandrogv@AlejandroGV:~/libvirt$ virsh -c qemu:///system snapshot-list --domain nodo1_alegv 
+ Nombre             Hora de creación            Estado
+---------------------------------------------------------
+ nodo1_alegv_snap   2022-04-26 12:02:25 +0200   running
+</code></pre><ul>
+<li>He añadido el doble de RAM a la maquina.</li>
+</ul>
+<p><img src="/redes_libvirt/8.png" alt="ping"></p>
+<pre><code>alejandrogv@AlejandroGV:~/libvirt$ virsh -c qemu:///system dumpxml --domain nodo1_alegv
+...
+...
+&lt;memory unit='KiB'&gt;2097152&lt;/memory&gt;
+...
+...
+</code></pre><ul>
+<li>Y hemos creado una carpeta</li>
+</ul>
+<p><img src="/redes_libvirt/9.png" alt="ping"></p>
+<ul>
+<li>Comprobamos que se han desecho los cambios.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/libvirt$ virsh -c qemu:///system dumpxml --domain nodo1_alegv
+...
+...
+&lt;memory unit='KiB'&gt;1048576&lt;/memory&gt;
+...
+...
+</code></pre><p><img src="/redes_libvirt/10.png" alt="ping"></p>
+<ul>
+<li>Crea un nuevo pool de tipo “dir” llamado discos_externos, crea un volumen de 1Gb dentro de este pool, y añádelo “en caliente” a la máquina nodo2_tunombre. Formatea el disco y móntalo.</li>
+</ul>
+<ul>
+<li>Creamos el pool y lo iniciamos</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/libvirt$ virsh -c qemu:///system pool-define-as --name discos_externos --target /home/alejandrogv/libvirt/pool-dir --type dir
+
+alejandrogv@AlejandroGV:~/libvirt$ virsh -c qemu:///system pool-start --pool discos_externos
+</code></pre><ul>
+<li>Creamos el volumen y lo añadimos a nodo2.</li>
+</ul>
+<pre><code>qemu-img create -f raw /home/alejandrogv/libvirt/pool-dir/vol.raw 1G
+
+virsh -c qemu:///system attach-disk --domain nodo2_alegv --source /home/alejandrogv/libvirt/pool-dir/vol.raw --target sdb --persistent
+</code></pre><ul>
+<li>Le damos formato y lo montamos.</li>
+</ul>
+<p><img src="/redes_libvirt/12.png" alt="ping"></p>
+<h3 id="demuestra-que-tenemos-un-nuevo-disco-y-ha-sido-montado">Demuestra que tenemos un nuevo disco y ha sido montado.</h3>
+<p><img src="/redes_libvirt/11.png" alt="ping"></p>
+
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2022 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>

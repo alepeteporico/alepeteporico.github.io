@@ -110,6 +110,32 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/almacenamiento_libvirt/">Trabajo con almacenamiento en libvirt</a></h4>
+								<h4 class="post-date">2022-04-20</h4>
+							</div>
+							<div class="post-summary"><p>Crea un nuevo pool de almacenamiento de tipo lvm, y crea un volumen de 3Gi dentro que sea una volumen lógico. Con virt-install instala una máquina que se llame original_tunombre cuyo disco sea el volumen creado.  &lt;pool type='logical'&gt; &lt;name&gt;pool_lvm&lt;/name&gt; &lt;capacity unit='bytes'&gt;5368709120&lt;/capacity&gt; &lt;source&gt; &lt;name&gt;debian&lt;/name&gt; &lt;/source&gt; &lt;target&gt; &lt;path&gt;/home/alejandrogv/libvirt/pool&lt;/path&gt; &lt;permissions&gt; &lt;mode&gt;0711&lt;/mode&gt; &lt;owner&gt;0&lt;/owner&gt; &lt;group&gt;0&lt;/group&gt; &lt;/permissions&gt; &lt;/target&gt; &lt;/pool&gt; virsh -c qemu:///system pool-define --file pool.xml virsh -c qemu:///system pool-start pool_lvm sudo lvcreate -L 3G -n pool1 debian virt-install --connect qemu:///system --network network=default --name=original_alegv --memory 1024 --vcpus 1 --disk /dev/debian/pool1 --cdrom /home/alejandrogv/Escritorio/ISOS/debian-11.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/ejercicios/almacenamiento_libvirt/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/redes_libvirt/">Trabajo con redes en libvirt</a></h4>
+								<h4 class="post-date">2022-04-20</h4>
+							</div>
+							<div class="post-summary"><p>Crea una máquina virtual conectada a la red_interna del ejercicio anterior, utilizando virt-install. Está máquina se debe llamar nodo1_tunombre.  virt-install --connect qemu:///system --cdrom ../Escritorio/ISOS/debian-11.1.0-amd64-netinst.iso --disk size=10 --network network=red_interna --name nodo1_ale --memory 512 --vcpus 1  Crea un clon de la máquina anterior con virt-clone, esta máquina se debe llamar nodo2_tunombre.  virt-clone --original=nodo1_ale --name=nodo2_ale --auto-clone  Crea una red aislada (very isolated) que nos permita unir el nodo1 y el nodo2, pero que no esté conectada al host.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/ejercicios/redes_libvirt/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/ejercicos_kubernetes/">Ejercicios kubernetes</a></h4>
 								<h4 class="post-date">2022-02-03</h4>
 							</div>
@@ -220,41 +246,38 @@
 						</div>
 					</li>
 				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/apuntes/apuntes-de-libvirt/">Apuntes de Libvirt</a></h4>
-								<h4 class="post-date">2021-03-22</h4>
-							</div>
-							<div class="post-summary"><p>Libvirt es una API de virtualizacion que se usa con KVM o Qemu KVM (el sistema de virtualización nativo de Linux).
-Instalación Para instalar libvirt deberemos instalar los siguientes paquetes
-sudo apt-get install qemu-kvm libvirt-daemon-system Explicación de los paquetes:
-  qemu-kvm: Proporciona la virtualización para x86
-  libvirt-daemon-system: Es el demonio de libvirt, el cual hace accesible la API a través de un socket UNIX (aunque se puede configurar para acceder a través de un socket TCP).</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/apuntes/apuntes-de-libvirt/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/escenearioos/">Configuración del escenario en OpenStack</a></h4>
-								<h4 class="post-date">2021-03-16</h4>
-							</div>
-							<div class="post-summary"><p>El escenario que debemos montar es el siguiente:
-Nosotros tenemos nuestra propia red, pero debemos crear dos nuevas para el escenario y añadir las redes conrrespondientes a sus máquinas
-Nuestro siguiente paso será deshabilitar los puertos de Dulcinea que será la máquina que usaremos para conectarnos a las demás y salir al exterior Para este proposito usaremos OpenStack Client alejandrogv@AlejandroGV:~$ source Escritorio/ASIR/hlc/openstackclient/bin/activate source ~/Descargas/Proyecto\ de\ a.gutierrez-openrc.sh
-Ahora listaremos las interfaces que tenemos en nuestro proyecto</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/escenearioos/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
 				</ul>
 				
+
+<div class="pagination-wrapper text-center">
+  <ul class="pagination">
+      
+      <li>
+          <a href="/tags/hlc/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+      </li>
+      
+      <li
+      class="disabled">
+          <a href="" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+      </li>
+      
+      <li
+      class="active"><a href="/tags/hlc/">1</a></li>
+      
+      <li
+      ><a href="/tags/hlc/page/2/">2</a></li>
+      
+      <li
+      >
+          <a href="/tags/hlc/page/2/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+      </li>
+      
+      <li>
+          <a href="/tags/hlc/page/2/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+      </li>
+      
+    </ul>
+</div>
 
 
 

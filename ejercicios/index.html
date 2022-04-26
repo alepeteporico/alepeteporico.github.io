@@ -110,6 +110,32 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/almacenamiento_libvirt/">Trabajo con almacenamiento en libvirt</a></h4>
+								<h4 class="post-date">2022-04-20</h4>
+							</div>
+							<div class="post-summary"><p>Crea un nuevo pool de almacenamiento de tipo lvm, y crea un volumen de 3Gi dentro que sea una volumen lógico. Con virt-install instala una máquina que se llame original_tunombre cuyo disco sea el volumen creado.  &lt;pool type='logical'&gt; &lt;name&gt;pool_lvm&lt;/name&gt; &lt;capacity unit='bytes'&gt;5368709120&lt;/capacity&gt; &lt;source&gt; &lt;name&gt;debian&lt;/name&gt; &lt;/source&gt; &lt;target&gt; &lt;path&gt;/home/alejandrogv/libvirt/pool&lt;/path&gt; &lt;permissions&gt; &lt;mode&gt;0711&lt;/mode&gt; &lt;owner&gt;0&lt;/owner&gt; &lt;group&gt;0&lt;/group&gt; &lt;/permissions&gt; &lt;/target&gt; &lt;/pool&gt; virsh -c qemu:///system pool-define --file pool.xml virsh -c qemu:///system pool-start pool_lvm sudo lvcreate -L 3G -n pool1 debian virt-install --connect qemu:///system --network network=default --name=original_alegv --memory 1024 --vcpus 1 --disk /dev/debian/pool1 --cdrom /home/alejandrogv/Escritorio/ISOS/debian-11.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/ejercicios/almacenamiento_libvirt/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/redes_libvirt/">Trabajo con redes en libvirt</a></h4>
+								<h4 class="post-date">2022-04-20</h4>
+							</div>
+							<div class="post-summary"><p>Crea una máquina virtual conectada a la red_interna del ejercicio anterior, utilizando virt-install. Está máquina se debe llamar nodo1_tunombre.  virt-install --connect qemu:///system --cdrom ../Escritorio/ISOS/debian-11.1.0-amd64-netinst.iso --disk size=10 --network network=red_interna --name nodo1_ale --memory 512 --vcpus 1  Crea un clon de la máquina anterior con virt-clone, esta máquina se debe llamar nodo2_tunombre.  virt-clone --original=nodo1_ale --name=nodo2_ale --auto-clone  Crea una red aislada (very isolated) que nos permita unir el nodo1 y el nodo2, pero que no esté conectada al host.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/ejercicios/redes_libvirt/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/apache_uwsgi/">Desplegando aplicaciones flask con apache2 &#43; uwsgi</a></h4>
 								<h4 class="post-date">2022-04-11</h4>
 							</div>
@@ -213,32 +239,6 @@
   alejandrogv@AlejandroGV:~$ docker run --name servidor_web -p 8181:80 -d nginx 964b2c315b83655e5d662a88e620a23f1eaac38666cc64170cd5cd62db72e5fd alejandrogv@AlejandroGV:~$ docker ps -a CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 964b2c315b83 nginx &quot;/docker-entrypoint.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/ejercicios/ejercicios_docker/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/configuracion_ldap/">Configuración inicial de LDAP</a></h4>
-								<h4 class="post-date">2022-01-14</h4>
-							</div>
-							<div class="post-summary"><p>LDAP es un protocolo de tipo cliente-servidor para acceder a un servicio de directorio. Un directorio es como una base de datos, pero en general contiene información más descriptiva y más basada en atributos. Realizaremos esta configuración inicial en nuestro escenario en kvm, en contreto en nuestra maquina apolo, la cual entre otras cosas contiene por ejemplo nuestro dns  Empezemos con la instalación del paquete de ldap.  debian@apolo:~$ sudo apt install slapd  Durante esta instalación tendremos que introducir una contraseña para el administrador.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/ejercicios/configuracion_ldap/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/ejercicio_correo/">Ejercicio correo</a></h4>
-								<h4 class="post-date">2022-01-14</h4>
-							</div>
-							<div class="post-summary"><p>Ejercicio 1: Envío local, entre usuarios del mismo servidor   Tenemos distintos parametros configurables, como por ejemplo en el fichero /etc/postfix/main.cf podemos configurar el parametro myorigin que es el dominio donde se va a enviar nuestro correo y mydestination se refiere a los dominios que considera que son suyos, si llegara algun correo a a cualquiera de los dominios que añadamos el servidor recibirá estos correos. Y otro que usaremos más adelante es el relayhost, aquí podremos añadir un servidor de correo que redirija nuestros envios.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/ejercicios/ejercicio_correo/">Read More</a>
 							</div>
 						</div>
 					</li>

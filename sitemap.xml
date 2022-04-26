@@ -4,7 +4,32 @@
   
   <url>
     <loc>https://alepeteporico.github.io/</loc>
-    <lastmod>2022-04-17T00:00:00+00:00</lastmod>
+    <lastmod>2022-04-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alepeteporico.github.io/ejercicios/</loc>
+    <lastmod>2022-04-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alepeteporico.github.io/tags/hlc/</loc>
+    <lastmod>2022-04-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alepeteporico.github.io/tags/</loc>
+    <lastmod>2022-04-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alepeteporico.github.io/ejercicios/almacenamiento_libvirt/</loc>
+    <lastmod>2022-04-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alepeteporico.github.io/ejercicios/redes_libvirt/</loc>
+    <lastmod>2022-04-20T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -23,17 +48,7 @@
   </url>
   
   <url>
-    <loc>https://alepeteporico.github.io/tags/</loc>
-    <lastmod>2022-04-17T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://alepeteporico.github.io/ejercicios/apache_uwsgi/</loc>
-    <lastmod>2022-04-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://alepeteporico.github.io/ejercicios/</loc>
     <lastmod>2022-04-11T00:00:00+00:00</lastmod>
   </url>
   
@@ -109,11 +124,6 @@
   
   <url>
     <loc>https://alepeteporico.github.io/ejercicios/ejercicos_kubernetes/</loc>
-    <lastmod>2022-02-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://alepeteporico.github.io/tags/hlc/</loc>
     <lastmod>2022-02-03T00:00:00+00:00</lastmod>
   </url>
   

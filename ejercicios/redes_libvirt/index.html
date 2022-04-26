@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Trabajo con redes en libvirt &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.80.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://alepeteporico.github.io/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/ejercicios/redes_libvirt/">Trabajo con redes en libvirt</a></h1>
+                <span class="post-date">2022-04-20 </span>
+                <div class="post-content">
+                    <ul>
+<li>Crea una máquina virtual conectada a la red_interna del ejercicio anterior, utilizando virt-install. Está máquina se debe llamar nodo1_tunombre.</li>
+</ul>
+<pre><code>virt-install --connect qemu:///system --cdrom ../Escritorio/ISOS/debian-11.1.0-amd64-netinst.iso --disk size=10 --network network=red_interna --name nodo1_ale --memory 512 --vcpus 1
+</code></pre><ul>
+<li>Crea un clon de la máquina anterior con virt-clone, esta máquina se debe llamar nodo2_tunombre.</li>
+</ul>
+<pre><code>virt-clone --original=nodo1_ale --name=nodo2_ale --auto-clone
+</code></pre><ul>
+<li>Crea una red aislada (very isolated) que nos permita unir el nodo1 y el nodo2, pero que no esté conectada al host.</li>
+</ul>
+<pre><code>&lt;network&gt;
+  &lt;name&gt;very_isolated&lt;/name&gt;
+  &lt;bridge name=&quot;virbr21&quot;/&gt;
+&lt;/network&gt;
+</code></pre><ul>
+<li>Añade una interfaz a cada máquina (en caliente) y configúralas de forma estática usando el direccionamiento 192.168.10.0/24. Desconecta la segunda máquina de la red red_interna.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/libvirt$ virsh -c qemu:///system attach-interface nodo1_ale network very_isolated
+La interfaz ha sido asociada exitosamente
+
+alejandrogv@AlejandroGV:~/libvirt$ virsh -c qemu:///system attach-interface nodo2_ale network very_isolated
+La interfaz ha sido asociada exitosamente
+</code></pre><pre><code>alejandrogv@AlejandroGV:~/libvirt$ virsh -c qemu:///system detach-interface nodo2_ale network red_interna
+</code></pre><ul>
+<li>Añade un bridge externo a tu máquina (llámalo br0). Conecta a este bridge tu máquina física.</li>
+</ul>
+<pre><code>4: br0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default qlen 1000
+    link/ether f2:58:58:62:26:28 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.1.54/24 brd 192.168.1.255 scope global dynamic br0
+       valid_lft 85739sec preferred_lft 85739sec
+    inet6 fe80::f058:58ff:fe62:2628/64 scope link 
+       valid_lft forever preferred_lft forever
+</code></pre><h3 id="cuando-termines-el-punto-2-un-pantallazo-donde-se-vea-un-ping-a-la-segunda-máquina-desde-la-primera">Cuando termines el punto 2, un pantallazo donde se vea un ping a la segunda máquina desde la primera.</h3>
+<p><img src="/redes_libvirt/1.png" alt="ping"></p>
+<h3 id="cuando-termines-el-punto-3-un-pantallazo-donde-se-vea-un-ping-a-la-segunda-máquina-desde-la-primera">Cuando termines el punto 3, un pantallazo donde se vea un ping a la segunda máquina desde la primera.</h3>
+<p><img src="/redes_libvirt/2.png" alt="ping"></p>
+<h3 id="cuando-termines-el-punto-3-pantallazo-con-la-ejecución-de-ip-a-en-la-segunda-máquina">Cuando termines el punto 3, pantallazo con la ejecución de ip a en la segunda máquina.</h3>
+<p><img src="/redes_libvirt/3.png" alt="ping"></p>
+
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2022 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>

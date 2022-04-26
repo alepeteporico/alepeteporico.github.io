@@ -6,7 +6,25 @@
     <description>Recent content on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 17 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 20 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Trabajo con almacenamiento en libvirt</title>
+      <link>https://alepeteporico.github.io/ejercicios/almacenamiento_libvirt/</link>
+      <pubDate>Wed, 20 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/almacenamiento_libvirt/</guid>
+      <description>Crea un nuevo pool de almacenamiento de tipo lvm, y crea un volumen de 3Gi dentro que sea una volumen lógico. Con virt-install instala una máquina que se llame original_tunombre cuyo disco sea el volumen creado.  &amp;lt;pool type=&#39;logical&#39;&amp;gt; &amp;lt;name&amp;gt;pool_lvm&amp;lt;/name&amp;gt; &amp;lt;capacity unit=&#39;bytes&#39;&amp;gt;5368709120&amp;lt;/capacity&amp;gt; &amp;lt;source&amp;gt; &amp;lt;name&amp;gt;debian&amp;lt;/name&amp;gt; &amp;lt;/source&amp;gt; &amp;lt;target&amp;gt; &amp;lt;path&amp;gt;/home/alejandrogv/libvirt/pool&amp;lt;/path&amp;gt; &amp;lt;permissions&amp;gt; &amp;lt;mode&amp;gt;0711&amp;lt;/mode&amp;gt; &amp;lt;owner&amp;gt;0&amp;lt;/owner&amp;gt; &amp;lt;group&amp;gt;0&amp;lt;/group&amp;gt; &amp;lt;/permissions&amp;gt; &amp;lt;/target&amp;gt; &amp;lt;/pool&amp;gt; virsh -c qemu:///system pool-define --file pool.xml virsh -c qemu:///system pool-start pool_lvm sudo lvcreate -L 3G -n pool1 debian virt-install --connect qemu:///system --network network=default --name=original_alegv --memory 1024 --vcpus 1 --disk /dev/debian/pool1 --cdrom /home/alejandrogv/Escritorio/ISOS/debian-11.</description>
+    </item>
+    
+    <item>
+      <title>Trabajo con redes en libvirt</title>
+      <link>https://alepeteporico.github.io/ejercicios/redes_libvirt/</link>
+      <pubDate>Wed, 20 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/redes_libvirt/</guid>
+      <description>Crea una máquina virtual conectada a la red_interna del ejercicio anterior, utilizando virt-install. Está máquina se debe llamar nodo1_tunombre.  virt-install --connect qemu:///system --cdrom ../Escritorio/ISOS/debian-11.1.0-amd64-netinst.iso --disk size=10 --network network=red_interna --name nodo1_ale --memory 512 --vcpus 1  Crea un clon de la máquina anterior con virt-clone, esta máquina se debe llamar nodo2_tunombre.  virt-clone --original=nodo1_ale --name=nodo2_ale --auto-clone  Crea una red aislada (very isolated) que nos permita unir el nodo1 y el nodo2, pero que no esté conectada al host.</description>
+    </item>
+    
     <item>
       <title>HTTPS OVH</title>
       <link>https://alepeteporico.github.io/practicas/https_ovh/</link>
