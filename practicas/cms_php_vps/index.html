@@ -144,7 +144,7 @@ Query OK, 0 rows affected (0.002 sec)
         server_name portal.alejandrogv.site;
 
         location / {
-                try_files $uri $uri/ =404;
+                try_files $uri $uri/ /index.php?$args;
         }
 
 
