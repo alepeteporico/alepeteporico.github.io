@@ -113,8 +113,9 @@ iptables -P FORWARD DROP
 <li>La máquina Zeus tiene un servidor ssh escuchando por el puerto 22, pero al acceder desde el exterior habrá que conectar al puerto 2222.</li>
 </ul>
 <pre><code>iptables -t nat -A PREROUTING -p tcp --dport 2222 -i enp0s8 -j DNAT --to 172.22.0.27:22
-iptables -A INPUT -i enp0s8 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
-iptables -A OUTPUT -o enp0s8 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+iptables -A INPUT -i eth0 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -o eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+</code></pre><pre><code>
 </code></pre><ul>
 <li>Desde Apolo y Hera se debe permitir la conexión ssh por el puerto 22 a la máquina Zeus.</li>
 </ul>
@@ -136,6 +137,14 @@ iptables -A INPUT -s 172.16.0.200/32 -p tcp --dport 22 -m state --state NEW,ESTA
 </ul>
 <pre><code>iptables -A INPUT -i lo -p icmp -j ACCEPT
 iptables -A OUTPUT -o lo -p icmp -j ACCEPT
+</code></pre><pre><code>debian@zeus:~$ ping 127.0.0.1
+PING 127.0.0.1 (127.0.0.1) 56(84) bytes of data.
+64 bytes from 127.0.0.1: icmp_seq=1 ttl=64 time=0.099 ms
+64 bytes from 127.0.0.1: icmp_seq=2 ttl=64 time=0.060 ms
+^C
+--- 127.0.0.1 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1026ms
+rtt min/avg/max/mdev = 0.060/0.079/0.099/0.019 ms
 </code></pre><ul>
 <li>A la máquina Zeus se le puede hacer ping desde la DMZ, pero desde la LAN se le debe rechazar la conexión (REJECT) y desde el exterior se rechazará de manera silenciosa.</li>
 </ul>
@@ -144,6 +153,22 @@ iptables -A OUTPUT -d 172.16.0.200/16 -p icmp -m icmp --icmp-type echo-reply -j 
 
 iptables -A INPUT -s 10.0.1.0/24 -p icmp -m icmp --icmp-type echo-request -j REJECT
 iptables -A OUTPUT -d 10.0.1.0/24 -p icmp -m icmp --icmp-type echo-reply -j REJECT
+</code></pre><ul>
+<li>Exterior:</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~$ ping 172.22.0.27
+PING 172.22.0.27 (172.22.0.27) 56(84) bytes of data.
+^C
+--- 172.22.0.27 ping statistics ---
+2 packets transmitted, 0 received, 100% packet loss, time 1007ms
+</code></pre><ul>
+<li>LAN:</li>
+</ul>
+<pre><code>
+</code></pre><ul>
+<li>DMZ:</li>
+</ul>
+<pre><code>
 </code></pre><ul>
 <li>La máquina Zeus puede hacer ping a la LAN, la DMZ y al exterior.</li>
 </ul>
@@ -189,33 +214,109 @@ iptables -A FORWARD -i enp0s8 -o enp0s6 -p tcp --sport 80 -m state --state ESTAB
 iptables -A FORWARD -i enp0s6 -o enp0s8 -p tcp --dport 443 -m state --state NEW,ESTABLISHED -j ACCEPT
 iptables -A FORWARD -i enp0s8 -o enp0s6 -p tcp --sport 443 -m state --state ESTABLISHED -j ACCEPT
 </code></pre><ul>
+<li>Debemos permitir las consultas al escenario.</li>
+</ul>
+<pre><code>iptables -A OUTPUT -p udp --dport 53 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -p udp --sport 53 -m state --state ESTABLISHED -j ACCEPT
+
+iptables -t nat -A PREROUTING -p udp -i eth0 --dport 53 -j DNAT --to 10.0.1.102
+iptables -A FORWARD -p udp --dport 53 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -p udp --sport 53 -m state --state ESTABLISHED -j ACCEPT
+</code></pre><ul>
 <li>Configura la máquina Zeus para que los servicios web y ftp sean accesibles desde el exterior.</li>
 </ul>
-<pre><code>
+<pre><code>nat -A PREROUTING -p tcp -i eth0 --dport 80 -j DNAT --to 172.16.0.200
+iptables -A FORWARD -i eth0 -o enp0s6 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s6 -o enp0s8 -p tcp --sport 80 -m state --state ESTABLISHED -j ACCEPT
+
+iptables -t nat -A PREROUTING -p tcp -i eth0 --dport 21 -j DNAT --to 172.16.0.200
+iptables -A FORWARD -i eth0 -o enp0s6 -p tcp --dport 21 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s6 -o eth0 -p tcp --sport 21 -m state --state ESTABLISHED -j ACCEPT
 </code></pre><ul>
 <li>El servidor web y el servidor ftp deben ser accesibles desde la LAN y desde el exterior.</li>
 </ul>
-<pre><code>
+<pre><code>iptables -A FORWARD -i enp0s7 -o enp0s6 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s6 -o enp0s7 -p tcp --sport 80 -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A FORWARD -i enp0s7 -o enp0s6 -p tcp --dport 21 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s6 -o enp0s7 -p tcp --sport 21 -m state --state ESTABLISHED -j ACCEPT
 </code></pre><ul>
 <li>El servidor de correos sólo debe ser accesible desde la LAN.</li>
 </ul>
-<pre><code>
+<pre><code>iptables -A FORWARD -i enp0s7 -o enp0s6 -p tcp --dport 25 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s6 -o enp0s7 -p tcp --sport 25 -m state --state ESTABLISHED -j ACCEPT
 </code></pre><ul>
 <li>En la máquina Ares instala un servidor mysql si no lo tiene aún. A este servidor se puede acceder desde la DMZ, pero no desde el exterior.</li>
 </ul>
-<pre><code>
+<pre><code>iptables -A FORWARD -i enp0s6 -o enp0s7 -p tcp --dport 3306 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s7 -o enp0s6 -p tcp --sport 3306 -m state --state ESTABLISHED -j ACCEPT
 </code></pre><ul>
 <li>Evita ataques DoS por ICMP Flood, limitando el número de peticiones por segundo desde una misma IP.</li>
 </ul>
-<pre><code>
+<pre><code>iptables -A INPUT -i enp0s6 -p icmp -m state --state NEW --icmp-type echo-request -m limit --limit 1/s --limit-burst 1 -j ACCEPT
 </code></pre><ul>
 <li>Evita ataques DoS por SYN Flood.</li>
 </ul>
-<pre><code>
+<pre><code>iptables -N syn_flood
+iptables -A INPUT -p tcp --syn -j syn_flood
+iptables -A syn_flood -m limit --limit 1/s --limit-burst 3 -j RETURN
+iptables -A syn_flood -j DROP
 </code></pre><ul>
 <li>Evita que realicen escaneos de puertos a Zeus.</li>
 </ul>
-<pre><code>
+<pre><code>iptables -A INPUT -p tcp --tcp-flags ALL NONE -m limit --limit 3/m --limit-burst 5 -j LOG --log-prefix &quot;Firewall&gt; Null scan &quot;
+iptables -A INPUT -p tcp --tcp-flags ALL NONE  -m recent --name blacklist_60 --set -m comment --comment &quot;Drop/Blacklist Null scan&quot; -j DROP
+</code></pre><h3 id="reglas-extra-para-que-sigan-funcionando-nuestros-servicios">Reglas extra para que sigan funcionando nuestros servicios.</h3>
+<ul>
+<li>Apolo puede hacer peticiones DNS a otros servidores.</li>
+</ul>
+<pre><code>iptables -A OUTPUT -p tcp --dport 53 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -p tcp --sport 53 -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A FORWARD -p tcp --dport 53 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -p tcp --sport 53 -m state --state ESTABLISHED -j ACCEPT
+</code></pre><ul>
+<li>Zeus podrá navegar.</li>
+</ul>
+<pre><code>iptables -A OUTPUT -o enp0s8 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -i enp0s8 -p tcp --sport 80 -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A OUTPUT -o enp0s8 -p tcp --dport 443 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -i enp0s8 -p tcp --sport 443 -m state --state ESTABLISHED -j ACCEPT
+</code></pre><ul>
+<li>Permitimos las consultas LDAP.</li>
+</ul>
+<pre><code>iptables -t nat -A PREROUTING -p tcp -i enp0s8 --dport 389 -j DNAT --to 10.0.1.102
+iptables -t nat -A PREROUTING -p tcp -i enp0s8 --dport 636 -j DNAT --to 10.0.1.102
+
+iptables -A OUTPUT -p tcp --dport 389 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -p tcp --sport 389 -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A OUTPUT -p tcp --dport 636 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -p tcp --sport 636 -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A FORWARD -p tcp --dport 389 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -p tcp --sport 389 -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A FORWARD -p tcp --dport 636 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -p tcp --sport 636 -m state --state ESTABLISHED -j ACCEPT
+</code></pre><ul>
+<li>Apolo podrá mandar correos al exterior y recibir.</li>
+</ul>
+<pre><code>iptables -t nat -A PREROUTING -p tcp -i enp0s8 --dport 25 -j DNAT --to 10.0.1.102
+iptables -A FORWARD -s 10.0.1.102 -o enp0s8 -p tcp --dport 25 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s8 -d 10.0.1.102 -p tcp --sport 25 -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A FORWARD -i enp0s8 -d 10.0.1.102 -p tcp --dport 25 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -s 10.0.1.102 -o enp0s8 -p tcp --sport 25 -m state --state ESTABLISHED -j ACCEPT
+</code></pre><ul>
+<li>Bacula, alojado en zeus podrá conectarse a todas las máquinas de la red interna.</li>
+</ul>
+<pre><code>iptables -A INPUT -p tcp -m multiport --dport 9101,9102,9103 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -p tcp -m multiport --sport 9101,9102,9103 -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A FORWARD -p tcp -m multiport --dport 9101,9102,9103 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -p tcp -m multiport --sport 9101,9102,9103 -m state --state ESTABLISHED -j ACCEPT
 </code></pre><ul>
 <li>Debemos implementar que el cortafuegos funcione después de un reinicio de la máquina.</li>
 </ul>

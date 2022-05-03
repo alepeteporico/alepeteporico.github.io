@@ -126,7 +126,7 @@
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cortafuegos/">Cortafuegos perimetral sobre el escenario</a></h4>
 								<h4 class="post-date">2022-03-21</h4>
 							</div>
-							<div class="post-summary"><p>Política por defecto DROP para las cadenas INPUT, FORWARD y OUTPUT.  iptables -P INPUT DROP iptables -P OUTPUT DROP iptables -P FORWARD DROP  La máquina Zeus tiene un servidor ssh escuchando por el puerto 22, pero al acceder desde el exterior habrá que conectar al puerto 2222.  iptables -t nat -A PREROUTING -p tcp --dport 2222 -i enp0s8 -j DNAT --to 172.22.0.27:22 iptables -A INPUT -i enp0s8 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT iptables -A OUTPUT -o enp0s8 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT  Desde Apolo y Hera se debe permitir la conexión ssh por el puerto 22 a la máquina Zeus.</p></div>
+							<div class="post-summary"><p>Política por defecto DROP para las cadenas INPUT, FORWARD y OUTPUT.  iptables -P INPUT DROP iptables -P OUTPUT DROP iptables -P FORWARD DROP  La máquina Zeus tiene un servidor ssh escuchando por el puerto 22, pero al acceder desde el exterior habrá que conectar al puerto 2222.  iptables -t nat -A PREROUTING -p tcp --dport 2222 -i enp0s8 -j DNAT --to 172.22.0.27:22 iptables -A INPUT -i eth0 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT iptables -A OUTPUT -o eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT   Desde Apolo y Hera se debe permitir la conexión ssh por el puerto 22 a la máquina Zeus.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/cortafuegos/">Read More</a>
 							</div>

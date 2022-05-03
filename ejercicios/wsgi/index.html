@@ -106,36 +106,49 @@
                     <ul>
 <li>Creamos un entorno virtual y lo activamos:</li>
 </ul>
-<pre><code>vagrant@cmsagv:~/wsgi$ python3 -m venv wsgi
-(wsgi) vagrant@cmsagv:~$ source wsgi/bin/activate
+<pre><code>alejandrogv@AlejandroGV:~/entornos$ python3 -m venv wsgi
+alejandrogv@AlejandroGV:~/entornos$ source wsgi/bin/activate
 </code></pre><ul>
-<li>Después de clonar la aplicación vamos a instalar los paquetes del fichero requeriments.txt.</li>
+<li>Vamos a instalar los paquetes necesarios</li>
 </ul>
-<pre><code>(wsgi) vagrant@cmsagv:~/flask_temperaturas$ pip install -r requirements.txt
+<pre><code>pip install flask redis
 </code></pre><ul>
 <li>Tenemos que instalar el módulo de apache para que wsgi funcione</li>
 </ul>
-<pre><code>vagrant@cmsagv:~/flask_temperaturas$ sudo apt install libapache2-mod-wsgi-py3
+<pre><code>sudo apt install libapache2-mod-wsgi-py3
 </code></pre><ul>
-<li>Ahora creamos un fichero en el respositorio llamado <code>wsgi.py</code> donde añadiremos la siguiente línea:</li>
+<li>Clonamos el respositorio con la aplicación.</li>
 </ul>
-<pre><code>from app import app as application
+<pre><code>(wsgi) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/wsgi$ git clone https://github.com/josedom24/guestbook.git
+</code></pre><ul>
+<li>Ahora creamos un fichero en el respositorio llamado <code>wsgi.py</code> dentro de la carpeta <code>app</code> donde añadiremos la siguiente línea:</li>
+</ul>
+<pre><code>from app import prog as application
 </code></pre><ul>
 <li>Creamos un virtual host con la siguiente configuración:</li>
 </ul>
 <pre><code>&lt;VirtualHost *:80&gt;
-        WSGIDaemonProcess flask_temp python-path=/home/vagrant/flask_temperaturas:/home/vagrant/venv/fla&gt;
-        WSGIProcessGroup flask_temp
-        WSGIScriptAlias / /home/vagrant/flask_temperaturas/wsgi.py process-group=flask_temp
-        &lt;Directory /home/vagrant/flask_temperaturas&gt;
+
+        ServerName www.guestbook.com
+        ServerAdmin webmaster@localhost
+        DocumentRoot /home/alejandrogv/Escritorio/ASIR/IWEB/wsgi/guestbook/app/
+
+        WSGIDaemonProcess guestbook python-path=/home/vagrant/guestbook/app:/home/alejandrogv/entornos/wsgi/lib/python3.9/site-packages
+        WSGIProcessGroup guestbook
+        WSGIScriptAlias / /home/alejandrogv/Escritorio/ASIR/IWEB/wsgi/guestbook/app/wsgi.py process-group=guestbook
+        &lt;Directory /home/alejandrogv/Escritorio/ASIR/IWEB/wsgi/guestbook/app/&gt;
                 Require all granted
         &lt;/Directory&gt;
 
-        ErrorLog /var/log/apache2/wsgi_error.log
-        CustomLog /var/log/apache2/wsgi_access.log combined
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
 
 &lt;/VirtualHost&gt;
-</code></pre>
+</code></pre><ul>
+<li>Comprobamos su funcionamiento.</li>
+</ul>
+<p><img src="/wsgi/1.png" alt="tablas"></p>
+
                 </div>
                 
                 <div class="post-comments">
