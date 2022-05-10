@@ -110,6 +110,21 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cms_java/">Despliegue de CMS java</a></h4>
+								<h4 class="post-date">2022-05-04</h4>
+							</div>
+							<div class="post-summary"><p>Hemos elegido la aplicación Guacamole la cual permite administrar de forma remota el sistema donde lo instalemos mediante una interfaz web usando protocolos como: ssh, rdp o vnc.
+  Para empezar instalaremos la paquetería necesaria.
+  vagrant@cmsjava:~$ sudo apt install build-essential libcairo2-dev libjpeg62-turbo-dev libpng-dev libtool-bin libossp-uuid-dev libavcodec-dev libavformat-dev libswscale-dev freerdp2-dev libpango1.0-dev libssh2-1-dev libtelnet-dev libvncserver-dev libwebsockets-dev libpulse-dev libvorbis-dev libwebp-dev  Descargaremos la aplicación del sitio oficial.  vagrant@cmsjava:~$ wget -O 'guacamole-server-1.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/cms_java/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/https_ovh/">HTTPS OVH</a></h4>
 								<h4 class="post-date">2022-04-17</h4>
 							</div>
@@ -126,7 +141,7 @@
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cortafuegos/">Cortafuegos perimetral sobre el escenario</a></h4>
 								<h4 class="post-date">2022-03-21</h4>
 							</div>
-							<div class="post-summary"><p>Política por defecto DROP para las cadenas INPUT, FORWARD y OUTPUT.  iptables -P INPUT DROP iptables -P OUTPUT DROP iptables -P FORWARD DROP  La máquina Zeus tiene un servidor ssh escuchando por el puerto 22, pero al acceder desde el exterior habrá que conectar al puerto 2222.  iptables -t nat -A PREROUTING -p tcp --dport 2222 -i enp0s8 -j DNAT --to 172.22.0.27:22 iptables -A INPUT -i eth0 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT iptables -A OUTPUT -o eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT   Desde Apolo y Hera se debe permitir la conexión ssh por el puerto 22 a la máquina Zeus.</p></div>
+							<div class="post-summary"><p>Política por defecto DROP para las cadenas INPUT, FORWARD y OUTPUT.  iptables -P INPUT DROP iptables -P OUTPUT DROP iptables -P FORWARD DROP  La máquina Zeus tiene un servidor ssh escuchando por el puerto 22, pero al acceder desde el exterior habrá que conectar al puerto 2222.  iptables -t nat -A PREROUTING -p tcp --dport 2222 -i eth0 -j DNAT --to 172.22.0.27:22 iptables -A INPUT -i eth0 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT iptables -A OUTPUT -o eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT   Desde Apolo y Hera se debe permitir la conexión ssh por el puerto 22 a la máquina Zeus.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/cortafuegos/">Read More</a>
 							</div>
@@ -226,19 +241,6 @@
 							<div class="post-summary"><p>Documenta una prueba de funcionamiento, donde envíes desde tu servidor local al exterior. Muestra el log donde se vea el envío. Muestra el correo que has recibido. Muestra el registro SPF.  debian@mrrobot:~$ mail tojandro@gmail.com Cc: Subject: prueba desde vps debian@mrrobot:~$ cat /var/log/mail.log Feb 2 07:39:58 mrrobot postfix/pickup[915259]: E42DCA0AB9: uid=1000 from=&lt;debian@mrrobot.alejandrogv.site&gt; Feb 2 07:39:58 mrrobot postfix/cleanup[916025]: E42DCA0AB9: message-id=&lt;20220202073958.E42DCA0AB9@mrrobot.alejandrogv.site&gt; Feb 2 07:39:58 mrrobot postfix/qmgr[915260]: E42DCA0AB9: from=&lt;debian@mrrobot.alejandrogv.site&gt;, size=375, nrcpt=1 (queue active) Feb 2 07:39:59 mrrobot postfix/smtp[916027]: connect to gmail-smtp-in.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/correo/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/lxc/">Contenedores LXC</a></h4>
-								<h4 class="post-date">2022-01-19</h4>
-							</div>
-							<div class="post-summary"><p>Ejercicio 1   Crearemos la primera máquina de nuestro escenario, será un contenedor LXC llamado router. Este contenedor se creará a partir de la plantilla Debian Bullseye. Este contenedor tendrá dos interfaces de red: la primera conectada a una red pública (bridge br0). Por esta interfaz el contenedor tendrá acceso a internet. Además estará conectada la bridge de un red muy aislada que crearás con virsh y tendrá como dirección IP la 10.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/lxc/">Read More</a>
 							</div>
 						</div>
 					</li>

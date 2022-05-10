@@ -116,9 +116,9 @@
 	match-clients { 10.0.1.0/24; 127.0.0.1; };
 	allow-recursion { any; };
 
-	zone &quot;alegv.gonzalonazareno.org&quot; {
+	zone &quot;alexgv.gonzalonazareno.org&quot; {
 		type master;
-		file &quot;db.alegv.interna&quot;;
+		file &quot;db.alexgv.interna&quot;;
 	};
 
         zone &quot;1.0.10.in-addr-arpa&quot; { 
@@ -138,9 +138,9 @@
 view dmz {
         match-clients { 172.16.0.0/16; };
 
-        zone &quot;alegv.gonzalonazareno.org&quot; {
+        zone &quot;alexgv.gonzalonazareno.org&quot; {
                 type master;
-                file &quot;db.alegv.dmz&quot;;
+                file &quot;db.alexgv.dmz&quot;;
         };
 
         zone &quot;1.0.10.in-addr-arpa&quot; {
@@ -160,9 +160,9 @@ view dmz {
 view externa {
 	match-clients { 172.22.0.0/16; 192.168.202.2/32; };
 	
-	zone &quot;alegv.gonzalonazareno.org&quot; {
+	zone &quot;alexgv.gonzalonazareno.org&quot; {
 		type master;
-		file &quot;db.alegv.externa&quot;;
+		file &quot;db.alexgv.externa&quot;;
 	};
 
         include &quot;/etc/bind/zones.rfc1918&quot;;
@@ -173,18 +173,18 @@ view externa {
 </ul>
 <pre><code>//include &quot;/etc/bind/named.conf.default-zones&quot;;
 </code></pre><p><strong>Crearemos los archivos db, lo hacemos en la carpeta &ldquo;/var/cache/bind/&quot;</strong></p>
-<h3 id="dbalegvinterna">db.alegv.interna</h3>
+<h3 id="dbalexgvinterna">db.alexgv.interna</h3>
 <pre><code>$TTL    86400
-@       IN      SOA     apolo.alegv.gonzalonazareno.org. admin.alegv.gonzalonazareno.org. (
+@       IN      SOA     apolo.alexgv.gonzalonazareno.org. admin.alexgv.gonzalonazareno.org. (
                               1         ; Serial
                          604800         ; Refresh
                           86400         ; Retry
                         2419200         ; Expire
                           86400 )       ; Negative Cache TTL
 ;
-@       IN      NS      apolo.alegv.gonzalonazareno.org.
+@       IN      NS      apolo.alexgv.gonzalonazareno.org.
 
-$ORIGIN alegv.gonzalonazareno.org.
+$ORIGIN alexgv.gonzalonazareno.org.
 
 zeus	IN      A       10.0.1.1
 ares	IN      A       10.0.1.101
@@ -192,18 +192,18 @@ apolo	IN      A       10.0.1.102
 hera	IN      A       172.16.0.200
 www     IN      CNAME   hera
 bd      IN      CNAME   ares
-</code></pre><h3 id="dbalegvdmz">db.alegv.dmz</h3>
+</code></pre><h3 id="dbalexgvdmz">db.alexgv.dmz</h3>
 <pre><code>$TTL	86400
-@       IN      SOA     apolo.alegv.gonzalonazareno.org. admin.alegv.gonzalonazareno.org. (
+@       IN      SOA     apolo.alexgv.gonzalonazareno.org. admin.alexgv.gonzalonazareno.org. (
                               1         ; Serial
                          604800         ; Refresh
                           86400         ; Retry
                         2419200         ; Expire
                           86400 )       ; Negative Cache TTL
 ;
-@       IN      NS      apolo.alegv.gonzalonazareno.org.
+@       IN      NS      apolo.alexgv.gonzalonazareno.org.
 
-$ORIGIN alegv.gonzalonazareno.org.
+$ORIGIN alexgv.gonzalonazareno.org.
 
 zeus    IN      A       172.16.0.1
 ares    IN      A       10.0.1.101
@@ -211,55 +211,55 @@ apolo   IN      A       10.0.1.102
 hera    IN      A       172.16.0.200
 www     IN      CNAME   hera   
 bd      IN      CNAME   ares
-</code></pre><h3 id="dbalegvexterna">db.alegv.externa</h3>
+</code></pre><h3 id="dbalexgvexterna">db.alexgv.externa</h3>
 <pre><code>$TTL    86400
-@       IN      SOA     zeus.alegv.gonzalonazareno.org. admin.alegv.gonzalonazareno.org. (
+@       IN      SOA     zeus.alexgv.gonzalonazareno.org. admin.alexgv.gonzalonazareno.org. (
                               1         ; Serial
                          604800         ; Refresh
                           86400         ; Retry
                         2419200         ; Expire
                           86400 )       ; Negative Cache TTL
 ;
-@       IN      NS      zeus.alegv.gonzalonazareno.org.
-@	IN	MX 10	zeus.alegv.gonzalonazareno.org.
+@       IN      NS      zeus.alexgv.gonzalonazareno.org.
+@	IN	MX 10	zeus.alexgv.gonzalonazareno.org.
 
-$ORIGIN alegv.gonzalonazareno.org.
+$ORIGIN alexgv.gonzalonazareno.org.
 
-zeus	IN	A	172.22.3.191
+zeus	IN	A	172.22.0.169
 www     IN      CNAME   zeus   
 bd      IN      CNAME   zeus
 </code></pre><p><strong>Ahora crearemos los archivos de las resoluciones inversas en la misma ruta</strong></p>
 <h3 id="db1010">db.1.0.10</h3>
 <pre><code>$TTL    86400
-@       IN      SOA     apolo.alegv.gonzalonazareno.org. admin.alegv.gonzalonazareno.org. (
+@       IN      SOA     apolo.alexgv.gonzalonazareno.org. admin.alexgv.gonzalonazareno.org. (
                               1         ; Serial
                          604800         ; Refresh
                           86400         ; Retry
                         2419200         ; Expire
                           86400 )       ; Negative Cache TTL
 ;
-@       IN      NS      apolo.alegv.gonzalonazareno.org.
+@       IN      NS      apolo.alexgv.gonzalonazareno.org.
 
 $ORIGIN 1.0.10.in-addr.arpa.
 
-1	IN	PTR	zeus.alegv.gonzalonazareno.org.
-101	IN	PTR	ares.alegv.gonzalonazareno.org.
-102	IN	PTR	apolo.alegv.gonzalonazareno.org.
+1	IN	PTR	zeus.alexgv.gonzalonazareno.org.
+101	IN	PTR	ares.alexgv.gonzalonazareno.org.
+102	IN	PTR	apolo.alexgv.gonzalonazareno.org.
 </code></pre><h3 id="db16172">db.16.172</h3>
 <pre><code>$TTL    86400
-@       IN      SOA     apolo.alegv.gonzalonazareno.org. admin.alegv.gonzalonazareno.org. (
+@       IN      SOA     apolo.alexgv.gonzalonazareno.org. admin.alexgv.gonzalonazareno.org. (
                               1         ; Serial
                          604800         ; Refresh
                           86400         ; Retry
                         2419200         ; Expire
                           86400 )       ; Negative Cache TTL
 ;
-@       IN      NS      apolo.alegv.gonzalonazareno.org.
+@       IN      NS      apolo.alexgv.gonzalonazareno.org.
 
 $ORIGIN 16.172.in-addr.arpa.
 
-0.200	IN	PTR	hera.alegv.gonzalonazareno.org.
-0.1	IN	PTR	zeus.alegv.gonzalonazareno.org.
+0.200	IN	PTR	hera.alexgv.gonzalonazareno.org.
+0.1	IN	PTR	zeus.alexgv.gonzalonazareno.org.
 </code></pre><ul>
 <li>Si quisieramos asegurarnos de que no tenemos ningún error de sintáxis podemos usar esto:</li>
 </ul>
@@ -290,7 +290,7 @@ debian@apolo:~$ sudo systemctl status bind9
              `-1775 /usr/sbin/named -f -u bind
 
 Feb 02 09:55:21 apolo named[1775]: zone 168.192.in-addr.arpa/IN/externa: loaded serial 1
-Feb 02 09:55:21 apolo named[1775]: zone alegv.gonzalonazareno.org/IN/externa: loaded serial 1
+Feb 02 09:55:21 apolo named[1775]: zone alexgv.gonzalonazareno.org/IN/externa: loaded serial 1
 Feb 02 09:55:21 apolo named[1775]: all zones loaded
 Feb 02 09:55:21 apolo named[1775]: running
 Feb 02 09:55:21 apolo named[1775]: managed-keys-zone/externa: Key 20326 for zone . is now trusted (accep&gt;
@@ -306,9 +306,9 @@ Feb 02 09:55:22 apolo named[1775]: resolver priming query complete
 <li>El servidor DNS con autoridad sobre la zona del dominio tu_nombre.gonzalonazareno.org.</li>
 </ol>
 <h3 id="interna">Interna</h3>
-<pre><code>debian@zeus:~$ dig alegv.gonzalonazareno.org
+<pre><code>debian@zeus:~$ dig alexgv.gonzalonazareno.org
 
-; &lt;&lt;&gt;&gt; DiG 9.16.22-Debian &lt;&lt;&gt;&gt; alegv.gonzalonazareno.org
+; &lt;&lt;&gt;&gt; DiG 9.16.22-Debian &lt;&lt;&gt;&gt; alexgv.gonzalonazareno.org
 ;; global options: +cmd
 ;; Got answer:
 ;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 26327
@@ -318,104 +318,106 @@ Feb 02 09:55:22 apolo named[1775]: resolver priming query complete
 ; EDNS: version: 0, flags:; udp: 1232
 ; COOKIE: 673e0e7f90f0376a0100000061fa47a7b129b2cb088a4078 (good)
 ;; QUESTION SECTION:
-;alegv.gonzalonazareno.org.	IN	A
+;alexgv.gonzalonazareno.org.	IN	A
 
 ;; AUTHORITY SECTION:
-alegv.gonzalonazareno.org. 86400 IN	SOA	apolo.alegv.gonzalonazareno.org. admin.alegv.gonzalonazareno.org. 1 604800 86400 2419200 86400
+alexgv.gonzalonazareno.org. 86400 IN	SOA	apolo.alexgv.gonzalonazareno.org. admin.alexgv.gonzalonazareno.org. 1 604800 86400 2419200 86400
 
 ;; Query time: 0 msec
 ;; SERVER: 10.0.1.102#53(10.0.1.102)
 ;; WHEN: Wed Feb 02 09:58:15 CET 2022
 ;; MSG SIZE  rcvd: 130
 </code></pre><h3 id="externa">Externa</h3>
-<pre><code>alejandrogv@AlejandroGV:~$ dig alegv.gonzalonazareno.org
+<pre><code>alejandrogv@AlejandroGV:~$ dig @172.22.0.169 alexgv.gonzalonazareno.org
 
-; &lt;&lt;&gt;&gt; DiG 9.16.22-Debian &lt;&lt;&gt;&gt; alegv.gonzalonazareno.org
+; &lt;&lt;&gt;&gt; DiG 9.16.27-Debian &lt;&lt;&gt;&gt; @172.22.0.169 alexgv.gonzalonazareno.org
+; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
-;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: SERVFAIL, id: 42290
-;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 30846
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 1
 
 ;; OPT PSEUDOSECTION:
-; EDNS: version: 0, flags:; udp: 4096
-; COOKIE: 28348d43b60be7e7a084f7c06231d997b8300d17dbf74b16 (good)
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: 2a3b27dcd4272d99010000006272345416d34b06d6eea5e3 (good)
 ;; QUESTION SECTION:
-;alegv.gonzalonazareno.org.	IN	A
+;alexgv.gonzalonazareno.org.	IN	A
+
+;; AUTHORITY SECTION:
+alexgv.gonzalonazareno.org. 86400 IN	SOA	zeus.alexgv.gonzalonazareno.org. admin.alexgv.gonzalonazareno.org. 1 604800 86400 2419200 86400
 
 ;; Query time: 0 msec
-;; SERVER: 192.168.202.2#53(192.168.202.2)
-;; WHEN: Wed Mar 16 13:35:35 CET 2022
-;; MSG SIZE  rcvd: 82
+;; SERVER: 172.22.0.169#53(172.22.0.169)
+;; WHEN: Wed May 04 10:07:48 CEST 2022
+;; MSG SIZE  rcvd: 130
 </code></pre><ol start="2">
 <li>La dirección IP de zeus.</li>
 </ol>
 <h3 id="interna-1">Interna</h3>
-<pre><code>[hera@hera ~]$ dig +short zeus.alegv.gonzalonazareno.org
+<pre><code>[usuario@hera ~]$ dig +short zeus.alexgv.gonzalonazareno.org
 172.16.0.1
 
-debian@apolo:~$ dig +short zeus.alegv.gonzalonazareno.org
+usuario@apolo:~$ dig +short zeus.alexgv.gonzalonazareno.org
 10.0.1.1
 </code></pre><h3 id="externa-1">Externa</h3>
-<pre><code>alejandrogv@AlejandroGV:~$ dig +short zeus.alegv.gonzalonazareno.org
-172.22.0.27
+<pre><code>alejandrogv@AlejandroGV:~$ dig +short zeus.alexgv.gonzalonazareno.org
+172.22.0.169
 </code></pre><ol start="3">
 <li>Una resolución de www.</li>
 </ol>
 <h3 id="interna-2">Interna</h3>
-<pre><code>debian@apolo:~$ dig +short www.alegv.gonzalonazareno.org
-hera.alegv.gonzalonazareno.org.
+<pre><code>usuario@ares:~$ dig +short www.alexgv.gonzalonazareno.org
+hera.alexgv.gonzalonazareno.org.
 172.16.0.200
 </code></pre><h3 id="externa-2">Externa</h3>
-<pre><code>alejandrogv@AlejandroGV:~$ dig +short www.alegv.gonzalonazareno.org
-zeus.alegv.gonzalonazareno.org.
-172.22.3.191
+<pre><code>alejandrogv@AlejandroGV:~$ dig +short www.alexgv.gonzalonazareno.org
+hera.alexgv.gonzalonazareno.org.
 </code></pre><ol start="4">
 <li>Una resolución de bd.</li>
 </ol>
 <h3 id="interna-3">Interna</h3>
-<pre><code>debian@apolo:~$ dig +short bd.alegv.gonzalonazareno.org
-ares.alegv.gonzalonazareno.org.
+<pre><code>debian@apolo:~$ dig +short bd.alexgv.gonzalonazareno.org
+ares.alexgv.gonzalonazareno.org.
 10.0.1.101
 </code></pre><h3 id="externa-3">Externa</h3>
-<pre><code>alejandrogv@AlejandroGV:~$ dig +short bd.alegv.gonzalonazareno.org
-zeus.alegv.gonzalonazareno.org.
-172.22.3.191
+<pre><code>alejandrogv@AlejandroGV:~$ dig +short bd.alexgv.gonzalonazareno.org
+ares.alexgv.gonzalonazareno.org.
 </code></pre><ol start="5">
 <li>Un resolución inversa de IP fija en cada una de las redes.</li>
 </ol>
 <pre><code>debian@zeus:~$ dig +short -x 10.0.1.101
-ares.alegv.gonzalonazareno.org.
+ares.1.0.10.in-addr.arpa.
 
 debian@zeus:~$ dig +short -x 172.16.0.200
-hera.alegv.gonzalonazareno.org.
+hera.16.172.in-addr.arpa
 </code></pre><h2 id="servidor-web">Servidor web</h2>
 <ul>
 <li>Para que podamos acceder debemos habilitar en el firewall los puertos 443, 80 y 53</li>
 </ul>
-<pre><code>[hera@hera ~]$ sudo firewall-cmd --permanent --add-port=443/tcp
+<pre><code>[usuario@hera ~]$ sudo firewall-cmd --permanent --add-port=443/tcp
 success
-[hera@hera ~]$ sudo firewall-cmd --permanent --add-port=80/tcp
+[usuario@hera ~]$ sudo firewall-cmd --permanent --add-port=80/tcp
 success
-[hera@hera ~]$ sudo firewall-cmd --permanent --add-port=53/udp
+[usuario@hera ~]$ sudo firewall-cmd --permanent --add-port=53/udp
 success
-[hera@hera ~]$ sudo firewall-cmd --reload
+[usuario@hera ~]$ sudo firewall-cmd --reload
 success
 </code></pre><ul>
 <li>En Rocky los directorios sites-avaiable y sites-enabled no se crean por defecto, los crearemos nosotros:</li>
 </ul>
-<pre><code>[hera@hera ~]$ sudo mkdir /etc/httpd/sites-enabled /etc/httpd/sites-available
+<pre><code>[usuario@hera ~]$ sudo mkdir /etc/httpd/sites-enabled /etc/httpd/sites-available
 </code></pre><ul>
 <li>Ahora entraremos al fichero de configuración &ldquo;/etc/httpd/conf/httpd.conf&rdquo; para añadir sites-avaiable como nueva ruta comentando la última línea y añadiendo otra</li>
 </ul>
 <pre><code>#IncludeOptional conf.d/*.conf
 IncludeOptional	sites-enabled/*.conf
 </code></pre><p><strong>Directamente pasaremos a la configuración de un virtualhost</strong></p>
-<pre><code>[hera@hera ~]$ cat /etc/httpd/sites-available/pagina.conf
+<pre><code>[usuario@hera ~]$ cat /etc/httpd/sites-available/pagina.conf
 &lt;VirtualHost *:80&gt;
-    ServerName www.alegv.gonzalonazareno.org
-    DocumentRoot /var/www/alegv
+    ServerName www.alexgv.gonzalonazareno.org
+    DocumentRoot /var/www/alexgv
 
-    &lt;Directory /var/www/alegv/&gt;
+    &lt;Directory /var/www/alexgv/&gt;
         Options FollowSymLinks
         AllowOverride All
         Order deny,allow
@@ -427,22 +429,22 @@ IncludeOptional	sites-enabled/*.conf
 
     &lt;/Directory&gt;
 
-    ErrorLog /var/www/alegv/log/error.log
-    CustomLog /var/www/alegv/log/requests.log combined
+    ErrorLog /var/www/alexgv/log/error.log
+    CustomLog /var/www/alexgv/log/requests.log combined
 &lt;/VirtualHost&gt;
 </code></pre><ul>
 <li>Creamos el vínculo en sites-enabled y las carpetas necesarias en &ldquo;/var/www/&rdquo;</li>
 </ul>
 <pre><code>[hera@hera sites-available]$ sudo ln -s pagina.conf ../sites-enabled/
-[hera@hera sites-available]$ sudo mkdir -p /var/www/alegv/log
+[hera@hera sites-available]$ sudo mkdir -p /var/www/alexgv/log
 </code></pre><ul>
 <li>Selinux nos dará problemas con los nuevos directorios, por ello debemos ejecutar los siguientes comandos y reiniciar el servicio httpd</li>
 </ul>
-<pre><code>[hera@hera ~]$ sudo semanage fcontext -a -t httpd_log_t &quot;/var/www/alegv/log(/.*)?&quot;
-[hera@hera ~]$ sudo restorecon -R -v /var/www/alegv/log
-Relabeled /var/www/alegv/log from unconfined_u:object_r:httpd_sys_content_t:s0 to unconfined_u:object_r:httpd_log_t:s0
-[hera@hera ~]$ sudo setsebool -P httpd_unified 1
-[hera@hera ~]$ sudo systemctl restart httpd
+<pre><code>[usuario@hera ~]$ sudo semanage fcontext -a -t httpd_log_t &quot;/var/www/alexgv/log(/.*)?&quot;
+[usuario@hera ~]$ sudo restorecon -R -v /var/www/alexgv/log
+Relabeled /var/www/alexgv/log from unconfined_u:object_r:httpd_sys_content_t:s0 to unconfined_u:object_r:httpd_log_t:s0
+[usuario@hera ~]$ sudo setsebool -P httpd_unified 1
+[usuario@hera ~]$ sudo systemctl restart httpd
 </code></pre><ul>
 <li>Comprobemos que funciona</li>
 </ul>
@@ -471,7 +473,7 @@ Relabeled /var/www/alegv/log from unconfined_u:object_r:httpd_sys_content_t:s0 t
 <pre><code>    [centos@quijote ~]$ sudo dnf install mariadb
 </code></pre>
 <p><strong>Y procedemos a acceder al servidor mariadb con las credenciales que usamos anteriormente</strong></p>
-<pre><code>    [root@quijote ~]# mysql -u ale -p -h bd.alegv.gonzalonazareno.org
+<pre><code>    [root@quijote ~]# mysql -u ale -p -h bd.alexgv.gonzalonazareno.org
     Enter password: 
     Welcome to the MariaDB monitor.  Commands end with ; or \g.
     Your MariaDB connection id is 37

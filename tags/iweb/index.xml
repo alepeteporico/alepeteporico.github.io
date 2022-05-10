@@ -6,7 +6,18 @@
     <description>Recent content in IWEB on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 11 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/iweb/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 04 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/iweb/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Despliegue de CMS java</title>
+      <link>https://alepeteporico.github.io/practicas/cms_java/</link>
+      <pubDate>Wed, 04 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/cms_java/</guid>
+      <description>Hemos elegido la aplicación Guacamole la cual permite administrar de forma remota el sistema donde lo instalemos mediante una interfaz web usando protocolos como: ssh, rdp o vnc.
+  Para empezar instalaremos la paquetería necesaria.
+  vagrant@cmsjava:~$ sudo apt install build-essential libcairo2-dev libjpeg62-turbo-dev libpng-dev libtool-bin libossp-uuid-dev libavcodec-dev libavformat-dev libswscale-dev freerdp2-dev libpango1.0-dev libssh2-1-dev libtelnet-dev libvncserver-dev libwebsockets-dev libpulse-dev libvorbis-dev libwebp-dev  Descargaremos la aplicación del sitio oficial.  vagrant@cmsjava:~$ wget -O &#39;guacamole-server-1.</description>
+    </item>
+    
     <item>
       <title>Desplegando aplicaciones flask con apache2 &#43; uwsgi</title>
       <link>https://alepeteporico.github.io/ejercicios/apache_uwsgi/</link>
@@ -134,18 +145,6 @@ vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla 
       <description>Vamos a crear el entorno virtual en el cual instalaremos Mezzanine.
  alejandrogv@AlejandroGV:~/entornos/mezzanine$ source despliegue/bin/activate (despliegue) alejandrogv@AlejandroGV:~/entornos/mezzanine$    Ahora instalamos con pip mezzanine y creamos un proyecto.
  (despliegue) alejandrogv@AlejandroGV:~/proyecto$ pip install mezzanine (despliegue) alejandrogv@AlejandroGV:~/proyecto$ mezzanine-project cms    Vamos a modificar uno de los ficheros que se ha generado cms/settings.py para usar la base de datos sqlite ya que estamos en el entorno de pruebas.</description>
-    </item>
-    
-    <item>
-      <title>Despliegue de CMS java</title>
-      <link>https://alepeteporico.github.io/practicas/cms_java/</link>
-      <pubDate>Tue, 04 May 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/cms_java/</guid>
-      <description>Elegiremos instalar la aplicación con Guacamole, para empezar instalaremos la paquetería necesaria.
- vagrant@cmsjava:~$ sudo apt install build-essential libcairo2-dev libjpeg62-turbo-dev libpng-dev libtool-bin libossp-uuid-dev libavcodec-dev libavformat-dev libswscale-dev freerdp2-dev libpango1.0-dev libssh2-1-dev libtelnet-dev libvncserver-dev libwebsockets-dev libpulse-dev libvorbis-dev libwebp-dev    Descargaremos la aplicación del sitio oficial.
- vagrant@cmsjava:~$ wget http://archive.apache.org/dist/guacamole/1.2.0/source/guacamole-server-1.2.0.tar.gz    Descomprimimos la carpeta que acabamos de descargar.
- vagrant@cmsjava:~$ tar -zxf guacamole-server-1.2.0.tar.gz vagrant@cmsjava:~$ ls guacamole-server-1.2.0    Entraremos y lo instalaremos siguiendo los siguientes pasos.</description>
     </item>
     
     <item>

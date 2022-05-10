@@ -6,7 +6,18 @@
     <description>Recent content in Practicas on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 17 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 04 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Despliegue de CMS java</title>
+      <link>https://alepeteporico.github.io/practicas/cms_java/</link>
+      <pubDate>Wed, 04 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/cms_java/</guid>
+      <description>Hemos elegido la aplicación Guacamole la cual permite administrar de forma remota el sistema donde lo instalemos mediante una interfaz web usando protocolos como: ssh, rdp o vnc.
+  Para empezar instalaremos la paquetería necesaria.
+  vagrant@cmsjava:~$ sudo apt install build-essential libcairo2-dev libjpeg62-turbo-dev libpng-dev libtool-bin libossp-uuid-dev libavcodec-dev libavformat-dev libswscale-dev freerdp2-dev libpango1.0-dev libssh2-1-dev libtelnet-dev libvncserver-dev libwebsockets-dev libpulse-dev libvorbis-dev libwebp-dev  Descargaremos la aplicación del sitio oficial.  vagrant@cmsjava:~$ wget -O &#39;guacamole-server-1.</description>
+    </item>
+    
     <item>
       <title>HTTPS OVH</title>
       <link>https://alepeteporico.github.io/practicas/https_ovh/</link>
@@ -22,7 +33,7 @@
       <pubDate>Mon, 21 Mar 2022 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/cortafuegos/</guid>
-      <description>Política por defecto DROP para las cadenas INPUT, FORWARD y OUTPUT.  iptables -P INPUT DROP iptables -P OUTPUT DROP iptables -P FORWARD DROP  La máquina Zeus tiene un servidor ssh escuchando por el puerto 22, pero al acceder desde el exterior habrá que conectar al puerto 2222.  iptables -t nat -A PREROUTING -p tcp --dport 2222 -i enp0s8 -j DNAT --to 172.22.0.27:22 iptables -A INPUT -i eth0 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT iptables -A OUTPUT -o eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT   Desde Apolo y Hera se debe permitir la conexión ssh por el puerto 22 a la máquina Zeus.</description>
+      <description>Política por defecto DROP para las cadenas INPUT, FORWARD y OUTPUT.  iptables -P INPUT DROP iptables -P OUTPUT DROP iptables -P FORWARD DROP  La máquina Zeus tiene un servidor ssh escuchando por el puerto 22, pero al acceder desde el exterior habrá que conectar al puerto 2222.  iptables -t nat -A PREROUTING -p tcp --dport 2222 -i eth0 -j DNAT --to 172.22.0.27:22 iptables -A INPUT -i eth0 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT iptables -A OUTPUT -o eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT   Desde Apolo y Hera se debe permitir la conexión ssh por el puerto 22 a la máquina Zeus.</description>
     </item>
     
     <item>
@@ -130,7 +141,7 @@
       
       <guid>https://alepeteporico.github.io/practicas/server_web_bbdd_dns/</guid>
       <description>Servidor DNS  Configuramos el fichero &amp;ldquo;/etc/bind/named.conf.options&amp;rdquo; y añadimos las siguientes líneas:   listen-on { any; }; allow-transfer { none; }; recursion yes; allow-recursion { any; }; *Configuramos el DNS local, la DMZ y externa en el fichero de configuración /etc/bind/named.conf.local:
-view interna { match-clients { 10.0.1.0/24; 127.0.0.1; }; allow-recursion { any; }; zone &amp;quot;alegv.gonzalonazareno.org&amp;quot; { type master; file &amp;quot;db.alegv.interna&amp;quot;; }; zone &amp;quot;1.0.10.in-addr-arpa&amp;quot; { type master; file &amp;quot;db.1.0.10&amp;quot;; }; zone &amp;quot;16.</description>
+view interna { match-clients { 10.0.1.0/24; 127.0.0.1; }; allow-recursion { any; }; zone &amp;quot;alexgv.gonzalonazareno.org&amp;quot; { type master; file &amp;quot;db.alexgv.interna&amp;quot;; }; zone &amp;quot;1.0.10.in-addr-arpa&amp;quot; { type master; file &amp;quot;db.1.0.10&amp;quot;; }; zone &amp;quot;16.</description>
     </item>
     
     <item>
@@ -463,18 +474,6 @@ vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla 
   Vamos a instalar en nuestra red local un servidor DNS (lo puedes instalar en el mismo equipo que tiene el servidor web)
   Voy a suponer en este documento que el nombre del servidor DNS va a ser pandora.iesgn.org. El nombre del servidor de tu prácticas será tunombre.iesgn.org.
    DNSmasq Instala el servidor dns dnsmasq en pandora.</description>
-    </item>
-    
-    <item>
-      <title>Despliegue de CMS java</title>
-      <link>https://alepeteporico.github.io/practicas/cms_java/</link>
-      <pubDate>Tue, 04 May 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/cms_java/</guid>
-      <description>Elegiremos instalar la aplicación con Guacamole, para empezar instalaremos la paquetería necesaria.
- vagrant@cmsjava:~$ sudo apt install build-essential libcairo2-dev libjpeg62-turbo-dev libpng-dev libtool-bin libossp-uuid-dev libavcodec-dev libavformat-dev libswscale-dev freerdp2-dev libpango1.0-dev libssh2-1-dev libtelnet-dev libvncserver-dev libwebsockets-dev libpulse-dev libvorbis-dev libwebp-dev    Descargaremos la aplicación del sitio oficial.
- vagrant@cmsjava:~$ wget http://archive.apache.org/dist/guacamole/1.2.0/source/guacamole-server-1.2.0.tar.gz    Descomprimimos la carpeta que acabamos de descargar.
- vagrant@cmsjava:~$ tar -zxf guacamole-server-1.2.0.tar.gz vagrant@cmsjava:~$ ls guacamole-server-1.2.0    Entraremos y lo instalaremos siguiendo los siguientes pasos.</description>
     </item>
     
     <item>
