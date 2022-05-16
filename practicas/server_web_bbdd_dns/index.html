@@ -258,8 +258,8 @@ $ORIGIN 1.0.10.in-addr.arpa.
 
 $ORIGIN 16.172.in-addr.arpa.
 
-0.200	IN	PTR	hera.alexgv.gonzalonazareno.org.
-0.1	IN	PTR	zeus.alexgv.gonzalonazareno.org.
+200.0	IN	PTR	hera.alexgv.gonzalonazareno.org.
+1.0	IN	PTR	zeus.alexgv.gonzalonazareno.org.
 </code></pre><ul>
 <li>Si quisieramos asegurarnos de que no tenemos ningún error de sintáxis podemos usar esto:</li>
 </ul>
@@ -417,17 +417,13 @@ IncludeOptional	sites-enabled/*.conf
     ServerName www.alexgv.gonzalonazareno.org
     DocumentRoot /var/www/alexgv
 
-    &lt;Directory /var/www/alexgv/&gt;
-        Options FollowSymLinks
-        AllowOverride All
-        Order deny,allow
-        Allow from all
+    &lt;Proxy \&quot;unix:/run/php-fpm/www.sock|fcgi://php-fpm\&quot;&gt;
+        ProxySet disablereuse=off
+    &lt;/Proxy&gt;
 
-        &lt;FilesMatch &quot;\.php&quot;&gt;
-                SetHandler &quot;proxy:unix:/run/php-fpm/www.sock|fcgi://localhost&quot;
-        &lt;/FilesMatch&gt;
-
-    &lt;/Directory&gt;
+    &lt;FilesMatch \.php$&gt;
+        SetHandler proxy:fcgi://php-fpm
+    &lt;/FilesMatch&gt;
 
     ErrorLog /var/www/alexgv/log/error.log
     CustomLog /var/www/alexgv/log/requests.log combined
@@ -451,52 +447,51 @@ Relabeled /var/www/alexgv/log from unconfined_u:object_r:httpd_sys_content_t:s0 
 <p><img src="/dns_web_bbdd/1.png" alt="info"></p>
 <h3 id="servidor-base-de-datos">Servidor Base de datos.</h3>
 <p><strong>Usaremos el gestor mariadb</strong></p>
-<pre><code>ubuntu@sancho:~$ sudo apt install mariadb-server
+<pre><code>usuario@ares:~$ sudo apt install mariadb-server
 </code></pre><p><strong>Y una vez instalado debemos configurarlo para permitir el uso de usuarios remoto accediendo al fichero <code>/etc/mysql/mariadb.conf.d/50-server.cnf</code> y modificando la línea <code>bind-address</code> tal como aparece a continuación</strong></p>
 <pre><code>    bind-address            = 0.0.0.0
 </code></pre>
 <p><strong>Ahora vamos a entrar y crear un usuario que usaremos remotamente.</strong></p>
-<pre><code>    ubuntu@sancho:~$ sudo mysql -u root -p
+<pre><code>    usuario@ares:~$ sudo mysql -u root -p
 
-    MariaDB [(none)]&gt; CREATE USER 'ale'@'10.0.2.5' IDENTIFIED BY 'ale';
+    MariaDB [(none)]&gt; CREATE USER 'ale'@'172.16.0.200' IDENTIFIED BY 'ale';
     Query OK, 0 rows affected (0.009 sec)
 </code></pre>
 <p><strong>Crearemos una base de datos y daremos a nuestro usuario remoto privilegios sobre ella</strong></p>
 <pre><code>    MariaDB [(none)]&gt; CREATE DATABASE prueba;
     Query OK, 1 row affected (0.010 sec)
 
-    MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON *.* TO 'ale'@'10.0.2.5'
+    MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON *.* TO 'ale'@'172.16.0.200'
         -&gt; ;
     Query OK, 0 rows affected (0.001 sec)
 </code></pre>
 <p><strong>Ahora vayamos a centos, y lo primero que haremos será instalar el cliente de mariadb</strong></p>
-<pre><code>    [centos@quijote ~]$ sudo dnf install mariadb
+<pre><code>    [usuario@hera ~]$ sudo dnf install mariadb
 </code></pre>
 <p><strong>Y procedemos a acceder al servidor mariadb con las credenciales que usamos anteriormente</strong></p>
-<pre><code>    [root@quijote ~]# mysql -u ale -p -h bd.alexgv.gonzalonazareno.org
-    Enter password: 
-    Welcome to the MariaDB monitor.  Commands end with ; or \g.
-    Your MariaDB connection id is 37
-    Server version: 10.3.29-MariaDB-0ubuntu0.20.04.1 Ubuntu 20.04
-    
-    Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
-    
-    Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
-    
-    MariaDB [(none)]&gt;
-</code></pre>
-<p><strong>Vamos a comprobar que funciona simplemente listando las bases de datos que tenemos</strong></p>
-<pre><code>    MariaDB [(none)]&gt; SHOW DATABASES;
-    +--------------------+
-    | Database           |
-    +--------------------+
-    | information_schema |
-    | mysql              |
-    | performance_schema |
-    | prueba             |
-    +--------------------+
-    4 rows in set (0.034 sec)</code></pre>
+<pre><code>[usuario@hera ~]# mysql -u ale -p -h bd.alexgv.gonzalonazareno.org
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 37
+Server version: 10.3.29-MariaDB-0ubuntu0.20.04.1 Ubuntu 20.04
 
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]&gt;
+</code></pre><p><strong>Vamos a comprobar que funciona simplemente listando las bases de datos que tenemos</strong></p>
+<pre><code>MariaDB [(none)]&gt; SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| prueba             |
++--------------------+
+4 rows in set (0.034 sec)
+</code></pre>
                 </div>
                 
                 <div class="post-comments">
