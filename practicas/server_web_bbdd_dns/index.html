@@ -407,10 +407,9 @@ success
 </ul>
 <pre><code>[usuario@hera ~]$ sudo mkdir /etc/httpd/sites-enabled /etc/httpd/sites-available
 </code></pre><ul>
-<li>Ahora entraremos al fichero de configuración &ldquo;/etc/httpd/conf/httpd.conf&rdquo; para añadir sites-avaiable como nueva ruta comentando la última línea y añadiendo otra</li>
+<li>Ahora entraremos al fichero de configuración &ldquo;/etc/httpd/conf/httpd.conf&rdquo; para añadir sites-avaiable como nueva ruta añadiendo una nueva linea.</li>
 </ul>
-<pre><code>#IncludeOptional conf.d/*.conf
-IncludeOptional	sites-enabled/*.conf
+<pre><code>IncludeOptional	sites-enabled/*.conf
 </code></pre><p><strong>Directamente pasaremos a la configuración de un virtualhost</strong></p>
 <pre><code>[usuario@hera ~]$ cat /etc/httpd/sites-available/pagina.conf
 &lt;VirtualHost *:80&gt;
@@ -461,7 +460,7 @@ Relabeled /var/www/alexgv/log from unconfined_u:object_r:httpd_sys_content_t:s0 
 <pre><code>    MariaDB [(none)]&gt; CREATE DATABASE prueba;
     Query OK, 1 row affected (0.010 sec)
 
-    MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON *.* TO 'ale'@'172.16.0.200'
+    MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON prueba.* TO 'ale'@'172.16.0.200'
         -&gt; ;
     Query OK, 0 rows affected (0.001 sec)
 </code></pre>
@@ -469,11 +468,11 @@ Relabeled /var/www/alexgv/log from unconfined_u:object_r:httpd_sys_content_t:s0 
 <pre><code>    [usuario@hera ~]$ sudo dnf install mariadb
 </code></pre>
 <p><strong>Y procedemos a acceder al servidor mariadb con las credenciales que usamos anteriormente</strong></p>
-<pre><code>[usuario@hera ~]# mysql -u ale -p -h bd.alexgv.gonzalonazareno.org
+<pre><code>[usuario@hera ~]$ mysql -u ale -p -h bd.alexgv.gonzalonazareno.org
 Enter password: 
 Welcome to the MariaDB monitor.  Commands end with ; or \g.
-Your MariaDB connection id is 37
-Server version: 10.3.29-MariaDB-0ubuntu0.20.04.1 Ubuntu 20.04
+Your MariaDB connection id is 43
+Server version: 10.3.34-MariaDB-0ubuntu0.20.04.1 Ubuntu 20.04
 
 Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
 
@@ -486,11 +485,9 @@ MariaDB [(none)]&gt;
 | Database           |
 +--------------------+
 | information_schema |
-| mysql              |
-| performance_schema |
 | prueba             |
 +--------------------+
-4 rows in set (0.034 sec)
+2 rows in set (0.006 sec)
 </code></pre>
                 </div>
                 
