@@ -137,17 +137,6 @@ vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla 
     </item>
     
     <item>
-      <title>Instalación de aplicación web python</title>
-      <link>https://alepeteporico.github.io/practicas/python_openstack/</link>
-      <pubDate>Wed, 02 Jun 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/python_openstack/</guid>
-      <description>Vamos a crear el entorno virtual en el cual instalaremos Mezzanine.
- alejandrogv@AlejandroGV:~/entornos/mezzanine$ source despliegue/bin/activate (despliegue) alejandrogv@AlejandroGV:~/entornos/mezzanine$    Ahora instalamos con pip mezzanine y creamos un proyecto.
- (despliegue) alejandrogv@AlejandroGV:~/proyecto$ pip install mezzanine (despliegue) alejandrogv@AlejandroGV:~/proyecto$ mezzanine-project cms    Vamos a modificar uno de los ficheros que se ha generado cms/settings.py para usar la base de datos sqlite ya que estamos en el entorno de pruebas.</description>
-    </item>
-    
-    <item>
       <title>Implantanción y despliegue de una web estática</title>
       <link>https://alepeteporico.github.io/practicas/pagina_est%C3%A1tica/</link>
       <pubDate>Mon, 15 Feb 2021 00:00:00 +0000</pubDate>

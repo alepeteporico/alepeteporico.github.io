@@ -13,6 +13,11 @@
   </url>
   
   <url>
+    <loc>https://alepeteporico.github.io/practicas/ldap_ad/</loc>
+    <lastmod>2022-05-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://alepeteporico.github.io/practicas/ldaps/</loc>
     <lastmod>2022-05-17T00:00:00+00:00</lastmod>
   </url>
@@ -385,11 +390,6 @@
   <url>
     <loc>https://alepeteporico.github.io/practicas/ic/</loc>
     <lastmod>2021-06-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://alepeteporico.github.io/practicas/python_openstack/</loc>
-    <lastmod>2021-06-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>

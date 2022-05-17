@@ -8,6 +8,15 @@
     <language>en-us</language>
     <lastBuildDate>Tue, 17 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/aso/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>LDAP en alta disponibilidad</title>
+      <link>https://alepeteporico.github.io/practicas/ldap_ad/</link>
+      <pubDate>Tue, 17 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/ldap_ad/</guid>
+      <description>Vamos a instalar un servidor LDAP en ares que va a actuar como servidor secundario o de respaldo del servidor LDAP instalado en apolo, para ello habrá que seleccionar un modo de funcionamiento y configurar la sincronización entre ambos directorios, para que los cambios que se realicen en uno de ellos se reflejen en el otro. </description>
+    </item>
+    
+    <item>
       <title>LDAPs</title>
       <link>https://alepeteporico.github.io/practicas/ldaps/</link>
       <pubDate>Tue, 17 May 2022 00:00:00 +0000</pubDate>

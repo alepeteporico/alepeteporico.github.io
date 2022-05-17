@@ -8,6 +8,15 @@
     <language>en-us</language>
     <lastBuildDate>Tue, 17 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>LDAP en alta disponibilidad</title>
+      <link>https://alepeteporico.github.io/practicas/ldap_ad/</link>
+      <pubDate>Tue, 17 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/ldap_ad/</guid>
+      <description>Vamos a instalar un servidor LDAP en ares que va a actuar como servidor secundario o de respaldo del servidor LDAP instalado en apolo, para ello habrá que seleccionar un modo de funcionamiento y configurar la sincronización entre ambos directorios, para que los cambios que se realicen en uno de ellos se reflejen en el otro. </description>
+    </item>
+    
+    <item>
       <title>LDAPs</title>
       <link>https://alepeteporico.github.io/practicas/ldaps/</link>
       <pubDate>Tue, 17 May 2022 00:00:00 +0000</pubDate>
@@ -636,17 +645,6 @@ MariaDB [(none)]&amp;gt; CREATE DATABASE wordpress; Query OK, 1 row affected (0.
       <guid>https://alepeteporico.github.io/practicas/ic/</guid>
       <description>Integración continúa de aplicación django   Ya tenemos nuestra aplicación y el entorno virtual de la práctica de Despliegue de una aplicación python usaremos la misma, y realizaremos los test.
  (django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python/django_tutorial$ python3 manage.py test Creating test database for alias &#39;default&#39;... System check identified no issues (0 silenced). .......... ---------------------------------------------------------------------- Ran 10 tests in 0.056s OK Destroying test database for alias &#39;default&#39;...    Vamos a modificar el fichero polls/templates/polls/index.</description>
-    </item>
-    
-    <item>
-      <title>Instalación de aplicación web python</title>
-      <link>https://alepeteporico.github.io/practicas/python_openstack/</link>
-      <pubDate>Wed, 02 Jun 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/python_openstack/</guid>
-      <description>Vamos a crear el entorno virtual en el cual instalaremos Mezzanine.
- alejandrogv@AlejandroGV:~/entornos/mezzanine$ source despliegue/bin/activate (despliegue) alejandrogv@AlejandroGV:~/entornos/mezzanine$    Ahora instalamos con pip mezzanine y creamos un proyecto.
- (despliegue) alejandrogv@AlejandroGV:~/proyecto$ pip install mezzanine (despliegue) alejandrogv@AlejandroGV:~/proyecto$ mezzanine-project cms    Vamos a modificar uno de los ficheros que se ha generado cms/settings.py para usar la base de datos sqlite ya que estamos en el entorno de pruebas.</description>
     </item>
     
     <item>

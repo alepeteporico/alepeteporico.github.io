@@ -110,6 +110,19 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/ldap_ad/">LDAP en alta disponibilidad</a></h4>
+								<h4 class="post-date">2022-05-17</h4>
+							</div>
+							<div class="post-summary"><p>Vamos a instalar un servidor LDAP en ares que va a actuar como servidor secundario o de respaldo del servidor LDAP instalado en apolo, para ello habrá que seleccionar un modo de funcionamiento y configurar la sincronización entre ambos directorios, para que los cambios que se realicen en uno de ellos se reflejen en el otro. </p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/ldap_ad/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/ldaps/">LDAPs</a></h4>
 								<h4 class="post-date">2022-05-17</h4>
 							</div>
@@ -226,21 +239,6 @@
 							<div class="post-summary"><p>Vamos a usar el paquete systemd-journal-remote primero deberemos instalarlo en nuestro servidor principal, hemos escogido ares y también deberemos instalarlo en nuestros clientes.  usuario@ares:~$ sudo apt install systemd-journal-remote  Vamos a habilitar dos componentes de systemd necesarios para recibir los logs.  usuario@ares:~$ sudo systemctl enable --now systemd-journal-remote.socket Created symlink /etc/systemd/system/sockets.target.wants/systemd-journal-remote.socket -&gt; /lib/systemd/system/systemd-journal-remote.socket. usuario@ares:~$ sudo systemctl enable systemd-journal-remote.service  Y en los clientes también debemos habilitar uno.  [hera@hera ~]$ sudo systemctl enable systemd-journal-upload.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/logs/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/docker_bookmedik/">Aplicación php en docker</a></h4>
-								<h4 class="post-date">2022-02-02</h4>
-							</div>
-							<div class="post-summary"><p>Creación de una imagen docker con una aplicación web desde una imagen base   url del repositorio GitHub donde tengas los ficheros necesarios para hacer la construcción de la imagen.
-  Imagen docker con la aplicación desde una imagen base de debian o ubuntu. En el registro de tu entorno de desarrollo.
-  alejandrogv@AlejandroGV:~/docker/docker_php$ docker image ls REPOSITORY TAG IMAGE ID CREATED SIZE alejandro/bookmedik v1 04c149347bc6 2 days ago 257MB Despliegue en el entorno de desarrollo  Instrucción para ver los dos contenedores del escenario funcionando.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/docker_bookmedik/">Read More</a>
 							</div>
 						</div>
 					</li>
