@@ -6,7 +6,16 @@
     <description>Recent content in Practicas on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 04 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 17 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LDAPs</title>
+      <link>https://alepeteporico.github.io/practicas/ldaps/</link>
+      <pubDate>Tue, 17 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/ldaps/</guid>
+      <description>Para usar la configuración segura de ldap primero debemos tener los certificados correspondientes, primero creamos una clave privada con openssl.  root@apolo:~# openssl genrsa 4096 &amp;gt; /etc/ssl/private/apoloalexgv.key  Y usando esa clave creamos un certificado que deberá ser firmado por la unidad certificadora del gonzalo nazareno en nuestro caso.  root@apolo:~# openssl req -new -key /etc/ssl/private/apoloalexgv.key -out /root/apoloalexgv.csr  Con la clave, el certificado firmado y el certificado del gonzalo nazareno que descargaremos de gestiona tendremos todos los certificados necesarios, veamos donde se ubica cada uno.</description>
+    </item>
+    
     <item>
       <title>Despliegue de CMS java</title>
       <link>https://alepeteporico.github.io/practicas/cms_java/</link>

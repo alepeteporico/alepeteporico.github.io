@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> LDAPs &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.80.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://alepeteporico.github.io/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/practicas/ldaps/">LDAPs</a></h1>
+                <span class="post-date">2022-05-17 </span>
+                <div class="post-content">
+                    <ul>
+<li>Para usar la configuración segura de ldap primero debemos tener los certificados correspondientes, primero creamos una clave privada con openssl.</li>
+</ul>
+<pre><code>root@apolo:~# openssl genrsa 4096 &gt; /etc/ssl/private/apoloalexgv.key
+</code></pre><ul>
+<li>Y usando esa clave creamos un certificado que deberá ser firmado por la unidad certificadora del gonzalo nazareno en nuestro caso.</li>
+</ul>
+<pre><code>root@apolo:~# openssl req -new -key /etc/ssl/private/apoloalexgv.key -out /root/apoloalexgv.csr
+</code></pre><ul>
+<li>Con la clave, el certificado firmado y el certificado del gonzalo nazareno que descargaremos de gestiona tendremos todos los certificados necesarios, veamos donde se ubica cada uno.</li>
+</ul>
+<pre><code>root@apolo:~# ls /etc/ssl/private/
+apoloalexgv.key
+
+root@apolo:~# ls /etc/ssl/certs/ | egrep 'gonzalo|apolo'
+apoloalexgv.crt
+gonzalonazareno.crt
+</code></pre><ul>
+<li>Para una mayor seguridad vamos a crear unas acls para que unicamente en usuario <code>openldap</code> tenga acceso a la clave privada.</li>
+</ul>
+<pre><code>root@apolo:~# setfacl -m u:openldap:r-x /etc/ssl/private
+root@apolo:~# setfacl -m u:openldap:r-x /etc/ssl/private/apoloalexgv.key
+</code></pre><ul>
+<li>Ahora necesitamos especificar el servicio de ldap que use SSL/TLS. Para ello crearemos un fichero ldif con la siguiente configuración.</li>
+</ul>
+<pre><code>dn: cn=config
+changetype: modify
+replace: olcTLSCACertificateFile
+olcTLSCACertificateFile: /etc/ssl/certs/gonzalonazareno.crt
+-
+replace: olcTLSCertificateKeyFile
+olcTLSCertificateKeyFile: /etc/ssl/private/apoloalexgv.key
+-
+replace: olcTLSCertificateFile
+olcTLSCertificateFile: /etc/ssl/certs/apoloalexgv.crt
+</code></pre><ul>
+<li>Vamos a realizar los cambios.</li>
+</ul>
+<pre><code>root@apolo:~# ldapmodify -Y EXTERNAL -H ldapi:/// -f ldaps.ldif 
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+modifying entry &quot;cn=config&quot;
+</code></pre><ul>
+<li><code>LDAPS</code> usa el puerto 636, para que el serivicio lo use debemos modificar el fichero <code>/etc/default/slapd</code> tal que así:</li>
+</ul>
+<pre><code>SLAPD_SERVICES=&quot;ldap:/// ldapi:/// ldaps:///&quot;
+</code></pre><pre><code>root@apolo:~# netstat -tlnp | egrep slap
+tcp        0      0 0.0.0.0:389             0.0.0.0:*               LISTEN      29945/slapd         
+tcp        0      0 0.0.0.0:636             0.0.0.0:*               LISTEN      29945/slapd         
+tcp6       0      0 :::389                  :::*                    LISTEN      29945/slapd         
+tcp6       0      0 :::636                  :::*                    LISTEN      29945/slapd 
+</code></pre><ul>
+<li>Ahora debemos hacer que nuestro cliente apolo use por defecto este ldaps, para ello debemos copiar el certificado del gonzalo nazareno a la carpeta <code>/usr/local/share/ca-certificates/</code> que es donde se alojan los certificados instalados localmente.</li>
+</ul>
+<pre><code>root@apolo:~# cp /etc/ssl/certs/gonzalonazareno.crt /usr/local/share/ca-certificates/
+</code></pre><ul>
+<li>Una vez hecho esto actualizamos la lista de certificados locales.</li>
+</ul>
+<pre><code>root@apolo:~# update-ca-certificates
+Updating certificates in /etc/ssl/certs...
+rehash: warning: skipping duplicate certificate in gonzalonazareno.pem
+1 added, 0 removed; done.
+Running hooks in /etc/ca-certificates/update.d...
+done.
+</code></pre><ul>
+<li>Ahora ya podemos hacer consultas ldaps, vamos a comprobarlo.</li>
+</ul>
+<pre><code>root@apolo:~# ldapsearch -x -b &quot;dc=alexgv,dc=gonzalonazareno,dc=org&quot; -H ldaps://localhost:636
+# extended LDIF
+#
+# LDAPv3
+# base &lt;dc=alexgv,dc=gonzalonazareno,dc=org&gt; with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# alexgv.gonzalonazareno.org
+dn: dc=alexgv,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: alexgv.gonzalonazareno.org
+dc: alexgv
+
+# Usuarios, alexgv.gonzalonazareno.org
+dn: ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org
+objectClass: organizationalUnit
+ou:: VXN1YXJpb3Mg
+
+# Grupos, alexgv.gonzalonazareno.org
+dn: ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org
+objectClass: organizationalUnit
+ou: Grupos
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 4
+# numEntries: 3
+</code></pre><ul>
+<li>Funciona, pero hemos tenido que especificar que use el puerto que queremos, para que ldap use ldaps por defecto debemos ir al fichero <code>/etc/ldap/ldap.conf</code> donde encotraremos la siguiente línea comentada:</li>
+</ul>
+<pre><code>#URI    ldap://ldap.example.com ldap://ldap-master.example.com:666
+</code></pre><ul>
+<li>La descomentamos y la modifcamos de la siguiente forma:</li>
+</ul>
+<pre><code>URI     ldaps://localhost
+</code></pre><ul>
+<li>Ahora si, las consultas se hacen por defecto en ldaps.</li>
+</ul>
+<pre><code>root@apolo:~# ldapsearch -x -b &quot;dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+# extended LDIF
+#
+# LDAPv3
+# base &lt;dc=alexgv,dc=gonzalonazareno,dc=org&gt; with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# alexgv.gonzalonazareno.org
+dn: dc=alexgv,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: alexgv.gonzalonazareno.org
+dc: alexgv
+
+# Usuarios, alexgv.gonzalonazareno.org
+dn: ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org
+objectClass: organizationalUnit
+ou:: VXN1YXJpb3Mg
+
+# Grupos, alexgv.gonzalonazareno.org
+dn: ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org
+objectClass: organizationalUnit
+ou: Grupos
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 4
+# numEntries: 3
+</code></pre>
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2022 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>
