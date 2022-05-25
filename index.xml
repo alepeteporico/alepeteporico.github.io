@@ -6,7 +6,19 @@
     <description>Recent content on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 17 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 20 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Poblar un directorio LDAP desde un fichero CSV</title>
+      <link>https://alepeteporico.github.io/practicas/ldap_csv/</link>
+      <pubDate>Fri, 20 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/ldap_csv/</guid>
+      <description>  Crear entre todos los alumnos de la clase que vayan a hacer esta tarea un fichero CSV que incluya información personal de cada uno incluyendo los siguientes datos:
+  Nombre
+  Apellidos
+  </description>
+    </item>
+    
     <item>
       <title>LDAP en alta disponibilidad</title>
       <link>https://alepeteporico.github.io/practicas/ldap_ad/</link>

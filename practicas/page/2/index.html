@@ -110,6 +110,19 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/logs/">Recolección de logs mediante journald</a></h4>
+								<h4 class="post-date">2022-02-04</h4>
+							</div>
+							<div class="post-summary"><p>Vamos a usar el paquete systemd-journal-remote primero deberemos instalarlo en nuestro servidor principal, hemos escogido ares y también deberemos instalarlo en nuestros clientes.  usuario@ares:~$ sudo apt install systemd-journal-remote  Vamos a habilitar dos componentes de systemd necesarios para recibir los logs.  usuario@ares:~$ sudo systemctl enable --now systemd-journal-remote.socket Created symlink /etc/systemd/system/sockets.target.wants/systemd-journal-remote.socket -&gt; /lib/systemd/system/systemd-journal-remote.socket. usuario@ares:~$ sudo systemctl enable systemd-journal-remote.service  Y en los clientes también debemos habilitar uno.  [hera@hera ~]$ sudo systemctl enable systemd-journal-upload.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/logs/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/docker_bookmedik/">Aplicación php en docker</a></h4>
 								<h4 class="post-date">2022-02-02</h4>
 							</div>
@@ -226,19 +239,6 @@ view interna { match-clients { 10.0.1.0/24; 127.0.0.1; }; allow-recursion { any;
   Una vez tengamos nuestro certificado digital podemos importarlo a cualquier navegador, en mi caso quiero importarlo a un navegador firefox que tengo en mi sistema debian 10. Para ello nos dirigiremos a preferencias &gt; Privaciad y Seguridad &gt; Certificados &gt; Ver certificados aquí aparecerá una vetana emergente donde podremos ver todos los certificados guardados que tenemos.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/certficiados/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/firmas/">Integridad, firmas y autentificación</a></h4>
-								<h4 class="post-date">2021-11-18</h4>
-							</div>
-							<div class="post-summary"><p>Tarea 1:  Firmamos un fichero que enviaremos a nuestros compañeros para que comprueben nuestra firma:  alejandrogv@AlejandroGV:~/Descargas$ gpg --output fichero.sign --sign fichero.txt  He enviado un archivo firmado a un compañero que dispone de mi clave pública, los dos hemos verificado la firma.  alejandrogv@AlejandroGV:~/Descargas$ gpg --verify p2pdf.pdf.sign gpg: Firmado el jue 18 nov 2021 12:25:18 CET gpg: usando RSA clave 47742CCB469EB70E132966EDEDA6F79F602CACBD gpg: Firma correcta de &quot;Daniel Miguel Mesa Mejias &lt;danimesamejias@gmail.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/firmas/">Read More</a>
 							</div>
 						</div>
 					</li>
