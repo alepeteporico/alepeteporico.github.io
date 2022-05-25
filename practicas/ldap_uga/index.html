@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Usuarios, Grupos y ACLs en LDAP &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.80.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://alepeteporico.github.io/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/practicas/ldap_uga/">Usuarios, Grupos y ACLs en LDAP</a></h1>
+                <span class="post-date">2022-05-20 </span>
+                <div class="post-content">
+                    <h3 id="crea-10-usuarios-con-los-nombres-que-prefieras-en-ldap-esos-usuarios-deben-ser-objetos-de-los-tipos-posixaccount-e-inetorgperson-estos-usuarios-tendrán-un-atributo-userpassword">Crea 10 usuarios con los nombres que prefieras en LDAP, esos usuarios deben ser objetos de los tipos posixAccount e inetOrgPerson. Estos usuarios tendrán un atributo userPassword.</h3>
+<pre><code>dn: uid=stark,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+objectClass: top
+cn: stark
+gidNumber: 2001
+homeDirectory: /home/stark
+loginShell: /bin/bash
+sn: stark
+uid: stark
+uidNumber: 2001
+userPassword: {SSHA}loVCFjl442fnkpIZC05Ht+8OwLsgF0Ua
+
+dn: uid=rogers,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+objectClass: top
+cn: rogers
+gidNumber: 2002
+homeDirectory: /home/rogers
+loginShell: /bin/bash
+sn: rogers
+uid: rogers
+uidNumber: 2002
+userPassword: {SSHA}gLim3ka1uQnZtFCMBoD0+NKmQ88/7f+d
+
+dn: uid=banner,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+objectClass: top
+cn: banner
+gidNumber: 2003
+homeDirectory: /home/banner
+loginShell: /bin/bash
+sn: banner
+uid: banner
+uidNumber: 2003
+userPassword: {SSHA}R28hwHBG+MeisvkGM3qS7q049d8p6QO1
+
+dn: uid=romanof,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+objectClass: top
+cn: romanof
+gidNumber: 2004
+homeDirectory: /home/romanof
+loginShell: /bin/bash
+sn: romanof
+uid: romanof
+uidNumber: 2004
+userPassword: {SSHA}r4NOljTbgWSfO1r4daswgbBDhlLtwMwd
+
+dn: uid=burton,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+objectClass: top
+cn: burton
+gidNumber: 2005
+homeDirectory: /home/burton
+loginShell: /bin/bash
+sn: burton
+uid: burton
+uidNumber: 2005
+userPassword: {SSHA}n8aeZpDwycwusGlKWl56MuTXARrAWhyM
+
+dn: uid=thor,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+objectClass: top
+cn: thor
+gidNumber: 2006
+homeDirectory: /home/thor
+loginShell: /bin/bash
+sn: thor
+uid: thor
+uidNumber: 2006
+userPassword: {SSHA}m20Ph+8uSwScFHcJ6iVpgimoiKawWuc3
+
+dn: uid=strange,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+objectClass: top
+cn: strange
+gidNumber: 2007
+homeDirectory: /home/strange
+loginShell: /bin/bash
+sn: strange
+uid: strange
+uidNumber: 2007
+userPassword: {SSHA}UpziawVa6CL9Kk/g7gVzFRQ4MJWBDFKP
+
+dn: uid=parker,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+objectClass: top
+cn: parker
+gidNumber: 2008
+homeDirectory: /home/parker
+loginShell: /bin/bash
+sn: parker
+uid: parker
+uidNumber: 2008
+userPassword: {SSHA}Px8NYV9wWlc/JxmUWaGaBV28KSucLIYt
+
+dn: uid=furia,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+objectClass: top
+cn: furia
+gidNumber: 2009
+homeDirectory: /home/furia
+loginShell: /bin/bash
+sn: furia
+uid: furia
+uidNumber: 2009
+userPassword: {SSHA}8VRwZX4ts0fe8KBT58h3ywzpj+EEShfV
+
+dn: uid=maximof,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+objectClass: top
+cn: maximof
+gidNumber: 2010
+homeDirectory: /home/maximof
+loginShell: /bin/bash
+sn: maximof
+uid: maximof
+uidNumber: 2010
+userPassword: {SSHA}t1Oa8gRUcI6kfJvVfNpNdMeMXs+05l1K
+</code></pre><ul>
+<li>Ejecutamos este fichero.</li>
+</ul>
+<pre><code>usuario@apolo:~$ ldapadd -x -D cn=admin,dc=alexgv,dc=gonzalonazareno,dc=org -W -f usuarios2.ldif
+Enter LDAP Password: 
+adding new entry &quot;uid=stark,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+adding new entry &quot;uid=rogers,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+adding new entry &quot;uid=banner,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+adding new entry &quot;uid=romanof,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+adding new entry &quot;uid=burton,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+adding new entry &quot;uid=thor,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+adding new entry &quot;uid=strange,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+adding new entry &quot;uid=parker,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+adding new entry &quot;uid=furia,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+adding new entry &quot;uid=maximof,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+</code></pre><h3 id="crea-3-grupos-en-ldap-dentro-de-una-unidad-organizativa-diferente-que-sean-objetos-del-tipo-groupofnames-estos-grupos-serán-comercial-almacen-y-admin">Crea 3 grupos en LDAP dentro de una unidad organizativa diferente que sean objetos del tipo groupOfNames. Estos grupos serán: comercial, almacen y admin.</h3>
+<pre><code>dn: cn=comercial,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: comercial
+member:
+
+dn: cn=almacen,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: almacen
+member:
+
+dn: cn=admin,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: admin
+member:
+</code></pre><ul>
+<li>Añadimos estos grupos.</li>
+</ul>
+<pre><code>usuario@apolo:~$ ldapadd -x -D cn=admin,dc=alexgv,dc=gonzalonazareno,dc=org -W -f grupos.ldif
+Enter LDAP Password: 
+adding new entry &quot;cn=comercial,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+adding new entry &quot;cn=almacen,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+adding new entry &quot;cn=admin,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+</code></pre><h3 id="añade-usuarios-que-pertenezcan-a">Añade usuarios que pertenezcan a:</h3>
+<ul>
+<li>Solo al grupo comercial.</li>
+</ul>
+<pre><code>dn: cn=comercial,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org
+changetype:modify
+add: member
+member: uid=stark,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org
+
+dn: cn=comercial,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org
+changetype:modify
+add: member
+member: uid=furia,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org
+</code></pre><ul>
+<li>Solo al grupo almacen.</li>
+</ul>
+<pre><code>dn: cn=almacen,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org
+changetype:modify
+add: member
+member: uid=rogers,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org
+
+dn: cn=almacen,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org
+changetype:modify
+add: member
+member: uid=bunner,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org
+</code></pre><ul>
+<li>Al grupo comercial y almacen.</li>
+</ul>
+<pre><code>dn: cn=comercial,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org
+changetype:modify
+add: member
+member: uid=romanof,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org
+
+dn: cn=almacen,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org
+changetype:modify
+add: member
+member: uid=romanof,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org
+
+dn: cn=comercial,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org
+changetype:modify
+add: member
+member: uid=burton,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org
+
+dn: cn=almacen,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org
+changetype:modify
+add: member
+member: uid=burton,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org
+</code></pre><ul>
+<li>Al grupo admin y comercial.</li>
+</ul>
+<pre><code>dn: cn=admin,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org
+changetype:modify
+add: member
+member: uid=thor,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org
+
+dn: cn=comercial,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org
+changetype:modify
+add: member
+member: uid=thor,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org
+
+dn: cn=admin,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org
+changetype:modify
+add: member
+member: uid=strange,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org
+
+dn: cn=comercial,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org
+changetype:modify
+add: member
+member: uid=strange,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org
+</code></pre><ul>
+<li>Solo al grupo admin.</li>
+</ul>
+<pre><code>dn: cn=admin,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org
+changetype:modify
+add: member
+member: uid=parker,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org
+
+dn: cn=admin,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org
+changetype:modify
+add: member
+member: uid=maximof,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org
+</code></pre><ul>
+<li>El comando para modificar un registro es distinto al que usamos para añadirlos, una vez tenemos un fichero ldif con toda la información anterior ejecutamos este comando:</li>
+</ul>
+<pre><code>usuario@apolo:~$ ldapmodify -x -D cn=admin,dc=alexgv,dc=gonzalonazareno,dc=org -W -f modgrupos.ldif 
+Enter LDAP Password: 
+modifying entry &quot;cn=comercial,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+modifying entry &quot;cn=comercial,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+modifying entry &quot;cn=almacen,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+modifying entry &quot;cn=almacen,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+modifying entry &quot;cn=comercial,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+modifying entry &quot;cn=almacen,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+modifying entry &quot;cn=comercial,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+modifying entry &quot;cn=almacen,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+modifying entry &quot;cn=admin,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+modifying entry &quot;cn=comercial,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+modifying entry &quot;cn=admin,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+modifying entry &quot;cn=comercial,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+modifying entry &quot;cn=admin,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+modifying entry &quot;cn=admin,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+</code></pre><h3 id="modifica-openldap-apropiadamente-para-que-se-pueda-obtener-los-grupos-a-los-que-pertenece-cada-usuario-a-través-del-atributo-memberof">Modifica OpenLDAP apropiadamente para que se pueda obtener los grupos a los que pertenece cada usuario a través del atributo &ldquo;memberOf&rdquo;.</h3>
+<ul>
+<li>Crearemos dos ficheros ldif con este fin.</li>
+</ul>
+<pre><code>dn: cn=module,cn=config
+cn: module
+objectClass: olcModuleList
+objectclass: top
+olcModuleLoad: memberof.la
+olcModulePath: /usr/lib/ldap
+
+dn: olcOverlay={0}memberof,olcDatabase={1}mdb,cn=config
+objectClass: olcConfig
+objectClass: olcMemberOf
+objectClass: olcOverlayConfig
+objectClass: top
+olcOverlay: memberof
+olcMemberOfDangling: ignore
+olcMemberOfRefInt: TRUE
+olcMemberOfGroupOC: groupOfNames
+olcMemberOfMemberAD: member
+olcMemberOfMemberOfAD: memberOf
+</code></pre><pre><code>dn: cn=module,cn=config
+cn: module
+objectclass: olcModuleList
+objectclass: top
+olcmoduleload: refint.la
+olcmodulepath: /usr/lib/ldap
+
+dn: olcOverlay={1}refint,olcDatabase={1}mdb,cn=config
+objectClass: olcConfig
+objectClass: olcOverlayConfig
+objectClass: olcRefintConfig
+objectClass: top
+olcOverlay: {1}refint
+olcRefintAttribute: memberof member manager owner
+</code></pre><ul>
+<li>Y añadimos la configuración.</li>
+</ul>
+<pre><code>usuario@apolo:~$ sudo ldapadd -Y EXTERNAL -H ldapi:/// -f memberof1.ldif 
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+adding new entry &quot;cn=module,cn=config&quot;
+
+adding new entry &quot;olcOverlay={0}memberof,olcDatabase={1}mdb,cn=config&quot;
+
+usuario@apolo:~$ sudo ldapadd -Y EXTERNAL -H ldapi:/// -f memberof2.ldif 
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+adding new entry &quot;cn=module,cn=config&quot;
+
+adding new entry &quot;olcOverlay={1}refint,olcDatabase={1}mdb,cn=config&quot;
+</code></pre><ul>
+<li>Lo malo es que esta configuración estará disponible en los grupos que creemos a partir de ahora, por tanto debemos eliminar los grupos y volverlos a crear, esto no es un problema muy grave, pues teniendo los ficheros ldif, el hecho de poder volver a crearlos y añadir los usuarios es muy sencillo.</li>
+</ul>
+<pre><code>ldapdelete -x -D &quot;cn=admin,dc=alexgv,dc=gonzalonazareno,dc=org&quot; 'cn=comercial,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org' -W
+
+ldapdelete -x -D &quot;cn=admin,dc=alexgv,dc=gonzalonazareno,dc=org&quot; 'cn=admin,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org' -W
+
+ldapdelete -x -D &quot;cn=admin,dc=alexgv,dc=gonzalonazareno,dc=org&quot; 'cn=almacen,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org' -W
+</code></pre><pre><code>usuario@apolo:~$ ldapadd -x -D cn=admin,dc=alexgv,dc=gonzalonazareno,dc=org -W -f grupos.ldif
+Enter LDAP Password: 
+adding new entry &quot;cn=comercial,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+adding new entry &quot;cn=almacen,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+adding new entry &quot;cn=admin,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+usuario@apolo:~$ ldapmodify -x -D cn=admin,dc=alexgv,dc=gonzalonazareno,dc=org -W -f modgrupos.ldif 
+Enter LDAP Password: 
+modifying entry &quot;cn=comercial,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+modifying entry &quot;cn=comercial,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+modifying entry &quot;cn=almacen,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+modifying entry &quot;cn=almacen,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+modifying entry &quot;cn=comercial,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+modifying entry &quot;cn=almacen,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+modifying entry &quot;cn=comercial,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+modifying entry &quot;cn=almacen,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+modifying entry &quot;cn=admin,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+modifying entry &quot;cn=comercial,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+modifying entry &quot;cn=admin,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+modifying entry &quot;cn=comercial,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+modifying entry &quot;cn=admin,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+
+modifying entry &quot;cn=admin,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+</code></pre><ul>
+<li>Ahora, el comando que tenemos para averiguar a que grupo pertenece un usuario a partir de su uid es el siguiente:</li>
+</ul>
+<pre><code>usuario@apolo:~$ ldapsearch -LL -Y EXTERNAL -H ldapi:/// &quot;(uid=stark)&quot; -b dc=alexgv,dc=gonzalonazareno,dc=org memberOf
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=1000+uidNumber=1000,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+version: 1
+
+dn: uid=stark,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org
+memberOf: cn=comercial,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org
+</code></pre><pre><code>usuario@apolo:~$ ldapsearch -LL -Y EXTERNAL -H ldapi:/// &quot;(uid=thor)&quot; -b dc=alexgv,dc=gonzalonazareno,dc=org memberOf
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=1000+uidNumber=1000,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+version: 1
+
+dn: uid=thor,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org
+memberOf: cn=admin,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org
+memberOf: cn=comercial,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org
+</code></pre><h2 id="crea-las-acls-necesarias-para-que-los-usuarios-del-grupo-almacen-puedan-ver-todos-los-atributos-de-todos-los-usuarios-pero-solo-puedan-modificar-las-suyas">Crea las ACLs necesarias para que los usuarios del grupo almacen puedan ver todos los atributos de todos los usuarios pero solo puedan modificar las suyas.</h2>
+<pre><code>dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+add: olcAccess
+olcAccess: to dn.base=&quot;&quot; by group=&quot;cn=almacen,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot; by self write
+olcAccess: to dn.base=&quot;&quot; by group=&quot;cn=almacen,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot; read
+olcAccess: to dn.base=&quot;&quot; by group=&quot;cn=almacen,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot; search
+</code></pre><ul>
+<li>Vamos a añadir esta acl al directorio.</li>
+</ul>
+<pre><code>usuario@apolo:~$ sudo ldapmodify -Y EXTERNAL -H ldapi:/// -f aclalmacen.ldif 
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+modifying entry &quot;olcDatabase={1}mdb,cn=config&quot;
+</code></pre><ul>
+<li>Vemos que se ha añadido.</li>
+</ul>
+<pre><code>usuario@apolo:~$ sudo ldapsearch -LLLQ -Y EXTERNAL -H ldapi:/// -b cn=config -s one olcAccess
+dn: cn=module{0},cn=config
+
+dn: cn=module{1},cn=config
+
+dn: cn=module{2},cn=config
+
+dn: cn=schema,cn=config
+
+dn: olcDatabase={-1}frontend,cn=config
+olcAccess: {0}to * by dn.exact=gidNumber=0+uidNumber=0,cn=peercred,cn=external
+ ,cn=auth manage by * break
+olcAccess: {1}to dn.exact=&quot;&quot; by * read
+olcAccess: {2}to dn.base=&quot;cn=Subschema&quot; by * read
+
+dn: olcDatabase={0}config,cn=config
+olcAccess: {0}to * by dn.exact=gidNumber=0+uidNumber=0,cn=peercred,cn=external
+ ,cn=auth manage by * break
+
+dn: olcDatabase={1}mdb,cn=config
+olcAccess: {0}to attrs=userPassword by self write by anonymous auth by * none
+olcAccess: {1}to attrs=shadowLastChange by self write by * read
+olcAccess: {2}to * by * read
+olcAccess: {3}to attrs=userPassword by self =xw by dn.exact=&quot;cn=admin,dc=alexg
+ v,dc=gonzalonazareno,dc=org&quot; =xw by dn.exact=&quot;uid=mirroradmin,dc=alexgv,dc=go
+ nzalonazareno,dc=org&quot; read by anonymous auth by * none
+olcAccess: {4}to * by anonymous auth by self write by dn.exact=&quot;uid=mirroradmi
+ n,dc=alexgv,dc=gonzalonazareno,dc=org&quot; read by users read by * none
+olcAccess: {5}to dn.base=&quot;&quot; by group=&quot;cn=almacen,ou=Grupos,dc=alexgv,dc=gonzal
+ onazareno,dc=org&quot; by self write
+olcAccess: {6}to dn.base=&quot;&quot; by group=&quot;cn=almacen,ou=Grupos,dc=alexgv,dc=gonzal
+ onazareno,dc=org&quot; read
+olcAccess: {7}to dn.base=&quot;&quot; by group=&quot;cn=almacen,ou=Grupos,dc=alexgv,dc=gonzal
+ onazareno,dc=org&quot; search
+</code></pre><h2 id="crea-las-acls-necesarias-para-que-los-usuarios-del-grupo-admin-puedan-ver-y-modificar-cualquier-atributo-de-cualquier-objeto">Crea las ACLs necesarias para que los usuarios del grupo admin puedan ver y modificar cualquier atributo de cualquier objeto.</h2>
+<pre><code>dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+add: olcAccess
+olcAccess: {1}to * by dn=&quot;cn=admin,dc=alexgv,dc=gonzalonazareno,dc=org&quot; write by group.exact=&quot;cn=admin,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot; write
+</code></pre><ul>
+<li>La añadimos.</li>
+</ul>
+<pre><code>usuario@apolo:~$ sudo ldapmodify -Y EXTERNAL -H ldapi:/// -f acladmin.ldif 
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+modifying entry &quot;olcDatabase={1}mdb,cn=config&quot;
+</code></pre><ul>
+<li>Y nuevamente comprobamos que está en funcionamiento.</li>
+</ul>
+<pre><code>usuario@apolo:~$ sudo ldapsearch -LLLQ -Y EXTERNAL -H ldapi:/// -b cn=config -s one olcAccess
+dn: cn=module{0},cn=config
+
+dn: cn=module{1},cn=config
+
+dn: cn=module{2},cn=config
+
+dn: cn=schema,cn=config
+
+dn: olcDatabase={-1}frontend,cn=config
+olcAccess: {0}to * by dn.exact=gidNumber=0+uidNumber=0,cn=peercred,cn=external
+ ,cn=auth manage by * break
+olcAccess: {1}to dn.exact=&quot;&quot; by * read
+olcAccess: {2}to dn.base=&quot;cn=Subschema&quot; by * read
+
+dn: olcDatabase={0}config,cn=config
+olcAccess: {0}to * by dn.exact=gidNumber=0+uidNumber=0,cn=peercred,cn=external
+ ,cn=auth manage by * break
+
+dn: olcDatabase={1}mdb,cn=config
+olcAccess: {0}to attrs=userPassword by self write by anonymous auth by * none
+olcAccess: {1}to * by dn=&quot;cn=admin,dc=alexgv,dc=gonzalonazareno,dc=org&quot; write 
+ by group.exact=&quot;cn=admin,ou=Grupos,dc=alexgv,dc=gonzalonazareno,dc=org&quot; write
+olcAccess: {2}to attrs=shadowLastChange by self write by * read
+olcAccess: {3}to * by * read
+olcAccess: {4}to attrs=userPassword by self =xw by dn.exact=&quot;cn=admin,dc=alexg
+ v,dc=gonzalonazareno,dc=org&quot; =xw by dn.exact=&quot;uid=mirroradmin,dc=alexgv,dc=go
+ nzalonazareno,dc=org&quot; read by anonymous auth by * none
+olcAccess: {5}to * by anonymous auth by self write by dn.exact=&quot;uid=mirroradmi
+ n,dc=alexgv,dc=gonzalonazareno,dc=org&quot; read by users read by * none
+olcAccess: {6}to dn.base=&quot;&quot; by group=&quot;cn=almacen,ou=Grupos,dc=alexgv,dc=gonzal
+ onazareno,dc=org&quot; by self write
+olcAccess: {7}to dn.base=&quot;&quot; by group=&quot;cn=almacen,ou=Grupos,dc=alexgv,dc=gonzal
+ onazareno,dc=org&quot; read
+olcAccess: {8}to dn.base=&quot;&quot; by group=&quot;cn=almacen,ou=Grupos,dc=alexgv,dc=gonzal
+ onazareno,dc=org&quot; search
+</code></pre>
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2022 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>
