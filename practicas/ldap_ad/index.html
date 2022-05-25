@@ -104,6 +104,220 @@
                 <span class="post-date">2022-05-17 </span>
                 <div class="post-content">
                     <h3 id="vamos-a-instalar-un-servidor-ldap-en-ares-que-va-a-actuar-como-servidor-secundario-o-de-respaldo-del-servidor-ldap-instalado-en-apolo-para-ello-habrá-que-seleccionar-un-modo-de-funcionamiento-y-configurar-la-sincronización-entre-ambos-directorios-para-que-los-cambios-que-se-realicen-en-uno-de-ellos-se-reflejen-en-el-otro">Vamos a instalar un servidor LDAP en ares que va a actuar como servidor secundario o de respaldo del servidor LDAP instalado en apolo, para ello habrá que seleccionar un modo de funcionamiento y configurar la sincronización entre ambos directorios, para que los cambios que se realicen en uno de ellos se reflejen en el otro.</h3>
+<h2 id="metodo-usado-ldap-syncy-replication">Metodo usado: LDAP Syncy Replication</h2>
+<ul>
+<li>
+<p>Usaremos este metodo ya que podemos adecuarlo a las necesidades de nuestro escenario como queramos debido a las diferentes útilidades que tiene. vamos a enumerarlss y explicar para que sirven cada una de ellas:</p>
+</li>
+<li>
+<p><strong>LDAP Content Synchronization Protocol:</strong> Consiste en hacer una copia del <code>DIT</code> que esun esquema que contiene las reglas y toda la información de nuestro servidor principal al servidor secundario, y actualizará los cambios o bien usando el <code>pull-based</code> en el que el servidor secundario hará preguntas el primario en busca de actualizaciones periodicamente. O mediante el <code>push-based</code> donde el secundario estará a la escucha continuamente puesto que el primario mandará información de las actualizaciones una vez que se hagan.</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>Ventajas: Facilidad al configurarlo, pues solo es necesario hacerlo en el secundario. Y facilidad al añadir los cambios, pues se enviarán todos una vez terminados.</p>
+</li>
+<li>
+<p>Desventajas: Al enviarse todos los datos esto consume muchos recursos, mas de los necesarios. Y No se pondrán hacer cambios desde el servidor secundario, pues solo se recogerań los cambios del primario.</p>
+</li>
+</ul>
+<ul>
+<li><strong>Delta-syncrepl replication:</strong> Es practicamente lo mismo, solo que no envia todos los datos cada vez que se actualiza, solo envia los cambios. Esto lo hace creando una base de datos y cuando van a actualizarse los datos, se consulta esa base de datos y solo enviara las diferencias.</li>
+</ul>
+<ul>
+<li>
+<p>Ventajas: Como ya se ha dicho el tema de los recursos queda solucionado.</p>
+</li>
+<li>
+<p>Desventajas: La configuración es un poco más costosa, pues se tiene que hacer en los dos servidores. Y seguimos teniendo el problema de que solo se pueden hacer cambios desde el primario.</p>
+</li>
+</ul>
+<ul>
+<li><strong>N-Way Multi-Provider Replication:</strong> Con este metodo nos olvidamos de servidor primario y secundario, todos las máquinas actuaran como servidor primario y se comunicarán entre ellas.</li>
+</ul>
+<ul>
+<li>
+<p>Ventajas: Si algún proveedor falla, otro podrá seguir haciendo actualizaciones. No hay un punto unico de fallo. Y los proveedores podrán estar ubicados en diferentes instancias físicas.</p>
+</li>
+<li>
+<p>Desventajas: En realidad los cambios se hacen unicamente en uno de los módulos y posteriormente son propagados. Necesita un servidor sldap en modo proxy para o un balanceador de carga para la comprobación de que el proveedor está activo, sino podrían corromperse la actualización de los datos.</p>
+</li>
+</ul>
+<ul>
+<li><strong>MirrorMode:</strong> Es un híbrido entre todos. Funciona de tal manera que tiene dos servidores primarios que se replican entre ellos mismos y la interfaz enterna se encarga de redirigir las escrituras unicamente a uno de los dos, entonces uno solo funcionará si el otro falla. Una vez arreglado el problema volverán a sincronizarse y no se perderá ninguna información.</li>
+</ul>
+<ul>
+<li>
+<p>Ventajas: Está en alta disponibilidad. Mientras uno de los dos funcione se podrán hacer escrituras. Se mantienen siempre actualizados.</p>
+</li>
+<li>
+<p>Desventajas: Se sigue necesitando el servidor sldap o un balanceador de carga. Las escrituras unicamente se pueden realizar en uno de los dos.</p>
+</li>
+</ul>
+<hr>
+<h2 id="configuración">Configuración</h2>
+<ul>
+<li>Vamos a hacer un Mirror Mode, para ello primero vamos a dirigirnos a apolo y crear el usuario que servirá para administrar esto. Aunque primero tenemos que introducir una contraseña para ldap.</li>
+</ul>
+<pre><code>usuario@apolo:~$ sudo slappasswd
+New password: 
+Re-enter new password: 
+{SSHA}wEbR9rYntYbu+aUFrNAfyik+pBCtdd3
+</code></pre><ul>
+<li>Ahora si, el fichero ldif para crear el usuario sería tal que así:</li>
+</ul>
+<pre><code>dn: uid=mirroradmin,dc=alexgv,dc=gonzalonazareno,dc=org
+objectClass: account
+objectClass: simpleSecurityObject
+uid: mirroradmin
+description: Usuario para alta disponibilidad
+userPassword: {SSHA}wEbR9rYntYbu+aUFrNAfyik+pBCtdd3
+</code></pre><ul>
+<li>Añadimos este fichero a nuestro directorio.</li>
+</ul>
+<pre><code>usuario@apolo:~$ sudo ldapadd -x -D &quot;cn=admin,dc=alexgv,dc=gonzalonazareno,dc=org&quot; -f mirroradmin.ldif -W
+Enter LDAP Password: 
+adding new entry &quot;uid=mirroradmin,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+</code></pre><ul>
+<li>Ahora tendremos que darle privilegios a este usuario.</li>
+</ul>
+<pre><code>dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+add: olcAccess
+olcAccess: to attrs=userPassword
+  by self =xw
+  by dn.exact=&quot;cn=admin,dc=alexgv,dc=gonzalonazareno,dc=org&quot; =xw
+  by dn.exact=&quot;uid=mirroradmin,dc=alexgv,dc=gonzalonazareno,dc=org&quot; read
+  by anonymous auth
+  by * none
+olcAccess: to *
+  by anonymous auth
+  by self write
+  by dn.exact=&quot;uid=mirroradmin,dc=alexgv,dc=gonzalonazareno,dc=org&quot; read
+  by users read
+  by * none
+</code></pre><ul>
+<li>Añadimos los cambios.</li>
+</ul>
+<pre><code>usuario@apolo:~$ sudo ldapmodify -Y EXTERNAL -H ldapi:/// -f privilegiosad.ldif 
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+modifying entry &quot;olcDatabase={1}mdb,cn=config&quot;
+</code></pre><ul>
+<li>Nuevamente, creamos otro fichero donde cargaremos el módulo <code>syncprov</code> el cual sincronizará los dos servidores.</li>
+</ul>
+<pre><code>dn: cn=module{0},cn=config
+changetype: modify
+add: olcModuleLoad
+olcModuleLoad: syncprov
+</code></pre><ul>
+<li>Realizamos los cambios.</li>
+</ul>
+<pre><code>usuario@apolo:~$ sudo ldapmodify -Y EXTERNAL -H ldapi:/// -f syncprov.ldif
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+modifying entry &quot;cn=module{0},cn=config&quot;
+</code></pre><ul>
+<li>Ahora debemos configurarlo.</li>
+</ul>
+<pre><code>dn: olcOverlay=syncprov,olcDatabase={1}mdb,cn=config
+changetype: add
+objectClass: olcSyncProvConfig
+olcOverlay: syncprov
+olcSpCheckpoint: 3 3
+</code></pre><ul>
+<li>Añadimos esta configuración.</li>
+</ul>
+<pre><code>usuario@apolo:~$ sudo ldapmodify -Y EXTERNAL -H ldapi:/// -f conf_syncprov.ldif 
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+adding new entry &quot;olcOverlay=syncprov,olcDatabase={1}mdb,cn=config&quot;
+</code></pre><ul>
+<li>Los servidores tienen un número identificativo, por lo que tenemos que añadirle uno al nuestro, este será el 1.</li>
+</ul>
+<pre><code>dn: cn=config
+changetype: modify
+add: olcServerId
+olcServerId: 1
+</code></pre><ul>
+<li>Ejecutamos este fichero.</li>
+</ul>
+<pre><code>usuario@apolo:~$ sudo ldapmodify -Y EXTERNAL -H ldapi:/// -f ident.ldif 
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+modifying entry &quot;cn=config&quot;
+</code></pre><ul>
+<li>El último fichero que tenemos que configurar en el servidor apolo será uno donde añadiremos algunos parametros de sincronización y como habilitarse de este servicio.</li>
+</ul>
+<pre><code>dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+add: olcSyncrepl
+olcsyncrepl: rid=000
+  provider=ldaps://ares.alexgv.gonzalonazareno.org 
+  type=refreshAndPersist
+  retry=&quot;3 3 300 +&quot; 
+  searchbase=&quot;dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+  attrs=&quot;*,+&quot; 
+  bindmethod=simple
+  binddn=&quot;uid=mirroradmin,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+  credentials=admin
+-
+add: olcDbIndex
+olcDbIndex: entryUUID eq
+olcDbIndex: entryCSN eq
+-
+replace: olcMirrorMode
+olcMirrorMode: TRUE
+</code></pre><ul>
+<li>Y lo ejecutamos.</li>
+</ul>
+<pre><code>usuario@apolo:~$ sudo ldapmodify -Y EXTERNAL -H ldapi:/// -f mirror.ldif 
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+modifying entry &quot;olcDatabase={1}mdb,cn=config&quot;
+</code></pre><h3 id="ares">Ares</h3>
+<ul>
+<li>
+<p>En ares tambień debemos crear el usuario mirror, tal y como hemos hecho en apolo, lo único que debemos tener en cuenta son las siguientes modificaciones:</p>
+</li>
+<li>
+<p>En el fichero del identificador debemos poner un identificador distinto.</p>
+</li>
+</ul>
+<pre><code>dn: cn=config
+changetype: modify
+add: olcServerId
+olcServerId: 2
+</code></pre><ul>
+<li>Y el fichero donde se habilita y sincroniza está apuntando a apolo.</li>
+</ul>
+<pre><code>dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+add: olcSyncrepl
+olcsyncrepl: rid=000
+  provider=ldaps://apolo.alexgv.gonzalonazareno.org 
+  type=refreshAndPersist
+  retry=&quot;3 3 300 +&quot; 
+  searchbase=&quot;dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+  attrs=&quot;*,+&quot; 
+  bindmethod=simple
+  binddn=&quot;uid=mirroradmin,dc=alexgv,dc=gonzalonazareno,dc=org&quot;
+  credentials=admin
+-
+add: olcDbIndex
+olcDbIndex: entryUUID eq
+olcDbIndex: entryCSN eq
+-
+replace: olcMirrorMode
+olcMirrorMode: TRUE
+</code></pre><ul>
+<li></li>
+</ul>
 
                 </div>
                 
