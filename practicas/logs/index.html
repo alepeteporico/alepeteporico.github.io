@@ -123,15 +123,68 @@ usuario@ares:~$ sudo systemctl enable systemd-journal-remote.service
 <p>Si tuvieramos un cortafuegos deberiamos abrir los puertos 80 y 19532.</p>
 </li>
 <li>
-<p>El siguiente paso será instalar una serie de certificados ya que lo usaremos para la comunicación entre las máquinas. Para ello usaremos la herramienta certbot</p>
+<p>Vamos a configurar este servicio, copiaremos y modificaremos el fichero <code>/lib/systemd/system/systemd-journal-remote.service</code> a <code>/etc/systemd/system/</code></p>
 </li>
 </ul>
-<pre><code>debian@apolo:~$ sudo apt install certbot
-</code></pre><ul>
-<li>Ahora</li>
-</ul>
-<p>sudo certbot certonly &ndash;standalone &ndash;agree-tos &ndash;email <a href="mailto:tojandro@gmail.com">tojandro@gmail.com</a> -d alegv.gonzalonazareno.org</p>
+<pre><code>usuario@ares:~$ sudo cp /lib/systemd/system/systemd-journal-remote.service /etc/systemd/system/
+</code></pre><pre><code>[Unit]
+Description=Journal Remote Sink Service
+Documentation=man:systemd-journal-remote(8) man:journal-remote.conf(5)
+Requires=systemd-journal-remote.socket
 
+[Service]
+ExecStart=/lib/systemd/systemd-journal-remote --listen-http=-3 --output=/var/log/journal/remote/
+User=systemd-journal-remote
+Group=systemd-journal-remote
+PrivateTmp=yes
+PrivateDevices=yes
+PrivateNetwork=yes
+WatchdogSec=3min
+
+# If there are many split up journal files we need a lot of fds to access them
+# all in parallel.
+#LimitNOFILE=524288
+
+[Install]
+Also=systemd-journal-remote.socket
+</code></pre><ul>
+<li>Aquí entre otras cosas, hemos configurado por ejemplo el tiempo entre peticiones de recolección y donde se guardarán, si no está creada la carpeta debemos hacerlo y darle los permisos adecuados.</li>
+</ul>
+<pre><code>usuario@ares:~$ sudo mkdir /var/log/journal/remote
+usuario@ares:~$ sudo chown systemd-journal-remote /var/log/journal/remote
+</code></pre><h2 id="clientes">Clientes</h2>
+<ul>
+<li>
+<p>Nos dirigimos a los clientes y lo primero que debemos hacer en cada uno de ellos es crear un usuario llamado systemd-journal-upload</p>
+</li>
+<li>
+<p>Debian/Ubuntu:</p>
+</li>
+</ul>
+<pre><code>root@zeus:~# adduser --system --home /run/systemd --no-create-home --disabled-login --group systemd-journal-upload
+</code></pre><ul>
+<li>Rocky:</li>
+</ul>
+<pre><code>[usuario@hera ~]$ sudo adduser --system --home /run/systemd --no-create-home --user-group systemd-journal-upload
+</code></pre><ul>
+<li>Vamos ahora a realizar la configuración del fichero <code>/etc/systemd/journal-upload.conf</code>.</li>
+</ul>
+<pre><code>[Upload]
+URL= http://ares.alexgv.gonzalonazareno.org:19532
+</code></pre><ul>
+<li>Comprobamos que funciona y nos crea los logs.</li>
+</ul>
+<pre><code>usuario@ares:~$ sudo ls /var/log/journal/remote/
+remote-10.0.1.102@2bc4c2351838445f94e4412a3b4cc6ae-0000000000000001-0005d6317eedcd10.journal
+remote-10.0.1.102.journal
+remote-10.0.1.1@7842b9b73d4641e7b4acdba2cc86b03c-0000000000000001-0005d6317eedcd10.journal
+remote-10.0.1.1.journal
+remote-172.16.0.200.journal
+</code></pre><ul>
+<li>Si queremos ver los logs usamos este comando:</li>
+</ul>
+<pre><code>usuario@ares:~$ sudo journalctl --file=/var/log/journal/remote/remote-10.0.1.102.journal
+</code></pre>
                 </div>
                 
                 <div class="post-comments">
