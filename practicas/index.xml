@@ -6,7 +6,16 @@
     <description>Recent content in Practicas on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 20 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 29 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DRBD y OCFS2</title>
+      <link>https://alepeteporico.github.io/practicas/drb_ocfs2/</link>
+      <pubDate>Sun, 29 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/drb_ocfs2/</guid>
+      <description>Configura un escenario con dos máquinas. Cada una tiene que tener dos discos adicionales (tamaño 1Gb para que la sincronización sea rápida).  Configura en modo Single-primary el recurso wwwdata.  Primero debemos instalar el paquete necesario para usar DRBD en las dos máquinas.  vagrant@maquina1:~$ sudo apt install drbd-utils  Ahora para crear este recurso lo hacemos creando un fichero en /etc/drbd.d/ al que llamaremos wwwdata.res  resource wwwdata { protocol C; meta-disk internal; device /dev/drbd1; syncer { verify-alg sha1; } net { allow-two-primaries; } on maquina1 { disk /dev/vdb; address 192.</description>
+    </item>
+    
     <item>
       <title>Poblar un directorio LDAP desde un fichero CSV</title>
       <link>https://alepeteporico.github.io/practicas/ldap_csv/</link>

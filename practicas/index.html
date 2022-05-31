@@ -110,6 +110,19 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/drb_ocfs2/">DRBD y OCFS2</a></h4>
+								<h4 class="post-date">2022-05-29</h4>
+							</div>
+							<div class="post-summary"><p>Configura un escenario con dos máquinas. Cada una tiene que tener dos discos adicionales (tamaño 1Gb para que la sincronización sea rápida).  Configura en modo Single-primary el recurso wwwdata.  Primero debemos instalar el paquete necesario para usar DRBD en las dos máquinas.  vagrant@maquina1:~$ sudo apt install drbd-utils  Ahora para crear este recurso lo hacemos creando un fichero en /etc/drbd.d/ al que llamaremos wwwdata.res  resource wwwdata { protocol C; meta-disk internal; device /dev/drbd1; syncer { verify-alg sha1; } net { allow-two-primaries; } on maquina1 { disk /dev/vdb; address 192.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/drb_ocfs2/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/ldap_csv/">Poblar un directorio LDAP desde un fichero CSV</a></h4>
 								<h4 class="post-date">2022-05-20</h4>
 							</div>
@@ -230,21 +243,6 @@
 							<div class="post-summary"><p>Creación del escenario  Primero creamos la imagen inicial.  virt-install --connect qemu:///system --cdrom /home/alejandrogv/Escritorio/ISOS/debian-11.1.0-amd64-netinst.iso --network network=bridge --name servidor --memory 1024 --vcpus 1 --disk size=10  Ahora con el volumen que se ha creado crearemos las imagenes de los clientes y el servidor.  sudo qemu-img create -b /var/lib/libvirt/images/servidor.qcow2 -f qcow2 /var/lib/libvirt/images/server.qcow2 sudo qemu-img create -b /var/lib/libvirt/images/servidor.qcow2 -f qcow2 /var/lib/libvirt/images/cliente1.qcow2 sudo qemu-img create -b /var/lib/libvirt/images/servidor.qcow2 -f qcow2 /var/lib/libvirt/images/cliente2.qcow2  Y creamos las máquinas a partir de estas imagenes  sudo virt-install --connect qemu:///system --name server --memory 1024 --vcpus 1 --disk /var/lib/libvirt/images/server.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/dhcp_2022/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/copias/">Copias de seguridad con bacula</a></h4>
-								<h4 class="post-date">2022-03-14</h4>
-							</div>
-							<div class="post-summary"><p>Usaremos la herramienta bacula para realizar nuestro sistema de copias de seguridad, por supuesto el primer paso que debemos tomar es instalar el paquete de bacula, instalaremos el cliente en todas las máquinas de nuestro escenario, aunque usaremos zeus para alojar las copias de seguridad.
-  Para alojar las copias hemos añadido dos discos que vamos a montar en RAID.
-  debian@zeus:~$ df -h Filesystem Size Used Avail Use% Mounted on /dev/md0 9.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/copias/">Read More</a>
 							</div>
 						</div>
 					</li>

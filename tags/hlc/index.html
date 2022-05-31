@@ -110,6 +110,19 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/drb_ocfs2/">DRBD y OCFS2</a></h4>
+								<h4 class="post-date">2022-05-29</h4>
+							</div>
+							<div class="post-summary"><p>Configura un escenario con dos máquinas. Cada una tiene que tener dos discos adicionales (tamaño 1Gb para que la sincronización sea rápida).  Configura en modo Single-primary el recurso wwwdata.  Primero debemos instalar el paquete necesario para usar DRBD en las dos máquinas.  vagrant@maquina1:~$ sudo apt install drbd-utils  Ahora para crear este recurso lo hacemos creando un fichero en /etc/drbd.d/ al que llamaremos wwwdata.res  resource wwwdata { protocol C; meta-disk internal; device /dev/drbd1; syncer { verify-alg sha1; } net { allow-two-primaries; } on maquina1 { disk /dev/vdb; address 192.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/drb_ocfs2/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/almacenamiento_libvirt/">Trabajo con almacenamiento en libvirt</a></h4>
 								<h4 class="post-date">2022-04-20</h4>
 							</div>
@@ -227,21 +240,6 @@
  [servidores_web] nodo1 ansible_ssh_host=172.22.100.15 ansible_python_interpreter=/usr/bin/python3    Ejecutamos la funcionalidad playbook de ansible para que se realicen las modificaciones necesarias que usaremos en la máquina de prueba.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/rendimientoweb/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cluster_kubernetes/">Despliegue de un cluster de kubernetes</a></h4>
-								<h4 class="post-date">2021-05-27</h4>
-							</div>
-							<div class="post-summary"><p>Crearemos 3 máquinas Vagrant que nos servirán, una de controlador y las otras dos de workers.
-  En la máquina que usaremos como controlador descargaremos e instalaremos usando curl el script que instalará el servicio de k3.
- root@servidor:/usr/local/bin# curl -sfL https://get.k3s.io | sh -    Podemos comprobar mediante netstat que se ha abierto un puerto 6443 que es el que usa k3s por defecto.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/cluster_kubernetes/">Read More</a>
 							</div>
 						</div>
 					</li>

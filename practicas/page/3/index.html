@@ -110,6 +110,19 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/btrfs/">Btrfs</a></h4>
+								<h4 class="post-date">2021-12-02</h4>
+							</div>
+							<div class="post-summary"><p>Tenemos una maquina con varios discos asociados, lo primero que haremos será instalar la paquetería necesaria para el uso de este sistema de archivos.  vagrant@maquina1:~$ sudo apt install btrfs-progs arch-install-scripts  Montamos en la tabla de particiones los nuevos discos.  vagrant@maquina1:~$ sudo cfdisk -z /dev/vdb vagrant@maquina1:~$ sudo cfdisk -z /dev/vdc vagrant@maquina1:~$ sudo cfdisk -z /dev/vdd vagrant@maquina1:~$ sudo cfdisk -z /dev/vde  Y vamos a crear el sisitema de ficheros de cada una.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/btrfs/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/certficiados/">Certificados Digitales</a></h4>
 								<h4 class="post-date">2021-11-22</h4>
 							</div>
@@ -224,19 +237,6 @@ vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla 
   upgrade: Esta opción la usaríamos después del update, pues la lista de paquetes y sus versiones estaría actualizada y este comando instalaría estas nuevas versiones</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/paqueteria/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/web_estatica/">Implantación y despliegue de una aplicación web estática 2021</a></h4>
-								<h4 class="post-date">2021-09-29</h4>
-							</div>
-							<div class="post-summary"><p>Vamos a realizar e implementar una aplicación web estática, para ello usaremos el generador de páginas estáticas jekyll y usaremos para implementarlo surge. jekyll  Para la instalación de jekyll primero debemos asegurarnos de tener instalado ruby y algunas dependencias ya que la aplicación está escrita en este lenguaje.  sudo apt install ruby ruby-dev  Y ahora si podemos instalar jekyll.  sudo gem install bundler jekyll  Ahora crearemos nuestro sitio web en el entorno de desarrollo  jekyll new jekyll_dinamico  Vamos a visualizar el contenido de este sitio que se nos ha generado por defecto.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/web_estatica/">Read More</a>
 							</div>
 						</div>
 					</li>
