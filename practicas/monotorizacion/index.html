@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>  &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.80.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://alepeteporico.github.io/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/practicas/monotorizacion/"></a></h1>
+                <span class="post-date">0001-01-01 </span>
+                <div class="post-content">
+                    <p>title = &ldquo;Monotorización con Zabbix&rdquo;
+description = &quot;&quot;
+tags = [
+&ldquo;ASO&rdquo;
+]
+date = &ldquo;2022-06-01&rdquo;
+menu = &ldquo;main&rdquo;</p>
+<h2 id="servicio">Servicio</h2>
+<ul>
+<li>
+<p>Usaremos un sistema de montorización llamado zabbix. Está diseñado para monitorizar y registrar el estado de varios servicios de red, Servidores, y hardware de red. Puede realizar:</p>
+<ul>
+<li>
+<p>Chequeos simples que pueden verificar la disponibilidad y el nivel de respuesta de servicios estándar como SMTP o HTTP sin necesidad de instalar ningún software sobre el host monitorizado.</p>
+</li>
+<li>
+<p>Monitorizar estadísticas como carga de CPU, utilización de red, espacio en disco, etc.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Caracteristicas:</p>
+<ul>
+<li>
+<p>Alto rendimiento y alta capacidad (posibilidad de monitorizar cientos de miles de dispositivos)</p>
+</li>
+<li>
+<p>Auto descubrimiento de servidores y dispositivos de red</p>
+</li>
+<li>
+<p>Monitorización distribuida y una administración web centralizada</p>
+</li>
+<li>
+<p>Agentes nativos en múltiples plataformas</p>
+</li>
+<li>
+<p>Monitorización Web</p>
+</li>
+<li>
+<p>Configuración de permisos por usuarios y grupos</p>
+</li>
+<li>
+<p>Sistema flexible de notificación de eventos</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="instalación">Instalación</h2>
+<ul>
+<li>Descargamos e instalamos el repositorio (La instalación de este servicio se hará en hera).</li>
+</ul>
+<pre><code>rpm -Uvh https://repo.zabbix.com/zabbix/5.0/rhel/8/x86_64/zabbix-release-5.0-1.el8.noarch.rpm
+</code></pre><ul>
+<li>También debemos instalar una seria de dependencias que necesitaremos.</li>
+</ul>
+<pre><code>[usuario@hera ~]$ sudo dnf install zabbix-server-mysql zabbix-web-mysql zabbix-apache-conf zabbix-sql-scripts zabbix-selinux-policy zabbix-agent
+</code></pre><ul>
+<li>Ahora nos dirigimos a ares donde se encuentra la base de datos, crearemos una para este servicio.</li>
+</ul>
+<pre><code>MariaDB [(none)]&gt; CREATE DATABASE zabbix character set utf8 collate utf8_bin;
+Query OK, 1 row affected (0.012 sec)
+
+MariaDB [(none)]&gt; CREATE USER 'zabbix'@'172.16.0.200' identified by 'zabbix';
+Query OK, 0 rows affected (0.046 sec)
+
+MariaDB [(none)]&gt; grant all privileges on zabbix.* to 'zabbix'@'172.16.0.200';
+Query OK, 0 rows affected (0.005 sec)
+</code></pre><ul>
+<li>Importamos en la base de datos el esquema inicial.</li>
+</ul>
+<pre><code>[root@hera ~]# zcat /usr/share/doc/zabbix-server-mysql*/create.sql.gz | mysql -u zabbix -p zabbix -h bd.alexgv.gonzalonazareno.org
+</code></pre><ul>
+<li>Nos dirigimos al fichero <code>/etc/zabbix/zabbix_server.conf</code> donde especificaremos el host de la base de datos y las credenciales para entrar.</li>
+</ul>
+<pre><code>DBHost=bd.alexgv.gonzalonazareno.org
+DBName=zabbix
+DBUser=zabbix
+DBPassword=zabbix
+</code></pre><ul>
+<li>Reiniciamos los siguientes servicios.</li>
+</ul>
+<pre><code>[root@hera ~]# systemctl restart zabbix-server.service zabbix-agent.service httpd.service php-fpm.service
+</code></pre><ul>
+<li>Nos dirigimos a la interfaz web donde terminaremos la instalación.</li>
+</ul>
+<p><img src="/monotorizacion/1.png" alt="principal"></p>
+<ul>
+<li>Configuramos la conexión a la base de datos.</li>
+</ul>
+<p><img src="/monotorizacion/2.png" alt="bd"></p>
+<ul>
+<li>Así quedaría la configuración.</li>
+</ul>
+<p><img src="/monotorizacion/3.png" alt="conf"></p>
+<ul>
+<li>El usuario y la contraseña por defecto serán &lsquo;Admin&rsquo; y &lsquo;zabbix&rsquo;.</li>
+</ul>
+<p><img src="/monotorizacion/4.png" alt="entrar"></p>
+<ul>
+<li>Ya estamos dentro.</li>
+</ul>
+<p><img src="/monotorizacion/5.png" alt="dentro"></p>
+<h2 id="clientes">Clientes</h2>
+<ul>
+<li>
+<p>Vamos a instalar y configurar los clientes:</p>
+</li>
+<li>
+<p>Instalamos el agente de zabbix.</p>
+</li>
+</ul>
+<pre><code>root@ares:~# wget https://repo.zabbix.com/zabbix/6.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_6.0-1+ubuntu20.04_all.deb
+
+root@ares:~# dpkg -i zabbix-release_6.0-2+ubuntu20.04_all.deb 
+
+root@ares:~# apt install zabbix-agent
+</code></pre><ul>
+<li>Nos dirigimos al fichero <code>/etc/zabbix/zabbix_agentd.conf</code> y configuramos los siguientes parametros para especificar cual es nuestro servidor.</li>
+</ul>
+<pre><code>Server=172.16.0.200
+ServerActive=172.16.0.200
+</code></pre><ul>
+<li>Esto lo hariamos en todos los clientes. Ahora volvemos a nuestra interfaz web para añadir estos nuevos hosts, y nos dirigimos a la pestaña <code>Configuration &gt; hosts</code>.</li>
+</ul>
+<p><img src="/monotorizacion/6.png" alt="hosts"></p>
+<ul>
+<li>Pulsamos en create host arriba a la derecha.</li>
+</ul>
+<p><img src="/monotorizacion/7.png" alt="create"></p>
+<ul>
+<li>El apartado de hosts lo dejamos así:</li>
+</ul>
+<p><img src="/monotorizacion/8.png" alt="hosts"></p>
+<ul>
+<li>Seguidamente nos dirigimos a templates y ponemos la que aparece <code>Template OS Linux by Zabbix agent</code>.</li>
+</ul>
+<p><img src="/monotorizacion/9.png" alt="template"></p>
+<ul>
+<li>Ya hemos añadido todos los hosts.</li>
+</ul>
+<p><img src="/monotorizacion/10.png" alt="hosts"></p>
+<ul>
+<li>Vemos que si entramos en la pestaña <code>Monitoring &gt; hosts</code> aparecen todos.</li>
+</ul>
+<p><img src="/monotorizacion/11.png" alt="monitoring"></p>
+<ul>
+<li>Si entramos en cualquiera de ellos podemos ver mucha información.</li>
+</ul>
+<p><img src="/monotorizacion/12.png" alt="info"></p>
+<h2 id="alertas">Alertas</h2>
+<h3 id="servidor-web">Servidor Web</h3>
+<ul>
+<li>Empezaremos creando una alerta para ver la disponibilidad de nuestro servidor web, para ello nos dirigimos a <code>Configuration &gt; hosts</code> y pulsamos sobre web en este caso en el servidor zabbix, que es el que tiene el servidor web.</li>
+</ul>
+<p><img src="/monotorizacion/13.png" alt="web"></p>
+<ul>
+<li>Una vez dentro creamos un nuevo escenario web.</li>
+</ul>
+<p><img src="/monotorizacion/14.png" alt="escenario"></p>
+<ul>
+<li>El escenario principal será tal que así.</li>
+</ul>
+<p><img src="/monotorizacion/15.png" alt="principal"></p>
+<ul>
+<li>Nos dirigimos a &ldquo;steps&rdquo; y creamos un nuevo paso, donde debemos especificar la url a monitorizar, y el codigo que debe darnos, he puesto el 200 pues es el que se devuelve en caso de que todo funcione correctamente.</li>
+</ul>
+<p><img src="/monotorizacion/16.png" alt="paso"></p>
+<ul>
+<li>Ya lo hemos creado.</li>
+</ul>
+<p><img src="/monotorizacion/17.png" alt="creado"></p>
+<ul>
+<li>Ya tenemos la alerta creada, sin embargo no se nos avisará en caso de que ocurra algo, para ello debemos crear un trigger. Nos dirigimos al apartado de triggers y arriba a la derecha clicamos el crear trigger.</li>
+</ul>
+<p><img src="/monotorizacion/18.png" alt="trigger"></p>
+<ul>
+<li>Creamos el trigger.</li>
+</ul>
+<p><img src="/monotorizacion/19.png" alt="creacion"></p>
+<h2 id="correo">Correo</h2>
+<ul>
+<li>Vamos a configurar zabbix para que las alertas nos lleguen por correo. Para ello nos dirigimos a <code>Administration &gt; Media Types</code> y ahí veremos el sin fin de opciones que tenemos para configurar zabbix.</li>
+</ul>
+<p><img src="/monotorizacion/20.png" alt="opciones"></p>
+<ul>
+<li>Vamos a elegir el correo electrónico y rellenamos los datos.</li>
+</ul>
+<p><img src="/monotorizacion/21.png" alt="datos"></p>
+<ul>
+<li>Ahora nos dirigimos a <code>Configuration &gt; Actions</code> y creamos una acción, que será la que nos envie el correo cuando se active el trigger.</li>
+</ul>
+<p><img src="/monotorizacion/22.png" alt="acciones"></p>
+<p><img src="/monotorizacion/23.png" alt="operaciones"></p>
+
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2022 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>
