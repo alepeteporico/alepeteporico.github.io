@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title> Instalación de aplicación web python &middot; Alepetepórico Blog </title>
+        <title> Instalación de un CMS python &middot; Alepetepórico Blog </title>
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -100,8 +100,8 @@
 
         <div class="flex-wrapper">
             <div class="container wrapper">
-                <h1><a href="https://alepeteporico.github.io/practicas/python_openstack/">Instalación de aplicación web python</a></h1>
-                <span class="post-date">2021-06-02 </span>
+                <h1><a href="https://alepeteporico.github.io/practicas/python_openstack/">Instalación de un CMS python</a></h1>
+                <span class="post-date">2022-06-02 </span>
                 <div class="post-content">
                     <ul>
 <li>
@@ -190,85 +190,81 @@
 </code></pre>
 </li>
 <li>
-<p>Nos dirigimos a freston, donde añadiremos un registro nuevo en el DNS para nuestro nuevo sitio.</p>
+<p>Nos dirigimos a apolo, donde añadiremos un registro nuevo en el DNS para nuestro nuevo sitio.</p>
 </li>
 </ul>
 <h4 id="interna">interna</h4>
-<pre><code>    dulcinea        IN      A       10.0.1.8
-    sancho  IN      A       10.0.1.6
-    quijote IN      A       10.0.2.5
-    freston IN      A       10.0.1.9
-    www     IN      CNAME   quijote
-    bd      IN      CNAME   sancho
-    python  IN      CNAME   quijote
-</code></pre>
-<h4 id="externa">externa</h4>
-<pre><code>    dulcinea        IN      A       172.22.200.87
-    www     IN      CNAME   dulcinea
-    python  IN      CNAME   dulcinea
-</code></pre>
-<h4 id="dmz">dmz</h4>
-<pre><code>    dulcinea        IN      A       10.0.2.10
-    sancho  IN      A       10.0.1.6
-    quijote IN      A       10.0.2.5
-    freston IN      A       10.0.1.9
-    www     IN      CNAME   quijote
-    bd      IN      CNAME   sancho
-    python  IN      CNAME   quijote
-</code></pre>
-<ul>
+<pre><code>zeus    IN      A       10.0.1.1
+ares    IN      A       10.0.1.101
+apolo   IN      A       10.0.1.102
+hera    IN      A       172.16.0.200
+www     IN      CNAME   hera
+bd      IN      CNAME   ares
+python  IN      CNAME   hera
+</code></pre><h4 id="externa">externa</h4>
+<pre><code>zeus    IN      A       172.22.0.169
+www     IN      CNAME   zeus
+bd      IN      CNAME   zeus
+python  IN      CNAME   zeus
+</code></pre><h4 id="dmz">dmz</h4>
+<pre><code>zeus    IN      A       172.16.0.1
+ares    IN      A       10.0.1.101
+apolo   IN      A       10.0.1.102
+hera    IN      A       172.16.0.200
+www     IN      CNAME   hera
+bd      IN      CNAME   ares
+python  IN      CNAME   hera
+</code></pre><ul>
 <li>
 <p>Ahora en sancho vamos a crear una base de datos y un usuario remoto que la administrará.</p>
 <pre><code>  MariaDB [(none)]&gt; CREATE DATABASE mezzanine;
   Query OK, 1 row affected (0.023 sec)
 
-  MariaDB [(none)]&gt; GRANT USAGE ON *.* TO 'ale'@'10.0.2.5' IDENTIFIED BY 'ale';
+  MariaDB [(none)]&gt; GRANT USAGE ON *.* TO 'ale'@'172.16.0.200' IDENTIFIED BY 'ale';
   Query OK, 0 rows affected (0.041 sec)
 
-  MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON mezzanine.* to 'ale'@'10.0.2.5';
+  MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON mezzanine.* to 'ale'@'172.16.0.200';
   Query OK, 0 rows affected (0.009 sec)
 </code></pre>
 </li>
 <li>
-<p>Vamos a instalar las dependencias necesarias en quijote.</p>
-<pre><code>  [centos@quijote ~]$ sudo dnf install virtualenv git python3-mod_wsgi gcc python3-devel mysql-devel
-</code></pre>
+<p>Vamos a instalar las dependencias necesarias en apolo.</p>
 </li>
-<li>
-<p>Como hicimos anteriormente crearemos el entorno donde instalaremos las dependencias de la aplicación.</p>
-<pre><code>  [centos@quijote virtualenv]$ python3 -m venv despliegue
-  [centos@quijote virtualenv]$ source despliegue/bin/activate
-</code></pre>
-</li>
-<li>
-<p>Una vez tengamos nuestra carpeta <code>cms</code> con todo el contenido incluido el backup en quijote instalamos las dependencias usando el fichero requirements.txt y algunos paquetes mas necesarios</p>
-<pre><code>  (despliegue) [centos@quijote cms]$ pip install -r requirements.txt
-  (despliegue) [centos@quijote cms]$ pip install mysql-connector-python uwsgi mysqlclient
-</code></pre>
-</li>
-<li>
-<p>Cambiaremos el fichero settings.py para que use la base de datos de mysql.</p>
-<pre><code>  DATABASES = {
-      &quot;default&quot;: {
-          # Add &quot;postgresql_psycopg2&quot;, &quot;mysql&quot;, &quot;sqlite3&quot; or &quot;oracle&quot;.
-          &quot;ENGINE&quot;: &quot;django.db.backends.mysql&quot;,
-          # DB name or path to database file if using sqlite3.
-          &quot;NAME&quot;: &quot;mezzanine&quot;,
-          # Not used with sqlite3.
-          &quot;USER&quot;: &quot;quijote&quot;,
-          # Not used with sqlite3.
-          &quot;PASSWORD&quot;: &quot;alegv&quot;,
-          # Set to empty string for localhost. Not used with sqlite3.
-          &quot;HOST&quot;: &quot;bd.alegv.gonzalonazareno.org&quot;,
-          # Set to empty string for default. Not used with sqlite3.
-          &quot;PORT&quot;: &quot;&quot;,
-      }
-  }
-</code></pre>
-</li>
+</ul>
+<pre><code>[usuario@hera ~]$ sudo dnf install virtualenv git python3-mod_wsgi gcc python3-devel mysql-devel
+</code></pre><ul>
+<li>Como hicimos anteriormente crearemos el entorno donde instalaremos las dependencias de la aplicación.</li>
+</ul>
+<pre><code>[usuario@hera ~]$ python3 -m venv despliegue
+[usuario@hera ~]$ source despliegue/bin/activate
+</code></pre><ul>
+<li>Una vez tengamos nuestra carpeta <code>cms</code> con todo el contenido incluido el backup en apolo instalamos las dependencias usando el fichero requirements.txt y algunos paquetes mas necesarios</li>
+</ul>
+<pre><code>(despliegue) [usuario@hera mezzanine]$ pip install -r requirements.txt
+(despliegue) [usuario@hera mezzanine]$ pip install mysql-connector-python uwsgi mysqlclient
+</code></pre><ul>
+<li>Cambiaremos el fichero settings.py para que use la base de datos de mysql.</li>
+</ul>
+<pre><code>DATABASES = {
+    &quot;default&quot;: {
+        # Add &quot;postgresql_psycopg2&quot;, &quot;mysql&quot;, &quot;sqlite3&quot; or &quot;oracle&quot;.
+        &quot;ENGINE&quot;: &quot;django.db.backends.mysql&quot;,
+        # DB name or path to database file if using sqlite3.
+        &quot;NAME&quot;: &quot;mezzanine&quot;,
+        # Not used with sqlite3.
+        &quot;USER&quot;: &quot;ale&quot;,
+        # Not used with sqlite3.
+        &quot;PASSWORD&quot;: &quot;ale&quot;,
+        # Set to empty string for localhost. Not used with sqlite3.
+        &quot;HOST&quot;: &quot;bd.alexgv.gonzalonazareno.org&quot;,
+        # Set to empty string for default. Not used with sqlite3.
+        &quot;PORT&quot;: &quot;&quot;,
+    }
+}
+</code></pre><ul>
 <li>
 <p>Migramos para que use la nueva base de datos.</p>
-<pre><code>  (despliegue) [centos@quijote cms]$ python3 manage.py migrate
+<pre><code>  (despliegue) [centos@apolo cms]$ python3 manage.py migrate
   Operations to perform:
     Apply all migrations: admin, auth, blog, conf, contenttypes, core, django_comments, forms, galleries, generic, pages, redirects, sessions, sites, twitter
   Running migrations:
@@ -317,13 +313,13 @@
 </li>
 <li>
 <p>Ahora vamos a importar los datos de la base de datos que teniamos en el entorno de desarrollo.</p>
-<pre><code>  (despliegue) [centos@quijote cms]$ python3 manage.py loaddata backup.json
+<pre><code>  (despliegue) [centos@apolo cms]$ python3 manage.py loaddata backup.json
   Installed 128 object(s) from 1 fixture(s)
 </code></pre>
 </li>
 <li>
 <p>Ahora vamos a generar el contenido estático</p>
-<pre><code>  (despliegue) [centos@quijote cms]$ python manage.py collectstatic
+<pre><code>  (despliegue) [centos@apolo cms]$ python manage.py collectstatic
 </code></pre>
 </li>
 <li>
@@ -360,18 +356,18 @@
 </li>
 <li>
 <p>creamos el enlace simbólico y reiniciamos el servicio.</p>
-<pre><code>  (despliegue) [root@quijote ~]# ln -s /etc/httpd/sites-available/mezzanine.conf /etc/httpd/sites-enabled/
-  (despliegue) [root@quijote ~]# systemctl restart httpd
+<pre><code>  (despliegue) [root@apolo ~]# ln -s /etc/httpd/sites-available/mezzanine.conf /etc/httpd/sites-enabled/
+  (despliegue) [root@apolo ~]# systemctl restart httpd
 </code></pre>
 </li>
 <li>
 <p>Vamos a ejecutarlo.</p>
-<pre><code>  (despliegue) [root@quijote mezzanine]# uwsgi --ini uwsgi.ini
+<pre><code>  (despliegue) [root@apolo mezzanine]# uwsgi --ini uwsgi.ini
   [uWSGI] getting INI configuration from uwsgi.ini
   *** Starting uWSGI 2.0.19.1 (64bit) on [Wed Jun 16 09:33:45 2021] ***
   compiled with version: 8.3.1 20191121 (Red Hat 8.3.1-5) on 15 June 2021 14:37:47
   os: Linux-4.18.0-240.22.1.el8_3.x86_64 #1 SMP Thu Apr 8 19:01:30 UTC 2021
-  nodename: quijote.alegv.gonzalonazareno.org
+  nodename: apolo.alegv.gonzalonazareno.org
   machine: x86_64
   clock source: unix
   detected number of CPU cores: 1

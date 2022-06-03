@@ -110,6 +110,35 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/interconexion/">Interconexión de servidores de bases de datos</a></h4>
+								<h4 class="post-date">2022-01-03</h4>
+							</div>
+							<div class="post-summary"><p>Realizar un enlace entre dos servidores de bases de datos ORACLE, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.
+  Realizar un enlace entre dos servidores de bases de datos Postgres, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.
+  Realizar un enlace entre un servidor ORACLE y otro Postgres o MySQL empleando Heterogeneus Services, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/interconexion/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/server_web_bbdd_dns/">DNS, servidor web y base de datos</a></h4>
+								<h4 class="post-date">2021-12-10</h4>
+							</div>
+							<div class="post-summary"><p>Servidor DNS  Configuramos el fichero &ldquo;/etc/bind/named.conf.options&rdquo; y añadimos las siguientes líneas:   listen-on { any; }; allow-transfer { none; }; recursion yes; allow-recursion { any; }; *Configuramos el DNS local, la DMZ y externa en el fichero de configuración /etc/bind/named.conf.local:
+view interna { match-clients { 10.0.1.0/24; 127.0.0.1; }; allow-recursion { any; }; zone &quot;alexgv.gonzalonazareno.org&quot; { type master; file &quot;db.alexgv.interna&quot;; }; zone &quot;1.0.10.in-addr-arpa&quot; { type master; file &quot;db.1.0.10&quot;; }; zone &quot;16.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/server_web_bbdd_dns/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/vpn/">VPN</a></h4>
 								<h4 class="post-date">2021-12-09</h4>
 							</div>
@@ -212,34 +241,6 @@
 						</div>
 					</li>
 				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/migracion_durpal/">Migración de aplicación web PHP</a></h4>
-								<h4 class="post-date">2021-11-03</h4>
-							</div>
-							<div class="post-summary"><p>Nos daremos de alta en un hosting gratuito, en mi caso cdmon. Y crearemos un nuevo hosting.  Migración de la base de datos.  Lo primero que haremos será restaurar nuestra base de datos en nuestro hosting, para ello entraremos en la pestaña de mysql.   Creamos una nueva base de datos, en mi caso la llamaré joomlaagv.   y accederemos a phpMyAdmin con las credenciales que se nos otorgan.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/migracion_durpal/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cmsphp_local/">Instalación local de un CMS PHP</a></h4>
-								<h4 class="post-date">2021-11-02</h4>
-							</div>
-							<div class="post-summary"><p>VagrantFile Vagrant.configure(&quot;2&quot;) do |config| config.vm.define :cmsagv do |cmsagv| cmsagv.vm.box = &quot;debian/bullseye64&quot; cmsagv.vm.hostname = &quot;cmsagv&quot; cmsagv.vm.network 'private_network', :ip =&gt; '192.168.100.200' cmsagv.vm.network :private_network, :libvirt__network_name =&gt; &quot;red1&quot;, :libvirt__dhcp_enabled =&gt; false, :ip =&gt; &quot;172.22.100.5&quot;, :libvirt__forward_mode =&gt; &quot;none&quot; end config.vm.define :backup do |backup| backup.vm.box = &quot;debian/bullseye64&quot; backup.vm.hostname = &quot;backup&quot; backup.vm.network :private_network, :libvirt__network_name =&gt; &quot;red1&quot;, :libvirt__dhcp_enabled =&gt; false, :ip =&gt; &quot;172.22.100.10&quot;, :libvirt__forward_mode =&gt; &quot;none&quot; end end Instalamos un servidor LAMP
-Apache Hacemos una instalación sencilla:
-vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla en iptables para permitir la conexión http</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/cmsphp_local/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
 				</ul>
 				
 
@@ -274,12 +275,15 @@ vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla 
       ><a href="/practicas/page/6/">6</a></li>
       
       <li
+      ><a href="/practicas/page/7/">7</a></li>
+      
+      <li
       >
           <a href="/practicas/page/4/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
       </li>
       
       <li>
-          <a href="/practicas/page/6/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+          <a href="/practicas/page/7/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
       </li>
       
     </ul>

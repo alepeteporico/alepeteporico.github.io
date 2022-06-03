@@ -6,7 +6,18 @@
     <description>Recent content in IWEB on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 04 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/iweb/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 02 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/iweb/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Instalación de un CMS python</title>
+      <link>https://alepeteporico.github.io/practicas/python_openstack/</link>
+      <pubDate>Thu, 02 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/python_openstack/</guid>
+      <description>Vamos a crear el entorno virtual en el cual instalaremos Mezzanine.
+ alejandrogv@AlejandroGV:~/entornos/mezzanine$ source despliegue/bin/activate (despliegue) alejandrogv@AlejandroGV:~/entornos/mezzanine$    Ahora instalamos con pip mezzanine y creamos un proyecto.
+ (despliegue) alejandrogv@AlejandroGV:~/proyecto$ pip install mezzanine (despliegue) alejandrogv@AlejandroGV:~/proyecto$ mezzanine-project cms    Vamos a modificar uno de los ficheros que se ha generado cms/settings.py para usar la base de datos sqlite ya que estamos en el entorno de pruebas.</description>
+    </item>
+    
     <item>
       <title>Despliegue de CMS java</title>
       <link>https://alepeteporico.github.io/practicas/cms_java/</link>

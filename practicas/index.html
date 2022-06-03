@@ -110,6 +110,34 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/rendimiento/">Aumento de rendimiento en servidores web</a></h4>
+								<h4 class="post-date">2022-06-02</h4>
+							</div>
+							<div class="post-summary"><p>HAProxy: Balanceador de carga  Clonamos el repositorio con el escenario.  git clone https://github.com/josedom24/vagrant_ansible_haproxy.git  Una vez hagamos el vagrant up entramos en cada una de las máquinas para ver las direcciones ip que les ha dado vagrant, entonces entramos en ansible/hosts y añadimos estas direcciones.  [servidor_ha] frontend ansible_ssh_host=192.168.121.30 ansible_ssh_user=vagrant ansible_ssh_private_key_file=../.vagrant/machines/frontend/libvirt/private_key ansible_python_interpreter=/usr/bin/python3 [servidores_web] backend1 ansible_ssh_host=192.168.121.250 ansible_ssh_user=vagrant ansible_ssh_private_key_file=../.vagrant/machines/backend1/libvirt/private_key ansible_python_interpreter=/usr/bin/python3 backend2 ansible_ssh_host=192.168.121.14 ansible_ssh_user=vagrant ansible_ssh_private_key_file=../.vagrant/machines/backend2/libvirt/private_key ansible_python_interpreter=/usr/bin/python3  Pasamos la receta de ansible por el escenario.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/rendimiento/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/python_openstack/">Instalación de un CMS python</a></h4>
+								<h4 class="post-date">2022-06-02</h4>
+							</div>
+							<div class="post-summary"><p>Vamos a crear el entorno virtual en el cual instalaremos Mezzanine.
+ alejandrogv@AlejandroGV:~/entornos/mezzanine$ source despliegue/bin/activate (despliegue) alejandrogv@AlejandroGV:~/entornos/mezzanine$    Ahora instalamos con pip mezzanine y creamos un proyecto.
+ (despliegue) alejandrogv@AlejandroGV:~/proyecto$ pip install mezzanine (despliegue) alejandrogv@AlejandroGV:~/proyecto$ mezzanine-project cms    Vamos a modificar uno de los ficheros que se ha generado cms/settings.py para usar la base de datos sqlite ya que estamos en el entorno de pruebas.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/python_openstack/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/monotorizacion/">Monotorización con Zabbix</a></h4>
 								<h4 class="post-date">2022-05-31</h4>
 							</div>
@@ -223,32 +251,6 @@
 						</div>
 					</li>
 				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cortafuegos/">Cortafuegos perimetral sobre el escenario</a></h4>
-								<h4 class="post-date">2022-03-21</h4>
-							</div>
-							<div class="post-summary"><p>Política por defecto DROP para las cadenas INPUT, FORWARD y OUTPUT.  iptables -P INPUT DROP iptables -P OUTPUT DROP iptables -P FORWARD DROP  La máquina Zeus tiene un servidor ssh escuchando por el puerto 22, pero al acceder desde el exterior habrá que conectar al puerto 2222.  iptables -t nat -A PREROUTING -p tcp --dport 2222 -i eth0 -j DNAT --to 172.22.0.169:22 iptables -A INPUT -i eth0 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT iptables -A OUTPUT -o eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT alejandrogv@AlejandroGV:~$ ssh -A debian@172.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/cortafuegos/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cms_php_vps/">Instalación/migración de aplicaciones web PHP eb tu VPS</a></h4>
-								<h4 class="post-date">2022-03-20</h4>
-							</div>
-							<div class="post-summary"><p>Drupal  Primero migraremos la aplicación de drupal que tenemos instalada localmente. para ello vamos a migrar la base de datos.  root@cmsagv:~# mysqldump drupal &gt; ./backup.sql  Migramos la aplicación  alejandrogv@AlejandroGV:~$ scp drupal/ debian@mrrobot.alejandrogv.site/home/debian/  Seguidamente nos iremos a nuestra VPS donde instalaremos mariadb y crearemos una base de datos y un usuario con privilegios sobre ella.  MariaDB [(none)]&gt; CREATE DATABASE drupal; Query OK, 1 row affected (0.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/cms_php_vps/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
 				</ul>
 				
 
@@ -283,12 +285,15 @@
       ><a href="/practicas/page/6/">6</a></li>
       
       <li
+      ><a href="/practicas/page/7/">7</a></li>
+      
+      <li
       >
           <a href="/practicas/page/2/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
       </li>
       
       <li>
-          <a href="/practicas/page/6/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+          <a href="/practicas/page/7/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
       </li>
       
     </ul>

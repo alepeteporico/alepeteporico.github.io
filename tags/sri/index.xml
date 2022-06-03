@@ -6,7 +6,16 @@
     <description>Recent content in SRI on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 05 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/sri/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 02 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/sri/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Aumento de rendimiento en servidores web</title>
+      <link>https://alepeteporico.github.io/practicas/rendimiento/</link>
+      <pubDate>Thu, 02 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/rendimiento/</guid>
+      <description>HAProxy: Balanceador de carga  Clonamos el repositorio con el escenario.  git clone https://github.com/josedom24/vagrant_ansible_haproxy.git  Una vez hagamos el vagrant up entramos en cada una de las máquinas para ver las direcciones ip que les ha dado vagrant, entonces entramos en ansible/hosts y añadimos estas direcciones.  [servidor_ha] frontend ansible_ssh_host=192.168.121.30 ansible_ssh_user=vagrant ansible_ssh_private_key_file=../.vagrant/machines/frontend/libvirt/private_key ansible_python_interpreter=/usr/bin/python3 [servidores_web] backend1 ansible_ssh_host=192.168.121.250 ansible_ssh_user=vagrant ansible_ssh_private_key_file=../.vagrant/machines/backend1/libvirt/private_key ansible_python_interpreter=/usr/bin/python3 backend2 ansible_ssh_host=192.168.121.14 ansible_ssh_user=vagrant ansible_ssh_private_key_file=../.vagrant/machines/backend2/libvirt/private_key ansible_python_interpreter=/usr/bin/python3  Pasamos la receta de ansible por el escenario.</description>
+    </item>
+    
     <item>
       <title>Instalación y configuración de un servidor DNS esclavo </title>
       <link>https://alepeteporico.github.io/ejercicios/dns_ejercicio2/</link>

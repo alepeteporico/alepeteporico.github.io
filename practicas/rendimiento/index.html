@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Aumento de rendimiento en servidores web &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.80.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://alepeteporico.github.io/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/practicas/rendimiento/">Aumento de rendimiento en servidores web</a></h1>
+                <span class="post-date">2022-06-02 </span>
+                <div class="post-content">
+                    <h2 id="haproxy-balanceador-de-carga">HAProxy: Balanceador de carga</h2>
+<ul>
+<li>Clonamos el repositorio con el escenario.</li>
+</ul>
+<pre><code>git clone https://github.com/josedom24/vagrant_ansible_haproxy.git
+</code></pre><ul>
+<li>Una vez hagamos el <code>vagrant up</code> entramos en cada una de las máquinas para ver las direcciones ip que les ha dado vagrant, entonces entramos en <code>ansible/hosts</code> y añadimos estas direcciones.</li>
+</ul>
+<pre><code>[servidor_ha]
+frontend ansible_ssh_host=192.168.121.30 ansible_ssh_user=vagrant ansible_ssh_private_key_file=../.vagrant/machines/frontend/libvirt/private_key ansible_python_interpreter=/usr/bin/python3
+
+[servidores_web]
+backend1 ansible_ssh_host=192.168.121.250 ansible_ssh_user=vagrant ansible_ssh_private_key_file=../.vagrant/machines/backend1/libvirt/private_key ansible_python_interpreter=/usr/bin/python3
+backend2 ansible_ssh_host=192.168.121.14 ansible_ssh_user=vagrant ansible_ssh_private_key_file=../.vagrant/machines/backend2/libvirt/private_key ansible_python_interpreter=/usr/bin/python3
+</code></pre><ul>
+<li>Pasamos la receta de ansible por el escenario.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/vagrant/servicios/vagrant_ansible_haproxy/ansible$ ansible-playbook site.yaml 
+
+PLAY [all] **********************************************************************************************
+
+TASK [Gathering Facts] **********************************************************************************
+ok: [backend1]
+ok: [backend2]
+ok: [frontend]
+
+TASK [commons : Ensure system is updated] ***************************************************************
+changed: [backend2]
+changed: [backend1]
+changed: [frontend]
+
+PLAY [servidor_ha] **************************************************************************************
+
+TASK [Gathering Facts] **********************************************************************************
+ok: [frontend]
+
+TASK [haproxy : install haproxy] ************************************************************************
+changed: [frontend]
+
+PLAY [servidores_web] ***********************************************************************************
+
+TASK [Gathering Facts] **********************************************************************************
+ok: [backend1]
+ok: [backend2]
+
+TASK [nginx : install nginx, php-fpm] *******************************************************************
+changed: [backend1]
+changed: [backend2]
+
+TASK [nginx : Copy info.php] ****************************************************************************
+changed: [backend2]
+changed: [backend1]
+
+TASK [nginx : Copy virtualhost default] *****************************************************************
+changed: [backend2]
+changed: [backend1]
+
+RUNNING HANDLER [nginx : restart nginx] *****************************************************************
+changed: [backend1]
+changed: [backend2]
+
+PLAY [servidores_web] ***********************************************************************************
+
+TASK [Gathering Facts] **********************************************************************************
+ok: [backend1]
+ok: [backend2]
+
+TASK [mariadb : ensure mariadb is installed] ************************************************************
+changed: [backend2]
+changed: [backend1]
+
+TASK [mariadb : ensure mariadb binds to internal interface] *********************************************
+changed: [backend2]
+changed: [backend1]
+
+RUNNING HANDLER [mariadb : restart mariadb] *************************************************************
+changed: [backend2]
+changed: [backend1]
+
+PLAY [servidores_web] ***********************************************************************************
+
+TASK [Gathering Facts] **********************************************************************************
+ok: [backend2]
+ok: [backend1]
+
+TASK [wordpress : install unzip] ************************************************************************
+changed: [backend2]
+changed: [backend1]
+
+TASK [wordpress : download wordpress] *******************************************************************
+changed: [backend2]
+changed: [backend1]
+
+TASK [wordpress : unzip wordpress] **********************************************************************
+changed: [backend2]
+changed: [backend1]
+
+TASK [wordpress : Copy wordpress.sql] *******************************************************************
+changed: [backend2]
+changed: [backend1]
+
+TASK [wordpress : create database wordpress] ************************************************************
+changed: [backend2]
+changed: [backend1]
+
+TASK [wordpress : create user mysql wordpress] **********************************************************
+changed: [backend1] =&gt; (item=localhost)
+changed: [backend2] =&gt; (item=localhost)
+
+TASK [wordpress : copy wp-config.php] *******************************************************************
+changed: [backend2]
+changed: [backend1]
+
+RUNNING HANDLER [wordpress : restart nginx] *************************************************************
+changed: [backend2]
+changed: [backend1]
+
+PLAY RECAP **********************************************************************************************
+backend1                   : ok=20   changed=16   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+backend2                   : ok=20   changed=16   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+frontend                   : ok=4    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+</code></pre><ul>
+<li>Una vez terminado el escenario vamos a configurar la resolución estática, para ello primero debemos configurar el servicio de <code>haproxy</code> en la máquina de frontend, así que añadimos el siguiente contenido en el fichero <code>/etc/haproxy/haproxy.cfg</code></li>
+</ul>
+<pre><code>frontend servidores_web
+	bind *:80 
+	mode http
+	stats enable
+	stats uri /ha_stats
+	stats auth  cda:cda
+	default_backend servidores_web_backend
+
+backend servidores_web_backend
+	mode http
+	balance roundrobin
+	server backend1 10.0.0.10:80 check
+	server backend2 10.0.0.11:80 check
+</code></pre><ul>
+<li>Añadimos la dirección del frontend a nuestro fichero hosts de la maquina anfitriona.</li>
+</ul>
+<pre><code>192.168.121.30  www.example.org
+</code></pre><ul>
+<li>Comprobamos que funciona correctamente.</li>
+</ul>
+<p><img src="/rendimiento/1.png" alt="wordpress"></p>
+<ul>
+<li>Vamos a calcular el rendimiento con el balanceo de carga a dos nodos. Para ello haz varias pruebas y quedate con la media de peticiones/segundo. el primer paso para esto es instalar apache-utils.</li>
+</ul>
+<pre><code>vagrant@frontend:~$ sudo apt install apache2-utils
+</code></pre><ul>
+<li>Vamos a calcular el rendimiento tal como se nos indica.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~$ ab -t 10 -c 100 -k http://www.example.org/wordpress/
+This is ApacheBench, Version 2.3 &lt;$Revision: 1879490 $&gt;
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking www.example.org (be patient)
+Finished 799 requests
+
+
+Server Software:        nginx/1.18.0
+Server Hostname:        www.example.org
+Server Port:            80
+
+Document Path:          /wordpress/
+Document Length:        27248 bytes
+
+Concurrency Level:      100
+Time taken for tests:   10.004 seconds
+Complete requests:      799
+Failed requests:        0
+Keep-Alive requests:    0
+Total transferred:      22002713 bytes
+HTML transferred:       21819857 bytes
+Requests per second:    79.87 [#/sec] (mean)
+Time per request:       1252.029 [ms] (mean)
+Time per request:       12.520 [ms] (mean, across all concurrent requests)
+Transfer rate:          2147.90 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.5      0       2
+Processing:    43 1174 263.7   1183    1511
+Waiting:       16 1141 259.2   1151    1465
+Total:         43 1175 263.2   1183    1512
+
+Percentage of the requests served within a certain time (ms)
+  50%   1183
+  66%   1210
+  75%   1344
+  80%   1387
+  90%   1438
+  95%   1460
+  98%   1474
+  99%   1483
+ 100%   1512 (longest request)
+</code></pre><ul>
+<li>Vamos a volver a hacer y comprobar que baja el numero de respuestas (Lo he vuelto a hacer varias veces y no baja significativamente).</li>
+</ul>
+<pre><code>Requests per second:    75.60 [#/sec] (mean)
+</code></pre><ul>
+<li>Ahora vamos a apagar uno de los nodos usando <code>hatop</code>, paquete que debemos instalar.</li>
+</ul>
+<pre><code>
+</code></pre><ul>
+<li>Usando este comando nos aparecerá esta pantalla, si nos situamos encima de uno de los nodos y pulsamos <code>F10</code> se desactivará.</li>
+</ul>
+<p><img src="/rendimiento/2.png" alt="hatop"></p>
+<ul>
+<li>Comprobamos el numero de respuestas, el cual podemos comprobar que ha bajado significativamente.</li>
+</ul>
+<pre><code>Requests per second:    53.18 [#/sec] (mean)
+</code></pre><ul>
+<li>Hemos vuelto a activar el nodo pulsado <code>F9</code>, Ahora instalaremos un nuevo nodo al que pasaremos la receta de ansible y lo configuramos en el <code>haproxy</code>.</li>
+</ul>
+<pre><code>server backend3 192.168.121.220:80 check
+</code></pre><ul>
+<li>Reiniciamos el servicio y comprobamos el balanceo nuevamente.</li>
+</ul>
+<pre><code>Requests per second:    101.75 [#/sec] (mean)
+</code></pre><h2 id="memcached">Memcached</h2>
+<ul>
+<li>Tenemos un nuevo escenario al que como el anterior hemos pasado una receta de ansible y también tiene instalado un wordpress. En este escenario solo tenemos una maquina y el primer paso en ella será instalar el paquete <code>memcached</code>.</li>
+</ul>
+<pre><code>vagrant@servidorweb:~$ sudo apt install php-memcached memcached
+</code></pre><ul>
+<li>Añadimos a nuestro <code>etc/hosts</code> la nueva dirección y accedemos a la página, concretamente el info.php y si bajamos comprobaremos que tenemos instalado este paquete.</li>
+</ul>
+<p><img src="/rendimiento/3.png" alt="info"></p>
+<ul>
+<li>Vamos a instalar en wordpress un plugin que nos permite trabajar con memecached. para ello nos dirigimos a la zona de administración, entramos en plugins e instalamos <code>WP-FFPC</code>.</li>
+</ul>
+<p><img src="/rendimiento/4.png" alt="plugin"></p>
+<ul>
+<li>Después de instalarlo nos aparecerá un botón de activar que pulsaremos y seguidamente tendremos una serie de mensajes de error que iremos solucionando.</li>
+</ul>
+<p><img src="/rendimiento/6.png" alt="errores"></p>
+<ul>
+<li>En primer lugar nos dirigimos al fichero <code>/var/www/html/wordpress/wp-config.php</code> y añadimos la siguiente línea:</li>
+</ul>
+<pre><code>define('WP_CACHE', true);
+</code></pre><ul>
+<li>Y nos vamos a los settings del plugin, donde podremos cambiar algunos parametros, aunque no cambiemos ninguno guardamos los cambios y así se configurará.</li>
+</ul>
+<p><img src="/rendimiento/5.png" alt="errores"></p>
+<ul>
+<li>Ahora vamos a hacer pruebas de rendimiento y comprobar si ha aumentado.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~$ ab -t 10 -c 100 -k http://www.example.org/wordpress/
+This is ApacheBench, Version 2.3 &lt;$Revision: 1879490 $&gt;
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking www.example.org (be patient)
+Completed 5000 requests
+Completed 10000 requests
+Finished 10740 requests
+
+
+Server Software:        nginx/1.18.0
+Server Hostname:        www.example.org
+Server Port:            80
+
+Document Path:          /wordpress/
+Document Length:        27215 bytes
+
+Concurrency Level:      100
+Time taken for tests:   10.001 seconds
+Complete requests:      10740
+Failed requests:        0
+Keep-Alive requests:    0
+Total transferred:      294673386 bytes
+HTML transferred:       292289100 bytes
+Requests per second:    1073.93 [#/sec] (mean)
+Time per request:       93.116 [ms] (mean)
+Time per request:       0.931 [ms] (mean, across all concurrent requests)
+Transfer rate:          28774.89 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.3      0       6
+Processing:     4   89   7.1     88     369
+Waiting:        3   89   7.1     88     361
+Total:          9   89   6.9     88     369
+
+Percentage of the requests served within a certain time (ms)
+  50%     88
+  66%     89
+  75%     90
+  80%     90
+  90%     96
+  95%    102
+  98%    105
+  99%    106
+ 100%    369 (longest request)
+</code></pre><ul>
+<li>Vemos que con la primera prueba ya ha mejorado bastante el rendimiento, llegando a las 1073 respuestas. Lo hemos hecho varias veces más y vemos que el rendimiento sube un poco.</li>
+</ul>
+<pre><code>Requests per second:    1127.43 [#/sec] (mean)
+</code></pre><h2 id="varnish">Varnish</h2>
+<ul>
+<li>Usaremos este mismo escenario y configuraremos varnish, por supuesto primero debemos instalarlo.</li>
+</ul>
+<pre><code>vagrant@servidorweb:~$ sudo apt install varnish
+</code></pre><ul>
+<li>Este servicio escuchará por el puerto 80, así que debemos configurar nginx para que escuche por otro puerto en el fichero <code>/etc/nginx/sites-available/default</code>.</li>
+</ul>
+<pre><code>server {
+        listen 8080 default_server;
+        listen [::]:8080 default_server;
+</code></pre><ul>
+<li>Configuramos varnish para que use este puerto en el fichero <code>/etc/default/varnish</code></li>
+</ul>
+<pre><code>DAEMON_OPTS=&quot;-a :80 \
+             -T localhost:6082 \
+             -f /etc/varnish/default.vcl \
+             -S /etc/varnish/secret \
+             -s malloc,256m&quot;
+</code></pre><ul>
+<li>Y redirigirlas al 8080 donde escucha nginx, esto lo haremos el fichero <code>/etc/varnish/default.vcl</code>.</li>
+</ul>
+<pre><code>backend default {
+    .host = &quot;127.0.0.1&quot;;
+    .port = &quot;8080&quot;;
+}
+</code></pre><ul>
+<li>También debemos configurar la unidad de systemd <code>/lib/systemd/system/varnish.service</code>.</li>
+</ul>
+<pre><code>ExecStart=/usr/sbin/varnishd \
+          -j unix,user=vcache \
+          -F \
+          -a :80 \
+          -T localhost:6082 \
+          -f /etc/varnish/default.vcl \
+          -S /etc/varnish/secret \
+          -s malloc,256m
+</code></pre><ul>
+<li>Después de reiniciar el demonio vamos a comprobar que varnish a cogido la configuración.</li>
+</ul>
+<pre><code>● varnish.service - Varnish Cache, a high-performance HTTP accelerator
+     Loaded: loaded (/lib/systemd/system/varnish.service; enabled; vendor preset: enabled)
+     Active: active (running) since Fri 2022-06-03 12:17:56 UTC; 53s ago
+       Docs: https://www.varnish-cache.org/docs/
+             man:varnishd
+   Main PID: 26157 (varnishd)
+      Tasks: 217 (limit: 528)
+     Memory: 112.3M
+        CPU: 251ms
+     CGroup: /system.slice/varnish.service
+             ├─26157 /usr/sbin/varnishd -j unix,user=vcache -F -a :80 -T localhost:6082 -f /etc/varnish/default.vcl -S /etc/varnish/secret -s malloc,256m
+             └─26169 /usr/sbin/varnishd -j unix,user=vcache -F -a :80 -T localhost:6082 -f /etc/varnish/default.vcl -S /etc/varnish/secret -s malloc,256m
+</code></pre><ul>
+<li>Una vez instalado y configurado vamos a realizar las pruebas de rendimiento.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~$ ab -t 10 -c 100 -k http://www.example.org/wordpress/
+This is ApacheBench, Version 2.3 &lt;$Revision: 1879490 $&gt;
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking www.example.org (be patient)
+Completed 5000 requests
+Completed 10000 requests
+Completed 15000 requests
+Completed 20000 requests
+Completed 25000 requests
+Completed 30000 requests
+Finished 34518 requests
+
+
+Server Software:        nginx/1.18.0
+Server Hostname:        www.example.org
+Server Port:            80
+
+Document Path:          /wordpress/
+Document Length:        7860 bytes
+
+Concurrency Level:      100
+Time taken for tests:   10.000 seconds
+Complete requests:      34518
+Failed requests:        34517
+   (Connect: 0, Receive: 0, Length: 34517, Exceptions: 0)
+Non-2xx responses:      1
+Keep-Alive requests:    34517
+Total transferred:      951896908 bytes
+HTML transferred:       939372069 bytes
+Requests per second:    3451.77 [#/sec] (mean)
+Time per request:       28.971 [ms] (mean)
+Time per request:       0.290 [ms] (mean, across all concurrent requests)
+Transfer rate:          92957.99 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.2      0       5
+Processing:     0   19  19.8     17    3545
+Waiting:        0   19  19.8     17    3540
+Total:          0   19  19.8     17    3545
+
+Percentage of the requests served within a certain time (ms)
+  50%     17
+  66%     19
+  75%     20
+  80%     21
+  90%     23
+  95%     27
+  98%     33
+  99%     38
+ 100%   3545 (longest request)
+</code></pre><ul>
+<li>Vemos que en la primera ya ha subido considerablemente a 3451, vamos a hacer algunas más y a comprobar la última que hagamos:</li>
+</ul>
+<pre><code>Requests per second:    5978.24 [#/sec] (mean)
+</code></pre><ul>
+<li>Vamos a comprobar el <code>acces.log</code> para ver cuantas peticiones han llegado al servidor.</li>
+</ul>
+<pre><code>127.0.0.1 - - [03/Jun/2022:12:22:21 +0000] &quot;GET /wordpress/ HTTP/1.1&quot; 200 6701 &quot;-&quot; &quot;ApacheBench/2.3&quot;
+127.0.0.1 - - [03/Jun/2022:12:27:46 +0000] &quot;GET /wordpress/ HTTP/1.1&quot; 200 6701 &quot;-&quot; &quot;ApacheBench/2.3&quot;
+</code></pre><ul>
+<li>Solo hay dos registros con 5 minutos de diferencia, esto debido a la duración de la cache.</li>
+</ul>
+
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2022 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>
