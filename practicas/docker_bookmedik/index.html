@@ -103,33 +103,112 @@
                 <h1><a href="https://alepeteporico.github.io/practicas/docker_bookmedik/">Aplicación php en docker</a></h1>
                 <span class="post-date">2022-02-02 </span>
                 <div class="post-content">
-                    <h3 id="creación-de-una-imagen-docker-con-una-aplicación-web-desde-una-imagen-base">Creación de una imagen docker con una aplicación web desde una imagen base</h3>
+                    <h3 id="tarea-1-creación-de-una-imagen-docker-con-una-aplicación-web-desde-una-imagen-base">Tarea 1: Creación de una imagen docker con una aplicación web desde una imagen base</h3>
 <ul>
 <li>
-<p><a href="https://github.com/alepeteporico/docker_php.git">url</a> del repositorio GitHub donde tengas los ficheros necesarios para hacer la construcción de la imagen.</p>
+<p><a href="https://github.com/alepeteporico/docker_bookmedik/tree/main/imagen_base">url</a> del repositorio GitHub donde tengas los ficheros necesarios para hacer la construcción de la imagen.</p>
 </li>
 <li>
 <p>Imagen docker con la aplicación desde una imagen base de debian o ubuntu. En el registro de tu entorno de desarrollo.</p>
 </li>
 </ul>
-<pre><code>alejandrogv@AlejandroGV:~/docker/docker_php$ docker image ls
-REPOSITORY            TAG          IMAGE ID       CREATED        SIZE
-alejandro/bookmedik   v1           04c149347bc6   2 days ago     257MB
-</code></pre><h3 id="despliegue-en-el-entorno-de-desarrollo">Despliegue en el entorno de desarrollo</h3>
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/docker_bookmedik$ docker images
+REPOSITORY                    TAG          IMAGE ID       CREATED         SIZE
+alejandro/bookmedik           v1           ee540637fb01   8 seconds ago   309MB
+</code></pre><h3 id="tarea-2-despliegue-en-el-entorno-de-desarrollo">Tarea 2: Despliegue en el entorno de desarrollo</h3>
 <ul>
-<li>Instrucción para ver los dos contenedores del escenario funcionando.</li>
+<li>
+<p><a href="https://github.com/alepeteporico/docker_bookmedik/tree/main/despliegue_desarrollo">url</a> del repositorio GitHub donde hayas añadido el fichero docker-compose.yml.</p>
+</li>
+<li>
+<p>Instrucción para ver los dos contenedores del escenario funcionando.</p>
+</li>
 </ul>
 <pre><code>alejandrogv@AlejandroGV:~/docker/docker_php/deploy$ docker-compose up -d
 Creating servidor_mariadb ... done
 Creating bookmedik        ... done
 
-alejandrogv@AlejandroGV:~/docker/docker_php/deploy$ docker ps -a
-CONTAINER ID   IMAGE                    COMMAND                  CREATED          STATUS          PORTS                  NAMES
-c0a74ef3523e   mariadb                  &quot;docker-entrypoint.s…&quot;   35 seconds ago   Up 21 seconds   3306/tcp               servidor_mariadb
-c6e1d60dcec4   alejandro/bookmedik:v1   &quot;script.sh&quot;              35 seconds ago   Up 20 seconds   0.0.0.0:8081-&gt;80/tcp   bookmedik
+alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/docker_bookmedik$ docker ps -a 
+CONTAINER ID   IMAGE                    COMMAND                  CREATED              STATUS                     PORTS                  NAMES
+8c6374ef9987   alejandro/bookmedik:v1   &quot;/opt/script.sh&quot;         About a minute ago   Up About a minute          0.0.0.0:8085-&gt;80/tcp   app_bookmedik
+b76d7a188431   mariadb                  &quot;docker-entrypoint.s…&quot;   2 minutes ago        Up About a minute
 </code></pre><ul>
-<li></li>
+<li>Captura de pantalla donde se vea funcionando la aplicación, una vez que te has logueado.</li>
 </ul>
+<p><img src="/docker_bookmedik/1.png" alt="admin"></p>
+<h3 id="tarea-3-creación-de-una-imagen-docker-con-una-aplicación-web-desde-una-imagen-php">Tarea 3: Creación de una imagen docker con una aplicación web desde una imagen PHP</h3>
+<ul>
+<li>
+<p><a href="https://github.com/alepeteporico/docker_bookmedik/tree/main/imagen_php">url</a> del repositorio GitHub donde tengas los ficheros necesarios para hacer la construcción de la imagen.</p>
+</li>
+<li>
+<p>Captura de pantalla donde se vea la imagen en el registro de tu entorno de desarrollo.</p>
+</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/docker_bookmedik$ docker images
+REPOSITORY                    TAG                   IMAGE ID       CREATED         SIZE
+alejandro/bookmedik           v2                    ad1e9651d765   7 seconds ago   496MB
+</code></pre><ul>
+<li>Instrucción para ver los dos contenedores del escenario funcionando.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/docker_bookmedik$ docker-compose ps
+      Name                    Command             State          Ports        
+------------------------------------------------------------------------------
+app_bookmedik       /opt/script.sh                Up      0.0.0.0:8090-&gt;80/tcp
+mariadb_bookmedik   docker-entrypoint.sh mysqld   Up      3306/tcp
+</code></pre><ul>
+<li>Captura de pantalla donde se vea funcionando la aplicación, una vez que te has logueado.</li>
+</ul>
+<p><img src="/docker_bookmedik/2.png" alt="admin"></p>
+<h3 id="tarea-4-ejecución-de-una-aplicación-php-en-docker-con-nginx">Tarea 4: Ejecución de una aplicación PHP en docker con nginx</h3>
+<ul>
+<li>
+<p><a href="">url</a> del repositorio GitHub donde tengas los ficheros necesarios para hacer la construcción de la imagen.</p>
+</li>
+<li>
+<p>Captura de pantalla donde se vea la imagen en el registro de tu entorno de desarrollo.</p>
+</li>
+</ul>
+<pre><code>
+</code></pre><h3 id="tarea-5-puesta-en-producción-de-nuestra-aplicación">Tarea 5: Puesta en producción de nuestra aplicación</h3>
+<ul>
+<li>Captura de pantalla de Docker Hub donde se vea tu imagen subida.</li>
+</ul>
+<p><img src="/docker_bookmedik/3.png" alt="admin"></p>
+<ul>
+<li>Configuración de nginx.</li>
+</ul>
+<pre><code>server {
+        listen 80;
+        listen [::]:80;
+
+        server_name bookmedik.alejandrogv.site;
+
+        return 301 https://$host$request_uri;
+}
+
+server {
+        listen 443 ssl http2;
+        listen [::]:443 ssl http2;
+
+        ssl    on;
+        ssl_certificate /etc/letsencrypt/live/bookmedik.alejandrogv.site/fullchain.pem;
+        ssl_certificate_key     /etc/letsencrypt/live/bookmedik.alejandrogv.site/privkey.pem;
+
+        index index.html index.php index.htm index.nginx-debian.html;
+
+        server_name bookmedik.alejandrogv.site;
+
+        location / {
+                proxy_pass http://localhost:8090;
+                include proxy_params;
+        }
+
+}
+</code></pre><ul>
+<li>Captura de pantalla donde se vea funcionando la aplicación, una vez que te has logueado.</li>
+</ul>
+<p><img src="/docker_bookmedik/4.png" alt="admin"></p>
 
                 </div>
                 

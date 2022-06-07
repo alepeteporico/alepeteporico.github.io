@@ -6,7 +6,16 @@
     <description>Recent content in ABD on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 03 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/abd/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 17 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/abd/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Usuarios bases de datos</title>
+      <link>https://alepeteporico.github.io/practicas/usuarios/</link>
+      <pubDate>Tue, 17 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/usuarios/</guid>
+      <description>(ORACLE, Postgres, MySQL) Crea un usuario llamado Becario y, sin usar los roles de ORACLE, dale los siguientes privilegios: Oracle  Conectarse a la base de datos.  GRANT CREATE SESSION TO Becario;  Modificar el número de errores en la introducción de la contraseña de cualquier usuario.  GRANT CREATE PROFILE TO Becario; CREATE PROFILE Limitepasswd LIMIT FAILED_LOGIN_ATTEMPTS 5;  Modificar índices en cualquier esquema (este privilegio podrá pasarlo a quien quiera)   </description>
+    </item>
+    
     <item>
       <title>Interconexión de servidores de bases de datos</title>
       <link>https://alepeteporico.github.io/practicas/interconexion/</link>

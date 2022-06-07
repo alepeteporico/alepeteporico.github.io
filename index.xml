@@ -92,6 +92,15 @@
     </item>
     
     <item>
+      <title>Usuarios bases de datos</title>
+      <link>https://alepeteporico.github.io/practicas/usuarios/</link>
+      <pubDate>Tue, 17 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/usuarios/</guid>
+      <description>(ORACLE, Postgres, MySQL) Crea un usuario llamado Becario y, sin usar los roles de ORACLE, dale los siguientes privilegios: Oracle  Conectarse a la base de datos.  GRANT CREATE SESSION TO Becario;  Modificar el número de errores en la introducción de la contraseña de cualquier usuario.  GRANT CREATE PROFILE TO Becario; CREATE PROFILE Limitepasswd LIMIT FAILED_LOGIN_ATTEMPTS 5;  Modificar índices en cualquier esquema (este privilegio podrá pasarlo a quien quiera)   </description>
+    </item>
+    
+    <item>
       <title>Despliegue de CMS java</title>
       <link>https://alepeteporico.github.io/practicas/cms_java/</link>
       <pubDate>Wed, 04 May 2022 00:00:00 +0000</pubDate>
@@ -260,9 +269,9 @@
       <pubDate>Wed, 02 Feb 2022 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/docker_bookmedik/</guid>
-      <description>Creación de una imagen docker con una aplicación web desde una imagen base   url del repositorio GitHub donde tengas los ficheros necesarios para hacer la construcción de la imagen.
+      <description>Tarea 1: Creación de una imagen docker con una aplicación web desde una imagen base   url del repositorio GitHub donde tengas los ficheros necesarios para hacer la construcción de la imagen.
   Imagen docker con la aplicación desde una imagen base de debian o ubuntu. En el registro de tu entorno de desarrollo.
-  alejandrogv@AlejandroGV:~/docker/docker_php$ docker image ls REPOSITORY TAG IMAGE ID CREATED SIZE alejandro/bookmedik v1 04c149347bc6 2 days ago 257MB Despliegue en el entorno de desarrollo  Instrucción para ver los dos contenedores del escenario funcionando.</description>
+  alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/docker_bookmedik$ docker images REPOSITORY TAG IMAGE ID CREATED SIZE alejandro/bookmedik v1 ee540637fb01 8 seconds ago 309MB Tarea 2: Despliegue en el entorno de desarrollo   url del repositorio GitHub donde hayas añadido el fichero docker-compose.</description>
     </item>
     
     <item>

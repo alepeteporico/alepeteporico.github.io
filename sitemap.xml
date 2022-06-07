@@ -68,12 +68,22 @@
   </url>
   
   <url>
+    <loc>https://alepeteporico.github.io/tags/abd/</loc>
+    <lastmod>2022-05-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://alepeteporico.github.io/practicas/ldap_ad/</loc>
     <lastmod>2022-05-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://alepeteporico.github.io/practicas/ldaps/</loc>
+    <lastmod>2022-05-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alepeteporico.github.io/practicas/usuarios/</loc>
     <lastmod>2022-05-17T00:00:00+00:00</lastmod>
   </url>
   
@@ -205,11 +215,6 @@
   <url>
     <loc>https://alepeteporico.github.io/practicas/iscsi/</loc>
     <lastmod>2022-01-06T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://alepeteporico.github.io/tags/abd/</loc>
-    <lastmod>2022-01-03T00:00:00+00:00</lastmod>
   </url>
   
   <url>
