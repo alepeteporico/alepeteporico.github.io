@@ -110,6 +110,22 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/centos8/">Actualización de CentOS 7 a CentOS 8</a></h4>
+								<h4 class="post-date">2021-02-19</h4>
+							</div>
+							<div class="post-summary"><p>Antes de comenzar debemos instalar si no las tenemos ya las siguientes herramientas:
+ [centos@quijote ~]$ sudo yum install epel-release -y [centos@quijote ~]$ sudo yum install yum-utils -y [centos@quijote ~]$ sudo yum install rpmconf -y  Ahora usaremos rpmconf para verificar conflictos en ficheros de configuración:
+ [centos@quijote ~]$ sudo rpmconf -a  Limpiamos los paquetes innecesarios:
+ [centos@quijote ~]$ sudo package-cleanup --leaves [centos@quijote ~]$ sudo package-cleanup --orphans  Instalamos el nuevo gestor de paquetes que usa CentOS 8, dnf:</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/centos8/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/pagina_est%C3%A1tica/">Implantanción y despliegue de una web estática</a></h4>
 								<h4 class="post-date">2021-02-15</h4>
 							</div>

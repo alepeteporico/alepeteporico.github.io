@@ -800,9 +800,22 @@ Catalog record for Volume &quot;copia-semanal&quot;, Slot 0  successfully create
 Requesting to mount FileChgr1 ...
 3906 File device &quot;&quot;FileStorage&quot; (/mnt/copias/)&quot; is always mounted.
 </code></pre><ul>
-<li>Como acabamos de crearlo no tiene ninguna copia ni nada, daremos un tiempo a que se realizen algunos trabajos y podremos comprobar que se han realizado algunas copias.</li>
+<li>Como acabamos de crearlo no tiene ninguna copia ni nada, daremos un tiempo a que se realizen algunos trabajos y podremos comprobar que se han realizado algunas copias. para hacerlo usamos el comando en baculas:</li>
 </ul>
-
+<pre><code>listjobs
+</code></pre><ul>
+<li>Para restaurar una copia de seguirdad usariamos:</li>
+</ul>
+<pre><code>restore client=ares-fd all
+</code></pre><ul>
+<li>Nos aparecerá una serie de opciones, la que es más normal que usemos probablemente sea la de restaurar la última copia que se haya hecho.</li>
+</ul>
+<pre><code>5: Select the most recent backup for a client
+</code></pre><ul>
+<li>Una vez se haya restaurado la máquina en cuestión debemos usar el siguiente comando para que se instalen todos los paquetes que tenemos en el directorio <code>var</code>.</li>
+</ul>
+<pre><code>apt reinstall ~i
+</code></pre>
                 </div>
                 
                 <div class="post-comments">

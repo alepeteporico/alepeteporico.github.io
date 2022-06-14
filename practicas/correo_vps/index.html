@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Servidor de correos &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.80.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://alepeteporico.github.io/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/practicas/correo_vps/">Servidor de correos</a></h1>
+                <span class="post-date">2022-06-05 </span>
+                <div class="post-content">
+                    <h2 id="gestión-de-correos-desde-el-servidor">Gestión de correos desde el servidor</h2>
+<ul>
+<li>Añadiremos tres registros a nuestra zona DNS (A, MX y SPF).</li>
+</ul>
+<p><img src="/correo/1.png" alt="A"></p>
+<p><img src="/correo/2.png" alt="MX"></p>
+<p><img src="/correo/3.png" alt="SPF"></p>
+<h3 id="tarea-1">Tarea 1</h3>
+<ul>
+<li>Ahora nos dirigimos a nuestra máquina e instalamos el servicio de postfix.</li>
+</ul>
+<pre><code>debian@mrrobot:~$ sudo apt install postfix bsd-mailx
+</code></pre><ul>
+<li>Vamos a enviar un correo y comprobar que lo recibimos.</li>
+</ul>
+<pre><code>debian@mrrobot:~$ mail tojandro@gmail.com
+Subject: prueba
+Prueba de postfix
+Cc:
+</code></pre><p><img src="/correo/4.png" alt="Correo"></p>
+<ul>
+<li>También debemos comprobar el log.</li>
+</ul>
+<pre><code>Jun  7 16:35:08 mrrobot postfix/pickup[3394206]: 7E9D0A06E6: uid=1000 from=&lt;debian&gt;
+Jun  7 16:35:08 mrrobot postfix/cleanup[3394223]: 7E9D0A06E6: message-id=&lt;20220607163508.7E9D0A06E6@mail.alejandrogv.site&gt;
+Jun  7 16:35:08 mrrobot postfix/qmgr[3394207]: 7E9D0A06E6: from=&lt;debian@mail.alejandrogv.site&gt;, size=429, nrcpt=1 (queue active)
+Jun  7 16:35:08 mrrobot postfix/smtp[3394225]: connect to gmail-smtp-in.l.google.com[2a00:1450:400c:c08::1b]:25: Network is unreachable
+Jun  7 16:35:09 mrrobot postfix/smtp[3394225]: 7E9D0A06E6: to=&lt;tojandro@gmail.com&gt;, relay=gmail-smtp-in.l.google.com[74.125.140.27]:25, delay=0.88, delays=0.03/0.02/0.38/0.44, dsn=2.0.0, status=sent (250 2.0.0 OK  1654619709 f14-20020a0560001a8e00b0021030c9d5b8si20690073wry.924 - gsmtp)
+Jun  7 16:35:09 mrrobot postfix/qmgr[3394207]: 7E9D0A06E6: removed
+</code></pre><h3 id="tarea-2">Tarea 2</h3>
+<ul>
+<li>Ahora vamos a realizar una prueba de envio desde el exterior.</li>
+</ul>
+<p><img src="/correo/5.png" alt="Correo"></p>
+<ul>
+<li>Primero vemos el log para comprobar que se ha realizado la conexión.</li>
+</ul>
+<pre><code>Jun  7 16:41:16 mrrobot postfix/smtpd[3394417]: connect from mail-yw1-f170.google.com[209.85.128.170]
+Jun  7 16:41:16 mrrobot postfix/smtpd[3394417]: E8CD2A06E5: client=mail-yw1-f170.google.com[209.85.128.170]
+Jun  7 16:41:16 mrrobot postfix/cleanup[3394422]: E8CD2A06E5: message-id=&lt;CAONuo7DOH0kdR5C6WEv37RHnrGd5ZyE1Dfs28ch4=z98UewTgg@mail.gmail.com&gt;
+Jun  7 16:41:16 mrrobot postfix/qmgr[3394207]: E8CD2A06E5: from=&lt;tojandro@gmail.com&gt;, size=2727, nrcpt=1 (queue active)
+Jun  7 16:41:16 mrrobot postfix/local[3394423]: E8CD2A06E5: to=&lt;debian@mrrobot.alejandrogv.site&gt;, relay=local, delay=0.02, delays=0.01/0.01/0/0, dsn=2.0.0, status=sent (delivered to mailbox)
+Jun  7 16:41:16 mrrobot postfix/qmgr[3394207]: E8CD2A06E5: removed
+Jun  7 16:41:50 mrrobot postfix/smtpd[3394417]: disconnect from mail-yw1-f170.google.com[209.85.128.170]
+</code></pre><ul>
+<li>Para ver el correo usamos <code>mail</code>.</li>
+</ul>
+<pre><code>debian@mrrobot:~$ mail
+Mail version 8.1.2 01/15/2001.  Type ? for help.
+&quot;/var/mail/debian&quot;: 2 messages 2 new
+&gt;N  1 tojandro@gmail.co  Wed Feb  2 07:55   70/3415  Re: prueba desde vps
+ N  2 tojandro@gmail.co  Tue Jun  7 16:41   55/2855  prueba envio
+</code></pre><pre><code>Message 2:
+From tojandro@gmail.com  Tue Jun  7 16:41:16 2022
+X-Original-To: debian@mrrobot.alejandrogv.site
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=oorhvQZO6JD02GWMtJ4wjC5Pqy9VKftZGbjBjQ06SoE=;
+        b=KpWFITQImxET5cwlv6DfBqX4njyglNtJAHZrQUkf48c1toGFgE0C9+3SugkFHlEhs6
+         ugirK4G0nNBlFBLRU/DsCiUVPB5eCKHtqpp0VSYCt40Z63CuADLrZTaQShrFUhrtzvF9
+         ok7aALQAwdxaiAob0f2tQB0zp179E7KxkDLP45LE91jAQ8XXun6CncYADtcHI/HSOQq1
+         TlTwUkXqxau3dztyzpfEG+yq3HbGACcV3XR2TTtVx2prA7hgXhJ2Wxw9wcEpy9U4p6xa
+         A+Zk7cuBL1jLMtZNk6Oo6NRKLok00/MbfGLfoGiDgejd/Fi71AG5XGBNZg0M6gju1hSA
+         vZ/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=oorhvQZO6JD02GWMtJ4wjC5Pqy9VKftZGbjBjQ06SoE=;
+        b=ocizZ/SU8M5QFiU/U2D5znxc6MLmGnNjIOcje17S3MGAGWzOLOJrwpXXJPL2p7I4Do
+         tULkekGMtg0Sb59w84/nEJTCah4K8xjgOUu6RH2Dv/TIwP1+JYmVC2Zp7NpLMBARHZdU
+         ygMRTppcR+vcotgCx40Fity9CR76dHTLcZP6YGPsjNOR4jD4fd1RoJZZpEmx4DUfkkn8
+         DgtciYxktMVUw9LLwpCbq/mpPFvF+PGcvz/sVv74jvgpJjtskio/91rdeMrnP4ULmqZA
+         KUnCf/X6akLV3w16/z4gEgfppkAUrhgd9WiwBXwnxFQkF5+SPitnY4HE4sN8CHRBquwD
+         GUNA==
+X-Gm-Message-State: AOAM530nd5PDSpOzpq/eB7gCdKqVzIFmPpCCMyHLCsHKVKg8qY1K6lMm
+	QF2WR1oqKqYDW6fuDsjWIFjdCndkZFzg8c6NwEuV/I3n
+X-Google-Smtp-Source: ABdhPJwYv232JDSCSZeDwmOhzIEsY0j+WZmMJnnXpkg8KpBWYqKQlBNbCvmsvlqCENEF5/6jcGkTae9NzTPUXXgwGSI=
+X-Received: by 2002:a81:1b87:0:b0:313:39db:beec with SMTP id
+ b129-20020a811b87000000b0031339dbbeecmr4279378ywb.142.1654620075357; Tue, 07
+ Jun 2022 09:41:15 -0700 (PDT)
+MIME-Version: 1.0
+From: =?UTF-8?Q?Alejandro_Guti=C3=A9rrez_Valencia?= &lt;tojandro@gmail.com&gt;
+Date: Tue, 7 Jun 2022 18:41:04 +0200
+Subject: prueba envio
+To: Debian &lt;debian@mrrobot.alejandrogv.site&gt;
+Content-Type: multipart/alternative; boundary=&quot;000000000000d47af205e0de4129&quot;
+
+--000000000000d47af205e0de4129
+Content-Type: text/plain; charset=&quot;UTF-8&quot;
+
+Prueba de envio desde el exterior
+
+--000000000000d47af205e0de4129
+Content-Type: text/html; charset=&quot;UTF-8&quot;
+
+&lt;div dir=&quot;ltr&quot;&gt;Prueba de envio desde el exterior&lt;br&gt;&lt;/div&gt;
+
+--000000000000d47af205e0de4129--
+</code></pre><h2 id="uso-de-alias-y-redirecciones">Uso de alias y redirecciones</h2>
+<h3 id="tarea-3">Tarea 3</h3>
+<ul>
+<li>Vamos a hacer que el sistema nos mande un correo sobre algunas tareas o acciones que nosotros especificaremos, para ello primero usaremos el comando <code>contrab</code>.</li>
+</ul>
+<pre><code>root@mrrobot:~# crontab -e
+</code></pre><ul>
+<li>Se nos abrirá un fichero que configuraremos para que los correos se envien desde root.</li>
+</ul>
+<pre><code>MAILTO = root
+</code></pre><ul>
+<li>A partir de aquí podemos enviar cualquier cosa por correo, por ejemplo, la siguiente línea mandará un correo cada 5 min del contenido del script que hemos especificado cuyo contenido podemos ver abajo.</li>
+</ul>
+<pre><code>* * * * * sleep 300; /root/correo.sh
+</code></pre><pre><code>#! /bin/sh
+
+echo &quot;correo de las $(date)&quot;
+</code></pre><ul>
+<li>Ahora creamos un alias en el fichero <code>/etc/aliases</code> para que se redirijan los correos que se manden a root a nuestro usuario debian.</li>
+</ul>
+<pre><code>root:   debian
+</code></pre><ul>
+<li>Aplicamos el cambio.</li>
+</ul>
+<pre><code>root@mrrobot:~# newaliases
+</code></pre><ul>
+<li>Comprobamos que llegan.</li>
+</ul>
+<pre><code> N 51 root@mail.alejand  Tue Jun  7 18:01   22/789   Cron &lt;root@mrrobot&gt; sleep 300; /root/correo.sh
+&amp; 51
+Message 51:
+From root@mail.alejandrogv.site  Tue Jun  7 18:01:01 2022
+X-Original-To: root
+From: root@mail.alejandrogv.site (Cron Daemon)
+To: root@mail.alejandrogv.site
+Subject: Cron &lt;root@mrrobot&gt; sleep 300; /root/correo.sh
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Cron-Env: &lt;MAILTO=root&gt;
+X-Cron-Env: &lt;SHELL=/bin/sh&gt;
+X-Cron-Env: &lt;HOME=/root&gt;
+X-Cron-Env: &lt;PATH=/usr/bin:/bin&gt;
+X-Cron-Env: &lt;LOGNAME=root&gt;
+Date: Tue,  7 Jun 2022 18:01:01 +0000 (UTC)
+
+correo de las Tue Jun  7 18:01:01 UTC 2022
+</code></pre><ul>
+<li>Si queremos que lleguen a nuestro correo personal debemos crear un fichero oculto en el home del usuario llamado <code>.forward</code> que contenga nuestro correo.</li>
+</ul>
+<pre><code>debian@mrrobot:~$ cat .forward 
+tojandro@gmail.com
+</code></pre><ul>
+<li>Comprobamos que llegan los correos.</li>
+</ul>
+<p><img src="/correo/6.png" alt="personal"></p>
+<h2 id="para-asegurar-el-envío">Para asegurar el envío</h2>
+<h3 id="tarea-4">Tarea 4</h3>
+<ul>
+<li>Debemos configurar <code>DKIM</code> para autentificar los correos que enviamos. Para ello instalamos primero la paquetería necesaria.</li>
+</ul>
+<pre><code>debian@mrrobot:~$ sudo apt install opendkim opendkim-tools
+</code></pre><ul>
+<li>Creamos la clave que se usará para firmar y que tendremos que mover al directorio <code>/etc/dkimkeys/</code>.</li>
+</ul>
+<pre><code>debian@mrrobot:~$ sudo opendkim-genkey -s dkim -d alejandrogv.site -b 1024
+</code></pre><ul>
+<li>Ahora para configurarlo nos dirigimos al fichero <code>/etc/opendkim.conf</code> y configuramos las líneas que aparecen a continuación.</li>
+</ul>
+<pre><code>Domain                  alejandrogv.site
+Selector                dkim
+KeyFile         /etc/dkimkeys/dkim.private
+Socket                  inet:8191@localhost
+</code></pre><ul>
+<li>Y debemos configurar también el fichero <code>/etc/default/opendkim</code> para añadir el nuevo puerto que usará.</li>
+</ul>
+<pre><code>SOCKET=inet:8891@localhost
+</code></pre><ul>
+<li>Por último, vamos al fichero <code>/etc/postfix/main.cf</code> y lo configuramos para que firme los correos.</li>
+</ul>
+<pre><code>milter_default_action = accept
+milter_protocol = 2
+smtpd_milters = inet:localhost:8891
+non_smtpd_milters = $smtpd_milters
+</code></pre><ul>
+<li>Ahora debemos crear un registro txt en el servidor.</li>
+</ul>
+<p><img src="/correo/7.png" alt="TXT"></p>
+<ul>
+<li>Si usamos esta página podremos comprobar que nuestro registro está bien configurado.</li>
+</ul>
+<p><img src="/correo/17.png" alt="prueba"></p>
+<h2 id="para-luchar-contra-el-spam">Para luchar contra el SPAM</h2>
+<ul>
+<li>Vamos a instalar una herramienta llamada <code>spamassasin</code> para filtrar el spam que llega a nuestro servidor</li>
+</ul>
+<pre><code>debian@mrrobot:~$ sudo apt install spamassassin spamc
+</code></pre><ul>
+<li>Nos dirigimos el fichero <code>/etc/default/spamassassin</code> y cambiamos el valor de la variable <code>CRON</code> a 1.</li>
+</ul>
+<pre><code>CRON=1
+</code></pre><ul>
+<li>Ahora, en el fichero <code>nano /etc/postfix/master.cf</code> vamos a hacer que este servicio filtre los paquetes.</li>
+</ul>
+<pre><code>smtp      inet  n       -       y       -       -       smtpd
+  -o content_filter=spamassassin
+submission inet n       -       y       -       -       smtpd
+  -o content_filter=spamassassin
+spamassassin unix -     n       n       -       -       pipe
+  user=debian-spamd argv=/usr/bin/spamc -f -e /usr/sbin/sendmail -oi -f ${sender} ${recipient}
+</code></pre><ul>
+<li>En el fichero <code>/etc/spamassassin/local.cf</code> descomentamos la siguiente línea.</li>
+</ul>
+<pre><code>rewrite_header Subject *****SPAM*****
+</code></pre><ul>
+<li>Enviamos un mensaje con spam y comprobamos que funciona en los logs y en mail.</li>
+</ul>
+<pre><code>Jun  8 17:45:28 mrrobot spamd[3435289]: spamd: identified spam (998.9/5.0) for debian-spamd:112 in 0.2 seconds, 2840 bytes.
+
+debian@mrrobot:~$ mail
+ N178 tojandro@gmail.co  Wed Jun  8 17:45  126/6203  *****SPAM***** prueba spam
+</code></pre><h2 id="gestión-de-correos-desde-un-cliente">Gestión de correos desde un cliente</h2>
+<h3 id="tarea-8">Tarea 8</h3>
+<ul>
+<li>Vamos a instalar la herramienta <code>maildir</code> para ello instalamos la herramienta <code>mutt</code>.</li>
+</ul>
+<pre><code>debian@mrrobot:~$ sudo apt install mutt
+</code></pre><ul>
+<li>Seguidamente nos dirigimos al fichero de configuración de postfix <code>/etc/postfix/main.cf</code> donde debemos indicar que el buzon que usará será el de maildir.</li>
+</ul>
+<pre><code>home_mailbox = Maildir/
+</code></pre><ul>
+<li>Ahora en nuestro home debemos crear un fichero oculto llamado <code>.muttrc</code></li>
+</ul>
+<pre><code>set mbox_type=Maildir
+set folder=&quot;~/Maildir&quot;
+set mask=&quot;!^\\.[^.]&quot;
+set mbox=&quot;~/Maildir&quot;
+set record=&quot;+.Sent&quot;
+set postponed=&quot;+.Drafts&quot;
+set spoolfile=&quot;~/Maildir&quot;
+</code></pre><ul>
+<li>Vamos a comprobar que funciona enviando un correo a nuestro servidor desde fuera, para visualizarlo usamos el comando <code>mutt</code>.</li>
+</ul>
+<pre><code>debian@mrrobot:~$ mutt
+</code></pre><p><img src="/correo/9.png" alt="prueba"></p>
+<p><img src="/correo/10.png" alt="prueba"></p>
+<h3 id="tarea-9">Tarea 9</h3>
+<ul>
+<li>Instalaremos y configuraremos dovecot para que nuestros correos tengan autentificación y cifrado.</li>
+</ul>
+<pre><code>debian@mrrobot:~$ sudo apt install dovecot-imapd
+</code></pre><ul>
+<li>Necesitamos un certificado, para obtenerlo usaremos let&rsquo;s encrypt.</li>
+</ul>
+<pre><code>debian@mrrobot:~$ sudo certbot certonly --standalone -d mail.alejandrogv.site
+</code></pre><ul>
+<li>Añadimos estos certificados a la configuración del servicio en el fichero <code>/etc/dovecot/conf.d/10-ssl.conf</code>.</li>
+</ul>
+<pre><code>ssl_cert = &lt;/etc/letsencrypt/live/mail.alejandrogv.site/fullchain.pem
+ssl_key = &lt;/etc/letsencrypt/live/mail.alejandrogv.site/privkey.pem
+</code></pre><ul>
+<li>Como nuesto cliente usa maildir debemos configurar dovecot para que lo use también, en el fichero <code>/etc/dovecot/conf.d/10-mail.conf</code></li>
+</ul>
+<pre><code>mail_location = maildir:~/Maildir
+</code></pre><h3 id="tarea-11">Tarea 11</h3>
+<ul>
+<li>Vamos a configurar postfix para poder enviar correos desde un cliente remoto. Para cifrar estos correos usaremos los certificados de dovecot y añadiremos algunos apartados en el fichero <code>/etc/postfix/main.cf</code>.</li>
+</ul>
+<pre><code>smtpd_tls_cert_file=/etc/letsencrypt/live/mail.alejandrogv.site/fullchain.pem
+smtpd_tls_key_file=/etc/letsencrypt/live/mail.alejandrogv.site/privkey.pem
+
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = private/auth
+smtpd_sasl_authenticated_header = yes
+broken_sasl_auth_clients = yes
+</code></pre><ul>
+<li>En el fichero <code>/etc/postfix/master.cf</code> descomentamos las siguientes líneas.</li>
+</ul>
+<pre><code>submission inet n       -       y       -       -       smtpd
+  -o content_filter=spamassassin
+  -o syslog_name=postfix/submission
+  -o smtpd_tls_security_level=encrypt
+  -o smtpd_sasl_auth_enable=yes
+  -o smtpd_tls_auth_only=yes
+  -o smtpd_reject_unlisted_recipient=no
+  -o smtpd_client_restrictions=$mua_client_restrictions
+  -o smtpd_helo_restrictions=$mua_helo_restrictions
+  -o smtpd_sender_restrictions=$mua_sender_restrictions
+  -o smtpd_recipient_restrictions=
+  -o smtpd_relay_restrictions=permit_sasl_authenticated,reject
+  -o milter_macro_daemon_name=ORIGINATING
+smtps     inet  n       -       y       -       -       smtpd
+  -o syslog_name=postfix/smtps
+  -o smtpd_tls_wrappermode=yes
+  -o smtpd_sasl_auth_enable=yes
+  -o smtpd_reject_unlisted_recipient=no
+  -o smtpd_client_restrictions=$mua_client_restrictions
+  -o smtpd_helo_restrictions=$mua_helo_restrictions
+  -o smtpd_sender_restrictions=$mua_sender_restrictions
+  -o smtpd_recipient_restrictions=
+  -o smtpd_relay_restrictions=permit_sasl_authenticated,reject
+  -o milter_macro_daemon_name=ORIGINATING
+</code></pre><ul>
+<li>Ahora debemos indicar a dovecot como autentificarse, para ello modificamos el fichero <code>/etc/dovecot/conf.d/10-master.conf</code></li>
+</ul>
+<pre><code>service lmtp {
+  unix_listener /var/spool/postfix/private/auth {
+    mode = 0666
+  }
+</code></pre><ul>
+<li>Reiniciamos el servicio y nos autentificaremos en nuestra máquina anfitriona en evolution.</li>
+</ul>
+<p><img src="/correo/11.png" alt="autentificacion"></p>
+<p><img src="/correo/12.png" alt="autentificacion"></p>
+<p><img src="/correo/13.png" alt="autentificacion"></p>
+<p><img src="/correo/14.png" alt="autentificacion"></p>
+<ul>
+<li>Ahora no consigo que lleguen los correos que mando desde fuera, sin embargo si puedo ver los que mando desde dentro al exterior y que se sincronizan.</li>
+</ul>
+<p><img src="/correo/16.png" alt="autentificacion"></p>
+<h3 id="heading"></h3>
+
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2022 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>

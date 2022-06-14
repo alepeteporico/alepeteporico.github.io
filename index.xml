@@ -6,7 +6,16 @@
     <description>Recent content on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 02 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 05 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Servidor de correos</title>
+      <link>https://alepeteporico.github.io/practicas/correo_vps/</link>
+      <pubDate>Sun, 05 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/correo_vps/</guid>
+      <description>Gestión de correos desde el servidor  Añadiremos tres registros a nuestra zona DNS (A, MX y SPF).  Tarea 1  Ahora nos dirigimos a nuestra máquina e instalamos el servicio de postfix.  debian@mrrobot:~$ sudo apt install postfix bsd-mailx  Vamos a enviar un correo y comprobar que lo recibimos.  debian@mrrobot:~$ mail tojandro@gmail.com Subject: prueba Prueba de postfix Cc:  También debemos comprobar el log.  Jun 7 16:35:08 mrrobot postfix/pickup[3394206]: 7E9D0A06E6: uid=1000 from=&amp;lt;debian&amp;gt; Jun 7 16:35:08 mrrobot postfix/cleanup[3394223]: 7E9D0A06E6: message-id=&amp;lt;20220607163508.</description>
+    </item>
+    
     <item>
       <title>Aumento de rendimiento en servidores web</title>
       <link>https://alepeteporico.github.io/practicas/rendimiento/</link>
