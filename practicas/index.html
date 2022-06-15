@@ -110,6 +110,35 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/kubernetes/">Kubernetes</a></h4>
+								<h4 class="post-date">2022-06-11</h4>
+							</div>
+							<div class="post-summary"><p>Vamos a instalar la aplicación de bookmedik que instalamos con docker en una prática anterior, esta vez con kubernetes.  Despliegue en minikube  Salida de los comando que nos posibilitan ver los recursos que has creado en el cluster.  alejandrogv@AlejandroGV:~/kubernetes/bookmedik_kubernetes/minikube$ kubectl get pv,pvc NAME CAPACITY ACCESS MODES RECLAIM POLICY STATUS CLAIM STORAGECLASS REASON AGE persistentvolume/pvc-2b917463-3f4b-4da5-af30-f159dfd61c14 3Gi RWO Delete Bound default/pvc-bookmedik standard 40s NAME STATUS VOLUME CAPACITY ACCESS MODES STORAGECLASS AGE persistentvolumeclaim/pvc-bookmedik Bound pvc-2b917463-3f4b-4da5-af30-f159dfd61c14 3Gi RWO standard 42s alejandrogv@AlejandroGV:~/kubernetes/bookmedik_kubernetes/minikube$ kubectl get all NAME READY STATUS RESTARTS AGE pod/bookmedik-5f8c5f6bd7-5rrqc 1/1 Running 0 2m24s pod/bookmedik-5f8c5f6bd7-l85nv 1/1 Running 0 2m24s pod/mariadb-7cd5675f98-xv8xc 1/1 Running 0 2m23s NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE service/bookmedik NodePort 10.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/kubernetes/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/docker_python/">Implantación de aplicaciones web Python en docker</a></h4>
+								<h4 class="post-date">2022-06-10</h4>
+							</div>
+							<div class="post-summary"><p>Puntos a tener el cuenta.   La aplicación debe guardar los datos en una base de datos mariadb.
+  La aplicación se podrá configurar para indicar los parámetros de conexión a la base de datos: usuario, contraseña, host y base de datos.
+  La aplicación deberá tener creado un usuario administrador para el acceso.
+  Aplicación Crea una imagen docker para poder desplegar un contenedor con la aplicación.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/practicas/docker_python/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/correo_vps/">Servidor de correos</a></h4>
 								<h4 class="post-date">2022-06-05</h4>
 							</div>
@@ -219,32 +248,6 @@
 							<div class="post-summary"><p>Vamos a instalar un servidor LDAP en ares que va a actuar como servidor secundario o de respaldo del servidor LDAP instalado en apolo, para ello habrá que seleccionar un modo de funcionamiento y configurar la sincronización entre ambos directorios, para que los cambios que se realicen en uno de ellos se reflejen en el otro. Metodo usado: LDAP Syncy Replication   Usaremos este metodo ya que podemos adecuarlo a las necesidades de nuestro escenario como queramos debido a las diferentes útilidades que tiene.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/practicas/ldap_ad/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/ldaps/">LDAPs</a></h4>
-								<h4 class="post-date">2022-05-17</h4>
-							</div>
-							<div class="post-summary"><p>Para usar la configuración segura de ldap primero debemos tener los certificados correspondientes, primero creamos una clave privada con openssl.  root@apolo:~# openssl genrsa 4096 &gt; /etc/ssl/private/apoloalexgv.key  Y usando esa clave creamos un certificado que deberá ser firmado por la unidad certificadora del gonzalo nazareno en nuestro caso.  root@apolo:~# openssl req -new -key /etc/ssl/private/apoloalexgv.key -out /root/apoloalexgv.csr  Con la clave, el certificado firmado y el certificado del gonzalo nazareno que descargaremos de gestiona tendremos todos los certificados necesarios, veamos donde se ubica cada uno.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/ldaps/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/usuarios/">Usuarios bases de datos</a></h4>
-								<h4 class="post-date">2022-05-17</h4>
-							</div>
-							<div class="post-summary"><p>(ORACLE, Postgres, MySQL) Crea un usuario llamado Becario y, sin usar los roles de ORACLE, dale los siguientes privilegios: Oracle  Conectarse a la base de datos.  GRANT CREATE SESSION TO Becario;  Modificar el número de errores en la introducción de la contraseña de cualquier usuario.  GRANT CREATE PROFILE TO Becario; CREATE PROFILE Limitepasswd LIMIT FAILED_LOGIN_ATTEMPTS 5;  Modificar índices en cualquier esquema (este privilegio podrá pasarlo a quien quiera)   </p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/usuarios/">Read More</a>
 							</div>
 						</div>
 					</li>

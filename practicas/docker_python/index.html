@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Implantación de aplicaciones web Python en docker &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.80.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://alepeteporico.github.io/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/practicas/docker_python/">Implantación de aplicaciones web Python en docker</a></h1>
+                <span class="post-date">2022-06-10 </span>
+                <div class="post-content">
+                    <h2 id="puntos-a-tener-el-cuenta">Puntos a tener el cuenta.</h2>
+<ul>
+<li>
+<p>La aplicación debe guardar los datos en una base de datos mariadb.</p>
+</li>
+<li>
+<p>La aplicación se podrá configurar para indicar los parámetros de conexión a la base de datos: usuario, contraseña, host y base de datos.</p>
+</li>
+<li>
+<p>La aplicación deberá tener creado un usuario administrador para el acceso.</p>
+</li>
+</ul>
+<h2 id="aplicación">Aplicación</h2>
+<h3 id="crea-una-imagen-docker-para-poder-desplegar-un-contenedor-con-la-aplicación-la-imagen-la-puedes-hacer-desde-una-imagen-base-o-desde-la-imagen-oficial-de-python">Crea una imagen docker para poder desplegar un contenedor con la aplicación. La imagen la puedes hacer desde una imagen base o desde la imagen oficial de python.</h3>
+<ul>
+<li>Debemos crear una red que usaremos en nuestro entorno de desarrollo.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~$ docker network create django
+</code></pre><ul>
+<li>Creamos el contenedor de base de datos con las variables correspondiente.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~$ docker run -d --name mariadb -v vol_polls:/var/lib/mysql --network django -e MARIADB_ROOT_PASSWORD=root -e MARIADB_USER=django -e MARIADB_PASSWORD=django -e MARIADB_DATABASE=django mariadb
+</code></pre><ul>
+<li>La aplicación que usaremos será de la django que usamos en una práctica anterior, vamos a acceder a está aplicación y modificar el fichero <code>settings.py</code> añadiendo y modificando las siguientes líneas para que nuestra aplicación pueda leer las variables de entorno.</li>
+</ul>
+<pre><code>import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+</code></pre><pre><code>ALLOWED_HOSTS = [os.environ.get(&quot;ALLOWED_HOSTS&quot;)]
+</code></pre><pre><code>DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ.get(&quot;DB&quot;),
+        'USER': os.environ.get('USER'),
+        'PASSWORD': os.environ.get(&quot;PASSW&quot;),
+        'HOST': os.environ.get('HOST'),
+        'PORT': '3306',
+    }
+}
+</code></pre><pre><code>STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+CSRF_TRUSTED_ORIGINS = ['http://*.alejandrogv.site','http://*.127.0.0.1','https://*.alejandrogv.site','https://*.127.0.0.1']
+</code></pre><ul>
+<li>Creamos un DockerFile.</li>
+</ul>
+<pre><code>FROM python:3
+WORKDIR /usr/src/app
+MAINTAINER Alejandro Gutierrez Valencia &quot;tojandro@gmail.com&quot;
+RUN pip install django mysqlclient &amp;&amp; git clone https://github.com/alepeteporico/django_tutorial.git /usr/src/app &amp;&amp; mkdir static
+ENV ALLOWED_HOSTS=*
+ENV HOST=mariadb
+ENV USER=django
+ENV PASSW=django
+ENV BD=django
+ENV DJANGO_SUPERUSER_PASSWORD=admin
+ENV DJANGO_SUPERUSER_USERNAME=admin
+ENV DJANGO_SUPERUSER_EMAIL=admin@example.org
+ADD django.sh /usr/src/app/
+RUN chmod +x /usr/src/app/django.sh
+CMD [&quot;/usr/src/app/django.sh&quot;]
+</code></pre><ul>
+<li>Debemos crear el script al que hacemos referencia, que se encargará de compilar e iniciar la aplicación.</li>
+</ul>
+<pre><code>! /bin/sh
+
+python3 manage.py makemigrations
+python3 manage.py migrate
+python3 manage.py createsuperuser --noinput
+python3 manage.py collectstatic --no-input
+python3 manage.py runserver 0.0.0.0:8006
+</code></pre><ul>
+<li>Creamos el contenedor.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/docker_python$ docker build -t alejandrogv/django .
+Sending build context to Docker daemon  60.42kB
+Step 1/15 : FROM python:3
+ ---&gt; 6bb8bdb609b6
+Step 2/15 : WORKDIR /usr/src/app
+ ---&gt; Using cache
+ ---&gt; fe5838197e59
+Step 3/15 : MAINTAINER Alejandro Gutierrez Valencia &quot;tojandro@gmail.com&quot;
+ ---&gt; Using cache
+ ---&gt; b3e3fdd7e70b
+Step 4/15 : RUN pip install django mysqlclient &amp;&amp; git clone https://github.com/alepeteporico/django_tutorial.git /usr/src/app &amp;&amp; mkdir static
+ ---&gt; Using cache
+ ---&gt; 30b52eaadf3c
+Step 5/15 : ENV ALLOWED_HOSTS=*
+ ---&gt; Using cache
+ ---&gt; e98020fb34a3
+Step 6/15 : ENV HOST=mariadb
+ ---&gt; Using cache
+ ---&gt; 6528caa7033a
+Step 7/15 : ENV USER=django
+ ---&gt; Running in c20c36842a65
+Removing intermediate container c20c36842a65
+ ---&gt; 3aebfe5ce092
+Step 8/15 : ENV PASSW=django
+ ---&gt; Running in 18021b977e29
+Removing intermediate container 18021b977e29
+ ---&gt; 4003af8faf47
+Step 9/15 : ENV BD=django
+ ---&gt; Running in 9535e60ccd63
+Removing intermediate container 9535e60ccd63
+ ---&gt; 8c5f8b458309
+Step 10/15 : ENV DJANGO_SUPERUSER_PASSWORD=admin
+ ---&gt; Running in a89d38dd87f0
+Removing intermediate container a89d38dd87f0
+ ---&gt; c9ad0e527207
+Step 11/15 : ENV DJANGO_SUPERUSER_USERNAME=admin
+ ---&gt; Running in 3f9db467ec52
+Removing intermediate container 3f9db467ec52
+ ---&gt; 09c4715adac6
+Step 12/15 : ENV DJANGO_SUPERUSER_EMAIL=admin@example.org
+ ---&gt; Running in b6e67175dddf
+Removing intermediate container b6e67175dddf
+ ---&gt; 3e0e16d8a939
+Step 13/15 : ADD django.sh /usr/src/app/
+ ---&gt; 5c3e39ef9c80
+Step 14/15 : RUN chmod +x /usr/src/app/django.sh
+ ---&gt; Running in eadd9db7fd7d
+Removing intermediate container eadd9db7fd7d
+ ---&gt; 4b375f582220
+Step 15/15 : CMD [&quot;/usr/src/app/django.sh&quot;]
+ ---&gt; Running in 577dee5aa02c
+Removing intermediate container 577dee5aa02c
+ ---&gt; c471330cec62
+Successfully built c471330cec62
+Successfully tagged alejandrogv/django:latest
+</code></pre>
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2022 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>

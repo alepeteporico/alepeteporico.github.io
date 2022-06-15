@@ -4,12 +4,32 @@
   
   <url>
     <loc>https://alepeteporico.github.io/</loc>
-    <lastmod>2022-06-05T00:00:00+00:00</lastmod>
+    <lastmod>2022-06-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alepeteporico.github.io/tags/iweb/</loc>
+    <lastmod>2022-06-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alepeteporico.github.io/practicas/kubernetes/</loc>
+    <lastmod>2022-06-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://alepeteporico.github.io/practicas/</loc>
-    <lastmod>2022-06-05T00:00:00+00:00</lastmod>
+    <lastmod>2022-06-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alepeteporico.github.io/tags/</loc>
+    <lastmod>2022-06-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alepeteporico.github.io/practicas/docker_python/</loc>
+    <lastmod>2022-06-10T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -23,22 +43,12 @@
   </url>
   
   <url>
-    <loc>https://alepeteporico.github.io/tags/</loc>
-    <lastmod>2022-06-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://alepeteporico.github.io/practicas/rendimiento/</loc>
     <lastmod>2022-06-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://alepeteporico.github.io/practicas/python_openstack/</loc>
-    <lastmod>2022-06-02T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://alepeteporico.github.io/tags/iweb/</loc>
     <lastmod>2022-06-02T00:00:00+00:00</lastmod>
   </url>
   

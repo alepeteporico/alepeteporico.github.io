@@ -6,7 +6,28 @@
     <description>Recent content in Practicas on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 05 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 11 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kubernetes</title>
+      <link>https://alepeteporico.github.io/practicas/kubernetes/</link>
+      <pubDate>Sat, 11 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/kubernetes/</guid>
+      <description>Vamos a instalar la aplicación de bookmedik que instalamos con docker en una prática anterior, esta vez con kubernetes.  Despliegue en minikube  Salida de los comando que nos posibilitan ver los recursos que has creado en el cluster.  alejandrogv@AlejandroGV:~/kubernetes/bookmedik_kubernetes/minikube$ kubectl get pv,pvc NAME CAPACITY ACCESS MODES RECLAIM POLICY STATUS CLAIM STORAGECLASS REASON AGE persistentvolume/pvc-2b917463-3f4b-4da5-af30-f159dfd61c14 3Gi RWO Delete Bound default/pvc-bookmedik standard 40s NAME STATUS VOLUME CAPACITY ACCESS MODES STORAGECLASS AGE persistentvolumeclaim/pvc-bookmedik Bound pvc-2b917463-3f4b-4da5-af30-f159dfd61c14 3Gi RWO standard 42s alejandrogv@AlejandroGV:~/kubernetes/bookmedik_kubernetes/minikube$ kubectl get all NAME READY STATUS RESTARTS AGE pod/bookmedik-5f8c5f6bd7-5rrqc 1/1 Running 0 2m24s pod/bookmedik-5f8c5f6bd7-l85nv 1/1 Running 0 2m24s pod/mariadb-7cd5675f98-xv8xc 1/1 Running 0 2m23s NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE service/bookmedik NodePort 10.</description>
+    </item>
+    
+    <item>
+      <title>Implantación de aplicaciones web Python en docker</title>
+      <link>https://alepeteporico.github.io/practicas/docker_python/</link>
+      <pubDate>Fri, 10 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/docker_python/</guid>
+      <description>Puntos a tener el cuenta.   La aplicación debe guardar los datos en una base de datos mariadb.
+  La aplicación se podrá configurar para indicar los parámetros de conexión a la base de datos: usuario, contraseña, host y base de datos.
+  La aplicación deberá tener creado un usuario administrador para el acceso.
+  Aplicación Crea una imagen docker para poder desplegar un contenedor con la aplicación.</description>
+    </item>
+    
     <item>
       <title>Servidor de correos</title>
       <link>https://alepeteporico.github.io/practicas/correo_vps/</link>
