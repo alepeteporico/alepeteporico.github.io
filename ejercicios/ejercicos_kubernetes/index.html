@@ -214,7 +214,7 @@ index.html
 <pre><code>lejandrogv@AlejandroGV:~$ kubectl port-forward pod-ejercicio1 8282:80
 Forwarding from 127.0.0.1:8282 -&gt; 80
 Forwarding from [::1]:8282 -&gt; 80
-</code></pre><p><a href="/ejercicios_kubernetes/1.png">conexión</a></p>
+</code></pre><p><img src="/ejercicios_kubernetes/1.png" alt="conexión"></p>
 <ul>
 <li>Muestra los logs del Pod y comprueba que se visualizan los logs de los accesos que hemos realizado en el punto anterior.</li>
 </ul>
@@ -394,7 +394,7 @@ Events:
 <pre><code>alejandrogv@AlejandroGV:~/kubernetes/ejercicios/3$ kubectl port-forward deployment/dep-ejercicio3 8383:80
 Forwarding from 127.0.0.1:8383 -&gt; 80
 Forwarding from [::1]:8383 -&gt; 80
-</code></pre><p><a href="/ejercicios_kubernetes/2.png">conexión</a></p>
+</code></pre><p><img src="/ejercicios_kubernetes/2.png" alt="conexión"></p>
 <ul>
 <li>Ver los logs del despliegue.</li>
 </ul>
@@ -410,11 +410,11 @@ AH00558: httpd: Could not reliably determine the server's fully qualified domain
 <ul>
 <li>Pantallazo de la primera version de la aplicación.</li>
 </ul>
-<p><a href="/ejercicios_kubernetes/3.png">conexión</a></p>
+<p><img src="/ejercicios_kubernetes/3.png" alt="conexión"></p>
 <ul>
 <li>Pantallazo de la segunda versión de la aplicación.</li>
 </ul>
-<p><a href="/ejercicios_kubernetes/4.png">conexión</a></p>
+<p><img src="/ejercicios_kubernetes/4.png" alt="conexión"></p>
 <ul>
 <li>Visualizar el historial de actualización del despligue después de actualizar a la versión 2.</li>
 </ul>
@@ -426,7 +426,7 @@ REVISION  CHANGE-CAUSE
 </code></pre><ul>
 <li>Pantallazo de la tercera versión de la aplicación.</li>
 </ul>
-<p><a href="/ejercicios_kubernetes/5.png">conexión</a></p>
+<p><img src="/ejercicios_kubernetes/5.png" alt="conexión"></p>
 <ul>
 <li>Historial despúes de hacer un rollback.</li>
 </ul>
@@ -439,7 +439,7 @@ REVISION  CHANGE-CAUSE
 </code></pre><ul>
 <li>Accediendo a la aplicación después de hacer el rollout.</li>
 </ul>
-<p><a href="/ejercicios_kubernetes/6.png">conexión</a></p>
+<p><img src="/ejercicios_kubernetes/6.png" alt="conexión"></p>
 <h3 id="ejercicio-6">Ejercicio 6</h3>
 <ul>
 <li>Recursos que se crean.</li>
@@ -464,20 +464,20 @@ replicaset.apps/redis-5d96fc576        1         1         0       4s
 </code></pre><ul>
 <li>Acceso desde un navegador web a la aplicación usando el port-forward, y se vea el mensaje de error al no poder acceder a la base de datos.</li>
 </ul>
-<p><a href="/ejercicios_kubernetes/7.png">conexión</a></p>
+<p><img src="/ejercicios_kubernetes/7.png" alt="conexión"></p>
 <h3 id="ejercicio-7">Ejercicio 7</h3>
 <ul>
 <li>Pantallazo donde se vea el acceso desde un navegador web a la aplicación cuando sólo tenemos el servicio para acceder a la aplicación.</li>
 </ul>
-<p><a href="/ejercicios_kubernetes/8.png">conexión</a></p>
+<p><img src="/ejercicios_kubernetes/8.png" alt="conexión"></p>
 <ul>
 <li>Pantallazo donde se vea el acceso desde un navegador web a la aplicación usando la ip del nodo master y el puerto asignado al Service.</li>
 </ul>
-<p><a href="/ejercicios_kubernetes/9.png">conexión</a></p>
+<p><img src="/ejercicios_kubernetes/9.png" alt="conexión"></p>
 <ul>
 <li>Pantallazo donde se vea el acceso desde un navegador web a la aplicación usando el nombre que hemos configurado en el recurso Ingress.</li>
 </ul>
-<p><a href="/ejercicios_kubernetes/11.png">conexión</a></p>
+<p><img src="/ejercicios_kubernetes/11.png" alt="conexión"></p>
 <h3 id="ejercicio-8">Ejercicio 8</h3>
 <ul>
 <li>definición del recurso ConfigMap.</li>
@@ -553,7 +553,7 @@ spec:
 </code></pre><ul>
 <li>Pantallazo de acceso a la aplicación.</li>
 </ul>
-<p><a href="/ejercicios_kubernetes/12.png">conexión</a></p>
+<p><img src="/ejercicios_kubernetes/12.png" alt="conexión"></p>
 <h3 id="ejercicio-9">Ejercicio 9</h3>
 <ul>
 <li>Definición del recurso <code>PersistentVolumeClaim</code></li>
@@ -612,7 +612,7 @@ spec:
 </code></pre><ul>
 <li>Pantallazo donde se vea el acceso a <code>info.php</code></li>
 </ul>
-<p><a href="/ejercicios_kubernetes/13.png">conexión</a></p>
+<p><img src="/ejercicios_kubernetes/13.png" alt="conexión"></p>
 <ul>
 <li>Pantallazo donde se vea que se ha eliminado y se ha vuelto a crear el despliegue y se sigue sirviendo el fichero <code>info.php</code></li>
 </ul>
@@ -633,7 +633,7 @@ deployment.apps/servidorweb   0/1     1            0           5s
 
 NAME                                     DESIRED   CURRENT   READY   AGE
 replicaset.apps/servidorweb-745bc67f58   1         1         0       5s
-</code></pre><p><a href="/ejercicios_kubernetes/13.png">conexión</a></p>
+</code></pre><p><img src="/ejercicios_kubernetes/13.png" alt="conexión"></p>
 <h3 id="ejercicio-10">Ejercicio 10</h3>
 <ul>
 <li>Definición del recurso PersistentVolumenClaim</li>
@@ -697,7 +697,7 @@ spec:
 </code></pre><ul>
 <li>Acceso a la aplicación con los mensajes escritos.</li>
 </ul>
-<p><a href="/ejercicios_kubernetes/14.png">conexión</a></p>
+<p><img src="/ejercicios_kubernetes/14.png" alt="conexión"></p>
 <ul>
 <li>Pantallazo donde se vea que se ha eliminado y se ha vuelto a crear el despliegue de redis y que se sigue sirviendo la aplicación con los mensajes.</li>
 </ul>
@@ -706,7 +706,7 @@ deployment.apps &quot;redis&quot; deleted
 
 alejandrogv@AlejandroGV:~/kubernetes/ejercicios/10$ kubectl apply -f redis.yaml 
 deployment.apps/redis created
-</code></pre><p><a href="/ejercicios_kubernetes/14.png">conexión</a></p>
+</code></pre><p><img src="/ejercicios_kubernetes/14.png" alt="conexión"></p>
 <h3 id="ejercicio-11">Ejercicio 11</h3>
 <ul>
 <li>búsqueda del chart con el comando <code>helm</code></li>
@@ -775,7 +775,7 @@ statefulset.apps/serverweb-mariadb   1/1     6m35s
 </code></pre><ul>
 <li>Pantallazo donde se vea el acceso al blog y se vea tu nombre como título del blog.</li>
 </ul>
-<p><a href="/ejercicios_kubernetes/15.png">conexión</a></p>
+<p><img src="/ejercicios_kubernetes/15.png" alt="conexión"></p>
 
                 </div>
                 
