@@ -150,15 +150,16 @@ CSRF_TRUSTED_ORIGINS = ['http://*.alejandrogv.site','http://*.127.0.0.1','https:
 <pre><code>FROM python:3
 WORKDIR /usr/src/app
 MAINTAINER Alejandro Gutierrez Valencia &quot;tojandro@gmail.com&quot;
-RUN pip install django mysqlclient &amp;&amp; git clone https://github.com/alepeteporico/django_tutorial.git /usr/src/app &amp;&amp; mkdir static
+RUN pip install django mysqlclient &amp;&amp; mkdir static
 ENV ALLOWED_HOSTS=*
 ENV HOST=mariadb
 ENV USER=django
 ENV PASSW=django
-ENV BD=django
+ENV DB=django
 ENV DJANGO_SUPERUSER_PASSWORD=admin
 ENV DJANGO_SUPERUSER_USERNAME=admin
 ENV DJANGO_SUPERUSER_EMAIL=admin@example.org
+ADD django_tutorial/ /usr/src/app
 ADD django.sh /usr/src/app/
 RUN chmod +x /usr/src/app/django.sh
 CMD [&quot;/usr/src/app/django.sh&quot;]
@@ -167,9 +168,10 @@ CMD [&quot;/usr/src/app/django.sh&quot;]
 </ul>
 <pre><code>! /bin/sh
 
+sleep 30
 python3 manage.py makemigrations
 python3 manage.py migrate
-python3 manage.py createsuperuser --noinput
+python3 manage.py createsuperuser --noinput --username DJANGO_SUPERUSER_USERNAME
 python3 manage.py collectstatic --no-input
 python3 manage.py runserver 0.0.0.0:8006
 </code></pre><ul>
@@ -230,7 +232,94 @@ Removing intermediate container 577dee5aa02c
  ---&gt; c471330cec62
 Successfully built c471330cec62
 Successfully tagged alejandrogv/django:latest
-</code></pre>
+</code></pre><ul>
+<li>Creamos el docker-compose.</li>
+</ul>
+<pre><code>version: '3.1'
+services:
+  django-tutorial:
+    container_name: django_tutorial
+    image: alejandrogv/django
+    restart: always
+    environment:
+      ALLOWED_HOSTS: &quot;*&quot;
+      HOST: bd_mariadb_django
+      USER: django
+      PASSW: django
+      BD: django
+      DJANGO_SUPERUSER_PASSWORD: admin
+      DJANGO_SUPERUSER_USERNAME: admin
+      DJANGO_SUPERUSER_EMAIL: admin@example.org
+    ports:
+      - 8096:8006
+    depends_on:
+      - db_django
+  db_django:
+    container_name: bd_mariadb_django
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: django
+      MARIADB_USER: django
+      MARIADB_PASSWORD: django
+    volumes:
+      - mariadb_data_django:/var/lib/mysql
+volumes:
+    mariadb_data_django:
+</code></pre><ul>
+<li>Iniciamos los contenedores.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/docker_python$ docker-compose up -d
+</code></pre><ul>
+<li>Comprobamos que podemos acceder a la aplicación y a la zona de administración.</li>
+</ul>
+<p><img src="/docker_python/1.png" alt="admin"></p>
+<p><img src="/docker_python/2.png" alt="admin"></p>
+<ul>
+<li>Una vez funcionando en nuestro entorno de desarrollo nos dirigimos a producción donde clonaremos este repositorio, crearemos un nuevo registro cname y crearemos un certificado para nuestro nuevo sitio.</li>
+</ul>
+<pre><code>debian@mrrobot:~/docker_python$ sudo certbot certonly --standalone -d djangotutorial.alejandrogv.site
+</code></pre><ul>
+<li>Creamos la imagen y los contenedores.</li>
+</ul>
+<pre><code>debian@mrrobot:~/docker_python$ docker build -t alejandrogv/django .
+
+debian@mrrobot:~/docker_python$ docker-compose up -d
+</code></pre><ul>
+<li>Ahora crearemos nuestro virtualhost en nginx que actuara de proxy inverso</li>
+</ul>
+<pre><code>server {
+        listen 80;
+        listen [::]:80;
+
+        server_name djangotutorial.alejandrogv.site;
+
+        return 301 https://$host$request_uri;
+}
+
+server {
+        listen 443 ssl http2;
+        listen [::]:443 ssl http2;
+
+        ssl    on;
+        ssl_certificate /etc/letsencrypt/live/djangotutorial.alejandrogv.site/fullchain.pem;
+        ssl_certificate_key     /etc/letsencrypt/live/djangotutorial.alejandrogv.site/privkey.pem;
+
+        index index.html index.php index.htm index.nginx-debian.html;
+
+        server_name djangotutorial.alejandrogv.site;
+
+        location / {
+                proxy_pass http://localhost:8096;
+                include proxy_params;
+        }
+}
+</code></pre><ul>
+<li>Comprobamos que podemos acceder.</li>
+</ul>
+<p><img src="/docker_python/3.png" alt="admin"></p>
+
                 </div>
                 
                 <div class="post-comments">
