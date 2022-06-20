@@ -110,6 +110,21 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/ejercicios_docker/">Ejercicios de docker</a></h4>
+								<h4 class="post-date">2022-01-19</h4>
+							</div>
+							<div class="post-summary"><p>Introducción   Crearemos un contenedor demonio a partir de la imagen nginx, el contenedor se debe llamar servidor_web y se debe acceder a él utilizando el puerto 8181 del ordenador donde tengas instalado docker.
+  Creación y comprobación de que funciona el contenedor
+  alejandrogv@AlejandroGV:~$ docker run --name servidor_web -p 8181:80 -d nginx 964b2c315b83655e5d662a88e620a23f1eaac38666cc64170cd5cd62db72e5fd alejandrogv@AlejandroGV:~$ docker ps -a CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 964b2c315b83 nginx &quot;/docker-entrypoint.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://alepeteporico.github.io/ejercicios/ejercicios_docker/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/configuracion_ldap/">Configuración inicial de LDAP</a></h4>
 								<h4 class="post-date">2022-01-14</h4>
 							</div>
@@ -223,21 +238,6 @@ END;</p></div>
   vagrant@cmsagv:~$ sudo a2enmod userdir  Ahora creamos la carpeta public_html y le damos los permisos necesarios.  vagrant@cmsagv:~$ mkdir public_html vagrant@cmsagv:~$ sudo chmod 0755 public_html/  Y ya tenemos nuestro directorio donde podemos subir contenido. Aunque podemos cambiar el nombre de esta carpeta, vamos a llamarla personal y para que el módulo pueda ver el cambio vamos al fichero /etc/apache2/mods-enabled/php7.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://alepeteporico.github.io/ejercicios/modulos_apache/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/libvirt_basico/">Uso básico de libvirt</a></h4>
-								<h4 class="post-date">2021-09-30</h4>
-							</div>
-							<div class="post-summary"><p>Creación de la red.   La red que vamos a crear para este ejercicio será tipo NAT, tendrá direccionamiento 10.0.1.0/24 y de tipo virtio.
-  Veamos el contenido del fichero xml de configuración de la red.
-  &lt;network&gt; &lt;name&gt;red_interna&lt;/name&gt; &lt;bridge name=&quot;virbr20&quot;/&gt; &lt;forward mode=&quot;nat&quot;/&gt; &lt;ip address=&quot;10.0.1.0&quot; netmask=&quot;255.255.255.0&quot;&gt; &lt;dhcp&gt; &lt;range start=&quot;10.0.1.2&quot; end=&quot;10.0.1.254&quot;/&gt; &lt;/dhcp&gt; &lt;/ip&gt; &lt;/network&gt;  Creamos esta red.  alejandrogv@AlejandroGV:~/libvirt$ virsh -c qemu:///system net-create red_interna.xml Creación de escenario.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/ejercicios/libvirt_basico/">Read More</a>
 							</div>
 						</div>
 					</li>

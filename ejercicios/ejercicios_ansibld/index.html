@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Ejercicios de Anisble con vagrant &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.80.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+        blog@alepetepórico ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://alepeteporico.github.io/'>/home/blog</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/ejercicios/ejercicios_ansibld/">Ejercicios de Anisble con vagrant</a></h1>
+                <span class="post-date">2022-06-18 </span>
+                <div class="post-content">
+                    <h3 id="ejercicio-1">Ejercicio 1</h3>
+<ul>
+<li>
+<p><a href="https://github.com/alepeteporico/ejercicos_ansible/tree/main/ejercicio1">repositorio</a> del ansible</p>
+</li>
+<li>
+<p>Salida de la ejecución del playbook.</p>
+</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~/vagrant/servicios/ejercicios_ansible/ejercicio1$ ansible-playbook site.yaml 
+[WARNING]: Found both group and host with same name: ejercicio1
+
+PLAY [ejercicio1] ***************************************************************************************
+
+TASK [Gathering Facts] **********************************************************************************
+ok: [ejercicio1]
+
+TASK [Crear usuario alejandro] **************************************************************************
+ok: [ejercicio1]
+
+TASK [Descarga latest.zip] ******************************************************************************
+ok: [ejercicio1]
+
+TASK [Actualización] ************************************************************************************
+ok: [ejercicio1]
+
+TASK [Instala los paquetes necesarios] ******************************************************************
+ok: [ejercicio1]
+
+TASK [Descomprime latest.zip] ***************************************************************************
+ok: [ejercicio1]
+
+TASK [Crear una base de datos] **************************************************************************
+ok: [ejercicio1]
+
+TASK [Crear usuario de la bd] ***************************************************************************
+changed: [ejercicio1]
+
+TASK [Clonar repositorio github] ************************************************************************
+changed: [ejercicio1]
+
+PLAY RECAP **********************************************************************************************
+ejercicio1                 : ok=9    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+</code></pre><h3 id="ejercicio-2">Ejercicio 2</h3>
+<ul>
+<li>Vagrantfile del escenario</li>
+</ul>
+<pre><code>Vagrant.configure(&quot;2&quot;) do |config|
+    config.vm.define :router do |router|
+        router.vm.box = &quot;debian/bullseye64&quot;
+        router.vm.hostname = &quot;router&quot;
+        router.vm.synced_folder &quot;.&quot;, &quot;/vagrant&quot;, disabled: true
+        router.vm.network :public_network,
+          :dev =&gt; &quot;br0&quot;,
+          :mode =&gt; &quot;bridge&quot;,
+          :type =&gt; &quot;bridge&quot;
+        router.vm.network :private_network,
+          :libvirt__network_name =&gt; &quot;ansible2&quot;,
+          :libvirt__dhcp_enabled =&gt; false,
+          :ip =&gt; &quot;10.0.0.1&quot;,
+          :libvirt__forward_mode =&gt; &quot;veryisolated&quot;
+    end
+    config.vm.define :cliente do |cliente|
+      cliente.vm.box = &quot;debian/bullseye64&quot;
+      cliente.vm.hostname = &quot;backend1&quot;
+      cliente.vm.synced_folder &quot;.&quot;, &quot;/vagrant&quot;, disabled: true
+      cliente.vm.network :private_network,
+        :libvirt__network_name =&gt; &quot;ansible2&quot;,
+        :libvirt__dhcp_enabled =&gt; false,
+        :ip =&gt; &quot;10.0.0.2&quot;,
+        :libvirt__forward_mode =&gt; &quot;veryisolated&quot;
+    end
+end
+</code></pre><ul>
+<li>Comprobación de que se pueden hacer ping.</li>
+</ul>
+<pre><code>vagrant@router:~$ ping 10.0.0.2
+PING 10.0.0.2 (10.0.0.2) 56(84) bytes of data.
+64 bytes from 10.0.0.2: icmp_seq=1 ttl=64 time=1.21 ms
+64 bytes from 10.0.0.2: icmp_seq=2 ttl=64 time=0.633 ms
+^C
+--- 10.0.0.2 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1002ms
+rtt min/avg/max/mdev = 0.633/0.923/1.214/0.290 ms
+</code></pre><h3 id="ejercicio-3">Ejercicio 3</h3>
+<ul>
+<li>Comprobacion que cliente tiene acceso a internet haciendo ping a un nombre de una página web. Asegurate que no está saliendo por eth0 (muestra las rutas).</li>
+</ul>
+<pre><code>vagrant@backend1:~$ ping 8.8.8.8
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=113 time=42.6 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=113 time=43.0 ms
+^C
+--- 8.8.8.8 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1002ms
+rtt min/avg/max/mdev = 42.641/42.814/42.988/0.173 ms
+vagrant@backend1:~$ ip r
+default via 10.0.0.1 dev eth1 onlink 
+10.0.0.0/24 dev eth1 proto kernel scope link src 10.0.0.2 
+192.168.121.0/24 dev eth0 proto kernel scope link src 192.168.121.141
+</code></pre><ul>
+<li>Entrega una captura de pantalla accediendo por ssh a las dos máquinas. Configura el sistema para que podamos acceder acceder a las máquinas por ssh.</li>
+</ul>
+<pre><code>alejandrogv@AlejandroGV:~$ ssh -A vagrant@192.168.121.31
+The authenticity of host '192.168.121.31 (192.168.121.31)' can't be established.
+ECDSA key fingerprint is SHA256:BiRfF41Pfbq7zDdL+xYKeaSCClt1Fi8Ahx9xARAfIt8.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Failed to add the host to the list of known hosts (/home/alejandrogv/.ssh/known_hosts).
+Linux router 5.10.0-13-amd64 #1 SMP Debian 5.10.106-1 (2022-03-17) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Mon Jun 20 10:50:41 2022 from 192.168.121.1
+vagrant@router:~$ ssh vagrant@10.0.0.2
+The authenticity of host '10.0.0.2 (10.0.0.2)' can't be established.
+ECDSA key fingerprint is SHA256:umJF5Ck6/7dibTStEk/ZQyiPaOYEXROfe7CNFEmVt44.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '10.0.0.2' (ECDSA) to the list of known hosts.
+Linux backend1 5.10.0-13-amd64 #1 SMP Debian 5.10.106-1 (2022-03-17) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Mon Jun 20 10:52:38 2022 from 192.168.121.1
+vagrant@backend1:~$ 
+</code></pre><ul>
+<li><a href="https://github.com/alepeteporico/ejercicos_ansible/tree/main/ejercicio3">repositorio</a> del ansible</li>
+</ul>
+
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2022 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>

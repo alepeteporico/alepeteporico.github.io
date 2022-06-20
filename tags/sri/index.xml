@@ -6,7 +6,18 @@
     <description>Recent content in SRI on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 05 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/sri/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 18 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/sri/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ejercicios de Anisble con vagrant</title>
+      <link>https://alepeteporico.github.io/ejercicios/ejercicios_ansibld/</link>
+      <pubDate>Sat, 18 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/ejercicios/ejercicios_ansibld/</guid>
+      <description>Ejercicio 1   repositorio del ansible
+  Salida de la ejecución del playbook.
+  alejandrogv@AlejandroGV:~/vagrant/servicios/ejercicios_ansible/ejercicio1$ ansible-playbook site.yaml [WARNING]: Found both group and host with same name: ejercicio1 PLAY [ejercicio1] *************************************************************************************** TASK [Gathering Facts] ********************************************************************************** ok: [ejercicio1] TASK [Crear usuario alejandro] ************************************************************************** ok: [ejercicio1] TASK [Descarga latest.zip] ****************************************************************************** ok: [ejercicio1] TASK [Actualización] ************************************************************************************ ok: [ejercicio1] TASK [Instala los paquetes necesarios] ****************************************************************** ok: [ejercicio1] TASK [Descomprime latest.zip] *************************************************************************** ok: [ejercicio1] TASK [Crear una base de datos] ************************************************************************** ok: [ejercicio1] TASK [Crear usuario de la bd] *************************************************************************** changed: [ejercicio1] TASK [Clonar repositorio github] ************************************************************************ changed: [ejercicio1] PLAY RECAP ********************************************************************************************** ejercicio1 : ok=9 changed=2 unreachable=0 failed=0 skipped=0 rescued=0 ignored=0 Ejercicio 2  Vagrantfile del escenario  Vagrant.</description>
+    </item>
+    
     <item>
       <title>Servidor de correos</title>
       <link>https://alepeteporico.github.io/practicas/correo_vps/</link>
