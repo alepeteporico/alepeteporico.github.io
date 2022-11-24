@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Interconexion 2023 &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.80.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+	<nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg font-header">
+		<div class="container-fluid">
+			<a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+				blog@alepetepórico ~ $
+			</a>
+			<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse-1" 
+					aria-controls="navbar-collapse-1" aria-expanded="false">
+				<span class="visually-hidden">Toggle navigation</span>
+				<span class="navbar-toggler-icon"></span>
+			</button>
+	
+			
+			<div class="collapse navbar-collapse" id="navbar-collapse-1">
+				<ul class="nav navbar-nav ms-auto">
+					<li class="nav-item">
+						<a class="nav-link" href='https://alepeteporico.github.io/'>
+							/home/blog</a>
+					</li>
+					
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/problemas">~/problemas</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+						
+					</li>
+					
+				</ul>
+			</div>
+		</div>
+	</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/practicas/interconexion2023/">Interconexion 2023</a></h1>
+                <span class="post-date">2022-11-15 </span>
+                <div class="post-content">
+                    <h3 id="conexión-de-oracle-a-oracle">Conexión de Oracle a Oracle</h3>
+<ul>
+<li>Debemos configurar el fichero tnsnames.ora y añadir la segunda base de datos que está en otra máquina, para ello añadiremos el siguiete contenido al fichero.</li>
+</ul>
+<pre><code>ORACLE2 =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.121.41)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = ORCLCDB)
+    )
+  )
+</code></pre><ul>
+<li>Comprobamos que tenemos conexión a la segunda base de datos.</li>
+</ul>
+<pre><code>root@oracleagv:~# tnsping ORACLE2
+
+TNS Ping Utility for Linux: Version 19.0.0.0.0 - Production on 23-NOV-2022 07:50:31
+
+Copyright (c) 1997, 2019, Oracle.  All rights reserved.
+
+Used parameter files:
+/opt/oracle/product/19c/dbhome_1/network/admin/sqlnet.ora
+
+
+Used TNSNAMES adapter to resolve the alias
+Attempting to contact (DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.121.41)(PORT = 1521)) (CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = ORCLCDB)))
+OK (10 msec)
+</code></pre><ul>
+<li>En el servidor 1 creamos el usuario y le damos los privilegios necesarios.</li>
+</ul>
+<pre><code>SQL&gt; CREATE USER conexion1 identified by conexion1;
+
+User created.
+</code></pre><ul>
+<li>Creamos la conexion con el otro servidor.</li>
+</ul>
+<pre><code>SQL&gt; CREATE DATABASE LINK conexion2link
+  2  CONNECT TO conexion2 IDENTIFIED BY conexion2
+  3  USING 'ORACLE2';
+</code></pre><ul>
+<li>Ya podemos hacer una consulta al servidor 2 de oracle.</li>
+</ul>
+<pre><code>SQL&gt; SELECT * 
+  2  FROM SCOTT.EMP@conexion2link
+  3  ;
+
+     EMPNO ENAME      JOB	       MGR HIREDATE	    SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7369 SMITH      CLERK	      7902 17-DEC-80	    800
+	20
+
+      7499 ALLEN      SALESMAN	      7698 20-FEB-81	   1600        300
+	30
+
+      7521 WARD       SALESMAN	      7698 22-FEB-81	   1250        500
+	30
+
+
+     EMPNO ENAME      JOB	       MGR HIREDATE	    SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7566 JONES      MANAGER	      7839 02-APR-81	   2975
+	20
+
+      7654 MARTIN     SALESMAN	      7698 28-SEP-81	   1250       1400
+	30
+
+      7698 BLAKE      MANAGER	      7839 01-MAY-81	   2850
+	30
+
+
+     EMPNO ENAME      JOB	       MGR HIREDATE	    SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7782 CLARK      MANAGER	      7839 09-JUN-81	   2450
+	10
+
+      7788 SCOTT      ANALYST	      7566 09-DEC-82	   3000
+	20
+
+      7839 KING       PRESIDENT 	   17-NOV-81	   5000
+	10
+
+
+     EMPNO ENAME      JOB	       MGR HIREDATE	    SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7844 TURNER     SALESMAN	      7698 08-SEP-81	   1500 	 0
+	30
+
+      7876 ADAMS      CLERK	      7788 12-JAN-83	   1100
+	20
+
+      7900 JAMES      CLERK	      7698 03-DEC-81	    950
+	30
+
+
+     EMPNO ENAME      JOB	       MGR HIREDATE	    SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7902 FORD       ANALYST	      7566 03-DEC-81	   3000
+	20
+
+      7934 MILLER     CLERK	      7782 23-JAN-82	   1300
+	10
+
+
+14 rows selected.
+</code></pre><h3 id="conexion-de-oracle-a-postgres">Conexion de Oracle a Postgres</h3>
+<ul>
+<li>Empecemos por la conexión de Oracle a postgres y después lo haremos en sentido contrario. Para esto necestiamos una paquetería específica en nuestro servidor Oracle</li>
+</ul>
+<pre><code>vagrant@oracleagv:~$ sudo apt install odbc-postgresql unixodbc
+</code></pre><ul>
+<li>Vamos a fijarnos en el fichero <code>/etc/odbcinst.ini</code>, aunque no configuraremos nada aquí es importante la información, pues aquí añadimos los drivers necesarios de la base de datos a la que nos queremos conectar y como vemos hay 2 de postgresql. Tendremos que user ambos en el siguiente paso.</li>
+</ul>
+<pre><code>[PostgreSQL ANSI]
+Description=PostgreSQL ODBC driver (ANSI version)
+Driver=psqlodbca.so
+Setup=libodbcpsqlS.so
+Debug=0
+CommLog=1
+UsageCount=1
+
+[PostgreSQL Unicode]
+Description=PostgreSQL ODBC driver (Unicode version)
+Driver=psqlodbcw.so
+Setup=libodbcpsqlS.so
+Debug=0
+CommLog=1
+UsageCount=1
+</code></pre><ul>
+<li>Ahora debemos configurar el fichero <code>/etc/odbc.ini</code> la conexión, añadiendo: la ip del equipo remoto, usuario y contraseña con que nos vamos a conectar y base de datos a la que nos vamos a conectar. Añadiendo tanto la conexión ANSI como la Unicode.</li>
+</ul>
+<pre><code>[PSQLU]
+Debug           = 0
+CommLog         = 0
+ReadOnly        = 0
+Driver          = PostgreSQL Unicode
+Servername      = 192.168.121.143
+Username        = usuario1
+Password        = usuario1
+Port            = 5432
+Database        = prueba
+Trace           = 0
+TraceFile       = /tmp/sql.log
+
+[PSQLA]
+
+Debug           = 0
+CommLog         = 0
+ReadOnly        = 1
+Driver          = PostgreSQL ANSI   
+Servername      = 192.168.121.143
+Username        = usuario1
+Password        = usuario1
+Port            = 5432
+Database        = prueba
+Trace           = 0
+TraceFile       = /tmp/sql.log
+
+[Default]
+Driver = /usr/lib/x86_64-linux-gnu/odbc/liboplodbcS.so
+</code></pre><ul>
+<li>Comprobamos que la configuración se ha realizado correctamente.</li>
+</ul>
+<pre><code>vagrant@oracleagv:~$ sudo odbcinst -q -d
+[PostgreSQL ANSI]
+[PostgreSQL Unicode]
+
+vagrant@oracleagv:~$ sudo odbcinst -q -s
+[PSQLU]
+[PSQLA]
+[Default]
+</code></pre><ul>
+<li>Nos dirigimos a nuestra máquina postgres y configuramos el fichero <code>/etc/postgresql/13/main/postgresql.conf</code> para que escuche la petición de conexión.</li>
+</ul>
+<pre><code>listen_addresses = '*'
+</code></pre><ul>
+<li>Ahora podemos conectarnos desde cualquiera de las dos.</li>
+</ul>
+<pre><code>vagrant@oracleagv:~$ isql -v PSQLU
++---------------------------------------+
+| Connected!                            |
+|                                       |
+| sql-statement                         |
+| help [tablename]                      |
+| quit                                  |
+|                                       |
++---------------------------------------+
+SQL&gt;
+</code></pre><pre><code>vagrant@oracleagv:~$ isql -v PSQLA
++---------------------------------------+
+| Connected!                            |
+|                                       |
+| sql-statement                         |
+| help [tablename]                      |
+| quit                                  |
+|                                       |
++---------------------------------------+
+SQL&gt;
+</code></pre><ul>
+<li>El driver ya está funcionando, sin embargo tenemos que configurar Oracle para utilizarlo. Para ello usaremos una funcionalidad llamada <code>heterogeneous services</code> que configuraremos en el fichero <code>/opt/oracle/product/19c/dbhome_1/hs/admin/initdg4odbc.ora</code></li>
+</ul>
+<pre><code>HS_FDS_CONNECT_INFO = PSQLU
+HS_FDS_TRACE_LEVEL = Debug
+HS_FDS_SHAREABLE_NAME = /usr/lib/x86_64-linux-gnu/odbc/psqlodbcw.so
+HS_LANGUAGE = AMERICAN_AMERICA.WE8ISO8859P1
+#
+# ODBC specific environment variables
+#
+set ODBCINI=/etc/odbc.ini
+</code></pre><ul>
+<li>Ahora nos iremos al fichero <code>/opt/oracle/product/19c/dbhome_1/network/admin/listener.ora</code> en el que añadiremos el siguiente contenido.</li>
+</ul>
+<pre><code>SID_LIST_LISTENER=
+ (SID_LIST=
+ (SID_DESC=
+ (SID_NAME=PSQLU)
+ (ORACLE_HOME=/opt/oracle/product/19c/dbhome_1)
+ (PROGRAM=dg4odbc)
+ )
+ )
+</code></pre><ul>
+<li>Y por supuesto también debemos configurar el <code>tnsnames.ora</code> estos dos ficheros se configuran para realizar la conexión.</li>
+</ul>
+<pre><code>PSQLU =
+  (DESCRIPTION=
+    (ADDRESS=(PROTOCOL=tcp)(HOST=localhost)(PORT=1521))
+    (CONNECT_DATA=(SID=PSQLU))
+    (HS=OK)
+  )
+</code></pre><ul>
+<li>Iniciamos el listener.</li>
+</ul>
+<pre><code>root@oracleagv:~# lsnrctl start
+
+LSNRCTL for Linux: Version 19.0.0.0.0 - Production on 24-NOV-2022 12:08:50
+
+Copyright (c) 1991, 2019, Oracle.  All rights reserved.
+
+Starting /opt/oracle/product/19c/dbhome_1/bin/tnslsnr: please wait...
+
+TNSLSNR for Linux: Version 19.0.0.0.0 - Production
+System parameter file is /opt/oracle/product/19c/dbhome_1/network/admin/listener.ora
+Log messages written to /opt/oracle/product/19c/dbhome_1/network/log/listener.log
+Listening on: (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=oracleagv)(PORT=1521)))
+Listening on: (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(KEY=EXTPROC1521)))
+
+Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=oracleagv)(PORT=1521)))
+STATUS of the LISTENER
+------------------------
+Alias                     LISTENER
+Version                   TNSLSNR for Linux: Version 19.0.0.0.0 - Production
+Start Date                24-NOV-2022 12:08:51
+Uptime                    0 days 0 hr. 0 min. 0 sec
+Trace Level               off
+Security                  ON: Local OS Authentication
+SNMP                      OFF
+Listener Parameter File   /opt/oracle/product/19c/dbhome_1/network/admin/listener.ora
+Listener Log File         /opt/oracle/product/19c/dbhome_1/network/log/listener.log
+Listening Endpoints Summary...
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=oracleagv)(PORT=1521)))
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(KEY=EXTPROC1521)))
+Services Summary...
+Service &quot;PSQLU&quot; has 1 instance(s).
+  Instance &quot;PSQLU&quot;, status UNKNOWN, has 1 handler(s) for this service...
+The command completed successfully
+</code></pre><ul>
+<li>Ahora crearemos un link a la base de datos remota como hicimos anteriormente para la conexión oracle-oracle.</li>
+</ul>
+<pre><code>SQL&gt; CREATE DATABASE LINK linkpostgres
+  2  CONNECT TO &quot;usuario1&quot; IDENTIFIED BY &quot;usuario1&quot;
+  3  USING 'PSQLU';
+</code></pre><ul>
+<li>Ahora debería funcionar sin embargo el link da un fallo al conectarse.</li>
+</ul>
+<pre><code>SQL&gt; SELECT *
+  2  FROM &quot;Jockeys&quot;@linkpostgres;
+FROM &quot;Jockeys&quot;@linkpostgres
+               *
+ERROR at line 2:
+ORA-28500: connection from ORACLE to a non-Oracle system returned this message:
+ORA-02063: preceding line from LINKPOSTGRES
+</code></pre><h3 id="conexión-postgres-a-postgres">Conexión postgres a postgres</h3>
+<ul>
+<li>Tenemos nuestros dos postgresql escuchando las peticiones tal como lo hemos hecho anteriormente. Una vez hecho este primer paso vamos a crear el link en una de las bases de datos.</li>
+</ul>
+<pre><code>postgres=# create extension dblink;
+CREATE EXTENSION
+</code></pre><ul>
+<li>Vamos a hacer una consulta a la base de datos remota</li>
+</ul>
+<pre><code>prueba'&gt; SELECT * FROM dblink('dbname=prueba host=192.168.121.1 user=usuario1 password=usuario1', 'SELECT * FROM clientes');
+
+    nif    |  nombre  |    apellidos     |        direccion        |  localidad   | provincia | telefono  
+-----------+----------+------------------+-------------------------+--------------+-----------+-----------
+ 67701271N | Alvaro   | Caliani Reyes    | C/Tajo nº 18            | Dos Hermanas | Sevilla   | 654230845
+ 92974943L | Adrian   | Angulo Lamas     | C/Hércules Bloque 3 3ºD | Sevilla      | Sevilla   | 637925632
+ 62564313N | Fernando | Ruiperez Segovia | C/Alcoba Nº 5           | Dos Hermanas | Sevilla   | 652582684
+ 93848221X | Sarai    | Aragon Morales   | C/Rosales Nº 7          | Torrox       | Málaga    | 632458625
+</code></pre>
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2022 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>

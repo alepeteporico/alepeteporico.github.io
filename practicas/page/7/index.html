@@ -5,7 +5,7 @@
 		<title> Practicas &middot; Alepetepórico Blog </title>
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Hugo 0.80.0" />
 
 
@@ -14,9 +14,8 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
 
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
@@ -41,61 +40,58 @@
 
 	<body>
 		<header>
-<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
+	<nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg font-header">
+		<div class="container-fluid">
+			<a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+				blog@alepetepórico ~ $
+			</a>
+			<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse-1" 
+					aria-controls="navbar-collapse-1" aria-expanded="false">
+				<span class="visually-hidden">Toggle navigation</span>
+				<span class="navbar-toggler-icon"></span>
 			</button>
-      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
-        blog@alepetepórico ~ $
-      </a>
+	
+			
+			<div class="collapse navbar-collapse" id="navbar-collapse-1">
+				<ul class="nav navbar-nav ms-auto">
+					<li class="nav-item">
+						<a class="nav-link" href='https://alepeteporico.github.io/'>
+							/home/blog</a>
+					</li>
+					
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/problemas">~/problemas</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+						
+					</li>
+					
+				</ul>
+			</div>
 		</div>
-
-		
-		<div class="collapse navbar-collapse" id="navbar-collapse-1">
-			<ul class="nav navbar-nav navbar-right">
-				<li>
-					<a href='https://alepeteporico.github.io/'>/home/blog</a>
-        </li>
-        
-				
-				
-				<li class="dropdown">
-                    
-            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
-            		
-        		</li>
-        		
-				
-				<li class="dropdown">
-                    
-            		<a href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
-            		
-        		</li>
-        		
-				
-				<li class="dropdown">
-                    
-            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
-            		
-        		</li>
-        		
-				
-				<li class="dropdown">
-                    
-            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
-            		
-        		</li>
-        		
-
-			</ul>
-		</div>
-	</div>
-</nav>
+	</nav>
 </header>
 
 		<div class="flex-wrapper">
@@ -106,82 +102,96 @@
 					</div>
 				</div>
 				<ul id="post-list">
-						
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/escenearioos/">Configuración del escenario en OpenStack</a></h4>
-								<h4 class="post-date">2021-03-16</h4>
-							</div>
-							<div class="post-summary"><p>El escenario que debemos montar es el siguiente:
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/mdadm_rclone/">Práctica mdadm y rclone</a></h4>
+				<h4 class="post-date">2021-03-17</h4>
+			</div>
+			<div class="post-summary"><p>RAID 5 Fichero VagrantFile:  # -*- mode: ruby -*- # vi: set ft=ruby : Vagrant.configure(&quot;2&quot;) do |config| config.vm.box = &quot;debian/buster64&quot; config.vm.hostname = &quot;practica1&quot; config.vm.provider :virtualbox do |v| disco = '.vagrant/disco.vdi' v.customize [&quot;createhd&quot;,&quot;--filename&quot;,disco,&quot;--size&quot;, 1024] v.customize [&quot;storageattach&quot;,:id,&quot;--storagectl&quot;,&quot;SATA Controller&quot;,&quot;--port&quot;,1,&quot;--device&quot;,0,&quot;--type&quot;,&quot;hdd&quot;,&quot;--medium&quot;,disco] disco2 = '.vagrant/disco2.vdi' v.customize [&quot;createhd&quot;,&quot;--filename&quot;,disco2,&quot;--size&quot;, 1024] v.customize [&quot;storageattach&quot;,:id,&quot;--storagectl&quot;,&quot;SATA Controller&quot;,&quot;--port&quot;,2,&quot;--device&quot;,0,&quot;--type&quot;,&quot;hdd&quot;,&quot;--medium&quot;,disco2] disco3 = '.vagrant/disco3.vdi' v.customize [&quot;createhd&quot;,&quot;--filename&quot;,disco3,&quot;--size&quot;, 1024] v.customize [&quot;storageattach&quot;,:id,&quot;--storagectl&quot;,&quot;SATA Controller&quot;,&quot;--port&quot;,3,&quot;--device&quot;,0,&quot;--type&quot;,&quot;hdd&quot;,&quot;--medium&quot;,disco3] disco4 = '.vagrant/disco4.vdi' v.customize [&quot;createhd&quot;,&quot;--filename&quot;,disco4,&quot;--size&quot;, 1024] v.customize [&quot;storageattach&quot;,:id,&quot;--storagectl&quot;,&quot;SATA Controller&quot;,&quot;--port&quot;,4,&quot;--device&quot;,0,&quot;--type&quot;,&quot;hdd&quot;,&quot;--medium&quot;,disco4] disco5 = '.vagrant/disco5.vdi' v.customize [&quot;createhd&quot;,&quot;--filename&quot;,disco5,&quot;--size&quot;, 1024] v.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/mdadm_rclone/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/escenearioos/">Configuración del escenario en OpenStack</a></h4>
+				<h4 class="post-date">2021-03-16</h4>
+			</div>
+			<div class="post-summary"><p>El escenario que debemos montar es el siguiente:
 Nosotros tenemos nuestra propia red, pero debemos crear dos nuevas para el escenario y añadir las redes conrrespondientes a sus máquinas
 Nuestro siguiente paso será deshabilitar los puertos de Dulcinea que será la máquina que usaremos para conectarnos a las demás y salir al exterior Para este proposito usaremos OpenStack Client alejandrogv@AlejandroGV:~$ source Escritorio/ASIR/hlc/openstackclient/bin/activate source ~/Descargas/Proyecto\ de\ a.gutierrez-openrc.sh
 Ahora listaremos las interfaces que tenemos en nuestro proyecto</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/escenearioos/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/dhcp/">Servidor DHCP</a></h4>
-								<h4 class="post-date">2021-03-16</h4>
-							</div>
-							<div class="post-summary"><p>Lee el documento Teoría: Servidor DHCP y explica el funcionamiento del servidor DHCP resumido en este gráfico.  En primer lugar el cliente manda una petición DHCPDISCOVER en cuanto se inicia, ya que no tiene configuración de IP usa esta petición para ver si hay un servidor DHCP que pueda darle una dirección.
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/escenearioos/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/dhcp/">Servidor DHCP</a></h4>
+				<h4 class="post-date">2021-03-16</h4>
+			</div>
+			<div class="post-summary"><p>Lee el documento Teoría: Servidor DHCP y explica el funcionamiento del servidor DHCP resumido en este gráfico.  En primer lugar el cliente manda una petición DHCPDISCOVER en cuanto se inicia, ya que no tiene configuración de IP usa esta petición para ver si hay un servidor DHCP que pueda darle una dirección.
 Después de esto el cliente esperará en estado SELECTING y recibirá las ofertas DHCPOFFER del servidor o servidores DHCP que pueda haber en nuestra red local.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/dhcp/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/centos8/">Actualización de CentOS 7 a CentOS 8</a></h4>
-								<h4 class="post-date">2021-02-19</h4>
-							</div>
-							<div class="post-summary"><p>Antes de comenzar debemos instalar si no las tenemos ya las siguientes herramientas:
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/dhcp/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/centos8/">Actualización de CentOS 7 a CentOS 8</a></h4>
+				<h4 class="post-date">2021-02-19</h4>
+			</div>
+			<div class="post-summary"><p>Antes de comenzar debemos instalar si no las tenemos ya las siguientes herramientas:
  [centos@quijote ~]$ sudo yum install epel-release -y [centos@quijote ~]$ sudo yum install yum-utils -y [centos@quijote ~]$ sudo yum install rpmconf -y  Ahora usaremos rpmconf para verificar conflictos en ficheros de configuración:
  [centos@quijote ~]$ sudo rpmconf -a  Limpiamos los paquetes innecesarios:
  [centos@quijote ~]$ sudo package-cleanup --leaves [centos@quijote ~]$ sudo package-cleanup --orphans  Instalamos el nuevo gestor de paquetes que usa CentOS 8, dnf:</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/centos8/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/pagina_est%C3%A1tica/">Implantanción y despliegue de una web estática</a></h4>
-								<h4 class="post-date">2021-02-15</h4>
-							</div>
-							<div class="post-summary"><p>La instalación es tan sencilla como usar apt:
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/centos8/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/pagina_est%C3%A1tica/">Implantanción y despliegue de una web estática</a></h4>
+				<h4 class="post-date">2021-02-15</h4>
+			</div>
+			<div class="post-summary"><p>La instalación es tan sencilla como usar apt:
 sudo apt install hugo  Una vez instalado el siguiente paso sería crear un sitio web:
 hugo new site [nombre]  Esto creará una carpeta donde podremos configurar nuestra página, para ello primero descargaremos desde la página oficial de hugo un tema. Debemos fijarnos que se corresponde con nuestra versión de hugo o es inferior, si elegimos una plantilla que necesite una versión de hugo superior dará problemas.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/pagina_est%C3%A1tica/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/lemp/">Servidor LEMP</a></h4>
-								<h4 class="post-date">0001-01-01</h4>
-							</div>
-							<div class="post-summary"><p>Vamos a instalar todos los paquetes necesarios.  debian@mrrobot:~$ sudo apt install nginx mariadb-client mariadb-server php php-mysql php-fpm  También debemos instalar el servidor de aplicaciones php-fpm.  debian@mrrobot:~$ sudo apt install php7.4-fpm php7.4 Virtualhosting  Crearemos un virtual host en sites-available  server { listen 80; listen [::]:80; root /var/www/web; index index.html index.htm index.nginx-debian.html; server_name www.alejandrogv.site; location / { try_files $uri $uri/ =404; } }  Para que nuestro virtualhost por defecto sea este, debemos añadir la siguiente línea el el fichero default de el directorio sites-available, dentro del bloque server.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/lemp/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-				</ul>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/pagina_est%C3%A1tica/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/lemp/">Servidor LEMP</a></h4>
+				<h4 class="post-date">0001-01-01</h4>
+			</div>
+			<div class="post-summary"><p>Vamos a instalar todos los paquetes necesarios.  debian@mrrobot:~$ sudo apt install nginx mariadb-client mariadb-server php php-mysql php-fpm  También debemos instalar el servidor de aplicaciones php-fpm.  debian@mrrobot:~$ sudo apt install php7.4-fpm php7.4 Virtualhosting  Crearemos un virtual host en sites-available  server { listen 80; listen [::]:80; root /var/www/web; index index.html index.htm index.nginx-debian.html; server_name www.alejandrogv.site; location / { try_files $uri $uri/ =404; } }  Para que nuestro virtualhost por defecto sea este, debemos añadir la siguiente línea el el fichero default de el directorio sites-available, dentro del bloque server.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/lemp/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+</ul>
+
 				
 
 <div class="pagination-wrapper text-center">

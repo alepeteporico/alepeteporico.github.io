@@ -5,7 +5,7 @@
 		<title> Practicas &middot; Alepetepórico Blog </title>
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Hugo 0.80.0" />
 
 
@@ -14,9 +14,8 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
 
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
@@ -41,61 +40,58 @@
 
 	<body>
 		<header>
-<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
+	<nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg font-header">
+		<div class="container-fluid">
+			<a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+				blog@alepetepórico ~ $
+			</a>
+			<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse-1" 
+					aria-controls="navbar-collapse-1" aria-expanded="false">
+				<span class="visually-hidden">Toggle navigation</span>
+				<span class="navbar-toggler-icon"></span>
 			</button>
-      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
-        blog@alepetepórico ~ $
-      </a>
+	
+			
+			<div class="collapse navbar-collapse" id="navbar-collapse-1">
+				<ul class="nav navbar-nav ms-auto">
+					<li class="nav-item">
+						<a class="nav-link" href='https://alepeteporico.github.io/'>
+							/home/blog</a>
+					</li>
+					
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/problemas">~/problemas</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+						
+					</li>
+					
+				</ul>
+			</div>
 		</div>
-
-		
-		<div class="collapse navbar-collapse" id="navbar-collapse-1">
-			<ul class="nav navbar-nav navbar-right">
-				<li>
-					<a href='https://alepeteporico.github.io/'>/home/blog</a>
-        </li>
-        
-				
-				
-				<li class="dropdown">
-                    
-            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
-            		
-        		</li>
-        		
-				
-				<li class="dropdown">
-                    
-            		<a href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
-            		
-        		</li>
-        		
-				
-				<li class="dropdown">
-                    
-            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
-            		
-        		</li>
-        		
-				
-				<li class="dropdown">
-                    
-            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
-            		
-        		</li>
-        		
-
-			</ul>
-		</div>
-	</div>
-</nav>
+	</nav>
 </header>
 
 		<div class="flex-wrapper">
@@ -106,112 +102,125 @@
 					</div>
 				</div>
 				<ul id="post-list">
-						
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/kubernetes/">Kubernetes</a></h4>
-								<h4 class="post-date">2022-06-11</h4>
-							</div>
-							<div class="post-summary"><p>Vamos a instalar la aplicación de bookmedik que instalamos con docker en una prática anterior, esta vez con kubernetes.  Despliegue en minikube  Salida de los comando que nos posibilitan ver los recursos que has creado en el cluster.  alejandrogv@AlejandroGV:~/kubernetes/bookmedik_kubernetes/minikube$ kubectl get pv,pvc NAME CAPACITY ACCESS MODES RECLAIM POLICY STATUS CLAIM STORAGECLASS REASON AGE persistentvolume/pvc-2b917463-3f4b-4da5-af30-f159dfd61c14 3Gi RWO Delete Bound default/pvc-bookmedik standard 40s NAME STATUS VOLUME CAPACITY ACCESS MODES STORAGECLASS AGE persistentvolumeclaim/pvc-bookmedik Bound pvc-2b917463-3f4b-4da5-af30-f159dfd61c14 3Gi RWO standard 42s alejandrogv@AlejandroGV:~/kubernetes/bookmedik_kubernetes/minikube$ kubectl get all NAME READY STATUS RESTARTS AGE pod/bookmedik-5f8c5f6bd7-5rrqc 1/1 Running 0 2m24s pod/bookmedik-5f8c5f6bd7-l85nv 1/1 Running 0 2m24s pod/mariadb-7cd5675f98-xv8xc 1/1 Running 0 2m23s NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE service/bookmedik NodePort 10.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/kubernetes/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/docker_python/">Implantación de aplicaciones web Python en docker</a></h4>
-								<h4 class="post-date">2022-06-10</h4>
-							</div>
-							<div class="post-summary"><p>Puntos a tener el cuenta.   La aplicación debe guardar los datos en una base de datos mariadb.
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/interconexion2023/">Interconexion 2023</a></h4>
+				<h4 class="post-date">2022-11-15</h4>
+			</div>
+			<div class="post-summary"><p>Conexión de Oracle a Oracle  Debemos configurar el fichero tnsnames.ora y añadir la segunda base de datos que está en otra máquina, para ello añadiremos el siguiete contenido al fichero.  ORACLE2 = (DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.121.41)(PORT = 1521)) (CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = ORCLCDB) ) )  Comprobamos que tenemos conexión a la segunda base de datos.  root@oracleagv:~# tnsping ORACLE2 TNS Ping Utility for Linux: Version 19.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/interconexion2023/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/kubernetes/">Kubernetes</a></h4>
+				<h4 class="post-date">2022-06-11</h4>
+			</div>
+			<div class="post-summary"><p>Vamos a instalar la aplicación de bookmedik que instalamos con docker en una prática anterior, esta vez con kubernetes.  Despliegue en minikube  Salida de los comando que nos posibilitan ver los recursos que has creado en el cluster.  alejandrogv@AlejandroGV:~/kubernetes/bookmedik_kubernetes/minikube$ kubectl get pv,pvc NAME CAPACITY ACCESS MODES RECLAIM POLICY STATUS CLAIM STORAGECLASS REASON AGE persistentvolume/pvc-2b917463-3f4b-4da5-af30-f159dfd61c14 3Gi RWO Delete Bound default/pvc-bookmedik standard 40s NAME STATUS VOLUME CAPACITY ACCESS MODES STORAGECLASS AGE persistentvolumeclaim/pvc-bookmedik Bound pvc-2b917463-3f4b-4da5-af30-f159dfd61c14 3Gi RWO standard 42s alejandrogv@AlejandroGV:~/kubernetes/bookmedik_kubernetes/minikube$ kubectl get all NAME READY STATUS RESTARTS AGE pod/bookmedik-5f8c5f6bd7-5rrqc 1/1 Running 0 2m24s pod/bookmedik-5f8c5f6bd7-l85nv 1/1 Running 0 2m24s pod/mariadb-7cd5675f98-xv8xc 1/1 Running 0 2m23s NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE service/bookmedik NodePort 10.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/kubernetes/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/docker_python/">Implantación de aplicaciones web Python en docker</a></h4>
+				<h4 class="post-date">2022-06-10</h4>
+			</div>
+			<div class="post-summary"><p>Puntos a tener el cuenta.   La aplicación debe guardar los datos en una base de datos mariadb.
   La aplicación se podrá configurar para indicar los parámetros de conexión a la base de datos: usuario, contraseña, host y base de datos.
   La aplicación deberá tener creado un usuario administrador para el acceso.
   Aplicación Crea una imagen docker para poder desplegar un contenedor con la aplicación.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/docker_python/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/correo_vps/">Servidor de correos</a></h4>
-								<h4 class="post-date">2022-06-05</h4>
-							</div>
-							<div class="post-summary"><p>Gestión de correos desde el servidor  Añadiremos tres registros a nuestra zona DNS (A, MX y SPF).  Tarea 1  Ahora nos dirigimos a nuestra máquina e instalamos el servicio de postfix.  debian@mrrobot:~$ sudo apt install postfix bsd-mailx  Vamos a enviar un correo y comprobar que lo recibimos.  debian@mrrobot:~$ mail tojandro@gmail.com Subject: prueba Prueba de postfix Cc:  También debemos comprobar el log.  Jun 7 16:35:08 mrrobot postfix/pickup[3394206]: 7E9D0A06E6: uid=1000 from=&lt;debian&gt; Jun 7 16:35:08 mrrobot postfix/cleanup[3394223]: 7E9D0A06E6: message-id=&lt;20220607163508.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/correo_vps/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/rendimiento/">Aumento de rendimiento en servidores web</a></h4>
-								<h4 class="post-date">2022-06-02</h4>
-							</div>
-							<div class="post-summary"><p>HAProxy: Balanceador de carga  Clonamos el repositorio con el escenario.  git clone https://github.com/josedom24/vagrant_ansible_haproxy.git  Una vez hagamos el vagrant up entramos en cada una de las máquinas para ver las direcciones ip que les ha dado vagrant, entonces entramos en ansible/hosts y añadimos estas direcciones.  [servidor_ha] frontend ansible_ssh_host=192.168.121.30 ansible_ssh_user=vagrant ansible_ssh_private_key_file=../.vagrant/machines/frontend/libvirt/private_key ansible_python_interpreter=/usr/bin/python3 [servidores_web] backend1 ansible_ssh_host=192.168.121.250 ansible_ssh_user=vagrant ansible_ssh_private_key_file=../.vagrant/machines/backend1/libvirt/private_key ansible_python_interpreter=/usr/bin/python3 backend2 ansible_ssh_host=192.168.121.14 ansible_ssh_user=vagrant ansible_ssh_private_key_file=../.vagrant/machines/backend2/libvirt/private_key ansible_python_interpreter=/usr/bin/python3  Pasamos la receta de ansible por el escenario.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/rendimiento/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/python_openstack/">Instalación de un CMS python</a></h4>
-								<h4 class="post-date">2022-06-02</h4>
-							</div>
-							<div class="post-summary"><p>Vamos a crear el entorno virtual en el cual instalaremos Mezzanine.
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/docker_python/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/correo_vps/">Servidor de correos</a></h4>
+				<h4 class="post-date">2022-06-05</h4>
+			</div>
+			<div class="post-summary"><p>Gestión de correos desde el servidor  Añadiremos tres registros a nuestra zona DNS (A, MX y SPF).  Tarea 1  Ahora nos dirigimos a nuestra máquina e instalamos el servicio de postfix.  debian@mrrobot:~$ sudo apt install postfix bsd-mailx  Vamos a enviar un correo y comprobar que lo recibimos.  debian@mrrobot:~$ mail tojandro@gmail.com Subject: prueba Prueba de postfix Cc:  También debemos comprobar el log.  Jun 7 16:35:08 mrrobot postfix/pickup[3394206]: 7E9D0A06E6: uid=1000 from=&lt;debian&gt; Jun 7 16:35:08 mrrobot postfix/cleanup[3394223]: 7E9D0A06E6: message-id=&lt;20220607163508.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/correo_vps/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/rendimiento/">Aumento de rendimiento en servidores web</a></h4>
+				<h4 class="post-date">2022-06-02</h4>
+			</div>
+			<div class="post-summary"><p>HAProxy: Balanceador de carga  Clonamos el repositorio con el escenario.  git clone https://github.com/josedom24/vagrant_ansible_haproxy.git  Una vez hagamos el vagrant up entramos en cada una de las máquinas para ver las direcciones ip que les ha dado vagrant, entonces entramos en ansible/hosts y añadimos estas direcciones.  [servidor_ha] frontend ansible_ssh_host=192.168.121.30 ansible_ssh_user=vagrant ansible_ssh_private_key_file=../.vagrant/machines/frontend/libvirt/private_key ansible_python_interpreter=/usr/bin/python3 [servidores_web] backend1 ansible_ssh_host=192.168.121.250 ansible_ssh_user=vagrant ansible_ssh_private_key_file=../.vagrant/machines/backend1/libvirt/private_key ansible_python_interpreter=/usr/bin/python3 backend2 ansible_ssh_host=192.168.121.14 ansible_ssh_user=vagrant ansible_ssh_private_key_file=../.vagrant/machines/backend2/libvirt/private_key ansible_python_interpreter=/usr/bin/python3  Pasamos la receta de ansible por el escenario.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/rendimiento/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/python_openstack/">Instalación de un CMS python</a></h4>
+				<h4 class="post-date">2022-06-02</h4>
+			</div>
+			<div class="post-summary"><p>Vamos a crear el entorno virtual en el cual instalaremos Mezzanine.
  alejandrogv@AlejandroGV:~/entornos/mezzanine$ source despliegue/bin/activate (despliegue) alejandrogv@AlejandroGV:~/entornos/mezzanine$    Ahora instalamos con pip mezzanine y creamos un proyecto.
  (despliegue) alejandrogv@AlejandroGV:~/proyecto$ pip install mezzanine (despliegue) alejandrogv@AlejandroGV:~/proyecto$ mezzanine-project cms    Vamos a modificar uno de los ficheros que se ha generado cms/settings.py para usar la base de datos sqlite ya que estamos en el entorno de pruebas.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/python_openstack/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/monotorizacion/">Monotorización con Zabbix</a></h4>
-								<h4 class="post-date">2022-05-31</h4>
-							</div>
-							<div class="post-summary"><p>Servicio   Usaremos un sistema de montorización llamado zabbix. Está diseñado para monitorizar y registrar el estado de varios servicios de red, Servidores, y hardware de red. Puede realizar:
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/python_openstack/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/monotorizacion/">Monotorización con Zabbix</a></h4>
+				<h4 class="post-date">2022-05-31</h4>
+			</div>
+			<div class="post-summary"><p>Servicio   Usaremos un sistema de montorización llamado zabbix. Está diseñado para monitorizar y registrar el estado de varios servicios de red, Servidores, y hardware de red. Puede realizar:
   Chequeos simples que pueden verificar la disponibilidad y el nivel de respuesta de servicios estándar como SMTP o HTTP sin necesidad de instalar ningún software sobre el host monitorizado.
   Monitorizar estadísticas como carga de CPU, utilización de red, espacio en disco, etc.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/monotorizacion/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/drb_ocfs2/">DRBD y OCFS2</a></h4>
-								<h4 class="post-date">2022-05-29</h4>
-							</div>
-							<div class="post-summary"><p>Configura un escenario con dos máquinas. Cada una tiene que tener dos discos adicionales (tamaño 1Gb para que la sincronización sea rápida).  Configura en modo Single-primary el recurso wwwdata.  Primero debemos instalar el paquete necesario para usar DRBD en las dos máquinas.  vagrant@maquina1:~$ sudo apt install drbd-utils  Ahora para crear este recurso lo hacemos creando un fichero en /etc/drbd.d/ al que llamaremos wwwdata.res  resource wwwdata { protocol C; meta-disk internal; device /dev/drbd1; syncer { verify-alg sha1; } net { allow-two-primaries; } on maquina1 { disk /dev/vdb; address 192.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/drb_ocfs2/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/ldap_csv/">Poblar un directorio LDAP desde un fichero CSV</a></h4>
-								<h4 class="post-date">2022-05-20</h4>
-							</div>
-							<div class="post-summary"><p>Crear entre todos los alumnos de la clase que vayan a hacer esta tarea un fichero CSV que incluya información personal de cada uno incluyendo los siguientes datos:
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/monotorizacion/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/drb_ocfs2/">DRBD y OCFS2</a></h4>
+				<h4 class="post-date">2022-05-29</h4>
+			</div>
+			<div class="post-summary"><p>Configura un escenario con dos máquinas. Cada una tiene que tener dos discos adicionales (tamaño 1Gb para que la sincronización sea rápida).  Configura en modo Single-primary el recurso wwwdata.  Primero debemos instalar el paquete necesario para usar DRBD en las dos máquinas.  vagrant@maquina1:~$ sudo apt install drbd-utils  Ahora para crear este recurso lo hacemos creando un fichero en /etc/drbd.d/ al que llamaremos wwwdata.res  resource wwwdata { protocol C; meta-disk internal; device /dev/drbd1; syncer { verify-alg sha1; } net { allow-two-primaries; } on maquina1 { disk /dev/vdb; address 192.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/drb_ocfs2/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/ldap_csv/">Poblar un directorio LDAP desde un fichero CSV</a></h4>
+				<h4 class="post-date">2022-05-20</h4>
+			</div>
+			<div class="post-summary"><p>Crear entre todos los alumnos de la clase que vayan a hacer esta tarea un fichero CSV que incluya información personal de cada uno incluyendo los siguientes datos:
   Nombre
   Apellidos
   Dirección de correo electrónico
@@ -220,39 +229,27 @@
     Otro fichero con la siguiente información de los alumnos:
   Hostname
   IPv4</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/ldap_csv/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/ldap_uga/">Usuarios, Grupos y ACLs en LDAP</a></h4>
-								<h4 class="post-date">2022-05-20</h4>
-							</div>
-							<div class="post-summary"><p>Crea 10 usuarios con los nombres que prefieras en LDAP, esos usuarios deben ser objetos de los tipos posixAccount e inetOrgPerson. Estos usuarios tendrán un atributo userPassword. dn: uid=stark,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: stark gidNumber: 2001 homeDirectory: /home/stark loginShell: /bin/bash sn: stark uid: stark uidNumber: 2001 userPassword: {SSHA}loVCFjl442fnkpIZC05Ht+8OwLsgF0Ua dn: uid=rogers,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: rogers gidNumber: 2002 homeDirectory: /home/rogers loginShell: /bin/bash sn: rogers uid: rogers uidNumber: 2002 userPassword: {SSHA}gLim3ka1uQnZtFCMBoD0+NKmQ88/7f+d dn: uid=banner,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: banner gidNumber: 2003 homeDirectory: /home/banner loginShell: /bin/bash sn: banner uid: banner uidNumber: 2003 userPassword: {SSHA}R28hwHBG+MeisvkGM3qS7q049d8p6QO1 dn: uid=romanof,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: romanof gidNumber: 2004 homeDirectory: /home/romanof loginShell: /bin/bash sn: romanof uid: romanof uidNumber: 2004 userPassword: {SSHA}r4NOljTbgWSfO1r4daswgbBDhlLtwMwd dn: uid=burton,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: burton gidNumber: 2005 homeDirectory: /home/burton loginShell: /bin/bash sn: burton uid: burton uidNumber: 2005 userPassword: {SSHA}n8aeZpDwycwusGlKWl56MuTXARrAWhyM dn: uid=thor,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: thor gidNumber: 2006 homeDirectory: /home/thor loginShell: /bin/bash sn: thor uid: thor uidNumber: 2006 userPassword: {SSHA}m20Ph+8uSwScFHcJ6iVpgimoiKawWuc3 dn: uid=strange,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: strange gidNumber: 2007 homeDirectory: /home/strange loginShell: /bin/bash sn: strange uid: strange uidNumber: 2007 userPassword: {SSHA}UpziawVa6CL9Kk/g7gVzFRQ4MJWBDFKP dn: uid=parker,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: parker gidNumber: 2008 homeDirectory: /home/parker loginShell: /bin/bash sn: parker uid: parker uidNumber: 2008 userPassword: {SSHA}Px8NYV9wWlc/JxmUWaGaBV28KSucLIYt dn: uid=furia,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: furia gidNumber: 2009 homeDirectory: /home/furia loginShell: /bin/bash sn: furia uid: furia uidNumber: 2009 userPassword: {SSHA}8VRwZX4ts0fe8KBT58h3ywzpj+EEShfV dn: uid=maximof,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: maximof gidNumber: 2010 homeDirectory: /home/maximof loginShell: /bin/bash sn: maximof uid: maximof uidNumber: 2010 userPassword: {SSHA}t1Oa8gRUcI6kfJvVfNpNdMeMXs+05l1K  Ejecutamos este fichero.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/ldap_uga/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/ldap_ad/">LDAP en alta disponibilidad</a></h4>
-								<h4 class="post-date">2022-05-17</h4>
-							</div>
-							<div class="post-summary"><p>Vamos a instalar un servidor LDAP en ares que va a actuar como servidor secundario o de respaldo del servidor LDAP instalado en apolo, para ello habrá que seleccionar un modo de funcionamiento y configurar la sincronización entre ambos directorios, para que los cambios que se realicen en uno de ellos se reflejen en el otro. Metodo usado: LDAP Syncy Replication   Usaremos este metodo ya que podemos adecuarlo a las necesidades de nuestro escenario como queramos debido a las diferentes útilidades que tiene.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/ldap_ad/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-				</ul>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/ldap_csv/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/ldap_uga/">Usuarios, Grupos y ACLs en LDAP</a></h4>
+				<h4 class="post-date">2022-05-20</h4>
+			</div>
+			<div class="post-summary"><p>Crea 10 usuarios con los nombres que prefieras en LDAP, esos usuarios deben ser objetos de los tipos posixAccount e inetOrgPerson. Estos usuarios tendrán un atributo userPassword. dn: uid=stark,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: stark gidNumber: 2001 homeDirectory: /home/stark loginShell: /bin/bash sn: stark uid: stark uidNumber: 2001 userPassword: {SSHA}loVCFjl442fnkpIZC05Ht+8OwLsgF0Ua dn: uid=rogers,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: rogers gidNumber: 2002 homeDirectory: /home/rogers loginShell: /bin/bash sn: rogers uid: rogers uidNumber: 2002 userPassword: {SSHA}gLim3ka1uQnZtFCMBoD0+NKmQ88/7f+d dn: uid=banner,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: banner gidNumber: 2003 homeDirectory: /home/banner loginShell: /bin/bash sn: banner uid: banner uidNumber: 2003 userPassword: {SSHA}R28hwHBG+MeisvkGM3qS7q049d8p6QO1 dn: uid=romanof,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: romanof gidNumber: 2004 homeDirectory: /home/romanof loginShell: /bin/bash sn: romanof uid: romanof uidNumber: 2004 userPassword: {SSHA}r4NOljTbgWSfO1r4daswgbBDhlLtwMwd dn: uid=burton,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: burton gidNumber: 2005 homeDirectory: /home/burton loginShell: /bin/bash sn: burton uid: burton uidNumber: 2005 userPassword: {SSHA}n8aeZpDwycwusGlKWl56MuTXARrAWhyM dn: uid=thor,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: thor gidNumber: 2006 homeDirectory: /home/thor loginShell: /bin/bash sn: thor uid: thor uidNumber: 2006 userPassword: {SSHA}m20Ph+8uSwScFHcJ6iVpgimoiKawWuc3 dn: uid=strange,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: strange gidNumber: 2007 homeDirectory: /home/strange loginShell: /bin/bash sn: strange uid: strange uidNumber: 2007 userPassword: {SSHA}UpziawVa6CL9Kk/g7gVzFRQ4MJWBDFKP dn: uid=parker,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: parker gidNumber: 2008 homeDirectory: /home/parker loginShell: /bin/bash sn: parker uid: parker uidNumber: 2008 userPassword: {SSHA}Px8NYV9wWlc/JxmUWaGaBV28KSucLIYt dn: uid=furia,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: furia gidNumber: 2009 homeDirectory: /home/furia loginShell: /bin/bash sn: furia uid: furia uidNumber: 2009 userPassword: {SSHA}8VRwZX4ts0fe8KBT58h3ywzpj+EEShfV dn: uid=maximof,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: maximof gidNumber: 2010 homeDirectory: /home/maximof loginShell: /bin/bash sn: maximof uid: maximof uidNumber: 2010 userPassword: {SSHA}t1Oa8gRUcI6kfJvVfNpNdMeMXs+05l1K  Ejecutamos este fichero.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/ldap_uga/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+</ul>
+
 				
 
 <div class="pagination-wrapper text-center">

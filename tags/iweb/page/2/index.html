@@ -5,7 +5,7 @@
 		<title> IWEB &middot; Alepetepórico Blog </title>
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Hugo 0.80.0" />
 
 
@@ -14,9 +14,8 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
 
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
@@ -41,61 +40,58 @@
 
 	<body>
 		<header>
-<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
+	<nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg font-header">
+		<div class="container-fluid">
+			<a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+				blog@alepetepórico ~ $
+			</a>
+			<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse-1" 
+					aria-controls="navbar-collapse-1" aria-expanded="false">
+				<span class="visually-hidden">Toggle navigation</span>
+				<span class="navbar-toggler-icon"></span>
 			</button>
-      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
-        blog@alepetepórico ~ $
-      </a>
+	
+			
+			<div class="collapse navbar-collapse" id="navbar-collapse-1">
+				<ul class="nav navbar-nav ms-auto">
+					<li class="nav-item">
+						<a class="nav-link" href='https://alepeteporico.github.io/'>
+							/home/blog</a>
+					</li>
+					
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/problemas">~/problemas</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+						
+					</li>
+					
+				</ul>
+			</div>
 		</div>
-
-		
-		<div class="collapse navbar-collapse" id="navbar-collapse-1">
-			<ul class="nav navbar-nav navbar-right">
-				<li>
-					<a href='https://alepeteporico.github.io/'>/home/blog</a>
-        </li>
-        
-				
-				
-				<li class="dropdown">
-                    
-            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
-            		
-        		</li>
-        		
-				
-				<li class="dropdown">
-                    
-            		<a href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
-            		
-        		</li>
-        		
-				
-				<li class="dropdown">
-                    
-            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
-            		
-        		</li>
-        		
-				
-				<li class="dropdown">
-                    
-            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
-            		
-        		</li>
-        		
-
-			</ul>
-		</div>
-	</div>
-</nav>
+	</nav>
 </header>
 
 		<div class="flex-wrapper">
@@ -106,107 +102,108 @@
 					</div>
 				</div>
 				<ul id="post-list">
-						
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/wsgi/">Desplegando aplicaciones flask con apache2 &#43; mod_wsgi</a></h4>
-								<h4 class="post-date">2021-11-09</h4>
-							</div>
-							<div class="post-summary"><p>Creamos un entorno virtual y lo activamos:  alejandrogv@AlejandroGV:~/entornos$ python3 -m venv wsgi alejandrogv@AlejandroGV:~/entornos$ source wsgi/bin/activate  Vamos a instalar los paquetes necesarios  pip install flask redis  Tenemos que instalar el módulo de apache para que wsgi funcione  sudo apt install libapache2-mod-wsgi-py3  Clonamos el respositorio con la aplicación.  (wsgi) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/wsgi$ git clone https://github.com/josedom24/guestbook.git  Ahora creamos un fichero en el respositorio llamado wsgi.py dentro de la carpeta app donde añadiremos la siguiente línea:  from app import prog as application  Creamos un virtual host con la siguiente configuración:  &lt;VirtualHost *:80&gt; ServerName www.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/ejercicios/wsgi/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/migracion_durpal/">Migración de aplicación web PHP</a></h4>
-								<h4 class="post-date">2021-11-03</h4>
-							</div>
-							<div class="post-summary"><p>Nos daremos de alta en un hosting gratuito, en mi caso cdmon. Y crearemos un nuevo hosting.  Migración de la base de datos.  Lo primero que haremos será restaurar nuestra base de datos en nuestro hosting, para ello entraremos en la pestaña de mysql.   Creamos una nueva base de datos, en mi caso la llamaré joomlaagv.   y accederemos a phpMyAdmin con las credenciales que se nos otorgan.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/migracion_durpal/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cmsphp_local/">Instalación local de un CMS PHP</a></h4>
-								<h4 class="post-date">2021-11-02</h4>
-							</div>
-							<div class="post-summary"><p>VagrantFile Vagrant.configure(&quot;2&quot;) do |config| config.vm.define :cmsagv do |cmsagv| cmsagv.vm.box = &quot;debian/bullseye64&quot; cmsagv.vm.hostname = &quot;cmsagv&quot; cmsagv.vm.network 'private_network', :ip =&gt; '192.168.100.200' cmsagv.vm.network :private_network, :libvirt__network_name =&gt; &quot;red1&quot;, :libvirt__dhcp_enabled =&gt; false, :ip =&gt; &quot;172.22.100.5&quot;, :libvirt__forward_mode =&gt; &quot;none&quot; end config.vm.define :backup do |backup| backup.vm.box = &quot;debian/bullseye64&quot; backup.vm.hostname = &quot;backup&quot; backup.vm.network :private_network, :libvirt__network_name =&gt; &quot;red1&quot;, :libvirt__dhcp_enabled =&gt; false, :ip =&gt; &quot;172.22.100.10&quot;, :libvirt__forward_mode =&gt; &quot;none&quot; end end Instalamos un servidor LAMP
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/wsgi/">Desplegando aplicaciones flask con apache2 &#43; mod_wsgi</a></h4>
+				<h4 class="post-date">2021-11-09</h4>
+			</div>
+			<div class="post-summary"><p>Creamos un entorno virtual y lo activamos:  alejandrogv@AlejandroGV:~/entornos$ python3 -m venv wsgi alejandrogv@AlejandroGV:~/entornos$ source wsgi/bin/activate  Vamos a instalar los paquetes necesarios  pip install flask redis  Tenemos que instalar el módulo de apache para que wsgi funcione  sudo apt install libapache2-mod-wsgi-py3  Clonamos el respositorio con la aplicación.  (wsgi) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/wsgi$ git clone https://github.com/josedom24/guestbook.git  Ahora creamos un fichero en el respositorio llamado wsgi.py dentro de la carpeta app donde añadiremos la siguiente línea:  from app import prog as application  Creamos un virtual host con la siguiente configuración:  &lt;VirtualHost *:80&gt; ServerName www.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/ejercicios/wsgi/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/migracion_durpal/">Migración de aplicación web PHP</a></h4>
+				<h4 class="post-date">2021-11-03</h4>
+			</div>
+			<div class="post-summary"><p>Nos daremos de alta en un hosting gratuito, en mi caso cdmon. Y crearemos un nuevo hosting.  Migración de la base de datos.  Lo primero que haremos será restaurar nuestra base de datos en nuestro hosting, para ello entraremos en la pestaña de mysql.   Creamos una nueva base de datos, en mi caso la llamaré joomlaagv.   y accederemos a phpMyAdmin con las credenciales que se nos otorgan.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/migracion_durpal/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cmsphp_local/">Instalación local de un CMS PHP</a></h4>
+				<h4 class="post-date">2021-11-02</h4>
+			</div>
+			<div class="post-summary"><p>VagrantFile Vagrant.configure(&quot;2&quot;) do |config| config.vm.define :cmsagv do |cmsagv| cmsagv.vm.box = &quot;debian/bullseye64&quot; cmsagv.vm.hostname = &quot;cmsagv&quot; cmsagv.vm.network 'private_network', :ip =&gt; '192.168.100.200' cmsagv.vm.network :private_network, :libvirt__network_name =&gt; &quot;red1&quot;, :libvirt__dhcp_enabled =&gt; false, :ip =&gt; &quot;172.22.100.5&quot;, :libvirt__forward_mode =&gt; &quot;none&quot; end config.vm.define :backup do |backup| backup.vm.box = &quot;debian/bullseye64&quot; backup.vm.hostname = &quot;backup&quot; backup.vm.network :private_network, :libvirt__network_name =&gt; &quot;red1&quot;, :libvirt__dhcp_enabled =&gt; false, :ip =&gt; &quot;172.22.100.10&quot;, :libvirt__forward_mode =&gt; &quot;none&quot; end end Instalamos un servidor LAMP
 Apache Hacemos una instalación sencilla:
 vagrant@cmsalegv:~$ sudo apt install apache2 apache2-utils  Y creamos una regla en iptables para permitir la conexión http</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/cmsphp_local/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/web_estatica/">Implantación y despliegue de una aplicación web estática 2021</a></h4>
-								<h4 class="post-date">2021-09-29</h4>
-							</div>
-							<div class="post-summary"><p>Vamos a realizar e implementar una aplicación web estática, para ello usaremos el generador de páginas estáticas jekyll y usaremos para implementarlo surge. jekyll  Para la instalación de jekyll primero debemos asegurarnos de tener instalado ruby y algunas dependencias ya que la aplicación está escrita en este lenguaje.  sudo apt install ruby ruby-dev  Y ahora si podemos instalar jekyll.  sudo gem install bundler jekyll  Ahora crearemos nuestro sitio web en el entorno de desarrollo  jekyll new jekyll_dinamico  Vamos a visualizar el contenido de este sitio que se nos ha generado por defecto.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/web_estatica/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/php_docker/">Implantación de aplicaciones web PHP en docker</a></h4>
-								<h4 class="post-date">2021-06-07</h4>
-							</div>
-							<div class="post-summary"><p>Vamos a clonar el repositorio necesario para la aplicación.
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/cmsphp_local/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/web_estatica/">Implantación y despliegue de una aplicación web estática 2021</a></h4>
+				<h4 class="post-date">2021-09-29</h4>
+			</div>
+			<div class="post-summary"><p>Vamos a realizar e implementar una aplicación web estática, para ello usaremos el generador de páginas estáticas jekyll y usaremos para implementarlo surge. jekyll  Para la instalación de jekyll primero debemos asegurarnos de tener instalado ruby y algunas dependencias ya que la aplicación está escrita en este lenguaje.  sudo apt install ruby ruby-dev  Y ahora si podemos instalar jekyll.  sudo gem install bundler jekyll  Ahora crearemos nuestro sitio web en el entorno de desarrollo  jekyll new jekyll_dinamico  Vamos a visualizar el contenido de este sitio que se nos ha generado por defecto.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/web_estatica/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/php_docker/">Implantación de aplicaciones web PHP en docker</a></h4>
+				<h4 class="post-date">2021-06-07</h4>
+			</div>
+			<div class="post-summary"><p>Vamos a clonar el repositorio necesario para la aplicación.
  alejandrogv@AlejandroGV:~/docker/php$ git clone https://github.com/evilnapsis/bookmedik.git    Crearemos un repositorio con la siguiente estructura.
  alejandrogv@AlejandroGV:~/docker/php/php_docker$ tree . ├── build │ ├── bookmedik │ ├── Dockerfile │ └── script.sh ├── deploy │ └── docker-compose.yml └── README.md    En el fichero docker-compose añadimos lo siguiente.
  version: &quot;3.1&quot; services: db: container_name: mysql image: mariadb restart: always environment: MYSQL_DATABASE: bookmedik MYSQL_USER: bookmedik MYSQL_PASSWORD: admin MYSQL_ROOT_PASSWORD: admin volumes: - /opt/mysql_wp:/var/lib/mysql    Y en la carpeta build crearemos un fichero Dockerfile que rellenaremos de la siguiente forma.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/php_docker/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/ic/">Introducción a la integración continua </a></h4>
-								<h4 class="post-date">2021-06-04</h4>
-							</div>
-							<div class="post-summary"><p>Integración continúa de aplicación django   Ya tenemos nuestra aplicación y el entorno virtual de la práctica de Despliegue de una aplicación python usaremos la misma, y realizaremos los test.
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/php_docker/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/ic/">Introducción a la integración continua </a></h4>
+				<h4 class="post-date">2021-06-04</h4>
+			</div>
+			<div class="post-summary"><p>Integración continúa de aplicación django   Ya tenemos nuestra aplicación y el entorno virtual de la práctica de Despliegue de una aplicación python usaremos la misma, y realizaremos los test.
  (django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python/django_tutorial$ python3 manage.py test Creating test database for alias 'default'... System check identified no issues (0 silenced). .......... ---------------------------------------------------------------------- Ran 10 tests in 0.056s OK Destroying test database for alias 'default'...    Vamos a modificar el fichero polls/templates/polls/index.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/ic/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/pagina_est%C3%A1tica/">Implantanción y despliegue de una web estática</a></h4>
-								<h4 class="post-date">2021-02-15</h4>
-							</div>
-							<div class="post-summary"><p>La instalación es tan sencilla como usar apt:
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/ic/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/pagina_est%C3%A1tica/">Implantanción y despliegue de una web estática</a></h4>
+				<h4 class="post-date">2021-02-15</h4>
+			</div>
+			<div class="post-summary"><p>La instalación es tan sencilla como usar apt:
 sudo apt install hugo  Una vez instalado el siguiente paso sería crear un sitio web:
 hugo new site [nombre]  Esto creará una carpeta donde podremos configurar nuestra página, para ello primero descargaremos desde la página oficial de hugo un tema. Debemos fijarnos que se corresponde con nuestra versión de hugo o es inferior, si elegimos una plantilla que necesite una versión de hugo superior dará problemas.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/pagina_est%C3%A1tica/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-				</ul>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/pagina_est%C3%A1tica/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+</ul>
+
 				
 
 <div class="pagination-wrapper text-center">

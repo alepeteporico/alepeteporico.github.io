@@ -5,7 +5,7 @@
 		<title> HLC &middot; Alepetepórico Blog </title>
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Hugo 0.80.0" />
 
 
@@ -14,9 +14,8 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
 
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
@@ -41,61 +40,58 @@
 
 	<body>
 		<header>
-<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
+	<nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg font-header">
+		<div class="container-fluid">
+			<a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+				blog@alepetepórico ~ $
+			</a>
+			<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse-1" 
+					aria-controls="navbar-collapse-1" aria-expanded="false">
+				<span class="visually-hidden">Toggle navigation</span>
+				<span class="navbar-toggler-icon"></span>
 			</button>
-      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
-        blog@alepetepórico ~ $
-      </a>
+	
+			
+			<div class="collapse navbar-collapse" id="navbar-collapse-1">
+				<ul class="nav navbar-nav ms-auto">
+					<li class="nav-item">
+						<a class="nav-link" href='https://alepeteporico.github.io/'>
+							/home/blog</a>
+					</li>
+					
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/problemas">~/problemas</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+						
+					</li>
+					
+				</ul>
+			</div>
 		</div>
-
-		
-		<div class="collapse navbar-collapse" id="navbar-collapse-1">
-			<ul class="nav navbar-nav navbar-right">
-				<li>
-					<a href='https://alepeteporico.github.io/'>/home/blog</a>
-        </li>
-        
-				
-				
-				<li class="dropdown">
-                    
-            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
-            		
-        		</li>
-        		
-				
-				<li class="dropdown">
-                    
-            		<a href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
-            		
-        		</li>
-        		
-				
-				<li class="dropdown">
-                    
-            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
-            		
-        		</li>
-        		
-				
-				<li class="dropdown">
-                    
-            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
-            		
-        		</li>
-        		
-
-			</ul>
-		</div>
-	</div>
-</nav>
+	</nav>
 </header>
 
 		<div class="flex-wrapper">
@@ -106,145 +102,146 @@
 					</div>
 				</div>
 				<ul id="post-list">
-						
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/drb_ocfs2/">DRBD y OCFS2</a></h4>
-								<h4 class="post-date">2022-05-29</h4>
-							</div>
-							<div class="post-summary"><p>Configura un escenario con dos máquinas. Cada una tiene que tener dos discos adicionales (tamaño 1Gb para que la sincronización sea rápida).  Configura en modo Single-primary el recurso wwwdata.  Primero debemos instalar el paquete necesario para usar DRBD en las dos máquinas.  vagrant@maquina1:~$ sudo apt install drbd-utils  Ahora para crear este recurso lo hacemos creando un fichero en /etc/drbd.d/ al que llamaremos wwwdata.res  resource wwwdata { protocol C; meta-disk internal; device /dev/drbd1; syncer { verify-alg sha1; } net { allow-two-primaries; } on maquina1 { disk /dev/vdb; address 192.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/drb_ocfs2/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/almacenamiento_libvirt/">Trabajo con almacenamiento en libvirt</a></h4>
-								<h4 class="post-date">2022-04-20</h4>
-							</div>
-							<div class="post-summary"><p>Crea un nuevo pool de almacenamiento de tipo lvm, y crea un volumen de 3Gi dentro que sea una volumen lógico. Con virt-install instala una máquina que se llame original_tunombre cuyo disco sea el volumen creado.  &lt;pool type='logical'&gt; &lt;name&gt;pool_lvm&lt;/name&gt; &lt;capacity unit='bytes'&gt;5368709120&lt;/capacity&gt; &lt;source&gt; &lt;name&gt;debian&lt;/name&gt; &lt;/source&gt; &lt;target&gt; &lt;path&gt;/home/alejandrogv/libvirt/pool&lt;/path&gt; &lt;permissions&gt; &lt;mode&gt;0711&lt;/mode&gt; &lt;owner&gt;0&lt;/owner&gt; &lt;group&gt;0&lt;/group&gt; &lt;/permissions&gt; &lt;/target&gt; &lt;/pool&gt; virsh -c qemu:///system pool-define --file pool.xml virsh -c qemu:///system pool-start pool_lvm sudo lvcreate -L 3G -n pool1 debian virt-install --connect qemu:///system --network network=default --name=original_alegv --memory 1024 --vcpus 1 --disk /dev/debian/pool1 --cdrom /home/alejandrogv/Escritorio/ISOS/debian-11.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/ejercicios/almacenamiento_libvirt/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/redes_libvirt/">Trabajo con redes en libvirt</a></h4>
-								<h4 class="post-date">2022-04-20</h4>
-							</div>
-							<div class="post-summary"><p>Crea una máquina virtual conectada a la red_interna del ejercicio anterior, utilizando virt-install. Está máquina se debe llamar nodo1_tunombre.  virt-install --connect qemu:///system --cdrom ../Escritorio/ISOS/debian-11.1.0-amd64-netinst.iso --disk size=10 --network network=red_interna --name nodo1_ale --memory 512 --vcpus 1  Crea un clon de la máquina anterior con virt-clone, esta máquina se debe llamar nodo2_tunombre.  virt-clone --original=nodo1_ale --name=nodo2_ale --auto-clone  Crea una red aislada (very isolated) que nos permita unir el nodo1 y el nodo2, pero que no esté conectada al host.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/ejercicios/redes_libvirt/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/ejercicos_kubernetes/">Ejercicios kubernetes</a></h4>
-								<h4 class="post-date">2022-02-03</h4>
-							</div>
-							<div class="post-summary"><p>Ejercicio 1  Pantallazo con la salida de minikube status y pantallazo con la salida de kubectl get nodes -o wide.  alejandrogv@AlejandroGV:~$ minikube status minikube type: Control Plane host: Running kubelet: Running apiserver: Running kubeconfig: Configured alejandrogv@AlejandroGV:~$ kubectl get nodes -o wide NAME STATUS ROLES AGE VERSION INTERNAL-IP EXTERNAL-IP OS-IMAGE KERNEL-VERSION CONTAINER-RUNTIME minikube Ready control-plane,master 6d23h v1.23.1 192.168.39.156 &lt;none&gt; Buildroot 2021.02.4 4.19.202 docker://20.10.12 Ejercicio 2  Fichero yaml que has creado con la definición del Pod.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/ejercicios/ejercicos_kubernetes/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/lxc/">Contenedores LXC</a></h4>
-								<h4 class="post-date">2022-01-19</h4>
-							</div>
-							<div class="post-summary"><p>Creación   Crearemos la primera máquina de nuestro escenario, será un contenedor LXC llamado router. Este contenedor se creará a partir de la plantilla Debian Bullseye. Este contenedor tendrá dos interfaces de red: la primera conectada a una red pública (bridge br0). Por esta interfaz el contenedor tendrá acceso a internet. Además estará conectada la bridge de un red muy aislada que crearás con virsh y tendrá como dirección IP la 10.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/lxc/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/btrfs/">Btrfs</a></h4>
-								<h4 class="post-date">2021-12-02</h4>
-							</div>
-							<div class="post-summary"><p>Tenemos una maquina con varios discos asociados, lo primero que haremos será instalar la paquetería necesaria para el uso de este sistema de archivos.  vagrant@maquina1:~$ sudo apt install btrfs-progs arch-install-scripts  Montamos en la tabla de particiones los nuevos discos.  vagrant@maquina1:~$ sudo cfdisk -z /dev/vdb vagrant@maquina1:~$ sudo cfdisk -z /dev/vdc vagrant@maquina1:~$ sudo cfdisk -z /dev/vdd vagrant@maquina1:~$ sudo cfdisk -z /dev/vde  Y vamos a crear el sisitema de ficheros de cada una.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/btrfs/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/escenario_kvm/">Escenario KVM</a></h4>
-								<h4 class="post-date">2021-11-08</h4>
-							</div>
-							<div class="post-summary"><p>Definamos nuestra red interna llamada interna_agv en un fichero xml.  &lt;network&gt; &lt;name&gt;interna_agv&lt;/name&gt; &lt;forward mode=&quot;bridge&quot;/&gt; &lt;bridge name=&quot;br0&quot;/&gt; &lt;/network&gt;  Vamos a crear la red.  alejandrogv@AlejandroGV:~/kvm/redes$ virsh -c qemu:///system net-create --file interna_agv.xml La red interna_agv ha sido creada desde interna_agv.xml  Y hacemos lo mismo con la red DMZ.  &lt;network&gt; &lt;name&gt;interna_agv&lt;/name&gt; &lt;forward mode=&quot;bridge&quot;/&gt; &lt;bridge name=&quot;br0&quot;/&gt; &lt;/network&gt; alejandrogv@AlejandroGV:~/kvm/redes$ virsh -c qemu:///system net-create --file dmz.xml La red dmz_agv ha sido creada desde dmz.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/escenario_kvm/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/libvirt_basico/">Uso básico de libvirt</a></h4>
-								<h4 class="post-date">2021-09-30</h4>
-							</div>
-							<div class="post-summary"><p>Creación de la red.   La red que vamos a crear para este ejercicio será tipo NAT, tendrá direccionamiento 10.0.1.0/24 y de tipo virtio.
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/drb_ocfs2/">DRBD y OCFS2</a></h4>
+				<h4 class="post-date">2022-05-29</h4>
+			</div>
+			<div class="post-summary"><p>Configura un escenario con dos máquinas. Cada una tiene que tener dos discos adicionales (tamaño 1Gb para que la sincronización sea rápida).  Configura en modo Single-primary el recurso wwwdata.  Primero debemos instalar el paquete necesario para usar DRBD en las dos máquinas.  vagrant@maquina1:~$ sudo apt install drbd-utils  Ahora para crear este recurso lo hacemos creando un fichero en /etc/drbd.d/ al que llamaremos wwwdata.res  resource wwwdata { protocol C; meta-disk internal; device /dev/drbd1; syncer { verify-alg sha1; } net { allow-two-primaries; } on maquina1 { disk /dev/vdb; address 192.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/drb_ocfs2/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/almacenamiento_libvirt/">Trabajo con almacenamiento en libvirt</a></h4>
+				<h4 class="post-date">2022-04-20</h4>
+			</div>
+			<div class="post-summary"><p>Crea un nuevo pool de almacenamiento de tipo lvm, y crea un volumen de 3Gi dentro que sea una volumen lógico. Con virt-install instala una máquina que se llame original_tunombre cuyo disco sea el volumen creado.  &lt;pool type='logical'&gt; &lt;name&gt;pool_lvm&lt;/name&gt; &lt;capacity unit='bytes'&gt;5368709120&lt;/capacity&gt; &lt;source&gt; &lt;name&gt;debian&lt;/name&gt; &lt;/source&gt; &lt;target&gt; &lt;path&gt;/home/alejandrogv/libvirt/pool&lt;/path&gt; &lt;permissions&gt; &lt;mode&gt;0711&lt;/mode&gt; &lt;owner&gt;0&lt;/owner&gt; &lt;group&gt;0&lt;/group&gt; &lt;/permissions&gt; &lt;/target&gt; &lt;/pool&gt; virsh -c qemu:///system pool-define --file pool.xml virsh -c qemu:///system pool-start pool_lvm sudo lvcreate -L 3G -n pool1 debian virt-install --connect qemu:///system --network network=default --name=original_alegv --memory 1024 --vcpus 1 --disk /dev/debian/pool1 --cdrom /home/alejandrogv/Escritorio/ISOS/debian-11.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/ejercicios/almacenamiento_libvirt/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/redes_libvirt/">Trabajo con redes en libvirt</a></h4>
+				<h4 class="post-date">2022-04-20</h4>
+			</div>
+			<div class="post-summary"><p>Crea una máquina virtual conectada a la red_interna del ejercicio anterior, utilizando virt-install. Está máquina se debe llamar nodo1_tunombre.  virt-install --connect qemu:///system --cdrom ../Escritorio/ISOS/debian-11.1.0-amd64-netinst.iso --disk size=10 --network network=red_interna --name nodo1_ale --memory 512 --vcpus 1  Crea un clon de la máquina anterior con virt-clone, esta máquina se debe llamar nodo2_tunombre.  virt-clone --original=nodo1_ale --name=nodo2_ale --auto-clone  Crea una red aislada (very isolated) que nos permita unir el nodo1 y el nodo2, pero que no esté conectada al host.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/ejercicios/redes_libvirt/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/ejercicos_kubernetes/">Ejercicios kubernetes</a></h4>
+				<h4 class="post-date">2022-02-03</h4>
+			</div>
+			<div class="post-summary"><p>Ejercicio 1  Pantallazo con la salida de minikube status y pantallazo con la salida de kubectl get nodes -o wide.  alejandrogv@AlejandroGV:~$ minikube status minikube type: Control Plane host: Running kubelet: Running apiserver: Running kubeconfig: Configured alejandrogv@AlejandroGV:~$ kubectl get nodes -o wide NAME STATUS ROLES AGE VERSION INTERNAL-IP EXTERNAL-IP OS-IMAGE KERNEL-VERSION CONTAINER-RUNTIME minikube Ready control-plane,master 6d23h v1.23.1 192.168.39.156 &lt;none&gt; Buildroot 2021.02.4 4.19.202 docker://20.10.12 Ejercicio 2  Fichero yaml que has creado con la definición del Pod.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/ejercicios/ejercicos_kubernetes/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/lxc/">Contenedores LXC</a></h4>
+				<h4 class="post-date">2022-01-19</h4>
+			</div>
+			<div class="post-summary"><p>Creación   Crearemos la primera máquina de nuestro escenario, será un contenedor LXC llamado router. Este contenedor se creará a partir de la plantilla Debian Bullseye. Este contenedor tendrá dos interfaces de red: la primera conectada a una red pública (bridge br0). Por esta interfaz el contenedor tendrá acceso a internet. Además estará conectada la bridge de un red muy aislada que crearás con virsh y tendrá como dirección IP la 10.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/lxc/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/btrfs/">Btrfs</a></h4>
+				<h4 class="post-date">2021-12-02</h4>
+			</div>
+			<div class="post-summary"><p>Tenemos una maquina con varios discos asociados, lo primero que haremos será instalar la paquetería necesaria para el uso de este sistema de archivos.  vagrant@maquina1:~$ sudo apt install btrfs-progs arch-install-scripts  Montamos en la tabla de particiones los nuevos discos.  vagrant@maquina1:~$ sudo cfdisk -z /dev/vdb vagrant@maquina1:~$ sudo cfdisk -z /dev/vdc vagrant@maquina1:~$ sudo cfdisk -z /dev/vdd vagrant@maquina1:~$ sudo cfdisk -z /dev/vde  Y vamos a crear el sisitema de ficheros de cada una.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/btrfs/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/escenario_kvm/">Escenario KVM</a></h4>
+				<h4 class="post-date">2021-11-08</h4>
+			</div>
+			<div class="post-summary"><p>Definamos nuestra red interna llamada interna_agv en un fichero xml.  &lt;network&gt; &lt;name&gt;interna_agv&lt;/name&gt; &lt;forward mode=&quot;bridge&quot;/&gt; &lt;bridge name=&quot;br0&quot;/&gt; &lt;/network&gt;  Vamos a crear la red.  alejandrogv@AlejandroGV:~/kvm/redes$ virsh -c qemu:///system net-create --file interna_agv.xml La red interna_agv ha sido creada desde interna_agv.xml  Y hacemos lo mismo con la red DMZ.  &lt;network&gt; &lt;name&gt;interna_agv&lt;/name&gt; &lt;forward mode=&quot;bridge&quot;/&gt; &lt;bridge name=&quot;br0&quot;/&gt; &lt;/network&gt; alejandrogv@AlejandroGV:~/kvm/redes$ virsh -c qemu:///system net-create --file dmz.xml La red dmz_agv ha sido creada desde dmz.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/escenario_kvm/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/libvirt_basico/">Uso básico de libvirt</a></h4>
+				<h4 class="post-date">2021-09-30</h4>
+			</div>
+			<div class="post-summary"><p>Creación de la red.   La red que vamos a crear para este ejercicio será tipo NAT, tendrá direccionamiento 10.0.1.0/24 y de tipo virtio.
   Veamos el contenido del fichero xml de configuración de la red.
   &lt;network&gt; &lt;name&gt;red_interna&lt;/name&gt; &lt;bridge name=&quot;virbr20&quot;/&gt; &lt;forward mode=&quot;nat&quot;/&gt; &lt;ip address=&quot;10.0.1.0&quot; netmask=&quot;255.255.255.0&quot;&gt; &lt;dhcp&gt; &lt;range start=&quot;10.0.1.2&quot; end=&quot;10.0.1.254&quot;/&gt; &lt;/dhcp&gt; &lt;/ip&gt; &lt;/network&gt;  Creamos esta red.  alejandrogv@AlejandroGV:~/libvirt$ virsh -c qemu:///system net-create red_interna.xml Creación de escenario.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/ejercicios/libvirt_basico/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/proxy/">Proxy, proxy inverso y balanceadores de carga</a></h4>
-								<h4 class="post-date">2021-06-06</h4>
-							</div>
-							<div class="post-summary"><p>Primero usaremos squid para instalar un proxy.
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/ejercicios/libvirt_basico/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/proxy/">Proxy, proxy inverso y balanceadores de carga</a></h4>
+				<h4 class="post-date">2021-06-06</h4>
+			</div>
+			<div class="post-summary"><p>Primero usaremos squid para instalar un proxy.
  vagrant@proxy:~$ sudo apt install squid    Modificamos el fichero /etc/squid/squid.conf para definir las direcciones y puertos que permitiremos y el puerto de funcionamiento.
  acl localnet src 10.0.0.0/24 acl localnet src 172.22.100.0/24 acl SSL_ports port 443 acl Safe_ports port 80 # http acl Safe_ports port 21 # ftp acl Safe_ports port 443 # https acl CONNECT method CONNECT # Deny requests to certain unsafe ports http_access deny !</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/proxy/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/rendimientoweb/">Aumento de rendimiento de servidores web von Varnish</a></h4>
-								<h4 class="post-date">2021-06-05</h4>
-							</div>
-							<div class="post-summary"><p>Instalamos ansible
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/proxy/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/rendimientoweb/">Aumento de rendimiento de servidores web von Varnish</a></h4>
+				<h4 class="post-date">2021-06-05</h4>
+			</div>
+			<div class="post-summary"><p>Instalamos ansible
  alejandrogv@AlejandroGV:~$ sudo apt install ansible    Ahora clonaremos el repositorio correspondiente con la receta.
  alejandrogv@AlejandroGV:~$ git clone https://github.com/josedom24/ansible_nginx_fpm_php.git    En el interior del respositorio editaremos el fichero hosts añadiendo la dirección de la máquina que usaremos para las pruebas.
  [servidores_web] nodo1 ansible_ssh_host=172.22.100.15 ansible_python_interpreter=/usr/bin/python3    Ejecutamos la funcionalidad playbook de ansible para que se realicen las modificaciones necesarias que usaremos en la máquina de prueba.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/rendimientoweb/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-				</ul>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/rendimientoweb/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+</ul>
+
 				
 
 <div class="pagination-wrapper text-center">

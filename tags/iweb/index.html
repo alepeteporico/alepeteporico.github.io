@@ -5,7 +5,7 @@
 		<title> IWEB &middot; Alepetepórico Blog </title>
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Hugo 0.80.0" />
 
 
@@ -14,9 +14,8 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
 
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
@@ -41,61 +40,58 @@
 
 	<body>
 		<header>
-<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
+	<nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg font-header">
+		<div class="container-fluid">
+			<a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+				blog@alepetepórico ~ $
+			</a>
+			<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse-1" 
+					aria-controls="navbar-collapse-1" aria-expanded="false">
+				<span class="visually-hidden">Toggle navigation</span>
+				<span class="navbar-toggler-icon"></span>
 			</button>
-      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
-        blog@alepetepórico ~ $
-      </a>
+	
+			
+			<div class="collapse navbar-collapse" id="navbar-collapse-1">
+				<ul class="nav navbar-nav ms-auto">
+					<li class="nav-item">
+						<a class="nav-link" href='https://alepeteporico.github.io/'>
+							/home/blog</a>
+					</li>
+					
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/problemas">~/problemas</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+						
+					</li>
+					
+				</ul>
+			</div>
 		</div>
-
-		
-		<div class="collapse navbar-collapse" id="navbar-collapse-1">
-			<ul class="nav navbar-nav navbar-right">
-				<li>
-					<a href='https://alepeteporico.github.io/'>/home/blog</a>
-        </li>
-        
-				
-				
-				<li class="dropdown">
-                    
-            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
-            		
-        		</li>
-        		
-				
-				<li class="dropdown">
-                    
-            		<a href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
-            		
-        		</li>
-        		
-				
-				<li class="dropdown">
-                    
-            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
-            		
-        		</li>
-        		
-				
-				<li class="dropdown">
-                    
-            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
-            		
-        		</li>
-        		
-
-			</ul>
-		</div>
-	</div>
-</nav>
+	</nav>
 </header>
 
 		<div class="flex-wrapper">
@@ -106,149 +102,150 @@
 					</div>
 				</div>
 				<ul id="post-list">
-						
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/kubernetes/">Kubernetes</a></h4>
-								<h4 class="post-date">2022-06-11</h4>
-							</div>
-							<div class="post-summary"><p>Vamos a instalar la aplicación de bookmedik que instalamos con docker en una prática anterior, esta vez con kubernetes.  Despliegue en minikube  Salida de los comando que nos posibilitan ver los recursos que has creado en el cluster.  alejandrogv@AlejandroGV:~/kubernetes/bookmedik_kubernetes/minikube$ kubectl get pv,pvc NAME CAPACITY ACCESS MODES RECLAIM POLICY STATUS CLAIM STORAGECLASS REASON AGE persistentvolume/pvc-2b917463-3f4b-4da5-af30-f159dfd61c14 3Gi RWO Delete Bound default/pvc-bookmedik standard 40s NAME STATUS VOLUME CAPACITY ACCESS MODES STORAGECLASS AGE persistentvolumeclaim/pvc-bookmedik Bound pvc-2b917463-3f4b-4da5-af30-f159dfd61c14 3Gi RWO standard 42s alejandrogv@AlejandroGV:~/kubernetes/bookmedik_kubernetes/minikube$ kubectl get all NAME READY STATUS RESTARTS AGE pod/bookmedik-5f8c5f6bd7-5rrqc 1/1 Running 0 2m24s pod/bookmedik-5f8c5f6bd7-l85nv 1/1 Running 0 2m24s pod/mariadb-7cd5675f98-xv8xc 1/1 Running 0 2m23s NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE service/bookmedik NodePort 10.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/kubernetes/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/docker_python/">Implantación de aplicaciones web Python en docker</a></h4>
-								<h4 class="post-date">2022-06-10</h4>
-							</div>
-							<div class="post-summary"><p>Puntos a tener el cuenta.   La aplicación debe guardar los datos en una base de datos mariadb.
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/kubernetes/">Kubernetes</a></h4>
+				<h4 class="post-date">2022-06-11</h4>
+			</div>
+			<div class="post-summary"><p>Vamos a instalar la aplicación de bookmedik que instalamos con docker en una prática anterior, esta vez con kubernetes.  Despliegue en minikube  Salida de los comando que nos posibilitan ver los recursos que has creado en el cluster.  alejandrogv@AlejandroGV:~/kubernetes/bookmedik_kubernetes/minikube$ kubectl get pv,pvc NAME CAPACITY ACCESS MODES RECLAIM POLICY STATUS CLAIM STORAGECLASS REASON AGE persistentvolume/pvc-2b917463-3f4b-4da5-af30-f159dfd61c14 3Gi RWO Delete Bound default/pvc-bookmedik standard 40s NAME STATUS VOLUME CAPACITY ACCESS MODES STORAGECLASS AGE persistentvolumeclaim/pvc-bookmedik Bound pvc-2b917463-3f4b-4da5-af30-f159dfd61c14 3Gi RWO standard 42s alejandrogv@AlejandroGV:~/kubernetes/bookmedik_kubernetes/minikube$ kubectl get all NAME READY STATUS RESTARTS AGE pod/bookmedik-5f8c5f6bd7-5rrqc 1/1 Running 0 2m24s pod/bookmedik-5f8c5f6bd7-l85nv 1/1 Running 0 2m24s pod/mariadb-7cd5675f98-xv8xc 1/1 Running 0 2m23s NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE service/bookmedik NodePort 10.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/kubernetes/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/docker_python/">Implantación de aplicaciones web Python en docker</a></h4>
+				<h4 class="post-date">2022-06-10</h4>
+			</div>
+			<div class="post-summary"><p>Puntos a tener el cuenta.   La aplicación debe guardar los datos en una base de datos mariadb.
   La aplicación se podrá configurar para indicar los parámetros de conexión a la base de datos: usuario, contraseña, host y base de datos.
   La aplicación deberá tener creado un usuario administrador para el acceso.
   Aplicación Crea una imagen docker para poder desplegar un contenedor con la aplicación.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/docker_python/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/python_openstack/">Instalación de un CMS python</a></h4>
-								<h4 class="post-date">2022-06-02</h4>
-							</div>
-							<div class="post-summary"><p>Vamos a crear el entorno virtual en el cual instalaremos Mezzanine.
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/docker_python/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/python_openstack/">Instalación de un CMS python</a></h4>
+				<h4 class="post-date">2022-06-02</h4>
+			</div>
+			<div class="post-summary"><p>Vamos a crear el entorno virtual en el cual instalaremos Mezzanine.
  alejandrogv@AlejandroGV:~/entornos/mezzanine$ source despliegue/bin/activate (despliegue) alejandrogv@AlejandroGV:~/entornos/mezzanine$    Ahora instalamos con pip mezzanine y creamos un proyecto.
  (despliegue) alejandrogv@AlejandroGV:~/proyecto$ pip install mezzanine (despliegue) alejandrogv@AlejandroGV:~/proyecto$ mezzanine-project cms    Vamos a modificar uno de los ficheros que se ha generado cms/settings.py para usar la base de datos sqlite ya que estamos en el entorno de pruebas.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/python_openstack/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cms_java/">Despliegue de CMS java</a></h4>
-								<h4 class="post-date">2022-05-04</h4>
-							</div>
-							<div class="post-summary"><p>Hemos elegido la aplicación Guacamole la cual permite administrar de forma remota el sistema donde lo instalemos mediante una interfaz web usando protocolos como: ssh, rdp o vnc.
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/python_openstack/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cms_java/">Despliegue de CMS java</a></h4>
+				<h4 class="post-date">2022-05-04</h4>
+			</div>
+			<div class="post-summary"><p>Hemos elegido la aplicación Guacamole la cual permite administrar de forma remota el sistema donde lo instalemos mediante una interfaz web usando protocolos como: ssh, rdp o vnc.
   Para empezar instalaremos la paquetería necesaria.
   vagrant@cmsjava:~$ sudo apt install build-essential libcairo2-dev libjpeg62-turbo-dev libpng-dev libtool-bin libossp-uuid-dev libavcodec-dev libavformat-dev libswscale-dev freerdp2-dev libpango1.0-dev libssh2-1-dev libtelnet-dev libvncserver-dev libwebsockets-dev libpulse-dev libvorbis-dev libwebp-dev  Descargaremos la aplicación del sitio oficial.  vagrant@cmsjava:~$ wget -O 'guacamole-server-1.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/cms_java/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/apache_uwsgi/">Desplegando aplicaciones flask con apache2 &#43; uwsgi</a></h4>
-								<h4 class="post-date">2022-04-11</h4>
-							</div>
-							<div class="post-summary"><p>Tendremos nuestro entorno virtual donde debemos instalar los siguientes paquetes.  (ejercicio3) alejandrogv@AlejandroGV:~$ pip install flask uwsgi  Clonamos la aplicación que instalaremos.  alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ git clone https://github.com/josedom24/guestbook.git  En este repositorio encontraremos una carpeta llamada app donde se alojará un fichero llamado app.py ahí debemos crear un fichero llamado wsgi.py con el siguiente contenido.  from app import prog as application  Instalamos los paquetes del requirementes.txt que se aloja también la carpeta app.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/ejercicios/apache_uwsgi/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cms_php_vps/">Instalación/migración de aplicaciones web PHP eb tu VPS</a></h4>
-								<h4 class="post-date">2022-03-20</h4>
-							</div>
-							<div class="post-summary"><p>Drupal  Primero migraremos la aplicación de drupal que tenemos instalada localmente. para ello vamos a migrar la base de datos.  root@cmsagv:~# mysqldump drupal &gt; ./backup.sql  Migramos la aplicación  alejandrogv@AlejandroGV:~$ scp drupal/ debian@mrrobot.alejandrogv.site/home/debian/  Seguidamente nos iremos a nuestra VPS donde instalaremos mariadb y crearemos una base de datos y un usuario con privilegios sobre ella.  MariaDB [(none)]&gt; CREATE DATABASE drupal; Query OK, 1 row affected (0.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/cms_php_vps/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/docker_bookmedik/">Aplicación php en docker</a></h4>
-								<h4 class="post-date">2022-02-02</h4>
-							</div>
-							<div class="post-summary"><p>Tarea 1: Creación de una imagen docker con una aplicación web desde una imagen base   url del repositorio GitHub donde tengas los ficheros necesarios para hacer la construcción de la imagen.
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/cms_java/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/apache_uwsgi/">Desplegando aplicaciones flask con apache2 &#43; uwsgi</a></h4>
+				<h4 class="post-date">2022-04-11</h4>
+			</div>
+			<div class="post-summary"><p>Tendremos nuestro entorno virtual donde debemos instalar los siguientes paquetes.  (ejercicio3) alejandrogv@AlejandroGV:~$ pip install flask uwsgi  Clonamos la aplicación que instalaremos.  alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ git clone https://github.com/josedom24/guestbook.git  En este repositorio encontraremos una carpeta llamada app donde se alojará un fichero llamado app.py ahí debemos crear un fichero llamado wsgi.py con el siguiente contenido.  from app import prog as application  Instalamos los paquetes del requirementes.txt que se aloja también la carpeta app.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/ejercicios/apache_uwsgi/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cms_php_vps/">Instalación/migración de aplicaciones web PHP eb tu VPS</a></h4>
+				<h4 class="post-date">2022-03-20</h4>
+			</div>
+			<div class="post-summary"><p>Drupal  Primero migraremos la aplicación de drupal que tenemos instalada localmente. para ello vamos a migrar la base de datos.  root@cmsagv:~# mysqldump drupal &gt; ./backup.sql  Migramos la aplicación  alejandrogv@AlejandroGV:~$ scp drupal/ debian@mrrobot.alejandrogv.site/home/debian/  Seguidamente nos iremos a nuestra VPS donde instalaremos mariadb y crearemos una base de datos y un usuario con privilegios sobre ella.  MariaDB [(none)]&gt; CREATE DATABASE drupal; Query OK, 1 row affected (0.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/cms_php_vps/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/docker_bookmedik/">Aplicación php en docker</a></h4>
+				<h4 class="post-date">2022-02-02</h4>
+			</div>
+			<div class="post-summary"><p>Tarea 1: Creación de una imagen docker con una aplicación web desde una imagen base   url del repositorio GitHub donde tengas los ficheros necesarios para hacer la construcción de la imagen.
   Imagen docker con la aplicación desde una imagen base de debian o ubuntu. En el registro de tu entorno de desarrollo.
   alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/docker_bookmedik$ docker images REPOSITORY TAG IMAGE ID CREATED SIZE alejandro/bookmedik v1 ee540637fb01 8 seconds ago 309MB Tarea 2: Despliegue en el entorno de desarrollo   url del repositorio GitHub donde hayas añadido el fichero docker-compose.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/docker_bookmedik/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/ejercicios_docker/">Ejercicios de docker</a></h4>
-								<h4 class="post-date">2022-01-19</h4>
-							</div>
-							<div class="post-summary"><p>Introducción   Crearemos un contenedor demonio a partir de la imagen nginx, el contenedor se debe llamar servidor_web y se debe acceder a él utilizando el puerto 8181 del ordenador donde tengas instalado docker.
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/docker_bookmedik/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/ejercicios_docker/">Ejercicios de docker</a></h4>
+				<h4 class="post-date">2022-01-19</h4>
+			</div>
+			<div class="post-summary"><p>Introducción   Crearemos un contenedor demonio a partir de la imagen nginx, el contenedor se debe llamar servidor_web y se debe acceder a él utilizando el puerto 8181 del ordenador donde tengas instalado docker.
   Creación y comprobación de que funciona el contenedor
   alejandrogv@AlejandroGV:~$ docker run --name servidor_web -p 8181:80 -d nginx 964b2c315b83655e5d662a88e620a23f1eaac38666cc64170cd5cd62db72e5fd alejandrogv@AlejandroGV:~$ docker ps -a CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 964b2c315b83 nginx &quot;/docker-entrypoint.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/ejercicios/ejercicios_docker/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/despliegue_python/">Despliegue de una aplicación python</a></h4>
-								<h4 class="post-date">2021-11-16</h4>
-							</div>
-							<div class="post-summary"><p>Vamos a desarrollar la aplicación del tutorial de django 3.1. Vamos a configurar tu equipo como entorno de desarrollo para trabajar con la aplicación.   Realizamos un fork de la aplicación añadiendola a nuestros repositorios y seguidamente lo clonaremos en nuestra maquina:  alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python$ git clone git@github.com:alepeteporico/django_tutorial.git  Crearemos el entorno virtual donde instalaremos las dependencias necesarias para hacer funcionar nuestra aplicación.  alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ python3 -m venv django (django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ pip install -r despliegue_python/django_tutorial/requirements.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/despliegue_python/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/gunicorn/">Desplegando aplicaciones flask con apache2 &#43; gunicorn</a></h4>
-								<h4 class="post-date">2021-11-09</h4>
-							</div>
-							<div class="post-summary"><p>Vamos a instalar este cms llamado gunicorn, para ello creamos un entorno virutal y lo instalamos:  (gunicorn) vagrant@cmsagv:~$ pip install gunicorn  Vamos a instalar las dependencias del fichero requirements  (gunicorn) vagrant@cmsagv:~/guestbook/app$ pip install -r requirements.txt  Ahora vamos a crear un virtualhost donde añadiremos el modulo de proxy inverso ya. Y moveremos el guestbook a /var/www/  &lt;VirtualHost *:80&gt; ServerName www.alegv-guestbook.com DocumentRoot /var/www/guestbook/app/ ProxyPass / http://127.0.0.1:8080/ ProxyPassReverse / http://127.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/ejercicios/gunicorn/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-				</ul>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/ejercicios/ejercicios_docker/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/despliegue_python/">Despliegue de una aplicación python</a></h4>
+				<h4 class="post-date">2021-11-16</h4>
+			</div>
+			<div class="post-summary"><p>Vamos a desarrollar la aplicación del tutorial de django 3.1. Vamos a configurar tu equipo como entorno de desarrollo para trabajar con la aplicación.   Realizamos un fork de la aplicación añadiendola a nuestros repositorios y seguidamente lo clonaremos en nuestra maquina:  alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python$ git clone git@github.com:alepeteporico/django_tutorial.git  Crearemos el entorno virtual donde instalaremos las dependencias necesarias para hacer funcionar nuestra aplicación.  alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ python3 -m venv django (django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ pip install -r despliegue_python/django_tutorial/requirements.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/despliegue_python/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/gunicorn/">Desplegando aplicaciones flask con apache2 &#43; gunicorn</a></h4>
+				<h4 class="post-date">2021-11-09</h4>
+			</div>
+			<div class="post-summary"><p>Vamos a instalar este cms llamado gunicorn, para ello creamos un entorno virutal y lo instalamos:  (gunicorn) vagrant@cmsagv:~$ pip install gunicorn  Vamos a instalar las dependencias del fichero requirements  (gunicorn) vagrant@cmsagv:~/guestbook/app$ pip install -r requirements.txt  Ahora vamos a crear un virtualhost donde añadiremos el modulo de proxy inverso ya. Y moveremos el guestbook a /var/www/  &lt;VirtualHost *:80&gt; ServerName www.alegv-guestbook.com DocumentRoot /var/www/guestbook/app/ ProxyPass / http://127.0.0.1:8080/ ProxyPassReverse / http://127.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/ejercicios/gunicorn/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+</ul>
+
 				
 
 <div class="pagination-wrapper text-center">

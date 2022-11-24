@@ -5,7 +5,7 @@
 		<title> ASO &middot; Alepetepórico Blog </title>
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Hugo 0.80.0" />
 
 
@@ -14,9 +14,8 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
 
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
@@ -41,61 +40,58 @@
 
 	<body>
 		<header>
-<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
+	<nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg font-header">
+		<div class="container-fluid">
+			<a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+				blog@alepetepórico ~ $
+			</a>
+			<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse-1" 
+					aria-controls="navbar-collapse-1" aria-expanded="false">
+				<span class="visually-hidden">Toggle navigation</span>
+				<span class="navbar-toggler-icon"></span>
 			</button>
-      <a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
-        blog@alepetepórico ~ $
-      </a>
+	
+			
+			<div class="collapse navbar-collapse" id="navbar-collapse-1">
+				<ul class="nav navbar-nav ms-auto">
+					<li class="nav-item">
+						<a class="nav-link" href='https://alepeteporico.github.io/'>
+							/home/blog</a>
+					</li>
+					
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/problemas">~/problemas</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+						
+					</li>
+					
+				</ul>
+			</div>
 		</div>
-
-		
-		<div class="collapse navbar-collapse" id="navbar-collapse-1">
-			<ul class="nav navbar-nav navbar-right">
-				<li>
-					<a href='https://alepeteporico.github.io/'>/home/blog</a>
-        </li>
-        
-				
-				
-				<li class="dropdown">
-                    
-            		<a href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
-            		
-        		</li>
-        		
-				
-				<li class="dropdown">
-                    
-            		<a href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
-            		
-        		</li>
-        		
-				
-				<li class="dropdown">
-                    
-            		<a href="https://alepeteporico.github.io/problemas">~/problemas</a>
-            		
-        		</li>
-        		
-				
-				<li class="dropdown">
-                    
-            		<a href="https://alepeteporico.github.io/practicas">~/prácticas</a>
-            		
-        		</li>
-        		
-
-			</ul>
-		</div>
-	</div>
-</nav>
+	</nav>
 </header>
 
 		<div class="flex-wrapper">
@@ -106,29 +102,29 @@
 					</div>
 				</div>
 				<ul id="post-list">
-						
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/monotorizacion/">Monotorización con Zabbix</a></h4>
-								<h4 class="post-date">2022-05-31</h4>
-							</div>
-							<div class="post-summary"><p>Servicio   Usaremos un sistema de montorización llamado zabbix. Está diseñado para monitorizar y registrar el estado de varios servicios de red, Servidores, y hardware de red. Puede realizar:
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/monotorizacion/">Monotorización con Zabbix</a></h4>
+				<h4 class="post-date">2022-05-31</h4>
+			</div>
+			<div class="post-summary"><p>Servicio   Usaremos un sistema de montorización llamado zabbix. Está diseñado para monitorizar y registrar el estado de varios servicios de red, Servidores, y hardware de red. Puede realizar:
   Chequeos simples que pueden verificar la disponibilidad y el nivel de respuesta de servicios estándar como SMTP o HTTP sin necesidad de instalar ningún software sobre el host monitorizado.
   Monitorizar estadísticas como carga de CPU, utilización de red, espacio en disco, etc.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/monotorizacion/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/ldap_csv/">Poblar un directorio LDAP desde un fichero CSV</a></h4>
-								<h4 class="post-date">2022-05-20</h4>
-							</div>
-							<div class="post-summary"><p>Crear entre todos los alumnos de la clase que vayan a hacer esta tarea un fichero CSV que incluya información personal de cada uno incluyendo los siguientes datos:
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/monotorizacion/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/ldap_csv/">Poblar un directorio LDAP desde un fichero CSV</a></h4>
+				<h4 class="post-date">2022-05-20</h4>
+			</div>
+			<div class="post-summary"><p>Crear entre todos los alumnos de la clase que vayan a hacer esta tarea un fichero CSV que incluya información personal de cada uno incluyendo los siguientes datos:
   Nombre
   Apellidos
   Dirección de correo electrónico
@@ -137,121 +133,122 @@
     Otro fichero con la siguiente información de los alumnos:
   Hostname
   IPv4</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/ldap_csv/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/ldap_uga/">Usuarios, Grupos y ACLs en LDAP</a></h4>
-								<h4 class="post-date">2022-05-20</h4>
-							</div>
-							<div class="post-summary"><p>Crea 10 usuarios con los nombres que prefieras en LDAP, esos usuarios deben ser objetos de los tipos posixAccount e inetOrgPerson. Estos usuarios tendrán un atributo userPassword. dn: uid=stark,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: stark gidNumber: 2001 homeDirectory: /home/stark loginShell: /bin/bash sn: stark uid: stark uidNumber: 2001 userPassword: {SSHA}loVCFjl442fnkpIZC05Ht+8OwLsgF0Ua dn: uid=rogers,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: rogers gidNumber: 2002 homeDirectory: /home/rogers loginShell: /bin/bash sn: rogers uid: rogers uidNumber: 2002 userPassword: {SSHA}gLim3ka1uQnZtFCMBoD0+NKmQ88/7f+d dn: uid=banner,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: banner gidNumber: 2003 homeDirectory: /home/banner loginShell: /bin/bash sn: banner uid: banner uidNumber: 2003 userPassword: {SSHA}R28hwHBG+MeisvkGM3qS7q049d8p6QO1 dn: uid=romanof,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: romanof gidNumber: 2004 homeDirectory: /home/romanof loginShell: /bin/bash sn: romanof uid: romanof uidNumber: 2004 userPassword: {SSHA}r4NOljTbgWSfO1r4daswgbBDhlLtwMwd dn: uid=burton,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: burton gidNumber: 2005 homeDirectory: /home/burton loginShell: /bin/bash sn: burton uid: burton uidNumber: 2005 userPassword: {SSHA}n8aeZpDwycwusGlKWl56MuTXARrAWhyM dn: uid=thor,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: thor gidNumber: 2006 homeDirectory: /home/thor loginShell: /bin/bash sn: thor uid: thor uidNumber: 2006 userPassword: {SSHA}m20Ph+8uSwScFHcJ6iVpgimoiKawWuc3 dn: uid=strange,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: strange gidNumber: 2007 homeDirectory: /home/strange loginShell: /bin/bash sn: strange uid: strange uidNumber: 2007 userPassword: {SSHA}UpziawVa6CL9Kk/g7gVzFRQ4MJWBDFKP dn: uid=parker,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: parker gidNumber: 2008 homeDirectory: /home/parker loginShell: /bin/bash sn: parker uid: parker uidNumber: 2008 userPassword: {SSHA}Px8NYV9wWlc/JxmUWaGaBV28KSucLIYt dn: uid=furia,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: furia gidNumber: 2009 homeDirectory: /home/furia loginShell: /bin/bash sn: furia uid: furia uidNumber: 2009 userPassword: {SSHA}8VRwZX4ts0fe8KBT58h3ywzpj+EEShfV dn: uid=maximof,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: maximof gidNumber: 2010 homeDirectory: /home/maximof loginShell: /bin/bash sn: maximof uid: maximof uidNumber: 2010 userPassword: {SSHA}t1Oa8gRUcI6kfJvVfNpNdMeMXs+05l1K  Ejecutamos este fichero.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/ldap_uga/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/ldap_ad/">LDAP en alta disponibilidad</a></h4>
-								<h4 class="post-date">2022-05-17</h4>
-							</div>
-							<div class="post-summary"><p>Vamos a instalar un servidor LDAP en ares que va a actuar como servidor secundario o de respaldo del servidor LDAP instalado en apolo, para ello habrá que seleccionar un modo de funcionamiento y configurar la sincronización entre ambos directorios, para que los cambios que se realicen en uno de ellos se reflejen en el otro. Metodo usado: LDAP Syncy Replication   Usaremos este metodo ya que podemos adecuarlo a las necesidades de nuestro escenario como queramos debido a las diferentes útilidades que tiene.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/ldap_ad/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/ldaps/">LDAPs</a></h4>
-								<h4 class="post-date">2022-05-17</h4>
-							</div>
-							<div class="post-summary"><p>Para usar la configuración segura de ldap primero debemos tener los certificados correspondientes, primero creamos una clave privada con openssl.  root@apolo:~# openssl genrsa 4096 &gt; /etc/ssl/private/apoloalexgv.key  Y usando esa clave creamos un certificado que deberá ser firmado por la unidad certificadora del gonzalo nazareno en nuestro caso.  root@apolo:~# openssl req -new -key /etc/ssl/private/apoloalexgv.key -out /root/apoloalexgv.csr  Con la clave, el certificado firmado y el certificado del gonzalo nazareno que descargaremos de gestiona tendremos todos los certificados necesarios, veamos donde se ubica cada uno.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/ldaps/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/https_ovh/">HTTPS OVH</a></h4>
-								<h4 class="post-date">2022-04-17</h4>
-							</div>
-							<div class="post-summary"><p>Explica los pasos fundamentales para la creación del certificado. Especificando los campos que has rellenado en el fichero CSR.  Para este cometido usaremos el servicio letsencrypt, esta unidad certificadora hace use del protocolo ACME que lleva a cabo dos sencillos pasos mediante un agente llamadao certbot los pasos son:   Validación del dominio. Tenemos que demostrar que somos administradores del dominio en el que queremos generar este certificado, esto se puede hacer de dos formas:    Creando un fichero de configuración en una ruta determinada, si la autoridad certificadora puede acceder por el puerto 80 y verificar este fichero y validar las firmas de las claves que se generarían para hacer dicha conexión, entonces verificará que somos administradores del dominio.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/https_ovh/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/copias/">Copias de seguridad con bacula</a></h4>
-								<h4 class="post-date">2022-03-14</h4>
-							</div>
-							<div class="post-summary"><p>Usaremos la herramienta bacula para realizar nuestro sistema de copias de seguridad, por supuesto el primer paso que debemos tomar es instalar el paquete de bacula, instalaremos el cliente en todas las máquinas de nuestro escenario, aunque usaremos zeus para alojar las copias de seguridad.
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/ldap_csv/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/ldap_uga/">Usuarios, Grupos y ACLs en LDAP</a></h4>
+				<h4 class="post-date">2022-05-20</h4>
+			</div>
+			<div class="post-summary"><p>Crea 10 usuarios con los nombres que prefieras en LDAP, esos usuarios deben ser objetos de los tipos posixAccount e inetOrgPerson. Estos usuarios tendrán un atributo userPassword. dn: uid=stark,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: stark gidNumber: 2001 homeDirectory: /home/stark loginShell: /bin/bash sn: stark uid: stark uidNumber: 2001 userPassword: {SSHA}loVCFjl442fnkpIZC05Ht+8OwLsgF0Ua dn: uid=rogers,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: rogers gidNumber: 2002 homeDirectory: /home/rogers loginShell: /bin/bash sn: rogers uid: rogers uidNumber: 2002 userPassword: {SSHA}gLim3ka1uQnZtFCMBoD0+NKmQ88/7f+d dn: uid=banner,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: banner gidNumber: 2003 homeDirectory: /home/banner loginShell: /bin/bash sn: banner uid: banner uidNumber: 2003 userPassword: {SSHA}R28hwHBG+MeisvkGM3qS7q049d8p6QO1 dn: uid=romanof,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: romanof gidNumber: 2004 homeDirectory: /home/romanof loginShell: /bin/bash sn: romanof uid: romanof uidNumber: 2004 userPassword: {SSHA}r4NOljTbgWSfO1r4daswgbBDhlLtwMwd dn: uid=burton,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: burton gidNumber: 2005 homeDirectory: /home/burton loginShell: /bin/bash sn: burton uid: burton uidNumber: 2005 userPassword: {SSHA}n8aeZpDwycwusGlKWl56MuTXARrAWhyM dn: uid=thor,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: thor gidNumber: 2006 homeDirectory: /home/thor loginShell: /bin/bash sn: thor uid: thor uidNumber: 2006 userPassword: {SSHA}m20Ph+8uSwScFHcJ6iVpgimoiKawWuc3 dn: uid=strange,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: strange gidNumber: 2007 homeDirectory: /home/strange loginShell: /bin/bash sn: strange uid: strange uidNumber: 2007 userPassword: {SSHA}UpziawVa6CL9Kk/g7gVzFRQ4MJWBDFKP dn: uid=parker,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: parker gidNumber: 2008 homeDirectory: /home/parker loginShell: /bin/bash sn: parker uid: parker uidNumber: 2008 userPassword: {SSHA}Px8NYV9wWlc/JxmUWaGaBV28KSucLIYt dn: uid=furia,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: furia gidNumber: 2009 homeDirectory: /home/furia loginShell: /bin/bash sn: furia uid: furia uidNumber: 2009 userPassword: {SSHA}8VRwZX4ts0fe8KBT58h3ywzpj+EEShfV dn: uid=maximof,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: maximof gidNumber: 2010 homeDirectory: /home/maximof loginShell: /bin/bash sn: maximof uid: maximof uidNumber: 2010 userPassword: {SSHA}t1Oa8gRUcI6kfJvVfNpNdMeMXs+05l1K  Ejecutamos este fichero.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/ldap_uga/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/ldap_ad/">LDAP en alta disponibilidad</a></h4>
+				<h4 class="post-date">2022-05-17</h4>
+			</div>
+			<div class="post-summary"><p>Vamos a instalar un servidor LDAP en ares que va a actuar como servidor secundario o de respaldo del servidor LDAP instalado en apolo, para ello habrá que seleccionar un modo de funcionamiento y configurar la sincronización entre ambos directorios, para que los cambios que se realicen en uno de ellos se reflejen en el otro. Metodo usado: LDAP Syncy Replication   Usaremos este metodo ya que podemos adecuarlo a las necesidades de nuestro escenario como queramos debido a las diferentes útilidades que tiene.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/ldap_ad/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/ldaps/">LDAPs</a></h4>
+				<h4 class="post-date">2022-05-17</h4>
+			</div>
+			<div class="post-summary"><p>Para usar la configuración segura de ldap primero debemos tener los certificados correspondientes, primero creamos una clave privada con openssl.  root@apolo:~# openssl genrsa 4096 &gt; /etc/ssl/private/apoloalexgv.key  Y usando esa clave creamos un certificado que deberá ser firmado por la unidad certificadora del gonzalo nazareno en nuestro caso.  root@apolo:~# openssl req -new -key /etc/ssl/private/apoloalexgv.key -out /root/apoloalexgv.csr  Con la clave, el certificado firmado y el certificado del gonzalo nazareno que descargaremos de gestiona tendremos todos los certificados necesarios, veamos donde se ubica cada uno.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/ldaps/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/https_ovh/">HTTPS OVH</a></h4>
+				<h4 class="post-date">2022-04-17</h4>
+			</div>
+			<div class="post-summary"><p>Explica los pasos fundamentales para la creación del certificado. Especificando los campos que has rellenado en el fichero CSR.  Para este cometido usaremos el servicio letsencrypt, esta unidad certificadora hace use del protocolo ACME que lleva a cabo dos sencillos pasos mediante un agente llamadao certbot los pasos son:   Validación del dominio. Tenemos que demostrar que somos administradores del dominio en el que queremos generar este certificado, esto se puede hacer de dos formas:    Creando un fichero de configuración en una ruta determinada, si la autoridad certificadora puede acceder por el puerto 80 y verificar este fichero y validar las firmas de las claves que se generarían para hacer dicha conexión, entonces verificará que somos administradores del dominio.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/https_ovh/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/copias/">Copias de seguridad con bacula</a></h4>
+				<h4 class="post-date">2022-03-14</h4>
+			</div>
+			<div class="post-summary"><p>Usaremos la herramienta bacula para realizar nuestro sistema de copias de seguridad, por supuesto el primer paso que debemos tomar es instalar el paquete de bacula, instalaremos el cliente en todas las máquinas de nuestro escenario, aunque usaremos zeus para alojar las copias de seguridad.
   Para alojar las copias hemos añadido dos discos que vamos a montar en RAID.
   debian@zeus:~$ df -h Filesystem Size Used Avail Use% Mounted on /dev/md0 9.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/copias/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/selinux/">SElinux</a></h4>
-								<h4 class="post-date">2022-02-18</h4>
-							</div>
-							<div class="post-summary"><p>En esta práctica vamos a habilitar SELinux en un servidor rocky, en este servidor tendremos alojados un SAMBA y NFS, tendremos que asegurarnos que esto servicios funcionan correctamente con SELinux activado y nuestros clientes pueden usarlos sin problemas.
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/copias/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/selinux/">SElinux</a></h4>
+				<h4 class="post-date">2022-02-18</h4>
+			</div>
+			<div class="post-summary"><p>En esta práctica vamos a habilitar SELinux en un servidor rocky, en este servidor tendremos alojados un SAMBA y NFS, tendremos que asegurarnos que esto servicios funcionan correctamente con SELinux activado y nuestros clientes pueden usarlos sin problemas.
   Hemos instalado y configurado un servidor samba y nfs en una máquina servidor.
   [vagrant@server ~]$ sudo systemctl status smb.service ● smb.service - Samba SMB Daemon Loaded: loaded (/usr/lib/systemd/system/smb.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/selinux/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/logs/">Recolección de logs mediante journald</a></h4>
-								<h4 class="post-date">2022-02-04</h4>
-							</div>
-							<div class="post-summary"><p>Vamos a usar el paquete systemd-journal-remote primero deberemos instalarlo en nuestro servidor principal, hemos escogido ares y también deberemos instalarlo en nuestros clientes.  usuario@ares:~$ sudo apt install systemd-journal-remote  Vamos a habilitar dos componentes de systemd necesarios para recibir los logs.  usuario@ares:~$ sudo systemctl enable --now systemd-journal-remote.socket Created symlink /etc/systemd/system/sockets.target.wants/systemd-journal-remote.socket -&gt; /lib/systemd/system/systemd-journal-remote.socket. usuario@ares:~$ sudo systemctl enable systemd-journal-remote.service  Y en los clientes también debemos habilitar uno.  [hera@hera ~]$ sudo systemctl enable systemd-journal-upload.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/practicas/logs/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/configuracion_ldap/">Configuración inicial de LDAP</a></h4>
-								<h4 class="post-date">2022-01-14</h4>
-							</div>
-							<div class="post-summary"><p>LDAP es un protocolo de tipo cliente-servidor para acceder a un servicio de directorio. Un directorio es como una base de datos, pero en general contiene información más descriptiva y más basada en atributos. Realizaremos esta configuración inicial en nuestro escenario en kvm, en contreto en nuestra maquina apolo, la cual entre otras cosas contiene por ejemplo nuestro dns  Empezemos con la instalación del paquete de ldap.  debian@apolo:~$ sudo apt install slapd  Durante esta instalación tendremos que introducir una contraseña para el administrador.</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://alepeteporico.github.io/ejercicios/configuracion_ldap/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-				</ul>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/selinux/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/logs/">Recolección de logs mediante journald</a></h4>
+				<h4 class="post-date">2022-02-04</h4>
+			</div>
+			<div class="post-summary"><p>Vamos a usar el paquete systemd-journal-remote primero deberemos instalarlo en nuestro servidor principal, hemos escogido ares y también deberemos instalarlo en nuestros clientes.  usuario@ares:~$ sudo apt install systemd-journal-remote  Vamos a habilitar dos componentes de systemd necesarios para recibir los logs.  usuario@ares:~$ sudo systemctl enable --now systemd-journal-remote.socket Created symlink /etc/systemd/system/sockets.target.wants/systemd-journal-remote.socket -&gt; /lib/systemd/system/systemd-journal-remote.socket. usuario@ares:~$ sudo systemctl enable systemd-journal-remote.service  Y en los clientes también debemos habilitar uno.  [hera@hera ~]$ sudo systemctl enable systemd-journal-upload.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/logs/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/ejercicios/configuracion_ldap/">Configuración inicial de LDAP</a></h4>
+				<h4 class="post-date">2022-01-14</h4>
+			</div>
+			<div class="post-summary"><p>LDAP es un protocolo de tipo cliente-servidor para acceder a un servicio de directorio. Un directorio es como una base de datos, pero en general contiene información más descriptiva y más basada en atributos. Realizaremos esta configuración inicial en nuestro escenario en kvm, en contreto en nuestra maquina apolo, la cual entre otras cosas contiene por ejemplo nuestro dns  Empezemos con la instalación del paquete de ldap.  debian@apolo:~$ sudo apt install slapd  Durante esta instalación tendremos que introducir una contraseña para el administrador.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/ejercicios/configuracion_ldap/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+</ul>
+
 				
 
 <div class="pagination-wrapper text-center">
