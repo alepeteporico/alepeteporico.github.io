@@ -6,11 +6,11 @@
     <description>Recent content on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 20 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 15 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Interconexión de servidores de bases de datos 2023</title>
+      <title>Interconexion 2023</title>
       <link>https://alepeteporico.github.io/practicas/interconexion2023/</link>
-      <pubDate>Sun, 20 Nov 2022 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 15 Nov 2022 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/interconexion2023/</guid>
       <description>Conexión de Oracle a Oracle  Debemos configurar el fichero tnsnames.ora y añadir la segunda base de datos que está en otra máquina, para ello añadiremos el siguiete contenido al fichero.  ORACLE2 = (DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.121.41)(PORT = 1521)) (CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = ORCLCDB) ) )  Comprobamos que tenemos conexión a la segunda base de datos.  root@oracleagv:~# tnsping ORACLE2 TNS Ping Utility for Linux: Version 19.</description>
