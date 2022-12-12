@@ -106,6 +106,32 @@
 	<li>
 		<div class="post-list-item">
 			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/web_estatica/">Implantación y despliegue de una aplicación web estática 2021</a></h4>
+				<h4 class="post-date">2021-09-29</h4>
+			</div>
+			<div class="post-summary"><p>Vamos a realizar e implementar una aplicación web estática, para ello usaremos el generador de páginas estáticas jekyll y usaremos para implementarlo surge. jekyll  Para la instalación de jekyll primero debemos asegurarnos de tener instalado ruby y algunas dependencias ya que la aplicación está escrita en este lenguaje.  sudo apt install ruby ruby-dev  Y ahora si podemos instalar jekyll.  sudo gem install bundler jekyll  Ahora crearemos nuestro sitio web en el entorno de desarrollo  jekyll new jekyll_dinamico  Vamos a visualizar el contenido de este sitio que se nos ha generado por defecto.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/web_estatica/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/herramientas_de_seguridad/">Herramientas de seguridad</a></h4>
+				<h4 class="post-date">2021-09-23</h4>
+			</div>
+			<div class="post-summary"><p>Sistemas de detección de intrusos  Vamos a usar como sistema de detección de intrusos la herramienta SURICATA, parece ser la más usada a día de hoy   Vamos a instalar el paquete de suricata y oinkmaster que usaremos mas adelante.  root@suricata:~# apt install suricata  La instalación ha sido sencilla, para configurar los parametros básicos iremos al fichero /etc/suricata/suricata.yaml, lo primero que haremos será asegurarnos que suricata escucha por la interfaz correcta.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/herramientas_de_seguridad/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
 				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/pxe/">Instalación y configuración de un servidor PXE en debian</a></h4>
 				<h4 class="post-date">2021-09-21</h4>
 			</div>
@@ -221,36 +247,6 @@
  acl localnet src 10.0.0.0/24 acl localnet src 172.22.100.0/24 acl SSL_ports port 443 acl Safe_ports port 80 # http acl Safe_ports port 21 # ftp acl Safe_ports port 443 # https acl CONNECT method CONNECT # Deny requests to certain unsafe ports http_access deny !</p></div>
 			<div class="post-list-footer text-center">
 				<a href="https://alepeteporico.github.io/practicas/proxy/">Read More</a>
-			</div>
-		</div>
-	</li>
-	
-	<li>
-		<div class="post-list-item">
-			<div class="post-header">
-				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/rendimientoweb/">Aumento de rendimiento de servidores web von Varnish</a></h4>
-				<h4 class="post-date">2021-06-05</h4>
-			</div>
-			<div class="post-summary"><p>Instalamos ansible
- alejandrogv@AlejandroGV:~$ sudo apt install ansible    Ahora clonaremos el repositorio correspondiente con la receta.
- alejandrogv@AlejandroGV:~$ git clone https://github.com/josedom24/ansible_nginx_fpm_php.git    En el interior del respositorio editaremos el fichero hosts añadiendo la dirección de la máquina que usaremos para las pruebas.
- [servidores_web] nodo1 ansible_ssh_host=172.22.100.15 ansible_python_interpreter=/usr/bin/python3    Ejecutamos la funcionalidad playbook de ansible para que se realicen las modificaciones necesarias que usaremos en la máquina de prueba.</p></div>
-			<div class="post-list-footer text-center">
-				<a href="https://alepeteporico.github.io/practicas/rendimientoweb/">Read More</a>
-			</div>
-		</div>
-	</li>
-	
-	<li>
-		<div class="post-list-item">
-			<div class="post-header">
-				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/ic/">Introducción a la integración continua </a></h4>
-				<h4 class="post-date">2021-06-04</h4>
-			</div>
-			<div class="post-summary"><p>Integración continúa de aplicación django   Ya tenemos nuestra aplicación y el entorno virtual de la práctica de Despliegue de una aplicación python usaremos la misma, y realizaremos los test.
- (django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python/django_tutorial$ python3 manage.py test Creating test database for alias 'default'... System check identified no issues (0 silenced). .......... ---------------------------------------------------------------------- Ran 10 tests in 0.056s OK Destroying test database for alias 'default'...    Vamos a modificar el fichero polls/templates/polls/index.</p></div>
-			<div class="post-list-footer text-center">
-				<a href="https://alepeteporico.github.io/practicas/ic/">Read More</a>
 			</div>
 		</div>
 	</li>

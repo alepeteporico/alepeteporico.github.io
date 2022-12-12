@@ -106,6 +106,36 @@
 	<li>
 		<div class="post-list-item">
 			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/copias/">Copias de seguridad con bacula</a></h4>
+				<h4 class="post-date">2022-03-14</h4>
+			</div>
+			<div class="post-summary"><p>Usaremos la herramienta bacula para realizar nuestro sistema de copias de seguridad, por supuesto el primer paso que debemos tomar es instalar el paquete de bacula, instalaremos el cliente en todas las máquinas de nuestro escenario, aunque usaremos zeus para alojar las copias de seguridad.
+  Para alojar las copias hemos añadido dos discos que vamos a montar en RAID.
+  debian@zeus:~$ df -h Filesystem Size Used Avail Use% Mounted on /dev/md0 9.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/copias/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/selinux/">SElinux</a></h4>
+				<h4 class="post-date">2022-02-18</h4>
+			</div>
+			<div class="post-summary"><p>En esta práctica vamos a habilitar SELinux en un servidor rocky, en este servidor tendremos alojados un SAMBA y NFS, tendremos que asegurarnos que esto servicios funcionan correctamente con SELinux activado y nuestros clientes pueden usarlos sin problemas.
+  Hemos instalado y configurado un servidor samba y nfs en una máquina servidor.
+  [vagrant@server ~]$ sudo systemctl status smb.service ● smb.service - Samba SMB Daemon Loaded: loaded (/usr/lib/systemd/system/smb.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/selinux/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
 				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/logs/">Recolección de logs mediante journald</a></h4>
 				<h4 class="post-date">2022-02-04</h4>
 			</div>
@@ -208,33 +238,6 @@ view interna { match-clients { 10.0.1.0/24; 127.0.0.1; }; allow-recursion { any;
 			<div class="post-summary"><p>VPN de acceso remoto con OpenVPN y certificados x509  Tenemos dos equipos en vagrant a los que queremos configurarles una conexión VPN. empezemos con el servidor, este está conectado a una red 10.99.99.0/24 a parte de la red que usamos para conectarnos a esta y una interna.  vagrant@servidor:~$ ip a 1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000 link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00 inet 127.</p></div>
 			<div class="post-list-footer text-center">
 				<a href="https://alepeteporico.github.io/practicas/vpn/">Read More</a>
-			</div>
-		</div>
-	</li>
-	
-	<li>
-		<div class="post-list-item">
-			<div class="post-header">
-				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/btrfs/">Btrfs</a></h4>
-				<h4 class="post-date">2021-12-02</h4>
-			</div>
-			<div class="post-summary"><p>Tenemos una maquina con varios discos asociados, lo primero que haremos será instalar la paquetería necesaria para el uso de este sistema de archivos.  vagrant@maquina1:~$ sudo apt install btrfs-progs arch-install-scripts  Montamos en la tabla de particiones los nuevos discos.  vagrant@maquina1:~$ sudo cfdisk -z /dev/vdb vagrant@maquina1:~$ sudo cfdisk -z /dev/vdc vagrant@maquina1:~$ sudo cfdisk -z /dev/vdd vagrant@maquina1:~$ sudo cfdisk -z /dev/vde  Y vamos a crear el sisitema de ficheros de cada una.</p></div>
-			<div class="post-list-footer text-center">
-				<a href="https://alepeteporico.github.io/practicas/btrfs/">Read More</a>
-			</div>
-		</div>
-	</li>
-	
-	<li>
-		<div class="post-list-item">
-			<div class="post-header">
-				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/certficiados/">Certificados Digitales</a></h4>
-				<h4 class="post-date">2021-11-22</h4>
-			</div>
-			<div class="post-summary"><p>Primero obtendremos nuestro certificado digital en la sede electrónica siguiendo todos los pasos que se nos indican.
-  Una vez tengamos nuestro certificado digital podemos importarlo a cualquier navegador, en mi caso quiero importarlo a un navegador firefox que tengo en mi sistema debian 10. Para ello nos dirigiremos a preferencias &gt; Privaciad y Seguridad &gt; Certificados &gt; Ver certificados aquí aparecerá una vetana emergente donde podremos ver todos los certificados guardados que tenemos.</p></div>
-			<div class="post-list-footer text-center">
-				<a href="https://alepeteporico.github.io/practicas/certficiados/">Read More</a>
 			</div>
 		</div>
 	</li>

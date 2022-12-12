@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Interconexion 2023 &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.80.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+	<nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg font-header">
+		<div class="container-fluid">
+			<a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+				blog@alepetepórico ~ $
+			</a>
+			<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse-1" 
+					aria-controls="navbar-collapse-1" aria-expanded="false">
+				<span class="visually-hidden">Toggle navigation</span>
+				<span class="navbar-toggler-icon"></span>
+			</button>
+	
+			
+			<div class="collapse navbar-collapse" id="navbar-collapse-1">
+				<ul class="nav navbar-nav ms-auto">
+					<li class="nav-item">
+						<a class="nav-link" href='https://alepeteporico.github.io/'>
+							/home/blog</a>
+					</li>
+					
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/problemas">~/problemas</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+						
+					</li>
+					
+				</ul>
+			</div>
+		</div>
+	</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/practicas/plsql_peque%C3%B1o/">Interconexion 2023</a></h1>
+                <span class="post-date">2022-12-03 </span>
+                <div class="post-content">
+                    <ol>
+<li>Hacer un procedimiento que muestre el nombre y el salario del empleado cuyo código es 7082.</li>
+</ol>
+<pre><code>CREATE OR REPLACE PROCEDURE cod_7082
+    IS
+        vnombre emp.ename%TYPE;
+        vsal emp.sal%TYPE;
+    BEGIN
+        SELECT ename, sal INTO vnombre, vsal
+        FROM EMP
+            WHERE EMPNO='7082';
+        dbms_output.put_line('El empleado: '||vnombre||', gana: '||vsal);
+END cod_7082;
+</code></pre><pre><code>SQL&gt; exec cod_7082;
+El empleado: ALEJANDRO, gana: 2050
+
+PL/SQL procedure successfully completed.
+</code></pre><ol start="2">
+<li>Hacer un procedimiento que reciba como parámetro un código de empleado y devuelva su nombre</li>
+</ol>
+<pre><code>CREATE OR REPLACE PROCEDURE cod_nombre (cod_emp emp.empno%TYPE)
+IS
+    nombre_emp emp.ename%TYPE;
+BEGIN
+    SELECT ename INTO nombre_emp
+    FROM EMP
+        WHERE empno=cod_emp;
+    dbms_output.put_line('El nombre de este empleado es: '||nombre_emp);
+END cod_nombre;
+</code></pre><pre><code>SQL&gt; exec cod_nombre (7900);
+El nombre de este empleado es: JAMES
+
+PL/SQL procedure successfully completed.
+</code></pre><ol start="3">
+<li>Hacer un procedimiento que devuelva los nombres de los tres empleados más antiguos</li>
+</ol>
+<pre><code>CREATE OR REPLACE PROCEDURE old_emp
+IS
+    cont    NUMBER = 1;
+    vnombre emp%ROWTYPE;
+BEGIN
+    SELECT ENAME INTO vnombre
+    FROM EMP
+    ORDER BY TO_CHAR(HIREDATE, 'yyyy-MM-dd') ASC;
+
+    dbms_output.put_line(vnombre);
+END old_emp;
+
+    WHILE cont &lt; 4
+        dbms_output.put_line('Empleado '||cont||': '||);
+        cont=cont+1;
+</code></pre>
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2022 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>

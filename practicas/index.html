@@ -106,6 +106,32 @@
 	<li>
 		<div class="post-list-item">
 			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/plsql_grupo/">Interconexion 2023</a></h4>
+				<h4 class="post-date">2022-12-03</h4>
+			</div>
+			<div class="post-summary"><p>Realiza una función ComprobarPago que reciba como parámetros un código de cliente y un código de actividad y devuelva un TRUE si el cliente ha pagado la última actividad con ese código que ha realizado y un FALSE en caso contrario. Debes controlar las siguientes excepciones: Cliente inexistente, Actividad Inexistente, Actividad realizada en régimen de Todo Incluido y El cliente nunca ha realizado esa actividad.  CREATE OR REPLACE PROCEDURE ClienteInexistente (v_codcliente personas.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/plsql_grupo/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/plsql_peque%C3%B1o/">Interconexion 2023</a></h4>
+				<h4 class="post-date">2022-12-03</h4>
+			</div>
+			<div class="post-summary"><p>Hacer un procedimiento que muestre el nombre y el salario del empleado cuyo código es 7082.  CREATE OR REPLACE PROCEDURE cod_7082 IS vnombre emp.ename%TYPE; vsal emp.sal%TYPE; BEGIN SELECT ename, sal INTO vnombre, vsal FROM EMP WHERE EMPNO='7082'; dbms_output.put_line('El empleado: '||vnombre||', gana: '||vsal); END cod_7082; SQL&gt; exec cod_7082; El empleado: ALEJANDRO, gana: 2050 PL/SQL procedure successfully completed. Hacer un procedimiento que reciba como parámetro un código de empleado y devuelva su nombre  CREATE OR REPLACE PROCEDURE cod_nombre (cod_emp emp.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/plsql_peque%C3%B1o/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
 				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/interconexion2023/">Interconexion 2023</a></h4>
 				<h4 class="post-date">2022-11-15</h4>
 			</div>
@@ -210,40 +236,6 @@
 			<div class="post-summary"><p>Configura un escenario con dos máquinas. Cada una tiene que tener dos discos adicionales (tamaño 1Gb para que la sincronización sea rápida).  Configura en modo Single-primary el recurso wwwdata.  Primero debemos instalar el paquete necesario para usar DRBD en las dos máquinas.  vagrant@maquina1:~$ sudo apt install drbd-utils  Ahora para crear este recurso lo hacemos creando un fichero en /etc/drbd.d/ al que llamaremos wwwdata.res  resource wwwdata { protocol C; meta-disk internal; device /dev/drbd1; syncer { verify-alg sha1; } net { allow-two-primaries; } on maquina1 { disk /dev/vdb; address 192.</p></div>
 			<div class="post-list-footer text-center">
 				<a href="https://alepeteporico.github.io/practicas/drb_ocfs2/">Read More</a>
-			</div>
-		</div>
-	</li>
-	
-	<li>
-		<div class="post-list-item">
-			<div class="post-header">
-				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/ldap_csv/">Poblar un directorio LDAP desde un fichero CSV</a></h4>
-				<h4 class="post-date">2022-05-20</h4>
-			</div>
-			<div class="post-summary"><p>Crear entre todos los alumnos de la clase que vayan a hacer esta tarea un fichero CSV que incluya información personal de cada uno incluyendo los siguientes datos:
-  Nombre
-  Apellidos
-  Dirección de correo electrónico
-  Nombre de usuario
-  Clave pública ssh
-    Otro fichero con la siguiente información de los alumnos:
-  Hostname
-  IPv4</p></div>
-			<div class="post-list-footer text-center">
-				<a href="https://alepeteporico.github.io/practicas/ldap_csv/">Read More</a>
-			</div>
-		</div>
-	</li>
-	
-	<li>
-		<div class="post-list-item">
-			<div class="post-header">
-				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/ldap_uga/">Usuarios, Grupos y ACLs en LDAP</a></h4>
-				<h4 class="post-date">2022-05-20</h4>
-			</div>
-			<div class="post-summary"><p>Crea 10 usuarios con los nombres que prefieras en LDAP, esos usuarios deben ser objetos de los tipos posixAccount e inetOrgPerson. Estos usuarios tendrán un atributo userPassword. dn: uid=stark,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: stark gidNumber: 2001 homeDirectory: /home/stark loginShell: /bin/bash sn: stark uid: stark uidNumber: 2001 userPassword: {SSHA}loVCFjl442fnkpIZC05Ht+8OwLsgF0Ua dn: uid=rogers,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: rogers gidNumber: 2002 homeDirectory: /home/rogers loginShell: /bin/bash sn: rogers uid: rogers uidNumber: 2002 userPassword: {SSHA}gLim3ka1uQnZtFCMBoD0+NKmQ88/7f+d dn: uid=banner,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: banner gidNumber: 2003 homeDirectory: /home/banner loginShell: /bin/bash sn: banner uid: banner uidNumber: 2003 userPassword: {SSHA}R28hwHBG+MeisvkGM3qS7q049d8p6QO1 dn: uid=romanof,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: romanof gidNumber: 2004 homeDirectory: /home/romanof loginShell: /bin/bash sn: romanof uid: romanof uidNumber: 2004 userPassword: {SSHA}r4NOljTbgWSfO1r4daswgbBDhlLtwMwd dn: uid=burton,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: burton gidNumber: 2005 homeDirectory: /home/burton loginShell: /bin/bash sn: burton uid: burton uidNumber: 2005 userPassword: {SSHA}n8aeZpDwycwusGlKWl56MuTXARrAWhyM dn: uid=thor,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: thor gidNumber: 2006 homeDirectory: /home/thor loginShell: /bin/bash sn: thor uid: thor uidNumber: 2006 userPassword: {SSHA}m20Ph+8uSwScFHcJ6iVpgimoiKawWuc3 dn: uid=strange,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: strange gidNumber: 2007 homeDirectory: /home/strange loginShell: /bin/bash sn: strange uid: strange uidNumber: 2007 userPassword: {SSHA}UpziawVa6CL9Kk/g7gVzFRQ4MJWBDFKP dn: uid=parker,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: parker gidNumber: 2008 homeDirectory: /home/parker loginShell: /bin/bash sn: parker uid: parker uidNumber: 2008 userPassword: {SSHA}Px8NYV9wWlc/JxmUWaGaBV28KSucLIYt dn: uid=furia,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: furia gidNumber: 2009 homeDirectory: /home/furia loginShell: /bin/bash sn: furia uid: furia uidNumber: 2009 userPassword: {SSHA}8VRwZX4ts0fe8KBT58h3ywzpj+EEShfV dn: uid=maximof,ou=Usuarios,dc=alexgv,dc=gonzalonazareno,dc=org objectClass: posixAccount objectClass: inetOrgPerson objectClass: top cn: maximof gidNumber: 2010 homeDirectory: /home/maximof loginShell: /bin/bash sn: maximof uid: maximof uidNumber: 2010 userPassword: {SSHA}t1Oa8gRUcI6kfJvVfNpNdMeMXs+05l1K  Ejecutamos este fichero.</p></div>
-			<div class="post-list-footer text-center">
-				<a href="https://alepeteporico.github.io/practicas/ldap_uga/">Read More</a>
 			</div>
 		</div>
 	</li>
