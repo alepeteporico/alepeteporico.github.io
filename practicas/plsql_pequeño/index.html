@@ -137,20 +137,36 @@ PL/SQL procedure successfully completed.
 </ol>
 <pre><code>CREATE OR REPLACE PROCEDURE old_emp
 IS
-    cont    NUMBER = 1;
-    vnombre emp%ROWTYPE;
+    CURSOR c_empleados IS
+        SELECT ENAME
+        FROM EMP
+        ORDER BY TO_CHAR(HIREDATE, 'yyyy-MM-dd') ASC
+        FETCH FIRST 3 ROWS ONLY;
+    v_nombre emp.ename%type;
+    cont NUMBER=1;
 BEGIN
-    SELECT ENAME INTO vnombre
-    FROM EMP
-    ORDER BY TO_CHAR(HIREDATE, 'yyyy-MM-dd') ASC;
-
-    dbms_output.put_line(vnombre);
-END old_emp;
-
-    WHILE cont &lt; 4
-        dbms_output.put_line('Empleado '||cont||': '||);
+    FOR v_empleados IN c_empleados
+    LOOP
+        dbms_output.put_line('Empleado '||cont||': '||v_empleados);
         cont=cont+1;
-</code></pre>
+    END LOOP;
+END old_emp;
+</code></pre><p>CREATE OR REPLACE PROCEDURE mostrar_antiguos
+IS
+CURSOR c_antiguos IS
+SELECT ename
+FROM emp
+ORDER BY hiredate
+FETCH FIRST 3 ROWS ONLY;
+v_nombre emp.ename%TYPE;
+BEGIN
+FOR v_antiguos IN c_antiguos
+LOOP
+DBMS_OUTPUT.PUT_LINE(&lsquo;Nombre: ' || v_antiguos.ename);
+END LOOP;
+END;
+/</p>
+
                 </div>
                 
                 <div class="post-comments">
