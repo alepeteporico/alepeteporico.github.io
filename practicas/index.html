@@ -106,12 +106,12 @@
 	<li>
 		<div class="post-list-item">
 			<div class="post-header">
-				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/plsql_grupo/">Interconexion 2023</a></h4>
-				<h4 class="post-date">2022-12-03</h4>
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/usuario2023/">Gestion de Usuarios BBDD</a></h4>
+				<h4 class="post-date">2023-01-04</h4>
 			</div>
-			<div class="post-summary"><p>Realiza una función ComprobarPago que reciba como parámetros un código de cliente y un código de actividad y devuelva un TRUE si el cliente ha pagado la última actividad con ese código que ha realizado y un FALSE en caso contrario. Debes controlar las siguientes excepciones: Cliente inexistente, Actividad Inexistente, Actividad realizada en régimen de Todo Incluido y El cliente nunca ha realizado esa actividad.  CREATE OR REPLACE PROCEDURE ClienteInexistente (v_codcliente personas.</p></div>
+			<div class="post-summary"><p>Parte Individual: MongoDB  Averigua si existe la posibilidad en MongoDB de limitar el acceso de un usuario a los datos de una colección determinada.   Al crear un usuario podemos especificar la colección que queremos que pueda acceder y los permisos que le damos sobre ella, como solo lectura o lectura y escritura&hellip; Para ello entramos con el usuario administrador, entramos en la base de datos sobre la que queremos darle privilegios y creamos este usuario.</p></div>
 			<div class="post-list-footer text-center">
-				<a href="https://alepeteporico.github.io/practicas/plsql_grupo/">Read More</a>
+				<a href="https://alepeteporico.github.io/practicas/usuario2023/">Read More</a>
 			</div>
 		</div>
 	</li>
@@ -119,12 +119,25 @@
 	<li>
 		<div class="post-list-item">
 			<div class="post-header">
-				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/plsql_peque%C3%B1o/">Interconexion 2023</a></h4>
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/plsql_peque%C3%B1o/">Pequeño ejercicio plsql</a></h4>
 				<h4 class="post-date">2022-12-03</h4>
 			</div>
 			<div class="post-summary"><p>Hacer un procedimiento que muestre el nombre y el salario del empleado cuyo código es 7082.  CREATE OR REPLACE PROCEDURE cod_7082 IS vnombre emp.ename%TYPE; vsal emp.sal%TYPE; BEGIN SELECT ename, sal INTO vnombre, vsal FROM EMP WHERE EMPNO='7082'; dbms_output.put_line('El empleado: '||vnombre||', gana: '||vsal); END cod_7082; SQL&gt; exec cod_7082; El empleado: ALEJANDRO, gana: 2050 PL/SQL procedure successfully completed. Hacer un procedimiento que reciba como parámetro un código de empleado y devuelva su nombre  CREATE OR REPLACE PROCEDURE cod_nombre (cod_emp emp.</p></div>
 			<div class="post-list-footer text-center">
 				<a href="https://alepeteporico.github.io/practicas/plsql_peque%C3%B1o/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/plsql_grupo/">practica grupal plsql</a></h4>
+				<h4 class="post-date">2022-12-03</h4>
+			</div>
+			<div class="post-summary"><p>Realiza una función ComprobarPago que reciba como parámetros un código de cliente y un código de actividad y devuelva un TRUE si el cliente ha pagado la última actividad con ese código que ha realizado y un FALSE en caso contrario. Debes controlar las siguientes excepciones: Cliente inexistente, Actividad Inexistente, Actividad realizada en régimen de Todo Incluido y El cliente nunca ha realizado esa actividad.  CREATE OR REPLACE PROCEDURE ClienteInexistente (v_codcliente personas.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/plsql_grupo/">Read More</a>
 			</div>
 		</div>
 	</li>
@@ -227,19 +240,6 @@
 		</div>
 	</li>
 	
-	<li>
-		<div class="post-list-item">
-			<div class="post-header">
-				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/drb_ocfs2/">DRBD y OCFS2</a></h4>
-				<h4 class="post-date">2022-05-29</h4>
-			</div>
-			<div class="post-summary"><p>Configura un escenario con dos máquinas. Cada una tiene que tener dos discos adicionales (tamaño 1Gb para que la sincronización sea rápida).  Configura en modo Single-primary el recurso wwwdata.  Primero debemos instalar el paquete necesario para usar DRBD en las dos máquinas.  vagrant@maquina1:~$ sudo apt install drbd-utils  Ahora para crear este recurso lo hacemos creando un fichero en /etc/drbd.d/ al que llamaremos wwwdata.res  resource wwwdata { protocol C; meta-disk internal; device /dev/drbd1; syncer { verify-alg sha1; } net { allow-two-primaries; } on maquina1 { disk /dev/vdb; address 192.</p></div>
-			<div class="post-list-footer text-center">
-				<a href="https://alepeteporico.github.io/practicas/drb_ocfs2/">Read More</a>
-			</div>
-		</div>
-	</li>
-	
 </ul>
 
 				
@@ -293,7 +293,7 @@
 
 			</div>
 			<footer class="footer text-center">
-<p>Copyright &copy; 2022 Alepetepórico Blog -
+<p>Copyright &copy; 2023 Alepetepórico Blog -
 <span class="credit">
 	Powered by
 	<a target="_blank" href="https://gohugo.io">Hugo</a>

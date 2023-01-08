@@ -6,23 +6,32 @@
     <description>Recent content in Practicas on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 03 Dec 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 04 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/practicas/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Interconexion 2023</title>
-      <link>https://alepeteporico.github.io/practicas/plsql_grupo/</link>
-      <pubDate>Sat, 03 Dec 2022 00:00:00 +0000</pubDate>
+      <title>Gestion de Usuarios BBDD</title>
+      <link>https://alepeteporico.github.io/practicas/usuario2023/</link>
+      <pubDate>Wed, 04 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://alepeteporico.github.io/practicas/plsql_grupo/</guid>
-      <description>Realiza una función ComprobarPago que reciba como parámetros un código de cliente y un código de actividad y devuelva un TRUE si el cliente ha pagado la última actividad con ese código que ha realizado y un FALSE en caso contrario. Debes controlar las siguientes excepciones: Cliente inexistente, Actividad Inexistente, Actividad realizada en régimen de Todo Incluido y El cliente nunca ha realizado esa actividad.  CREATE OR REPLACE PROCEDURE ClienteInexistente (v_codcliente personas.</description>
+      <guid>https://alepeteporico.github.io/practicas/usuario2023/</guid>
+      <description>Parte Individual: MongoDB  Averigua si existe la posibilidad en MongoDB de limitar el acceso de un usuario a los datos de una colección determinada.   Al crear un usuario podemos especificar la colección que queremos que pueda acceder y los permisos que le damos sobre ella, como solo lectura o lectura y escritura&amp;hellip; Para ello entramos con el usuario administrador, entramos en la base de datos sobre la que queremos darle privilegios y creamos este usuario.</description>
     </item>
     
     <item>
-      <title>Interconexion 2023</title>
+      <title>Pequeño ejercicio plsql</title>
       <link>https://alepeteporico.github.io/practicas/plsql_peque%C3%B1o/</link>
       <pubDate>Sat, 03 Dec 2022 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/plsql_peque%C3%B1o/</guid>
       <description>Hacer un procedimiento que muestre el nombre y el salario del empleado cuyo código es 7082.  CREATE OR REPLACE PROCEDURE cod_7082 IS vnombre emp.ename%TYPE; vsal emp.sal%TYPE; BEGIN SELECT ename, sal INTO vnombre, vsal FROM EMP WHERE EMPNO=&#39;7082&#39;; dbms_output.put_line(&#39;El empleado: &#39;||vnombre||&#39;, gana: &#39;||vsal); END cod_7082; SQL&amp;gt; exec cod_7082; El empleado: ALEJANDRO, gana: 2050 PL/SQL procedure successfully completed. Hacer un procedimiento que reciba como parámetro un código de empleado y devuelva su nombre  CREATE OR REPLACE PROCEDURE cod_nombre (cod_emp emp.</description>
+    </item>
+    
+    <item>
+      <title>practica grupal plsql</title>
+      <link>https://alepeteporico.github.io/practicas/plsql_grupo/</link>
+      <pubDate>Sat, 03 Dec 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/plsql_grupo/</guid>
+      <description>Realiza una función ComprobarPago que reciba como parámetros un código de cliente y un código de actividad y devuelva un TRUE si el cliente ha pagado la última actividad con ese código que ha realizado y un FALSE en caso contrario. Debes controlar las siguientes excepciones: Cliente inexistente, Actividad Inexistente, Actividad realizada en régimen de Todo Incluido y El cliente nunca ha realizado esa actividad.  CREATE OR REPLACE PROCEDURE ClienteInexistente (v_codcliente personas.</description>
     </item>
     
     <item>

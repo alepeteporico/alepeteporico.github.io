@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Gestion de Usuarios BBDD &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.80.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+	<nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg font-header">
+		<div class="container-fluid">
+			<a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+				blog@alepetepórico ~ $
+			</a>
+			<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse-1" 
+					aria-controls="navbar-collapse-1" aria-expanded="false">
+				<span class="visually-hidden">Toggle navigation</span>
+				<span class="navbar-toggler-icon"></span>
+			</button>
+	
+			
+			<div class="collapse navbar-collapse" id="navbar-collapse-1">
+				<ul class="nav navbar-nav ms-auto">
+					<li class="nav-item">
+						<a class="nav-link" href='https://alepeteporico.github.io/'>
+							/home/blog</a>
+					</li>
+					
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/problemas">~/problemas</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+						
+					</li>
+					
+				</ul>
+			</div>
+		</div>
+	</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/practicas/usuario2023/">Gestion de Usuarios BBDD</a></h1>
+                <span class="post-date">2023-01-04 </span>
+                <div class="post-content">
+                    <h2 id="parte-individual">Parte Individual:</h2>
+<h3 id="mongodb">MongoDB</h3>
+<ol>
+<li>Averigua si existe la posibilidad en MongoDB de limitar el acceso de un usuario a los datos de una colección determinada.</li>
+</ol>
+<ul>
+<li>Al crear un usuario podemos especificar la colección que queremos que pueda acceder y los permisos que le damos sobre ella, como solo lectura o lectura y escritura&hellip; Para ello entramos con el usuario administrador, entramos en la base de datos sobre la que queremos darle privilegios y creamos este usuario.</li>
+</ul>
+<pre><code>&gt; use nobel
+switched to db nobel
+
+&gt; db.createUser({user: &quot;prueba1&quot;, pwd: &quot;prueba1&quot;, roles: [{role: &quot;read&quot;, db: &quot;nobel&quot;}]})
+Successfully added user: {
+	&quot;user&quot; : &quot;prueba1&quot;,
+	&quot;roles&quot; : [
+		{
+			&quot;role&quot; : &quot;read&quot;,
+			&quot;db&quot; : &quot;nobel&quot;
+		}
+	]
+}
+</code></pre><ul>
+<li>Hemos creado el usuario anterior el cual solo tiene permiso de lectura sobre la colecciones de la base de datos &ldquo;nobel&rdquo;, ahora entraremos con este usuario a mongo, para ello debemos especificar mínimo el usuario y la base de datos a la que nos queremos conectar, aunque en mi caso también he añadido la contraseña.</li>
+</ul>
+<pre><code>vagrant@mongoagv:~$ mongo -u prueba1 -p prueba1 --authenticationDatabase &quot;nobel&quot;
+</code></pre><ul>
+<li>vamos a comprobar que podemos visualizar los datos.</li>
+</ul>
+<pre><code>&gt; db.premios.find().pretty()
+{
+	&quot;_id&quot; : ObjectId(&quot;63b9c93c9cd6ef460b679a17&quot;),
+	&quot;year&quot; : &quot;2021&quot;,
+	&quot;category&quot; : &quot;Chemistry&quot;,
+	&quot;laureates&quot; : [
+		{
+			&quot;id&quot; : &quot;1002&quot;,
+			&quot;firstname&quot; : &quot;Benjamin&quot;,
+			&quot;surname&quot; : &quot;List&quot;,
+			&quot;motivation&quot; : &quot;\&quot;for the development of asymmetric organocatalysis\&quot;&quot;,
+			&quot;share&quot; : &quot;2&quot;
+		},
+		{
+			&quot;id&quot; : &quot;1003&quot;,
+			&quot;firstname&quot; : &quot;David&quot;,
+			&quot;surname&quot; : &quot;MacMillan&quot;,
+			&quot;motivation&quot; : &quot;\&quot;for the development of asymmetric organocatalysis\&quot;&quot;,
+			&quot;share&quot; : &quot;2&quot;
+		}
+	]
+}
+</code></pre><ul>
+<li>Pero si intentamos insertar un registro nos avisa de que no tenemos privilegios suficientes.</li>
+</ul>
+<pre><code>&gt; db.premios.insertOne ({
+...       &quot;year&quot;: &quot;2023&quot;,
+...       &quot;category&quot;: &quot;Literature&quot;,
+...       &quot;laureates&quot;: [
+...          {
+...             &quot;id&quot;: &quot;1408&quot;,
+...             &quot;firstname&quot;: &quot;Alejandro&quot;,
+...             &quot;surname&quot;: &quot;Prueba&quot;,
+...             &quot;motivation&quot;: &quot;\&quot;Prueba de fallo\&quot;&quot;,
+...             &quot;share&quot;: &quot;2&quot;
+...          },
+... {
+... &quot;id&quot; : &quot;1409&quot;,
+... &quot;firstname&quot; : &quot;Maria&quot;,
+... &quot;surname&quot; : &quot;Prueba2&quot;,
+... &quot;motivation&quot; : &quot;\&quot;Prueba de fallo\&quot;&quot;,
+... &quot;share&quot; : &quot;2&quot;
+... }
+... ]
+... })
+uncaught exception: WriteCommandError({
+	&quot;ok&quot; : 0,
+	&quot;errmsg&quot; : &quot;not authorized on nobel to execute command { insert: \&quot;premios\&quot;, ordered: true, lsid: { id: UUID(\&quot;b1891384-1e6b-476c-a075-489916c31946\&quot;) }, $db: \&quot;nobel\&quot; }&quot;,
+	&quot;code&quot; : 13,
+	&quot;codeName&quot; : &quot;Unauthorized&quot;
+</code></pre><ul>
+<li>Si queremos asignar nuevos roles a un usuario sobre una base de datos nueva usamos la siguiente orden.</li>
+</ul>
+<pre><code>db.grantRolesToUser('prueba1', 
+  [ { db: 'otraBBDD', role: 'readWrite' } ]
+)
+</code></pre><ol start="2">
+<li>Averigua si en MongoDB existe el concepto de privilegio del sistema y muestra las diferencias más importantes con ORACLE.</li>
+</ol>
+<ul>
+<li>Se podría decir que si podemos asignar roles de sistema a nuestro usuarios en mongodb, si creamos un usuario le podemos asignar distintos roles como hicimos anteriormente pero de sistema, veremos algunos ejemplos a continuación.</li>
+</ul>
+<ul>
+<li>
+<p>Vamos a ver tres roles que tienen que ver con la administración de la base de datos:</p>
+<ul>
+<li><strong>dbAdmin</strong> Permite gestionar datos pero no usuarios.</li>
+</ul>
+</li>
+</ul>
+<pre><code>db.createUser({user: &quot;administrador1&quot;, pwd: &quot;administrador1&quot;, roles: [{role: &quot;dbAdmin&quot;, db: &quot;admin&quot;}]})
+</code></pre><pre><code>&gt; db.premios.remove({&quot;id&quot;: &quot;976&quot;});
+WriteResult({ &quot;nRemoved&quot; : 1 })
+
+&gt; db.createUser({user: &quot;administrador2&quot;, pwd: &quot;administrador2&quot;, roles: [{role: &quot;userAdmin&quot;, db: &quot;admin&quot;}]})
+uncaught exception: Error: couldn't add user: not authorized on admin to execute command { createUser: &quot;administrador2&quot;, pwd: &quot;xxx&quot;, roles: [ { role: &quot;userAdmin&quot;, db: &quot;admin&quot; } ], digestPassword: true, writeConcern: { w: &quot;majority&quot;, wtimeout: 600000.0 }, lsid: { id: UUID(&quot;61ff1096-b904-479a-885d-2b33395a3326&quot;) }, $db: &quot;admin&quot; } :
+_getErrorWithCode@src/mongo/shell/utils.js:25:13
+DB.prototype.createUser@src/mongo/shell/db.js:1367:11
+@(shell):1:1
+</code></pre><ul>
+<li>
+<p>Tenemos el caso completamente opuesto, un rol que puede gestionar usuarios pero no datos.</p>
+</li>
+<li>
+<p>geg</p>
+</li>
+</ul>
+
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2023 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>

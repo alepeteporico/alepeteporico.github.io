@@ -106,6 +106,19 @@
 	<li>
 		<div class="post-list-item">
 			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/dhcp_2022/">Servidor DHCP 2022</a></h4>
+				<h4 class="post-date">2022-03-16</h4>
+			</div>
+			<div class="post-summary"><p>Creación del escenario  Primero creamos la imagen inicial.  virt-install --connect qemu:///system --cdrom /home/alejandrogv/Escritorio/ISOS/debian-11.1.0-amd64-netinst.iso --network network=bridge --name servidor --memory 1024 --vcpus 1 --disk size=10  Ahora con el volumen que se ha creado crearemos las imagenes de los clientes y el servidor.  sudo qemu-img create -b /var/lib/libvirt/images/servidor.qcow2 -f qcow2 /var/lib/libvirt/images/server.qcow2 sudo qemu-img create -b /var/lib/libvirt/images/servidor.qcow2 -f qcow2 /var/lib/libvirt/images/cliente1.qcow2 sudo qemu-img create -b /var/lib/libvirt/images/servidor.qcow2 -f qcow2 /var/lib/libvirt/images/cliente2.qcow2  Y creamos las máquinas a partir de estas imagenes  sudo virt-install --connect qemu:///system --name server --memory 1024 --vcpus 1 --disk /var/lib/libvirt/images/server.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/dhcp_2022/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
 				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/copias/">Copias de seguridad con bacula</a></h4>
 				<h4 class="post-date">2022-03-14</h4>
 			</div>
@@ -229,19 +242,6 @@ view interna { match-clients { 10.0.1.0/24; 127.0.0.1; }; allow-recursion { any;
 		</div>
 	</li>
 	
-	<li>
-		<div class="post-list-item">
-			<div class="post-header">
-				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/vpn/">VPN</a></h4>
-				<h4 class="post-date">2021-12-09</h4>
-			</div>
-			<div class="post-summary"><p>VPN de acceso remoto con OpenVPN y certificados x509  Tenemos dos equipos en vagrant a los que queremos configurarles una conexión VPN. empezemos con el servidor, este está conectado a una red 10.99.99.0/24 a parte de la red que usamos para conectarnos a esta y una interna.  vagrant@servidor:~$ ip a 1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000 link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00 inet 127.</p></div>
-			<div class="post-list-footer text-center">
-				<a href="https://alepeteporico.github.io/practicas/vpn/">Read More</a>
-			</div>
-		</div>
-	</li>
-	
 </ul>
 
 				
@@ -295,7 +295,7 @@ view interna { match-clients { 10.0.1.0/24; 127.0.0.1; }; allow-recursion { any;
 
 			</div>
 			<footer class="footer text-center">
-<p>Copyright &copy; 2022 Alepetepórico Blog -
+<p>Copyright &copy; 2023 Alepetepórico Blog -
 <span class="credit">
 	Powered by
 	<a target="_blank" href="https://gohugo.io">Hugo</a>

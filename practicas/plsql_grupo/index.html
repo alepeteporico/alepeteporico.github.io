@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title> Interconexion 2023 &middot; Alepetepórico Blog </title>
+        <title> practica grupal plsql &middot; Alepetepórico Blog </title>
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -96,7 +96,7 @@
 
         <div class="flex-wrapper">
             <div class="container wrapper">
-                <h1><a href="https://alepeteporico.github.io/practicas/plsql_grupo/">Interconexion 2023</a></h1>
+                <h1><a href="https://alepeteporico.github.io/practicas/plsql_grupo/">practica grupal plsql</a></h1>
                 <span class="post-date">2022-12-03 </span>
                 <div class="post-content">
                     <ul>
@@ -198,7 +198,40 @@ WHERE NIFCliente=&lsquo;06852683V&rsquo;
 )
 )
 AND abonado!=0;</p>
+<pre><code>CREATE OR REPLACE PROCEDURE PrecioDeRegimen (v_codregimen Tarfias.CodigoRegimen%type, v_añadido OUT NUMBER)
+IS
+    v_PrecioBaseAD    NUMBER(6,2);
+    v_PrecioBaseMP    NUMBER(6,2);
+    v_PrecioBasePC    NUMBER(6,2);
+    v_PrecioBaseTI    NUMBER(6,2);
 
+BEGIN
+    v_PrecioBaseAD:=30;
+    v_PrecioBaseMP:=45;
+    v_PrecioBasePC:=65;
+    v_PrecioBaseTI:=80;
+
+    IF v_codregimen='AD'
+    THEN
+        v_añadido:=v_PrecioBaseAD;
+    ELSE IF v_codregimen='MP'
+    THEN
+        v_añadido:=v_PrecioBaseMP;
+    ELSE IF v_codregimen='PC'
+    THEN
+        v_añadido:=v_PrecioBasePC;
+    ELSE IF v_codregimen='TI'
+    THEN
+        v_añadido:=v_PrecioBaseTI;
+    END IF;
+END;
+/
+</code></pre><pre><code>CREATE OR REPLACE TRIGGER PrecioDeHabitacion
+DECLARE
+
+BEGIN
+    
+</code></pre>
                 </div>
                 
                 <div class="post-comments">
@@ -226,7 +259,7 @@ AND abonado!=0;</p>
                 
             </div>
             <footer class="footer text-center">
-<p>Copyright &copy; 2022 Alepetepórico Blog -
+<p>Copyright &copy; 2023 Alepetepórico Blog -
 <span class="credit">
 	Powered by
 	<a target="_blank" href="https://gohugo.io">Hugo</a>
