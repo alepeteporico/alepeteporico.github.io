@@ -278,10 +278,174 @@ Successfully added user: {
 </li>
 </ul>
 <pre><code>&gt; db.grantRolesToUser(&quot;administrador1&quot;, [ &quot;readWrite&quot;, {role: &quot;read&quot;, db: &quot;nobel&quot;} ])
+</code></pre><ul>
+<li>También podemos crear nuevos roles, vamos a ver un ejemplo que he encontrado en la página oficial de mongo de un rol que permite eliminar cualquier colección de cualquier base de datos que especifiquemos. Y nuevamente, podríamos asignar este rol a cualquier usuario que queramos.</li>
+</ul>
+<pre><code>db.createRole(
+   {
+     role: &quot;dropSystemViewsAnyDatabase&quot;, 
+     privileges: [
+       {
+         actions: [ &quot;dropCollection&quot; ],
+         resource: { db: &quot;&quot;, collection: &quot;system.views&quot; }
+       }
+     ],
+     roles: []
+   }
+)
 </code></pre><ol start="4">
-<li></li>
+<li>Explica como puede consultarse el diccionario de datos de MongoDB para saber que roles han sido concedidos a un usuario y qué privilegios incluyen.</li>
 </ol>
-
+<ul>
+<li>Ver los roles de un usuario es una tarea bastante sencilla, solo debemos usar la funcion &ldquo;getUser&rdquo;</li>
+</ul>
+<pre><code>&gt; db.getUser(&quot;administrador1&quot;)
+{
+	&quot;_id&quot; : &quot;admin.administrador1&quot;,
+	&quot;userId&quot; : UUID(&quot;2ec38b76-6ddf-457c-bab2-c4bb8ba34452&quot;),
+	&quot;user&quot; : &quot;administrador1&quot;,
+	&quot;db&quot; : &quot;admin&quot;,
+	&quot;roles&quot; : [
+		{
+			&quot;role&quot; : &quot;read&quot;,
+			&quot;db&quot; : &quot;nobel&quot;
+		},
+		{
+			&quot;role&quot; : &quot;readWrite&quot;,
+			&quot;db&quot; : &quot;admin&quot;
+		},
+		{
+			&quot;role&quot; : &quot;dbAdmin&quot;,
+			&quot;db&quot; : &quot;admin&quot;
+		}
+	],
+	&quot;mechanisms&quot; : [
+		&quot;SCRAM-SHA-1&quot;,
+		&quot;SCRAM-SHA-256&quot;
+	]
+}
+</code></pre><ul>
+<li>Una vez tenemos todos los roles de este usuario podemos visualizar los privilegios que incluyen ese rol, en este caso con la función &ldquo;getRoles&rdquo; y dentro de esta función especificando que nos muestro los privilegios como veremos a continuación.</li>
+</ul>
+<pre><code>&gt; db.getRole ( &quot;dbAdmin&quot;, { showPrivileges: true } )
+{
+	&quot;db&quot; : &quot;test&quot;,
+	&quot;role&quot; : &quot;dbAdmin&quot;,
+	&quot;roles&quot; : [ ],
+	&quot;privileges&quot; : [
+		{
+			&quot;resource&quot; : {
+				&quot;db&quot; : &quot;test&quot;,
+				&quot;collection&quot; : &quot;&quot;
+			},
+			&quot;actions&quot; : [
+				&quot;bypassDocumentValidation&quot;,
+				&quot;collMod&quot;,
+				&quot;collStats&quot;,
+				&quot;compact&quot;,
+				&quot;convertToCapped&quot;,
+				&quot;createCollection&quot;,
+				&quot;createIndex&quot;,
+				&quot;dbStats&quot;,
+				&quot;dropCollection&quot;,
+				&quot;dropDatabase&quot;,
+				&quot;dropIndex&quot;,
+				&quot;enableProfiler&quot;,
+				&quot;listCollections&quot;,
+				&quot;listIndexes&quot;,
+				&quot;planCacheIndexFilter&quot;,
+				&quot;planCacheRead&quot;,
+				&quot;planCacheWrite&quot;,
+				&quot;reIndex&quot;,
+				&quot;renameCollectionSameDB&quot;,
+				&quot;storageDetails&quot;,
+				&quot;validate&quot;
+			]
+		},
+		{
+			&quot;resource&quot; : {
+				&quot;db&quot; : &quot;test&quot;,
+				&quot;collection&quot; : &quot;system.profile&quot;
+			},
+			&quot;actions&quot; : [
+				&quot;changeStream&quot;,
+				&quot;collStats&quot;,
+				&quot;convertToCapped&quot;,
+				&quot;createCollection&quot;,
+				&quot;dbHash&quot;,
+				&quot;dbStats&quot;,
+				&quot;dropCollection&quot;,
+				&quot;find&quot;,
+				&quot;killCursors&quot;,
+				&quot;listCollections&quot;,
+				&quot;listIndexes&quot;,
+				&quot;planCacheRead&quot;
+			]
+		}
+	],
+	&quot;inheritedRoles&quot; : [ ],
+	&quot;inheritedPrivileges&quot; : [
+		{
+			&quot;resource&quot; : {
+				&quot;db&quot; : &quot;test&quot;,
+				&quot;collection&quot; : &quot;&quot;
+			},
+			&quot;actions&quot; : [
+				&quot;bypassDocumentValidation&quot;,
+				&quot;collMod&quot;,
+				&quot;collStats&quot;,
+				&quot;compact&quot;,
+				&quot;convertToCapped&quot;,
+				&quot;createCollection&quot;,
+				&quot;createIndex&quot;,
+				&quot;dbStats&quot;,
+				&quot;dropCollection&quot;,
+				&quot;dropDatabase&quot;,
+				&quot;dropIndex&quot;,
+				&quot;enableProfiler&quot;,
+				&quot;listCollections&quot;,
+				&quot;listIndexes&quot;,
+				&quot;planCacheIndexFilter&quot;,
+				&quot;planCacheRead&quot;,
+				&quot;planCacheWrite&quot;,
+				&quot;reIndex&quot;,
+				&quot;renameCollectionSameDB&quot;,
+				&quot;storageDetails&quot;,
+				&quot;validate&quot;
+			]
+		},
+		{
+			&quot;resource&quot; : {
+				&quot;db&quot; : &quot;test&quot;,
+				&quot;collection&quot; : &quot;system.profile&quot;
+			},
+			&quot;actions&quot; : [
+				&quot;changeStream&quot;,
+				&quot;collStats&quot;,
+				&quot;convertToCapped&quot;,
+				&quot;createCollection&quot;,
+				&quot;dbHash&quot;,
+				&quot;dbStats&quot;,
+				&quot;dropCollection&quot;,
+				&quot;find&quot;,
+				&quot;killCursors&quot;,
+				&quot;listCollections&quot;,
+				&quot;listIndexes&quot;,
+				&quot;planCacheRead&quot;
+			]
+		}
+	],
+	&quot;isBuiltin&quot; : true
+}
+</code></pre><ul>
+<li>Nos muestra esta extensa lista de los privilegios que tiene el rol &ldquo;dbAdmin&rdquo;, esto podemos hacerlo con cualquier rol.</li>
+</ul>
+<h3 id="oracle">Oracle</h3>
+<ol>
+<li>Realiza un procedimiento llamado MostrarObjetosAccesibles que reciba un nombre de usuario y muestre todos los objetos a los que tiene acceso.</li>
+</ol>
+<pre><code>CREATE OR REPLACE PROCEDURE
+</code></pre>
                 </div>
                 
                 <div class="post-comments">
