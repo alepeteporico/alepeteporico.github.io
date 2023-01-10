@@ -445,7 +445,212 @@ Successfully added user: {
 <li>Realiza un procedimiento llamado MostrarObjetosAccesibles que reciba un nombre de usuario y muestre todos los objetos a los que tiene acceso.</li>
 </ol>
 <pre><code>CREATE OR REPLACE PROCEDURE
-</code></pre>
+</code></pre><p>select *
+from SYS.dba_objects
+order by OBJECT_TYPE</p>
+<p>select *
+from dba_objects
+where owner = &lsquo;PRACTICA&rsquo;;</p>
+<h2 id="parte-grupal">Parte grupal</h2>
+<h3 id="caso-práctico-1">CASO PRÁCTICO 1:</h3>
+<ol>
+<li>Crea un usuario llamado Becario y, sin usar los roles de ORACLE, dale los siguientes privilegios:
+<ul>
+<li>Conectarse a la base de datos.</li>
+<li>Modificar el número de errores en la introducción de la contraseña de cualquier usuario.</li>
+<li>Modificar índices en cualquier esquema (este privilegio podrá pasarlo a quien quiera)</li>
+<li>Insertar filas en scott.emp (este privilegio podrá pasarlo a quien quiera)</li>
+<li>Crear objetos en cualquier tablespace.</li>
+<li>Gestión completa de usuarios, privilegios y roles.</li>
+</ul>
+</li>
+</ol>
+<p><strong>ORACLE</strong></p>
+<ul>
+<li>Creación de usuario:</li>
+</ul>
+<pre><code>SQL&gt; CREATE USER Becario IDENTIFIED BY Becario;
+
+User created.
+</code></pre><ul>
+<li>Conexión a la base de datos.</li>
+</ul>
+<pre><code>SQL&gt; GRANT CREATE SESSION TO Becario;
+
+Grant succeeded.
+
+SQL&gt; connect Becario/Becario
+Connected.
+</code></pre><ul>
+<li>Modificar el número de errores en la introducción de la contraseña de cualquier usuario.</li>
+</ul>
+<pre><code>SQL&gt; GRANT CREATE PROFILE TO Becario;
+
+SQL&gt; GRANT ALTER USER TO Becario;
+
+SQL&gt; connect Becario/Becario
+Connected.
+
+SQL&gt; CREATE PROFILE numintentos2 LIMIT
+  2  FAILED_LOGIN_ATTEMPTS 5;
+
+Profile created.
+
+SQL&gt; ALTER USER Prueba profile numintentos;
+</code></pre><pre><code>SQL&gt; connect Prueba
+Enter password: 
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+SQL&gt; connect Prueba
+Enter password: 
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+SQL&gt; connect Prueba
+Enter password: 
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+SQL&gt; connect Prueba
+Enter password: 
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+SQL&gt; connect Prueba
+Enter password: 
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+SQL&gt; connect Prueba
+Enter password: 
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+Warning: You are no longer connected to ORACLE.
+</code></pre><ul>
+<li>Modificar índices en cualquier esquema (este privilegio podrá pasarlo a quien quiera)</li>
+</ul>
+<pre><code>SQL&gt; CREATE INDEX index_prueba on emp(ename,sal);
+
+Index created.
+
+SQL&gt; GRANT CONTROL ON index_prueba1 TO USER Becario;
+
+SQL&gt; connect Becario/Becario
+Connected.
+
+SQL&gt; ALTER INDEX SCOTT.index_prueba RENAME TO index_prueba1;
+
+Index altered.
+</code></pre><ul>
+<li>Insertar filas en scott.emp (este privilegio podrá pasarlo a quien quiera)</li>
+</ul>
+<pre><code>SQL&gt; GRANT INSERT ON SCOTT.EMP TO Becario WITH GRANT OPTION;
+
+SQL&gt; connect Becario/Becario
+Connected.
+
+SQL&gt; INSERT INTO SCOTT.EMP VALUES
+(7489, 'JUAN', 'ANALYST', 7822,
+TO_DATE('18-DEC-1999', 'DD-MON-YYYY'), 900, NULL, 20);
+
+1 row created.
+</code></pre><ul>
+<li>Crear objetos en cualquier tablespace.</li>
+</ul>
+<pre><code>SQL&gt; GRANT UNLIMITED TABLESPACE TO Becario;
+
+Grant succeeded.
+
+SQL&gt; GRANT CREATE TYPE TO Becario;
+
+SQL&gt; create type temp_col as table of number 
+  2  /
+
+Type created.
+</code></pre><ul>
+<li>Gestión completa de usuarios, privilegios y roles.</li>
+</ul>
+<ul>
+<li>Usuarios:</li>
+</ul>
+<pre><code>SQL&gt; GRANT CREATE USER TO Becario;
+
+Grant succeeded.
+
+SQL&gt; GRANT ALTER USER TO Becario;
+
+Grant succeeded.
+
+SQL&gt; GRANT DROP USER TO Becario;
+
+Grant succeeded.
+</code></pre><pre><code>SQL&gt; connect Becario/Becario
+Connected.
+
+SQL&gt; CREATE USER prueba2 IDENTIFIED BY prueba2;
+
+User created.
+
+SQL&gt; ALTER USER Prueba2 profile numintentos;
+
+User altered.
+
+SQL&gt; DROP USER Prueba2;
+
+User dropped.
+</code></pre><ul>
+<li>Privilegios:</li>
+</ul>
+<pre><code>SQL&gt; GRANT GRANT ANY PRIVILEGE TO Becario;
+
+Grant succeeded.
+</code></pre><pre><code>SQL&gt; connect Becario/Becario
+Connected.
+
+SQL&gt; GRANT ALTER TABLESPACE TO prueba;
+
+Grant succeeded.
+</code></pre><ul>
+<li>Roles:</li>
+</ul>
+<pre><code>SQL&gt; GRANT CREATE ROLE TO BECARIO;
+
+Grant succeeded.
+
+SQL&gt; GRANT DROP ANY ROLE TO BECARIO;
+
+Grant succeeded.
+
+SQL&gt; GRANT ALTER ANY ROLE TO BECARIO;
+
+Grant succeeded.
+
+SQL&gt; GRANT GRANT ANY ROLE TO BECARIO;
+
+Grant succeeded.
+</code></pre><pre><code>SQL&gt; connect Becario/Becario
+Connected.
+
+SQL&gt; CREATE ROLE rol_prueba;
+
+Role created.
+
+SQL&gt; ALTER ROLE rol_prueba NOT IDENTIFIED;
+
+Role altered.
+
+SQL&gt; GRANT rol_prueba, CONNECT TO prueba;
+
+Grant succeeded.
+
+SQL&gt; DROP ROLE rol_prueba;
+
+Role dropped.
+</code></pre><p><strong>Postgres</strong></p>
+
                 </div>
                 
                 <div class="post-comments">

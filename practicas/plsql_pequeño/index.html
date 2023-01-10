@@ -146,153 +146,395 @@ IS
 BEGIN
     FOR v_empleados IN c_empleados
     LOOP
-        dbms_output.put_line('Empleado '||cont||': '||v_empleados);
+        dbms_output.put_line('Empleado '||cont||': '||v_empleados.ename);
         cont:=cont+1;
     END LOOP;
 END old_emp;
-</code></pre><p>CREATE OR REPLACE PROCEDURE mostrar_antiguos
-IS
-CURSOR c_antiguos IS
-SELECT ename
-FROM emp
-ORDER BY hiredate
-FETCH FIRST 3 ROWS ONLY;
-BEGIN
-FOR v_antiguos IN c_antiguos
-LOOP
-DBMS_OUTPUT.PUT_LINE(&lsquo;Nombre: ' || v_antiguos.ename);
-END LOOP;
-END;
-/</p>
-<pre><code>CREATE OR REPLACE FUNCTION ActividadTodoIncluidoTrue (v_codactividad actividades.codigo%type)
-    RETURN
-        comprobacion VARCHAR2
-    CURSOR c_todoIncluido IS
-        SELECT COUNT(*)
-        FROM actividadesrealizadas
-        WHERE codigoestancia = (SELECT codigo FROM estancias WHERE codigoregimen='TI') AND codigoactividad=v_codactividad;
-    v_todoIncluido NUMBER;
-BEGIN
-    OPEN c_todoIncluido;
-    FETCH c_todoIncluido INTO v_todoIncluido;
-    IF v_todoIncluido&gt;0 THEN
-        comprobacion:='T';
-    ELSE
-        comprobacion:='F';
-    END IF;
-    CLOSE c_todoIncluido;
-    RETURN comprobacion;
-END;
-/
-</code></pre><pre><code>CREATE OR REPLACE PROCEDURE RellenarBalance
-IS
-    v_codestancia actividadesrealizadas.codigoestancia%rowtype
-    v_codactividad actividadesrealizadas.codigoactividad%rowtype
-    v_fecha actividadesrealizadas.fecha%rowtype
+</code></pre><pre><code>SQL&gt; exec old_emp
+Empleado 1: SMITH
+Empleado 2: ALEJANDRO
+Empleado 3: ALLEN
 
-    CURSOR c_actividades IS
-    SELECT CodigoActividad, CodigoEstancia, Fecha INTO v_codactividad, c_codestancia, v_fecha
-    FROM ActividadesRealizadas;
+PL/SQL procedure successfully completed.
+</code></pre><ol start="4">
+<li>Hacer un procedimiento que reciba el nombre de un tablespace y muestre los nombres de los usuarios que lo tienen como tablespace por defecto (Vista DBA_USERS).</li>
+</ol>
+<pre><code>CREATE OR REPLACE PROCEDURE usuario_tablespace (n_tablespace VARCHAR2)
+IS
+    CURSOR c_usuarios IS
+        SELECT username
+        FROM DBA_USERS
+        WHERE default_tablespace = n_tablespace;
 BEGIN
-    OPEN c_actividades;
-    FETCH c_actividades INTO v_codactividad, v_codestancia, v_fecha;
-
-    WHILE c_actividades%FOUND LOOP
-    UPDATE ActividadesRealizadas
-    SET BalanceHotel = NVL(SELECT PrecioporPersona, ComisionHotel, CostePersonaparaHotel
-                            FROM Actividades
-                            WHERE Codigo=v_codactividad) * (SELECT NumPersonas
-                                                FROM ActividadesRealizadas
-                                                WHERE CodigoActividad = v_codactividad
-                                                AND CodigoEstancia = v_codestancia
-                                                AND Fecha = v_fecha);
+    FOR v_usuario IN c_usuarios
+    LOOP
+        dbms_output.put_line(v_usuario.username);
     END LOOP;
-    CLOSE c_actividades;
-END;
-/
-</code></pre><pre><code>CREATE OR REPLACE PROCEDURE SacarPersonasPorActividad (v_codactividad actividadesrealizadas.codigoactividad%type, v_codestancia actividadesrealizadas.codigoestancia%type, v_fecha actividadesrealizadas.fecha%type)
-IS
-    v_precioporpersona  actividades.PrecioPorPersona%type;
-    v_comisionhotel actividades.ComisionHotel%type;
-    v_costepersonaparahotel actividades.CostePersonaParaHotel%type;
-    v_numpersonas   actividadesrealizadas.NumPersonas%type;
-    v_balance   NUMBER(6,2);
-BEGIN
-    SELECT PrecioporPersona, ComisionHotel, CostePersonaParaHotel INTO v_precioporpersona, v_comisionhotel, v_costepersonaparahotel
-    FROM Actividades
-    WHERE Codigo=v_codactividad;
+END usuario_tablespace;
+</code></pre><pre><code>SQL&gt; exec usuario_tablespace('USERS')
+GSMCATUSER
+MDDATA
+BECARIO
+SYSBACKUP
+REMOTE_SCHEDULER_AGENT
+GSMUSER
+SYSRAC
+GSMROOTUSER
+SI_INFORMTN_SCHEMA
+AUDSYS
+PRUEBA
+DIP
+ORDPLUGINS
+SYSKM
+ORDDATA
+ORACLE_OCM
+CONEXION1
+SCOTT
+SYSDG
+ORDSYS
+RAUL
 
-    SELECT NumPersonas INTO v_numpersonas
-    FROM ActividadesRealizadas
-    WHERE CodigoActividad=v_codactividad
-    AND CodigoEstancia=v_codestancia
-    AND Fecha=v_fecha;
-
-    IF ActividadTodoIncluido='TRUE'
-    THEN
-        v_balance=v_precioporpersona + costepersonaparahotel) * v_numpersonas;
-    ELSE
-        v_balance=((v_precioporpersona + v_costepersonaparahotel + v_comisionhotel) * v_numpersonas) * -1;
-    END IF;
-    dbms_output.put_line(v_balance);
+PL/SQL procedure successfully completed.
+</code></pre><ol start="5">
+<li>Modificar el procedimiento anterior para que haga lo mismo pero devolviendo el número de usuarios que tienen ese tablespace como tablespace por defecto. Nota: Hay que convertir el procedimiento en función.</li>
+</ol>
+<pre><code>CREATE OR REPLACE FUNCTION num_usuarios_tablespace (n_tablespace VARCHAR2)
+RETURN NUMBER
+IS
+    num_usuarios NUMBER;
+BEGIN
+    SELECT COUNT (username) INTO num_usuarios
+    FROM DBA_USERS
+    WHERE default_tablespace = n_tablespace;
+    RETURN num_usuarios;
 END;
-/
-</code></pre><pre><code>CREATE OR REPLACE PROCEDURE CalcularNumPersonas (v_codactividad actividadesrealizadas.codigoactividad%type, v_codestancia actividadesrealizadas.codigoestancia%type, v_fecha actividadesrealizadas.fecha%type, v_numpersonas OUT actividadesrealizadas.NumPersonas%type)
+</code></pre><pre><code>SQL&gt; DECLARE 
+    num_usuarios NUMBER;
+BEGIN
+    num_usuarios:=num_usuarios_tablespace('USERS');
+    dbms_output.put_line('En este tablespace hay: ' || num_usuarios||' usuarios'); 
+    /
+
+En este tablespace hay: 21 usuarios
+
+PL/SQL procedure successfully completed.
+</code></pre><ol start="6">
+<li>Hacer un procedimiento llamado mostrar_usuarios_por_tablespace que muestre por pantalla un listado de los tablespaces existentes con la lista de usuarios de cada uno y el número de los mismos, así: (Vistas DBA_TABLESPACES y DBA_USERS)</li>
+</ol>
+<ul>
+<li>Procedimiento que dice los usuarios totales de la base de datos.</li>
+</ul>
+<pre><code>CREATE OR REPLACE PROCEDURE usuario_totalesbbdd
+IS
+    num_usuarios NUMBER;
+BEGIN
+    SELECT COUNT (username) INTO num_usuarios
+    FROM DBA_USERS;
+    dbms_output.put_line('Total de usuarios de la BD: '||num_usuarios);
+END;
+</code></pre><ul>
+<li>Procedimiento del listado.</li>
+</ul>
+<pre><code>CREATE OR REPLACE PROCEDURE mostrar_usuarios_por_tablespace
+IS
+    CURSOR c_tablespaces IS
+        SELECT tablespace_name
+        FROM DBA_TABLESPACES;
+    num_usuarios NUMBER;
+BEGIN
+    FOR v_tablespace IN c_tablespaces
+    LOOP
+        dbms_output.put_line('TABLESPACE '||v_tablespace.tablespace_name||':');
+        usuario_tablespace(v_tablespace.tablespace_name);
+        dbms_output.put_line('--');
+        num_usuarios:=num_usuarios_tablespace(v_tablespace.tablespace_name);
+        dbms_output.put_line('Total de usuarios en el Tablespace '||v_tablespace.tablespace_name||': ' || num_usuarios);
+        dbms_output.put_line('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
+    END LOOP;
+    dbms_output.put_line('*************************************************************************');
+    usuario_totalesbbdd();
+END;
+</code></pre><pre><code>SQL&gt; exec mostrar_usuarios_por_tablespace;
+TABLESPACE SYSTEM:
+SYS
+SYSTEM
+XS$NULL
+OJVMSYS
+ALE
+LBACSYS
+OUTLN
+SYS$UMF
+--
+Total de usuarios en el Tablespace SYSTEM: 8
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+TABLESPACE SYSAUX:
+DBSNMP
+APPQOSSYS
+DBSFWUSER
+GGSYS
+ANONYMOUS
+CTXSYS
+DVSYS
+DVF
+GSMADMIN_INTERNAL
+MDSYS
+OLAPSYS
+XDB
+WMSYS
+--
+Total de usuarios en el Tablespace SYSAUX: 13
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+TABLESPACE UNDOTBS1:
+--
+Total de usuarios en el Tablespace UNDOTBS1: 0
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+TABLESPACE TEMP:
+--
+Total de usuarios en el Tablespace TEMP: 0
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+TABLESPACE USERS:
+GSMCATUSER
+MDDATA
+BECARIO
+SYSBACKUP
+REMOTE_SCHEDULER_AGENT
+GSMUSER
+SYSRAC
+GSMROOTUSER
+SI_INFORMTN_SCHEMA
+AUDSYS
+PRUEBA
+DIP
+ORDPLUGINS
+SYSKM
+ORDDATA
+ORACLE_OCM
+CONEXION1
+SCOTT
+SYSDG
+ORDSYS
+RAUL
+--
+Total de usuarios en el Tablespace USERS: 21
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************************************************************************
+Total de usuarios de la BD: 42
+</code></pre><ol start="7">
+<li>Hacer un procedimiento llamado mostrar_codigo_fuente  que reciba el nombre de otro procedimiento y muestre su código fuente. (DBA_SOURCE)</li>
+</ol>
+<pre><code>CREATE OR REPLACE PROCEDURE mostrar_codigo_fuente(n_procedimiento VARCHAR2)
+IS
+    v_codigo dba_source.text%TYPE;
+    CURSOR c_codigo IS
+        SELECT text
+        FROM DBA_SOURCE
+        WHERE name = n_procedimiento;
+BEGIN
+    FOR v_texto IN c_codigo
+    LOOP
+        v_codigo:=v_texto.text;
+        dbms_output.put_line(v_codigo);
+    END LOOP;
+END;
+</code></pre><pre><code>SQL&gt; exec mostrar_codigo_fuente('OLD_EMP')                         
+PROCEDURE old_emp
+
+IS
+
+CURSOR c_empleados IS
+
+SELECT ENAME
+
+FROM EMP
+
+ORDER BY TO_CHAR(HIREDATE, 'yyyy-MM-dd') ASC
+
+FETCH FIRST 3 ROWS ONLY;
+
+cont NUMBER:=1;
+
+BEGIN
+
+FOR v_empleados IN c_empleados
+
+LOOP
+
+dbms_output.put_line('Empleado '||cont||': '||v_empleados.ename);
+
+cont:=cont+1;
+
+END LOOP;
+
+END old_emp;
+
+PL/SQL procedure successfully completed.
+</code></pre><ol start="8">
+<li>Hacer un procedimiento llamado mostrar_privilegios_usuario que reciba el nombre de un usuario y muestre sus privilegios de sistema y sus privilegios sobre objetos. (DBA_SYS_PRIVS y DBA_TAB_PRIVS)</li>
+</ol>
+<ul>
+<li>Este procedimiento mostrará los privilegios de sistema</li>
+</ul>
+<pre><code>CREATE OR REPLACE PROCEDURE privilegios_sistema(v_usuario VARCHAR2)
+IS
+    CURSOR c_privilegios IS
+        SELECT privilege
+        FROM DBA_SYS_PRIVS
+        WHERE GRANTEE = v_usuario;
+BEGIN
+    dbms_output.put_line('PRIVILEGIOS DE SISTEMA:');
+    FOR v_privilegio IN c_privilegios
+    LOOP
+        dbms_output.put_line(v_privilegio.privilege);
+    END LOOP;
+END;
+</code></pre><ul>
+<li>Este procedimiento mostrará los privilegios sobre objetos</li>
+</ul>
+<pre><code>CREATE OR REPLACE PROCEDURE privilegios_objetos(v_usuario VARCHAR2)
+IS
+    CURSOR c_privilegios IS
+        SELECT table_name, privilege
+        FROM DBA_TAB_PRIVS
+        WHERE GRANTEE = v_usuario;
+BEGIN
+    dbms_output.put_line('PRIVILEGIOS DE OBJETOS:');
+    FOR v_privilegio IN c_privilegios
+    LOOP
+        dbms_output.put_line('Objeto: '||v_privilegio.table_name||', Privilegio: '||v_privilegio.privilege);
+    END LOOP;
+END;
+</code></pre><ul>
+<li>Procedimiento que muestra la lista de privilegios.</li>
+</ul>
+<pre><code>CREATE OR REPLACE PROCEDURE mostrar_privilegios_usuario(v_usuario VARCHAR2)
 IS
 BEGIN
-    SELECT NumPersonas INTO v_numpersonas
-    FROM ActividadesRealizadas
-    WHERE CodigoActividad=v_codactividad
-    AND CodigoEstancia=v_codestancia
-    AND Fecha=v_fecha;
+    privilegios_sistema(v_usuario);
+    dbms_output.put_line('---------------------------');
+    privilegios_objetos(v_usuario);
 END;
-/
-</code></pre><p>v_balance OUT actividadesrealizadas.balancehotel%type</p>
-<p>CREATE OR REPLACE PROCEDURE CalcularPrecioBalance (v_codactividad actividadesrealizadas.codigoactividad%type, v_codestancia actividadesrealizadas.codigoestancia%type, v_fecha actividadesrealizadas.fecha%type, v_balance OUT NUMBER)
-IS
-v_precioporpersona  actividades.PrecioPorPersona%type;
-v_comisionhotel actividades.ComisionHotel%type;
-v_costepersonaparahotel actividades.CostePersonaParaHotel%type;
-v_numpersonas   actividadesrealizadas.NumPersonas%type;
-v_regimen   VARCHAR2(4);
-BEGIN
-SELECT PrecioporPersona, ComisionHotel, CostePersonaParaHotel INTO v_precioporpersona, v_comisionhotel, v_costepersonaparahotel
-FROM Actividades
-WHERE Codigo=v_codactividad;</p>
-<pre><code>CalcularNumPersonas(v_codactividad, v_codestancia, v_fecha, v_numpersonas);
-EstanciaTodoIncluido(v_codestancia, v_regimen);
+</code></pre><pre><code>SQL&gt; exec mostrar_privilegios_usuario('BECARIO');
+PRIVILEGIOS DE SISTEMA:
+CREATE USER
+CREATE TYPE
+CREATE PROFILE
+ALTER USER
+UNLIMITED TABLESPACE
+DROP USER
+GRANT ANY PRIVILEGE
+CREATE ROLE
+ALTER ANY ROLE
+GRANT ANY ROLE
+CREATE USER
+CREATE SESSION
+ALTER USER
+DROP ANY ROLE
+DROP USER
+---------------------------
+PRIVILEGIOS DE OBJETOS:
+Objeto: EMP, Privilegio: INSERT
 
-IF v_regimen='TI'
-THEN
-    v_balance:=v_precioporpersona * v_numpersonas;
-ELSE
-    v_balance:=((v_precioporpersona + v_costepersonaparahotel + v_comisionhotel) * v_numpersonas) * -1;
-END IF;
-dbms_output.put_line(v_balance);
+PL/SQL procedure successfully completed.
+</code></pre><ol start="9">
+<li>Realiza un procedimiento llamado listar_comisiones que nos muestre por pantalla un listado de las comisiones de los empleados agrupados según la localidad donde está ubicado su departamento con el siguiente formato:</li>
+</ol>
+<ul>
+<li>Procedimiento que recibe un nombre de localidad y devuelve el nombre del departamento.</li>
+</ul>
+<pre><code>CREATE OR REPLACE PROCEDURE nomdept_localidad(v_localidad VARCHAR2, nom_dept OUT dept.dname%type)
+IS
+BEGIN
+    SELECT dname INTO nom_dept
+    FROM dept
+    WHERE loc = v_localidad;
+END;
+</code></pre><ul>
+<li>Procedimiento que recibiendo un nombre de localidad devuelve el numero de su departamento.</li>
+</ul>
+<pre><code>CREATE OR REPLACE PROCEDURE dept_localidad(v_localidad VARCHAR2, v_dept OUT dept.deptno%type)
+IS
+BEGIN
+    SELECT deptno INTO v_dept
+    FROM dept
+    WHERE loc = v_localidad;
+END;
+</code></pre><ul>
+<li>Procedimiento que sabiendo el deptno saca una lista de empleados con sus respectivas comisiones y devuelve el total de las comisiones.</li>
+</ul>
+<pre><code>CREATE OR REPLACE PROCEDURE comision_empleado(v_deptno dept.deptno%type, com_total OUT emp.comm%type)
+IS
+    CURSOR c_empleados IS
+        SELECT ename, comm
+        FROM emp
+        WHERE deptno = v_deptno;
+BEGIN
+    com_total:=0;
+    FOR v_empleado IN c_empleados
+    LOOP
+        dbms_output.put_line('      '||v_empleado.ename||' comision: '||v_empleado.comm);
+        com_total:=com_total+v_empleado.comm;
+    END LOOP;
+END;
+</code></pre><ul>
+<li>Procedimiento que lista todo.</li>
+</ul>
+<pre><code>CREATE OR REPLACE PROCEDURE listar_comisiones
+IS
+    nom_dept dept.dname%type;
+    num_dept dept.deptno%type;
+    com_total emp.comm%type;
+
+    CURSOR c_localidades IS
+        SELECT LOC
+        FROM DEPT;
+BEGIN
+    FOR v_localidad IN c_localidades
+    LOOP
+        dbms_output.put_line('Localidad: '||v_localidad.loc);
+        nomdept_localidad(v_localidad.loc, nom_dept);
+        dbms_output.put_line('  Departamento: '||nom_dept);
+        dept_localidad(v_localidad.loc, num_dept);
+        comision_empleado(num_dept, com_total);
+        dbms_output.put_line('Total de comisiones en el departamento '||nom_dept||': '||com_total);
+        dbms_output.put_line('--------------------------');
+    END LOOP;
+END;
+</code></pre><pre><code>SQL&gt; exec listar_comisiones;
+Localidad: NEW YORK
+Departamento: ACCOUNTING
+CLARK comision:
+KING comision:
+MILLER comision:
+Total de comisiones en el departamento ACCOUNTING:
+--------------------------
+Localidad: DALLAS
+Departamento: RESEARCH
+SMITH comision:
+JONES comision:
+SCOTT comision:
+ADAMS comision:
+FORD comision:
+JUAN comision:
+Total de comisiones en el departamento RESEARCH:
+--------------------------
+Localidad: CHICAGO
+Departamento: SALES
+ALLEN comision: 300
+WARD comision: 500
+MARTIN comision: 1400
+BLAKE comision:
+TURNER comision: 0
+JAMES comision:
+ALEJANDRO comision:
+Total de comisiones en el departamento SALES:
+--------------------------
+Localidad: BOSTON
+Departamento: OPERATIONS
+Total de comisiones en el departamento OPERATIONS: 0
+--------------------------
+
+PL/SQL procedure successfully completed.
 </code></pre>
-<p>END;
-/</p>
-<p>exec calcularpreciobalance(&lsquo;A032&rsquo;, &lsquo;04&rsquo;, &lsquo;04-AUG-15&rsquo;);</p>
-<pre><code>CREATE OR REPLACE PROCEDURE EstanciaTodoIncluido (v_codestancia actividadesrealizadas.codigoestancia%type, v_codregimen OUT VARCHAR2)
-AS
-BEGIN
-    SELECT CodigoRegimen INTO v_codregimen
-    FROM Estancias
-    WHERE Codigo=v_codestancia;
-END;
-/
-</code></pre><p>EXEC ActividadTodoIncluido (&lsquo;A032&rsquo;, to_DATE(&lsquo;07-08-2015&rsquo;,&lsquo;DD-MM-YYYY&rsquo;));</p>
-<p>SELECT NumPersonas
-FROM ActividadesRealizadas
-WHERE CodigoActividad = &lsquo;A001&rsquo;
-AND CodigoEstancia = &lsquo;01&rsquo;
-AND Fecha = to_DATE(&lsquo;20-05-2015 17:30&rsquo;,&lsquo;DD-MM-YYYY hh24:mi&rsquo;);</p>
-<p>SELECT CodigoRegimen
-FROM Estancias
-WHERE Codigo=&lsquo;04&rsquo;;</p>
-<p>INSERT INTO actividadesrealizadas(CodigoEstancia, CodigoActividad, Fecha, NumPersonas, Abonado)
-VALUES (&lsquo;01&rsquo;,&lsquo;C093&rsquo;,to_DATE(&lsquo;20-05-2018 17:30&rsquo;,&lsquo;DD-MM-YYYY hh24:mi&rsquo;),2,&lsquo;S&rsquo;);</p>
-
                 </div>
                 
                 <div class="post-comments">
