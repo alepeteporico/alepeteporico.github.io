@@ -444,14 +444,101 @@ Successfully added user: {
 <ol>
 <li>Realiza un procedimiento llamado MostrarObjetosAccesibles que reciba un nombre de usuario y muestre todos los objetos a los que tiene acceso.</li>
 </ol>
-<pre><code>CREATE OR REPLACE PROCEDURE
-</code></pre><p>select *
-from SYS.dba_objects
-order by OBJECT_TYPE</p>
-<p>select *
-from dba_objects
-where owner = &lsquo;PRACTICA&rsquo;;</p>
-<h2 id="parte-grupal">Parte grupal</h2>
+<pre><code>CREATE OR REPLACE PROCEDURE MostrarObjetosAccesibles(v_user VARCHAR2)
+IS
+    privilegio	VARCHAR2(100);
+    nombre_objeto	VARCHAR2(200);
+
+    CURSOR c_objetos IS
+    SELECT table_name, privilege
+    FROM dba_tab_privs
+    WHERE grantee=v_user;
+
+BEGIN
+    dbms_output.put_line('EL USUARIO '||v_user||' TIENE ACCESO A:');
+
+    FOR v_objeto IN c_objetos
+	LOOP
+        nombre_objeto:=v_objeto.table_name;
+        privilegio:=v_objeto.privilege;
+
+        dbms_output.put_line('OBJETO: '||nombre_objeto);
+		dbms_output.put_line('PRIVILEGIO: '||privilegio);
+        dbms_output.put_line('-------------------------------------------');
+	END LOOP;
+END;
+/
+</code></pre><ul>
+<li>Comprobación:</li>
+</ul>
+<pre><code>SQL&gt; exec MostrarObjetosAccesibles('PUBLIC');
+EL USUARIO PUBLIC TIENE ACCESO A:
+
+OBJETO: USER_ANALYTIC_VIEW_DIM_CLASS
+PRIVILEGIO: READ
+-------------------------------------------
+OBJETO: ALL_ANALYTIC_VIEW_DIM_CLASS
+PRIVILEGIO: READ
+-------------------------------------------
+OBJETO: USER_ATTRIBUTE_DIMENSIONS
+PRIVILEGIO: READ
+-------------------------------------------
+OBJETO: ALL_ATTRIBUTE_DIMENSIONS
+PRIVILEGIO: READ
+-------------------------------------------
+OBJETO: USER_ATTRIBUTE_DIM_ATTRS
+PRIVILEGIO: READ
+
+.....
+.....
+.....
+PL/SQL procedure successfully completed.
+</code></pre><ol start="2">
+<li>Realiza un procedimiento que reciba un nombre de usuario, un privilegio y un objeto y nos muestre el mensaje &lsquo;SI, DIRECTO&rsquo; si el usuario tiene ese privilegio sobre objeto concedido directamente, &lsquo;SI, POR ROL&rsquo; si el usuario lo tiene en alguno de los roles que tiene concedidos y un &lsquo;NO&rsquo; si el usuario no tiene dicho privilegio.</li>
+</ol>
+<pre><code>CREATE OR REPLACE PROCEDURE TienePrivilegios(v_user VARCHAR2, v_privilege VARCHAR2, v_object VARCHAR2, cont OUT NUMBER)
+IS
+BEGIN
+    SELECT count(*) into cont
+    FROM dba_tab_privs
+    WHERE grantee=v_user
+    AND privilege=v_privilege
+    AND table_name=v_object;
+END;
+/
+</code></pre><pre><code>CREATE OR REPLACE PROCEDURE PrivilegioDeRol(v_user VARCHAR2, v_privilege VARCHAR2, v_object VARCHAR2, cont OUT NUMBER)
+IS
+BEGIN
+    SELECT count(*) into cont
+    FROM dba_role_privs
+    WHERE grantee=v_user
+    AND granted_role in (SELECT role
+                     	FROM role_tab_privs
+                     	WHERE privilege=v_privilege
+                     	AND table_name=v_object);
+END;
+/
+</code></pre><pre><code>CREATE OR REPLACE PROCEDURE privilegios_usuarios(v_user VARCHAR2, v_privilege VARCHAR2, v_object VARCHAR2)
+IS
+    cont NUMBER:=0;
+BEGIN
+	TienePrivilegios(v_user, v_privilege, v_object, cont);
+
+    IF cont=0 THEN
+		PrivilegioDeRol(v_user, v_privilege, v_object, cont);
+
+    	IF cont=0 THEN
+        	dbms_output.put_line('NO');
+    	ELSE
+    		dbms_output.put_line('SI, POR ROL');
+    	END IF;
+		
+    ELSE
+        dbms_output.put_line('SI, DIRECTO');
+    END IF;
+END;
+/
+</code></pre><h2 id="parte-grupal">Parte grupal</h2>
 <h3 id="caso-práctico-1">CASO PRÁCTICO 1:</h3>
 <ol>
 <li>Crea un usuario llamado Becario y, sin usar los roles de ORACLE, dale los siguientes privilegios:
@@ -650,7 +737,252 @@ SQL&gt; DROP ROLE rol_prueba;
 
 Role dropped.
 </code></pre><p><strong>Postgres</strong></p>
+<ul>
+<li>Creación de usuario.</li>
+</ul>
+<pre><code>postgres=# CREATE USER becario WITH PASSWORD 'becario';
+CREATE ROLE
+</code></pre><ul>
+<li>Conexión a la base de datos.</li>
+</ul>
+<pre><code>postgres=# GRANT CONNECT ON DATABASE empresa TO becario; 
+GRANT
+postgres=# ALTER ROLE becario WITH LOGIN;
+ALTER ROLE
+</code></pre><pre><code>postgres@alepeteporico:~$ psql -d empresa -U becario
+Contraseña para usuario becario: 
+psql (13.9 (Debian 13.9-0+deb11u1))
+Digite «help» para obtener ayuda.
 
+empresa=#
+</code></pre><ul>
+<li>Modificar el número de errores en la introducción de la contraseña de cualquier usuario.</li>
+<li>No podemos realizar esto en postgres, sin embargo desde el usuario administrador si podemos limitar el numero de intentos a un usuario especifico.</li>
+</ul>
+<pre><code>postgres=# ALTER USER becario WITH CONNECTION LIMIT 5;
+ALTER ROLE
+</code></pre><ul>
+<li>Modificar índices en cualquier esquema (este privilegio podrá pasarlo a quien quiera)</li>
+<li>En este caso si el usuario es dueño de una tabla también es dueño de sus indices.</li>
+</ul>
+<pre><code>empresa=# CREATE INDEX indice_prueba ON emp (deptno,ename);
+CREATE INDEX
+
+empresa=# ALTER INDEX indice_prueba RESET ( FASTUPDATE );
+ALTER INDEX
+</code></pre><ul>
+<li>Insertar filas en scott.emp (este privilegio podrá pasarlo a quien quiera)</li>
+</ul>
+<pre><code>empresa=# GRANT INSERT ON emp TO becario WITH GRANT OPTION;
+GRANT
+</code></pre><pre><code>postgres@alepeteporico:~$ psql -d empresa -U becario
+Contraseña para usuario becario: 
+psql (13.9 (Debian 13.9-0+deb11u1))
+Digite «help» para obtener ayuda.
+
+empresa=# INSERT INTO emp (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO) SELECT 7822, 'JUAN', 'PERISTA', cast(null as INTEGER), to_DATE('17-11-1981','dd-mm-yyyy'), 5000, cast(null as INTEGER), 20
+empresa-# ;
+INSERT 0 1
+</code></pre><ul>
+<li>Crear objetos en cualquier tablespace.</li>
+</ul>
+<pre><code>postgres=# GRANT CREATE ON TABLESPACE pg_global TO becario;
+GRANT
+</code></pre><ul>
+<li>Gestión completa de usuarios, privilegios y roles.</li>
+</ul>
+<ul>
+<li>Usuarios:</li>
+</ul>
+<pre><code>postgres=# ALTER ROLE becario WITH SUPERUSER;
+ALTER ROLE
+</code></pre><pre><code>postgres@alepeteporico:~$ psql -d empresa -U becario
+Contraseña para usuario becario: 
+psql (13.9 (Debian 13.9-0+deb11u1))
+Digite «help» para obtener ayuda.
+
+empresa=# CREATE USER prueba2 WITH PASSWORD 'prueba2';
+CREATE ROLE
+</code></pre><ul>
+<li>Roles:</li>
+</ul>
+<pre><code>postgres=# ALTER ROLE becario WITH CREATEROLE;
+ALTER ROLE
+</code></pre><pre><code>postgres@alepeteporico:~$ psql -d empresa -U becario
+Contraseña para usuario becario: 
+psql (13.9 (Debian 13.9-0+deb11u1))
+Digite «help» para obtener ayuda.
+
+empresa=# CREATE ROLE rol_prueba;
+CREATE ROLE
+</code></pre><p><strong>MariaDB</strong></p>
+<ul>
+<li>Creación de usuario:</li>
+</ul>
+<pre><code>MariaDB [(none)]&gt; CREATE USER 'becario' IDENTIFIED BY 'becario';
+Query OK, 0 rows affected (0,005 sec)
+</code></pre><ul>
+<li>Conexión a la base de datos.</li>
+</ul>
+<pre><code>MariaDB [(none)]&gt; GRANT USAGE ON empresa TO 'becario'@'localhost' IDENTIFIED BY 'becario';
+Query OK, 0 rows affected (0,003 sec)
+
+alejandrogv@alepeteporico:~$ mariadb -u becario -p empresa
+Enter password: 
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 44
+Server version: 10.5.18-MariaDB-0+deb11u1 Debian 11
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [empresa]&gt;
+</code></pre><ul>
+<li>Modificar el número de errores en la introducción de la contraseña de cualquier usuario.</li>
+</ul>
+<p>OPCIÓN 1:</p>
+<pre><code>MariaDB [(none)]&gt; ALTER USER 'becario'@'localhost'
+    -&gt; FAILED_LOGIN_ATTEMPTS 5 PASSWORD_LOCK_TIME UNBOUNDED;
+</code></pre><p>OPCIÓN 2: En el fichero &ldquo;/etc/mysql/my.cnf&rdquo;</p>
+<pre><code>[mysqld]
+log_error        = /var/log/error.log
+log_warnings     = 5
+</code></pre><ul>
+<li>Modificar índices en cualquier esquema (este privilegio podrá pasarlo a quien quiera)</li>
+<li>En mysql no podemos hacer un alter index como tal, pero podemos usar una de las siguientes opciones:</li>
+</ul>
+<ul>
+<li>ALTER TABLE nombretabla RENAME INDEX nombre_antiguo_indice TO nombre_nuevo_indice.</li>
+<li>ALTER TABLE nombretabla DROP INDEX nombre_indice</li>
+<li>ALTER TABLE nombretabla ADD INDEX nombre_indice_nuevo</li>
+</ul>
+<pre><code>MariaDB [(none)]&gt; GRANT ALTER ON *.* TO 'becario'@'localhost' WITH GRANT OPTION;
+Query OK, 0 rows affected (0,003 sec)
+
+MariaDB [(none)]&gt; GRANT CREATE ON *.* TO 'becario'@'localhost';
+Query OK, 0 rows affected (0,003 sec)
+
+MariaDB [(none)]&gt; GRANT DROP ON *.* TO 'becario'@'localhost';
+Query OK, 0 rows affected (0,003 sec)
+</code></pre><pre><code>MariaDB [empresa]&gt; CREATE INDEX indice_prueba ON emp (deptno,ename);
+Query OK, 0 rows affected (0,022 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+
+alejandrogv@alepeteporico:~$ mariadb -u becario -p empresa
+
+MariaDB [empresa]&gt; ALTER TABLE emp RENAME INDEX indice_prueba TO indice2;
+Query OK, 0 rows affected (0,014 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+</code></pre><ul>
+<li>Insertar filas en scott.emp (este privilegio podrá pasarlo a quien quiera)</li>
+</ul>
+<pre><code>MariaDB [empresa]&gt; GRANT INSERT ON emp TO 'becario'@'localhost' IDENTIFIED BY &quot;becario&quot; WITH GRANT OPTION
+;
+Query OK, 0 rows affected (0,004 sec)
+</code></pre><pre><code>alejandrogv@alepeteporico:~$ mariadb -u becario -p empresa
+
+MariaDB [empresa]&gt; INSERT INTO `emp` (`EMPNO`, `ENAME`, `JOB`, `MGR`, `HIREDATE`, `SAL`, `COMM`, `DEPTNO`) VALUES
+    -&gt; (7322, 'JUAN', 'CHAPERO', 7902, '1980-12-17', 800, NULL, 20);
+Query OK, 1 row affected (0,003 sec)
+</code></pre><ul>
+<li>Crear objetos en cualquier tablespace.</li>
+</ul>
+<pre><code>MariaDB [(none)]&gt; GRANT CREATE ON *.* TO 'becario'@'localhost';
+Query OK, 0 rows affected (0,003 sec)
+</code></pre><ul>
+<li>Gestión completa de usuarios, privilegios y roles.</li>
+</ul>
+<pre><code>GRANT ALL PRIVILEGES ON *.* TO 'becario'@'localhost' WITH GRANT OPTION;
+Query OK, 0 rows affected (0,004 sec)
+
+alejandrogv@alepeteporico:~$ mariadb -u becario -p empresa
+</code></pre><ul>
+<li>Usuarios:</li>
+</ul>
+<pre><code>MariaDB [empresa]&gt; CREATE USER prueba2 IDENTIFIED BY 'prueba2';
+Query OK, 0 rows affected (0,004 sec)
+</code></pre><ul>
+<li>Privilegios:</li>
+</ul>
+<pre><code>MariaDB [empresa]&gt; GRANT ALL PRIVILEGES ON *.* TO prueba2;
+Query OK, 0 rows affected (0,004 sec)
+</code></pre><ul>
+<li>Roles:</li>
+</ul>
+<pre><code>MariaDB [empresa]&gt; CREATE ROLE rol_prueba;
+Query OK, 0 rows affected (0,004 sec)
+</code></pre><ol start="3">
+<li>Crea un tablespace TS2 con tamaño de extensión de 256K. Realiza una consulta que genere un script que asigne ese tablespace como tablespace por defecto a los usuarios que no tienen privilegios para consultar ninguna tabla de SCOTT, excepto a SYSTEM.</li>
+</ol>
+<ul>
+<li>Creación del tablespace:</li>
+</ul>
+<pre><code>SQL&gt; create tablespace TS2 
+  2  DATAFILE 'tbs_ts2.dbf'
+  3  SIZE 256k;
+
+Tablespace created.
+</code></pre><ul>
+<li>Realizamos la select que asigne este tablespace como tablespace por defecto a los usuarios que no tienen privilegios en ninguna tabla de scott (except SYSTEM)</li>
+</ul>
+<pre><code>SELECT 'ALTER USER &quot;'||username||'&quot; DEFAULT TABLESPACE TS2;'
+FROM DBA_USERS
+WHERE USERNAME!='SYSTEM'
+AND USERNAME not in (SELECT GRANTEE 
+                	FROM DBA_TAB_PRIVS 
+                    WHERE PRIVILEGE='SELECT' 
+                    AND OWNER='SCOTT');
+</code></pre><ul>
+<li>Estos serían todos los usuarios afectados por el script.</li>
+</ul>
+<pre><code>ALTER USER &quot;XS$NULL&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;SYS&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;OJVMSYS&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;ALE&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;LBACSYS&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;OUTLN&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;SYS$UMF&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;DBSNMP&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;APPQOSSYS&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;DBSFWUSER&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;GGSYS&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;ANONYMOUS&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;CTXSYS&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;DVSYS&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;DVF&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;GSMADMIN_INTERNAL&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;MDSYS&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;OLAPSYS&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;XDB&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;WMSYS&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;GSMCATUSER&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;MDDATA&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;BECARIO&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;SYSBACKUP&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;REMOTE_SCHEDULER_AGENT&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;GSMUSER&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;SYSRAC&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;GSMROOTUSER&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;SI_INFORMTN_SCHEMA&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;AUDSYS&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;DIP&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;ORDPLUGINS&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;SYSKM&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;ORDDATA&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;ORACLE_OCM&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;CONEXION1&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;SCOTT&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;SYSDG&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;ORDSYS&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;RAUL&quot; DEFAULT TABLESPACE TS2;
+ALTER USER &quot;PRUEBA&quot; DEFAULT TABLESPACE TS2;
+</code></pre>
                 </div>
                 
                 <div class="post-comments">
