@@ -982,7 +982,126 @@ ALTER USER &quot;SYSDG&quot; DEFAULT TABLESPACE TS2;
 ALTER USER &quot;ORDSYS&quot; DEFAULT TABLESPACE TS2;
 ALTER USER &quot;RAUL&quot; DEFAULT TABLESPACE TS2;
 ALTER USER &quot;PRUEBA&quot; DEFAULT TABLESPACE TS2;
-</code></pre>
+</code></pre><h3 id="caso-práctico-2">CASO PRÁCTICO 2:</h3>
+<ol start="3">
+<li>Realiza un procedimiento que reciba dos nombres de usuario y genere un script que asigne al primero los privilegios de inserción y modificación sobre todas las tablas del segundo, así como el de ejecución de cualquier procedimiento que tenga el segundo usuario.</li>
+</ol>
+<h4 id="oracle-1">ORACLE</h4>
+<pre><code>CREATE OR REPLACE PROCEDURE HeredarPrivilegios(v_usuario1 VARCHAR2, v_usuario2 VARCHAR2)
+IS
+	CURSOR c_tablas IS
+	SELECT table_name, grantable
+	FROM ALL_TABLES
+	WHERE owner=v_usuario2;
+BEGIN
+	FOR v_tabla IN c_tablas
+	LOOP
+		IF v_tabla.gratable='YES' THEN
+			dbms_output.put_line
+</code></pre><ol start="4">
+<li>Realiza un procedimiento que genere un script que cree un rol conteniendo todos los permisos que tenga el usuario cuyo nombre reciba como parámetro, le hayan sido asignados a aquél directamente o a traves de roles. El nuevo rol deberá llamarse BackupPrivsNombreUsuario.</li>
+</ol>
+<pre><code>CREATE OR REPLACE PROCEDURE ContraseñaUsuario(v_usuario VARCHAR2, contraseña OUT VARCHAR2)
+IS
+BEGIN
+	SELECT password INTO contraseña
+	FROM dba_users
+	WHERE username=v_usuario;
+END;
+/
+</code></pre><pre><code>CREATE OR REPLACE PROCEDURE AsignarPrivilegiosSistema(v_usuario1 VARCHAR2, v_usuario2 VARCHAR2)
+IS
+	CURSOR c_privilegios IS
+	SELECT privilege, admin_option
+	FROM dba_sys_privs
+	WHERE grantee=v_usuario1;
+BEGIN
+	FOR v_privilegio IN c_privilegios
+	LOOP
+		IF v_privilegio.admin_option='YES' THEN
+			dbms_output.put_line('GRANT '||v_privilegio.privilege||' TO '||v_usuario2||' WITH ADMIN OPTION;');
+		ELSE
+			dbms_output.put_line('GRANT '||v_privilegio.privilege||' TO '||v_usuario2||';');
+		END IF;
+	END LOOP;
+END;
+/
+</code></pre><pre><code>CREATE OR REPLACE PROCEDURE AsignarPrivilegiosObjetos(v_usuario1 VARCHAR2, v_usuario2 VARCHAR2)
+IS
+	CURSOR c_privilegios IS
+	SELECT privilege, grantable, table_name
+	FROM dba_tab_privs
+	WHERE grantee=v_usuario1
+	OR OWNER=v_usuario1;
+BEGIN
+	FOR v_privilegio IN c_privilegios
+	LOOP
+		IF v_privilegio.grantable='YES' THEN
+			dbms_output.put_line('GRANT '||v_privilegio.privilege||' ON '||v_usuario1||'.'||v_privilegio.table_name||' TO '||v_usuario2||' WITH GRANT OPTION;');
+		ELSE
+			dbms_output.put_line('GRANT '||v_privilegio.privilege||' ON '||v_usuario1||'.'||v_privilegio.table_name||' TO '||v_usuario2||';');
+		END IF;
+	END LOOP;
+END;
+/
+</code></pre><pre><code>CREATE OR REPLACE PROCEDURE BackupPrivsNombreUsuario(v_usuario VARCHAR2)
+IS
+	usuario_backup	VARCHAR2(20);
+BEGIN
+	usuario_backup:=CONCAT(v_usuario,'_Backup');
+
+	dbms_output.put_line('CREATE USER '||usuario_backup||';');
+	AsignarPrivilegiosSistema(v_usuario, usuario_backup);
+	AsignarPrivilegiosObjetos(v_usuario, usuario_backup);
+END;
+/
+</code></pre><ul>
+<li>Comprobación de funcionamiento:</li>
+</ul>
+<pre><code>SQL&gt; exec BackupPrivsNombreUsuario('SCOTT');
+CREATE USER SCOTT_Backup IDENTIFIED BY ;
+GRANT CREATE PROCEDURE TO SCOTT_Backup;
+GRANT CREATE SESSION TO SCOTT_Backup;
+GRANT CREATE TABLE TO SCOTT_Backup;
+GRANT INSERT ON SCOTT.EMP TO SCOTT_Backup WITH GRANT OPTION;
+
+PL/SQL procedure successfully completed.
+</code></pre><h3 id="caso-práctico-3">CASO PRÁCTICO 3:</h3>
+<ol>
+<li>Privilegios de sistema:</li>
+</ol>
+<ul>
+<li>
+<p>Estos permiten realizar una operación o ejecutar un comando concreto. Hay casi 100:</p>
+</li>
+<li>
+<p>Para los objetos:</p>
+</li>
+</ul>
+<pre><code>CREATE, ALTER Y DROP
+</code></pre><pre><code>CREATE ANY, ALTER ANY Y DROP ANY
+</code></pre><ul>
+<li>Para las tablas:</li>
+</ul>
+<pre><code>SELECT, INSERT, UPDATE, DELETE
+</code></pre><ul>
+<li>SINTAXIS PARA CONCEDER ESTOS PERMISOS:</li>
+</ul>
+<pre><code>GRANT CREATE USER TO Becario;
+</code></pre><pre><code>GRANT CREATE ALTER ANY USER TO Becario;
+</code></pre><pre><code>GRANT SELECT GRANT INSERT ANY TABLE TO Becario;
+</code></pre><ul>
+<li>Opción extra:</li>
+</ul>
+<pre><code>WITH GRANT OPTION
+</code></pre><ul>
+<li>SINTAXIS PARA REVOCAR ESTOS PERMISOS:</li>
+</ul>
+<pre><code>ROVOKE CREATE USER TO Becario;
+</code></pre><ul>
+<li></li>
+</ul>
+
                 </div>
                 
                 <div class="post-comments">
