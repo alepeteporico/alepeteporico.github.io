@@ -6,7 +6,19 @@
     <description>Recent content in Apuntes on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 05 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/apuntes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 25 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/apuntes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Almacenamiento en BBDD</title>
+      <link>https://alepeteporico.github.io/apuntes/almacenamiento_bbdd/</link>
+      <pubDate>Wed, 25 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/apuntes/almacenamiento_bbdd/</guid>
+      <description>TABLESPACES   Es una especie de carpeta que contiene las tablas, indices, etc&amp;hellip; que corresponde a uno o variows datafiles.
+  (No mezclar datos de distinta naturaleza en el mismo tablespace).
+  Importantes en la administración por el punto de que se puede activar o desactivar:
+  ALTER TABLESPACE X OFFLINE; ALTER TABLESPACE X ONLINE;    </description>
+    </item>
+    
     <item>
       <title>DNS</title>
       <link>https://alepeteporico.github.io/apuntes/dns_2021/</link>

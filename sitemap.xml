@@ -3,8 +3,28 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://alepeteporico.github.io/tags/agb/</loc>
+    <lastmod>2023-01-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://alepeteporico.github.io/</loc>
-    <lastmod>2023-01-04T00:00:00+00:00</lastmod>
+    <lastmod>2023-01-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alepeteporico.github.io/apuntes/almacenamiento_bbdd/</loc>
+    <lastmod>2023-01-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alepeteporico.github.io/apuntes/</loc>
+    <lastmod>2023-01-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alepeteporico.github.io/tags/</loc>
+    <lastmod>2023-01-25T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -19,11 +39,6 @@
   
   <url>
     <loc>https://alepeteporico.github.io/practicas/</loc>
-    <lastmod>2023-01-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://alepeteporico.github.io/tags/</loc>
     <lastmod>2023-01-04T00:00:00+00:00</lastmod>
   </url>
   
@@ -345,11 +360,6 @@
   <url>
     <loc>https://alepeteporico.github.io/practicas/ejercicio3_vagrant_ansible/</loc>
     <lastmod>2021-11-06T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://alepeteporico.github.io/apuntes/</loc>
-    <lastmod>2021-11-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
