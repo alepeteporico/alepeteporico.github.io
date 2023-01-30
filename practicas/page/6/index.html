@@ -106,6 +106,22 @@
 	<li>
 		<div class="post-list-item">
 			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/php_docker/">Implantación de aplicaciones web PHP en docker</a></h4>
+				<h4 class="post-date">2021-06-07</h4>
+			</div>
+			<div class="post-summary"><p>Vamos a clonar el repositorio necesario para la aplicación.
+ alejandrogv@AlejandroGV:~/docker/php$ git clone https://github.com/evilnapsis/bookmedik.git    Crearemos un repositorio con la siguiente estructura.
+ alejandrogv@AlejandroGV:~/docker/php/php_docker$ tree . ├── build │ ├── bookmedik │ ├── Dockerfile │ └── script.sh ├── deploy │ └── docker-compose.yml └── README.md    En el fichero docker-compose añadimos lo siguiente.
+ version: &quot;3.1&quot; services: db: container_name: mysql image: mariadb restart: always environment: MYSQL_DATABASE: bookmedik MYSQL_USER: bookmedik MYSQL_PASSWORD: admin MYSQL_ROOT_PASSWORD: admin volumes: - /opt/mysql_wp:/var/lib/mysql    Y en la carpeta build crearemos un fichero Dockerfile que rellenaremos de la siguiente forma.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/php_docker/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
 				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/proxy/">Proxy, proxy inverso y balanceadores de carga</a></h4>
 				<h4 class="post-date">2021-06-06</h4>
 			</div>
@@ -234,20 +250,6 @@
  debian@freston:~$ sudo apt install slapd    Durante esta instalación tendremos que introducir una contraseña para el administrador.</p></div>
 			<div class="post-list-footer text-center">
 				<a href="https://alepeteporico.github.io/practicas/ldap/">Read More</a>
-			</div>
-		</div>
-	</li>
-	
-	<li>
-		<div class="post-list-item">
-			<div class="post-header">
-				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/almacenamiento_bbdd/">Almacenamiento</a></h4>
-				<h4 class="post-date">2021-05-10</h4>
-			</div>
-			<div class="post-summary"><p>Muestra los objetos a los que pertenecen las extensiones del tablespace TS2 (creado por tí) y el tamaño de cada una de ellas. Tendrás que crear objetos en él previamente, claro.   Vamos a crear este Tablespace.
- SQL&gt; CREATE TABLESPACE TS2 2 DATAFILE '/home/oracle/ts2.dbf' 3 SIZE 200K 4 AUTOEXTEND ON 5 DEFAULT STORAGE ( 6 INITIAL 200K 7 NEXT 200K 8 MAXEXTENTS 3 9 PCTINCREASE 100); Tablespace created.    Vamos a crear una prueba para ver como funciona y añadamos contenido a ver como funciona.</p></div>
-			<div class="post-list-footer text-center">
-				<a href="https://alepeteporico.github.io/practicas/almacenamiento_bbdd/">Read More</a>
 			</div>
 		</div>
 	</li>
