@@ -13,7 +13,7 @@
       <pubDate>Wed, 25 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/almacenamiento2023/</guid>
-      <description>ORACLE  Intenta crear el tablespace TS1 con un fichero de 2M en tu disco que crezca automáticamente cuando sea necesario. ¿Puedes hacer que la gestión de extensiones sea por diccionario? Averigua la razón.     Crea dos tablas en el tablespace recién creado e inserta un registro en cada una de ellas. Comprueba el espacio libre existente en el tablespace. Borra una de las tablas y comprueba si ha aumentado el espacio disponible en el tablespace.</description>
+      <description>ORACLE  Establece que los objetos que se creen en el TS1 (creado por Alumno 1) tengan un tamaño inicial de 200K, y que cada extensión sea del doble del tamaño que la anterior. El número máximo de extensiones debe ser de 3.   Primero apagamos este tablespace para poder modificarlo.  SQL&amp;gt; ALTER TABLESPACE TS1 OFFLINE; Tablespace altered.     Crea dos tablas en el tablespace recién creado e inserta un registro en cada una de ellas.</description>
     </item>
     
     <item>
