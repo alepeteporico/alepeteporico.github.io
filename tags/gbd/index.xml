@@ -13,7 +13,7 @@
       <pubDate>Wed, 25 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://alepeteporico.github.io/practicas/almacenamiento2023/</guid>
-      <description>ORACLE  Establece que los objetos que se creen en el TS1 (creado por Alumno 1) tengan un tamaño inicial de 200K, y que cada extensión sea del doble del tamaño que la anterior. El número máximo de extensiones debe ser de 3.   Primero apagamos este tablespace para poder modificarlo.  SQL&amp;gt; ALTER TABLESPACE TS1 OFFLINE; Tablespace altered.     Crea dos tablas en el tablespace recién creado e inserta un registro en cada una de ellas.</description>
+      <description>ORACLE  Establece que los objetos que se creen en el TS1 (creado por Alumno 1) tengan un tamaño inicial de 200K, y que cada extensión sea del doble del tamaño que la anterior. El número máximo de extensiones debe ser de 3.   Primero apagamos este tablespace para poder modificarlo.  SQL&amp;gt; ALTER TABLESPACE TS1 OFFLINE; Tablespace altered.  Alteramos el tablespace tal y como se nos pide.  ALTER TABLESPACE TS1 DEFAULT STORAGE ( INITIAL 200K MAXEXTENTS 3 PCTINCREASE 200);  Sin embargo, esto nos da un error ORA-25143: default storage clause is not compatible with allocation policy creía que el problema estaba en que la segmentación se crea de forma automatica, y trate de cambiarla a manual sin ningún resultado, por ello he eliminiado el tablespace y lo he creado de 0 con estos nuevos parametros.</description>
     </item>
     
     <item>
