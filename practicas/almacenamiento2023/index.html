@@ -383,6 +383,13 @@ Propietario: SYS
 <ol start="7">
 <li>Averigua si existe el concepto de segmento y el de extensión en Postgres, en qué consiste y las diferencias con los conceptos correspondientes de ORACLE.</li>
 </ol>
+<ul>
+<li>Los segmentos en Oracle son el espacio que ocupa en un tablespace los objetos. En postgres el concepto es totalmente distinto, cuando se crea un segmento, se crea un archivo dentro del directorio que tiene asignado el tablespace en cuestión. Esto tiene inconvenientes, pues no puedes especificar lo que debe ocupar cada objeto (segmento). También tiene sus ventajas que podemos usar, como que cada tabla tendrá su propio segmento o carpeta que no compartira con otra. Cuando el objeto en cuestión supere 1GB de capacidad se creará una carpeta nueva.</li>
+</ul>
+<h3 id="mysql">MySQL:</h3>
+<ol start="8">
+<li>Averigua si existe el concepto de espacio de tablas en MySQL y las diferencias con los tablespaces de ORACLE.</li>
+</ol>
 <h2 id="parte-grupal">PARTE GRUPAL:</h2>
 <ol>
 <li>Cread un índice para la tabla EMP de SCOTT que agilice las consultas por nombre de empleado en un tablespace creado específicamente para índices. ¿Dónde deberiáis ubicar el fichero de datos asociado? ¿Cómo se os ocurre que podriáis probar si el índice resulta de utilidad?</li>
