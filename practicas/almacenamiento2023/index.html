@@ -390,7 +390,37 @@ Propietario: SYS
 <ol start="8">
 <li>Averigua si existe el concepto de espacio de tablas en MySQL y las diferencias con los tablespaces de ORACLE.</li>
 </ol>
-<h2 id="parte-grupal">PARTE GRUPAL:</h2>
+<ul>
+<li>
+<p>Si, existe y se usa como en oracle con su propio motor de almacenamiento &ldquo;InnoDB&rdquo; y &ldquo;NDB&rdquo;. Aunque tienen algunas restriscciones en comparación y para usar todas las funcionalidades necesitariamos un cluster MySQL NDB. Veamos la sintaxis de uso.</p>
+</li>
+<li>
+<p>Crear un tablespace con InnoDB.</p>
+</li>
+</ul>
+<pre><code>CREATE TABLESPACE ts1
+ADD DATAFILE 'ts1.idb'
+ENGINE = InnoDB;
+</code></pre><ul>
+<li>Incrementar tamaño de un tablespace InnoDB.</li>
+</ul>
+<pre><code>innodb_data_file_path=ts1.idb:12M;ts1_2.idb:50M:autoextend
+</code></pre><ul>
+<li>Crear un tablespace con NDB para lo que primero debemos crear un fichero de login.</li>
+</ul>
+<pre><code>CREATE LOGFILE GROUP logfile_group;
+</code></pre><pre><code>
+</code></pre><ul>
+<li>Vistas importantes para manejar ambos motores de gestión de tablespaces.</li>
+</ul>
+<pre><code>SYS_DATAFILES
+SYS_FOREIGN
+SYS_FOREIGN_COLS
+SYS_TABLESPACES
+SYS_VIRTUAL
+SYS_ZIP_DICT
+SYS_ZIP_DICT_COLS
+</code></pre><h2 id="parte-grupal">PARTE GRUPAL:</h2>
 <ol>
 <li>Cread un índice para la tabla EMP de SCOTT que agilice las consultas por nombre de empleado en un tablespace creado específicamente para índices. ¿Dónde deberiáis ubicar el fichero de datos asociado? ¿Cómo se os ocurre que podriáis probar si el índice resulta de utilidad?</li>
 </ol>
