@@ -409,7 +409,14 @@ ENGINE = InnoDB;
 <li>Crear un tablespace con NDB para lo que primero debemos crear un fichero de login.</li>
 </ul>
 <pre><code>CREATE LOGFILE GROUP logfile_group;
-</code></pre><pre><code>
+</code></pre><pre><code>CREATE TABLESPACE TS2 
+ADD DATAFILE 'ts2.idb'
+USE LOGFILE GROUP logfile_group 
+EXTENT_SIZE = 1M 
+INITIAL_SIZE = 500K
+AUTOEXTEND_SIZE = 200K 
+MAX_SIZE = 1M
+ENGINE = NDB;
 </code></pre><ul>
 <li>Vistas importantes para manejar ambos motores de gestión de tablespaces.</li>
 </ul>
@@ -420,7 +427,14 @@ SYS_TABLESPACES
 SYS_VIRTUAL
 SYS_ZIP_DICT
 SYS_ZIP_DICT_COLS
-</code></pre><h2 id="parte-grupal">PARTE GRUPAL:</h2>
+</code></pre><h3 id="mongodb">MongoDB</h3>
+<ol start="9">
+<li>Averigua si existe la posibilidad en MongoDB de decidir en qué archivo se almacena una colección.</li>
+</ol>
+<ul>
+<li><strong>No parecer haber ninguna documentación al respecto. Las bases de datos no relacionales y en este caso mongo usan, entre otros metodos, documentos BJSON (JSON binario) para guardar la información. Pero la creación y gestión de estos archivos parece totalmente gestionada por el gestor MongoDB sin posibilidad aparente de que el usuario administrador pueda ejercer control sobre esto.</strong></li>
+</ul>
+<h2 id="parte-grupal">PARTE GRUPAL:</h2>
 <ol>
 <li>Cread un índice para la tabla EMP de SCOTT que agilice las consultas por nombre de empleado en un tablespace creado específicamente para índices. ¿Dónde deberiáis ubicar el fichero de datos asociado? ¿Cómo se os ocurre que podriáis probar si el índice resulta de utilidad?</li>
 </ol>
