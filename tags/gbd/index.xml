@@ -6,7 +6,16 @@
     <description>Recent content in GBD on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 25 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/gbd/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 16 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/gbd/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Auditorias de bases de datos</title>
+      <link>https://alepeteporico.github.io/practicas/auditoria/</link>
+      <pubDate>Thu, 16 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/auditoria/</guid>
+      <description>Activa desde SQL*Plus la auditoría de los intentos de acceso exitosos al sistema. Comprueba su funcionamiento.   Vamos a activarlo.  SQL&amp;gt; ALTER SYSTEM SET audit_trail=db scope=spfile; System altered.  Reiniciamos la base de datos para comprobar.  SQL&amp;gt; shutdown Database closed. Database dismounted. ORACLE instance shut down. SQL&amp;gt; startup ORACLE instance started. Total System Global Area 1660941680 bytes Fixed Size	9135472 bytes Variable Size	973078528 bytes Database Buffers	671088640 bytes Redo Buffers	7639040 bytes Database mounted.</description>
+    </item>
+    
     <item>
       <title>Almacenamiento 2023</title>
       <link>https://alepeteporico.github.io/practicas/almacenamiento2023/</link>

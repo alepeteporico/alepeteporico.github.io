@@ -106,6 +106,21 @@
 	<li>
 		<div class="post-list-item">
 			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/python_openstack/">Instalación de un CMS python</a></h4>
+				<h4 class="post-date">2022-06-02</h4>
+			</div>
+			<div class="post-summary"><p>Vamos a crear el entorno virtual en el cual instalaremos Mezzanine.
+ alejandrogv@AlejandroGV:~/entornos/mezzanine$ source despliegue/bin/activate (despliegue) alejandrogv@AlejandroGV:~/entornos/mezzanine$    Ahora instalamos con pip mezzanine y creamos un proyecto.
+ (despliegue) alejandrogv@AlejandroGV:~/proyecto$ pip install mezzanine (despliegue) alejandrogv@AlejandroGV:~/proyecto$ mezzanine-project cms    Vamos a modificar uno de los ficheros que se ha generado cms/settings.py para usar la base de datos sqlite ya que estamos en el entorno de pruebas.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/python_openstack/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
 				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/monotorizacion/">Monotorización con Zabbix</a></h4>
 				<h4 class="post-date">2022-05-31</h4>
 			</div>
@@ -228,19 +243,6 @@
 			<div class="post-summary"><p>Explica los pasos fundamentales para la creación del certificado. Especificando los campos que has rellenado en el fichero CSR.  Para este cometido usaremos el servicio letsencrypt, esta unidad certificadora hace use del protocolo ACME que lleva a cabo dos sencillos pasos mediante un agente llamadao certbot los pasos son:   Validación del dominio. Tenemos que demostrar que somos administradores del dominio en el que queremos generar este certificado, esto se puede hacer de dos formas:    Creando un fichero de configuración en una ruta determinada, si la autoridad certificadora puede acceder por el puerto 80 y verificar este fichero y validar las firmas de las claves que se generarían para hacer dicha conexión, entonces verificará que somos administradores del dominio.</p></div>
 			<div class="post-list-footer text-center">
 				<a href="https://alepeteporico.github.io/practicas/https_ovh/">Read More</a>
-			</div>
-		</div>
-	</li>
-	
-	<li>
-		<div class="post-list-item">
-			<div class="post-header">
-				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cortafuegos/">Cortafuegos perimetral sobre el escenario</a></h4>
-				<h4 class="post-date">2022-03-21</h4>
-			</div>
-			<div class="post-summary"><p>Política por defecto DROP para las cadenas INPUT, FORWARD y OUTPUT.  iptables -P INPUT DROP iptables -P OUTPUT DROP iptables -P FORWARD DROP  La máquina Zeus tiene un servidor ssh escuchando por el puerto 22, pero al acceder desde el exterior habrá que conectar al puerto 2222.  iptables -t nat -A PREROUTING -p tcp --dport 2222 -i eth0 -j DNAT --to 172.22.0.169:22 iptables -A INPUT -i eth0 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT iptables -A OUTPUT -o eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT alejandrogv@AlejandroGV:~$ ssh -A debian@172.</p></div>
-			<div class="post-list-footer text-center">
-				<a href="https://alepeteporico.github.io/practicas/cortafuegos/">Read More</a>
 			</div>
 		</div>
 	</li>

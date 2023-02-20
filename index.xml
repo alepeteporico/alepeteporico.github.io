@@ -6,7 +6,16 @@
     <description>Recent content on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 25 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 16 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Auditorias de bases de datos</title>
+      <link>https://alepeteporico.github.io/practicas/auditoria/</link>
+      <pubDate>Thu, 16 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/auditoria/</guid>
+      <description>Activa desde SQL*Plus la auditoría de los intentos de acceso exitosos al sistema. Comprueba su funcionamiento.   Vamos a activarlo.  SQL&amp;gt; ALTER SYSTEM SET audit_trail=db scope=spfile; System altered.  Reiniciamos la base de datos para comprobar.  SQL&amp;gt; shutdown Database closed. Database dismounted. ORACLE instance shut down. SQL&amp;gt; startup ORACLE instance started. Total System Global Area 1660941680 bytes Fixed Size	9135472 bytes Variable Size	973078528 bytes Database Buffers	671088640 bytes Redo Buffers	7639040 bytes Database mounted.</description>
+    </item>
+    
     <item>
       <title>Almacenamiento 2023</title>
       <link>https://alepeteporico.github.io/practicas/almacenamiento2023/</link>
@@ -818,17 +827,6 @@ MariaDB [(none)]&amp;gt; CREATE DATABASE wordpress; Query OK, 1 row affected (0.
       <guid>https://alepeteporico.github.io/practicas/ic/</guid>
       <description>Integración continúa de aplicación django   Ya tenemos nuestra aplicación y el entorno virtual de la práctica de Despliegue de una aplicación python usaremos la misma, y realizaremos los test.
  (django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python/django_tutorial$ python3 manage.py test Creating test database for alias &#39;default&#39;... System check identified no issues (0 silenced). .......... ---------------------------------------------------------------------- Ran 10 tests in 0.056s OK Destroying test database for alias &#39;default&#39;...    Vamos a modificar el fichero polls/templates/polls/index.</description>
-    </item>
-    
-    <item>
-      <title>Auditoria</title>
-      <link>https://alepeteporico.github.io/practicas/auditoria/</link>
-      <pubDate>Mon, 31 May 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/auditoria/</guid>
-      <description>Activa desde SQL*Plus la auditoría de los intentos de acceso fallidos al sistema. Comprueba su funcionamiento.   Primero vamos a visualizar los diferentes parametros de auditorias de los que disponemos.
- SQL&amp;gt; SHOW PARAMETER AUDIT NAME	TYPE	VALUE ------------------------------------ ----------- ------------------------------ audit_file_dest string	/opt/oracle/admin/ORCLCDB/adum p audit_sys_operations	boolean	TRUE audit_syslog_level	string audit_trail	string	DB unified_audit_common_systemlog	string unified_audit_sga_queue_size	integer	1048576 unified_audit_systemlog string    Nosotros usaremos audit_trail
- SQL&amp;gt; ALTER SYSTEM SET audit_trail=db scope=spfile; System altered.</description>
     </item>
     
     <item>

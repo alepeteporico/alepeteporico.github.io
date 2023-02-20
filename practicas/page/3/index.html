@@ -106,6 +106,19 @@
 	<li>
 		<div class="post-list-item">
 			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cortafuegos/">Cortafuegos perimetral sobre el escenario</a></h4>
+				<h4 class="post-date">2022-03-21</h4>
+			</div>
+			<div class="post-summary"><p>Política por defecto DROP para las cadenas INPUT, FORWARD y OUTPUT.  iptables -P INPUT DROP iptables -P OUTPUT DROP iptables -P FORWARD DROP  La máquina Zeus tiene un servidor ssh escuchando por el puerto 22, pero al acceder desde el exterior habrá que conectar al puerto 2222.  iptables -t nat -A PREROUTING -p tcp --dport 2222 -i eth0 -j DNAT --to 172.22.0.169:22 iptables -A INPUT -i eth0 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT iptables -A OUTPUT -o eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT alejandrogv@AlejandroGV:~$ ssh -A debian@172.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/cortafuegos/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
 				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cms_php_vps/">Instalación/migración de aplicaciones web PHP eb tu VPS</a></h4>
 				<h4 class="post-date">2022-03-20</h4>
 			</div>
@@ -222,21 +235,6 @@
 			<div class="post-summary"><p>Configura un escenario con vagrant o similar que incluya varias máquinas que permita realizar la configuración de un servidor iSCSI y dos clientes (uno linux y otro windows). Explica de forma detallada en la tarea los pasos realizados.   Crea un target con una LUN y conéctala a un cliente GNU/Linux. Explica cómo escaneas desde el cliente buscando los targets disponibles y utiliza la unidad lógica proporcionada, formateándola si es necesario y montándola.</p></div>
 			<div class="post-list-footer text-center">
 				<a href="https://alepeteporico.github.io/practicas/iscsi/">Read More</a>
-			</div>
-		</div>
-	</li>
-	
-	<li>
-		<div class="post-list-item">
-			<div class="post-header">
-				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/interconexion/">Interconexión de servidores de bases de datos</a></h4>
-				<h4 class="post-date">2022-01-03</h4>
-			</div>
-			<div class="post-summary"><p>Realizar un enlace entre dos servidores de bases de datos ORACLE, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.
-  Realizar un enlace entre dos servidores de bases de datos Postgres, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.
-  Realizar un enlace entre un servidor ORACLE y otro Postgres o MySQL empleando Heterogeneus Services, explicando la configuración necesaria en ambos extremos y demostrando su funcionamiento.</p></div>
-			<div class="post-list-footer text-center">
-				<a href="https://alepeteporico.github.io/practicas/interconexion/">Read More</a>
 			</div>
 		</div>
 	</li>

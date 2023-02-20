@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title> Auditoria &middot; Alepetepórico Blog </title>
+        <title> Auditorias de bases de datos &middot; Alepetepórico Blog </title>
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -96,470 +96,230 @@
 
         <div class="flex-wrapper">
             <div class="container wrapper">
-                <h1><a href="https://alepeteporico.github.io/practicas/auditoria/">Auditoria</a></h1>
-                <span class="post-date">2021-05-31 </span>
+                <h1><a href="https://alepeteporico.github.io/practicas/auditoria/">Auditorias de bases de datos</a></h1>
+                <span class="post-date">2023-02-16 </span>
                 <div class="post-content">
-                    <h3 id="activa-desde-sqlplus-la-auditoría-de-los-intentos-de-acceso-fallidos-al-sistema-comprueba-su-funcionamiento">Activa desde SQL*Plus la auditoría de los intentos de acceso fallidos al sistema. Comprueba su funcionamiento.</h3>
+                    <ol>
+<li>Activa desde SQL*Plus la auditoría de los intentos de acceso exitosos al sistema. Comprueba su funcionamiento.</li>
+</ol>
+<ul>
+<li>Vamos a activarlo.</li>
+</ul>
+<pre><code>SQL&gt; ALTER SYSTEM SET audit_trail=db scope=spfile;
+
+System altered.
+</code></pre><ul>
+<li>Reiniciamos la base de datos para comprobar.</li>
+</ul>
+<pre><code>SQL&gt; shutdown
+Database closed.
+Database dismounted.
+ORACLE instance shut down.
+SQL&gt; startup 
+ORACLE instance started.
+
+Total System Global Area 1660941680 bytes
+Fixed Size		    9135472 bytes
+Variable Size		  973078528 bytes
+Database Buffers	  671088640 bytes
+Redo Buffers		    7639040 bytes
+Database mounted.
+Database opened.
+</code></pre><ul>
+<li>Usamos el show parameter para ver el estado de este parametro.</li>
+</ul>
+<pre><code>SQL&gt; SHOW PARAMETER AUDIT
+
+NAME				     TYPE	 VALUE
+------------------------------------ ----------- ------------------------------
+audit_file_dest 		     string	 /opt/oracle/admin/ORCLCDB/adum
+						 p
+audit_sys_operations		     boolean	 TRUE
+audit_syslog_level		     string
+audit_trail			     string	 DB
+unified_audit_common_systemlog	     string
+unified_audit_sga_queue_size	     integer	 1048576
+unified_audit_systemlog 	     string
+</code></pre><ul>
+<li>Creamos la auditoria.</li>
+</ul>
+<pre><code>SQL&gt; AUDIT CREATE SESSION WHENEVER NOT SUCCESSFUL;
+
+Audit succeeded.
+</code></pre><ul>
+<li>Vamos a auditar a uno de nuestros usuarios.</li>
+</ul>
+<pre><code>SQL&gt; AUDIT CREATE SESSION BY SCOTT;
+
+Audit succeeded.
+
+
+SQL&gt; SELECT * FROM DBA_PRIV_AUDIT_OPTS;
+
+USER_NAME
+--------------------------------------------------------------------------------
+PROXY_NAME
+--------------------------------------------------------------------------------
+PRIVILEGE				 SUCCESS    FAILURE
+---------------------------------------- ---------- ----------
+
+
+CREATE SESSION				 NOT SET    BY ACCESS
+
+PROFESOR
+
+CREATE SESSION				 BY ACCESS  BY ACCESS
+
+USER_NAME
+--------------------------------------------------------------------------------
+PROXY_NAME
+--------------------------------------------------------------------------------
+PRIVILEGE				 SUCCESS    FAILURE
+---------------------------------------- ---------- ----------
+
+SCOTT
+
+CREATE SESSION				 BY ACCESS  BY ACCESS
+</code></pre><ul>
+<li>Para desactivar la auditoria:</li>
+</ul>
+<pre><code>SQL&gt; NOAUDIT CREATE SESSION WHENEVER NOT SUCCESSFUL;
+
+Noaudit succeeded.
+</code></pre><ol start="2">
+<li>Realiza un procedimiento en PL/SQL que te muestre los accesos fallidos junto con el motivo de los mismos, transformando el código de error almacenado en un mensaje de texto comprensible. Contempla todos los motivos posibles para que un acceso sea fallido.</li>
+</ol>
+<ul>
+<li>Procedimiento que muestra el motivo del intento fallido.</li>
+</ul>
+<pre><code>CREATE OR REPLACE PROCEDURE MostrarMotivo(v_codigo NUMBER)
+IS
+BEGIN
+
+    CASE v_codigo
+    WHEN 1017 THEN
+        dbms_output.put_line('MOTIVO: CONTRASEÑA INCORRECTA');
+
+    WHEN 28000 THEN
+        dbms_output.put_line('MOTIVO: CUENTA BLOQUEADA');
+
+    WHEN 01045 THEN
+        dbms_output.put_line('MOTIVO: EL USUARIO NO TIENE PRIVILEGIOS DE CREATE SESSION');
+
+    WHEN 28001 THEN
+        dbms_output.put_line('MOTIVO: LA CONTRASEÑA HA EXPIRADO');
+
+    ELSE
+        dbms_output.put_line('MOTIVO: ERROR DESCONOCIDO');
+    END CASE;
+END;
+/
+</code></pre><ul>
+<li>procedimiento que muestra los accesos fallidos.</li>
+</ul>
+<pre><code>CREATE OR REPLACE PROCEDURE AccesosFallidos
+IS
+    CURSOR c_accesos
+    IS
+    SELECT username, returncode, timestamp
+    FROM dba_audit_session 
+    WHERE action_name='LOGON' 
+    AND returncode != 0 
+    ORDER BY timestamp;
+
+    v_motivo VARCHAR2(50);
+BEGIN
+    FOR v_acceso IN c_accesos LOOP
+        dbms_output.put_line('USUARIO: '||v_acceso.username);
+        dbms_output.put_line('FECHA: '||TO_CHAR(v_acceso.timestamp,'YY/MM/DD DY HH24:MI'));
+        MostrarMotivo(v_acceso.returncode);
+        dbms_output.put_line('------------------------------------------------------------');
+    END LOOP; 
+END;
+/
+</code></pre><ul>
+<li>Comprobación de ejecución.</li>
+</ul>
+<pre><code>SQL&gt; exec AccesosFallidos;
+USUARIO: SCOTT
+FECHA: 17/02/23 FRI 12:36
+MOTIVO: CONTRASE??A INCORRECTA
+------------------------------------------------------------
+
+PL/SQL procedure successfully completed.
+</code></pre><ol start="3">
+<li>Activa la auditoría de las operaciones DML realizadas por SCOTT. Comprueba su funcionamiento.</li>
+</ol>
+<ul>
+<li>Creamos la auditoria.</li>
+</ul>
+<pre><code>SQL&gt; AUDIT INSERT TABLE, UPDATE TABLE, DELETE TABLE, SELECT TABLE BY SCOTT BY ACCESS;
+
+Audit succeeded.
+</code></pre><ul>
+<li>Después de realizar algún insert vamos a comprobar que funciona haciendo una <code>SELECT</code> sencilla.</li>
+</ul>
+<pre><code>SQL&gt; SELECT obj_name, action_name, timestamp
+FROM dba_audit_object
+WHERE username='SCOTT';
+
+OBJ_NAME
+--------------------------------------------------------------------------------
+ACTION_NAME		     TIMESTAMP
+---------------------------- ---------
+EMP
+INSERT			     17-FEB-23
+</code></pre><ol start="4">
+<li>Realiza una auditoría de grano fino para almacenar información sobre la inserción de empleados con sueldo superior a 2000 en la tabla emp de scott.</li>
+</ol>
+<ul>
+<li>Creamos la politica de auditoria.</li>
+</ul>
+<pre><code>BEGIN
+    DBMS_FGA.ADD_POLICY (
+        object_schema      =&gt;  'SCOTT',
+        object_name        =&gt;  'EMP',
+        policy_name        =&gt;  'SueldoAlto',
+        audit_condition    =&gt;  'SAL &gt; 2000',
+        statement_types    =&gt;  'INSERT,UPDATE'
+    );
+END;
+/
+</code></pre><ul>
+<li>Creamos el nuevo registro que quedará auditado.</li>
+</ul>
+<pre><code>SQL&gt; INSERT INTO EMP VALUES
+(7917, 'JUAN', 'CLERK', 7746,
+TO_DATE('23-JAN-1982', 'DD-MON-YYYY'), 2100, NULL, 10);
+</code></pre><ul>
+<li>Realizamos la consulta necesaria para comprobar que se ha auditado.</li>
+</ul>
+<pre><code>SQL&gt; SELECT sql_text
+FROM dba_fga_audit_trail
+WHERE policy_name='SUELDOALTO';
+
+SQL_TEXT
+--------------------------------------------------------------------------------
+INSERT INTO EMP VALUES
+(7917, 'JUAN', 'CLERK', 7746,
+TO_DATE('23-JAN-1982', 'DD-MON-YYYY'), 2100, NULL, 10)
+</code></pre><ol start="5">
+<li>Explica la diferencia entre auditar una operación by access o by session ilustrándolo con ejemplos.</li>
+</ol>
 <ul>
 <li>
-<p>Primero vamos a visualizar los diferentes parametros de auditorias de los que disponemos.</p>
-<pre><code>  SQL&gt; SHOW PARAMETER AUDIT
-
-  NAME				     TYPE	 VALUE
-  ------------------------------------ ----------- ------------------------------
-  audit_file_dest 		     string	 /opt/oracle/admin/ORCLCDB/adum
-                           p
-  audit_sys_operations		     boolean	 TRUE
-  audit_syslog_level		     string
-  audit_trail			     string	 DB
-  unified_audit_common_systemlog	     string
-  unified_audit_sga_queue_size	     integer	 1048576
-  unified_audit_systemlog 	     string
-</code></pre>
+<p><code>BY ACCESS</code>: Creará un registro dentro de la auditoria por cada acción realizada.</p>
 </li>
 <li>
-<p>Nosotros usaremos <code>audit_trail</code></p>
-<pre><code>  SQL&gt; ALTER SYSTEM SET audit_trail=db scope=spfile;
-
-  System altered.
-</code></pre>
+<p><code>BY SESSION</code>: Creará un registro</p>
 </li>
 <li>
-<p>Reiniciamos nuestra base de datos.</p>
-<pre><code>  SQL&gt; SHUTDOWN
-  Database closed.
-  Database dismounted.
-  ORACLE instance shut down.
-  SQL&gt; STARTUP
-  ORACLE instance started.
-
-  Total System Global Area  830470160 bytes
-  Fixed Size		    9140240 bytes
-  Variable Size		  499122176 bytes
-  Database Buffers	  318767104 bytes
-  Redo Buffers		    3440640 bytes
-  Database mounted.
-  Database opened.
-</code></pre>
-</li>
-<li>
-<p>Y comprobamos que este parametro está activado.</p>
-<pre><code>  SQL&gt; SHOW PARAMETER AUDIT
-
-  NAME				     TYPE	 VALUE
-  ------------------------------------ ----------- ------------------------------
-  audit_file_dest 		     string	 /opt/oracle/admin/ORCLCDB/adum
-                           p
-  audit_sys_operations		     boolean	 TRUE
-  audit_syslog_level		     string
-  audit_trail			     string	 DB
-  unified_audit_common_systemlog	     string
-  unified_audit_sga_queue_size	     integer	 1048576
-  unified_audit_systemlog 	     string
-</code></pre>
-</li>
-<li>
-<p>Ahora activaremos la auditoria.</p>
-<pre><code>  SQL&gt; AUDIT CREATE SESSION WHENEVER NOT SUCCESSFUL;
-
-  Audit succeeded.
-</code></pre>
-</li>
-<li>
-<p>Creamos una auditoria para un usuario que elijamos.</p>
-<pre><code>  SQL&gt; AUDIT CREATE SESSION BY ale;  
-
-  Audit succeeded.
-</code></pre>
-</li>
-<li>
-<p>Comprobamos que está activa.</p>
-<pre><code>  SQL&gt; SELECT * FROM DBA_PRIV_AUDIT_OPTS;
-
-  USER_NAME
-  --------------------------------------------------------------------------------
-  PROXY_NAME
-  --------------------------------------------------------------------------------
-  PRIVILEGE				 SUCCESS    FAILURE
-  ---------------------------------------- ---------- ----------
-
-  ALE
-
-  CREATE SESSION				 BY ACCESS  BY ACCESS
-</code></pre>
-</li>
-<li>
-<p>Vamos a hacer algunos intentos de inicio de sesión con este usuario fallido.</p>
-<pre><code>  [oracle@oracle ~]$ sqlplus
-
-  SQL*Plus: Release 19.0.0.0.0 - Production on Mon May 31 14:46:51 2021
-  Version 19.3.0.0.0
-
-  Copyright (c) 1982, 2019, Oracle.  All rights reserved.
-
-  Enter user-name: ale
-  Enter password: 
-  ERROR:
-  ORA-01017: invalid username/password; logon denied
-
-
-  Enter user-name: ale
-  Enter password: 
-
-  Connected to:
-  Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
-  Version 19.3.0.0.0
-</code></pre>
-</li>
-<li>
-<p>Y ahora comprobaremos la auditoria para ver los intentos fallidos.</p>
-<pre><code>  SQL&gt; SELECT OS_USERNAME, USERNAME, EXTENDED_TIMESTAMP, ACTION_NAME, RETURNCODE
-    2  FROM DBA_AUDIT_SESSION;
-
-  OS_USERNAME
-  --------------------------------------------------------------------------------
-  USERNAME
-  --------------------------------------------------------------------------------
-  EXTENDED_TIMESTAMP
-  ---------------------------------------------------------------------------
-  ACTION_NAME		     RETURNCODE
-  ---------------------------- ----------
-  oracle
-  ALE
-  31-MAY-21 02.46.57.464628 PM +00:00
-  LOGON				      0
-
-
-  OS_USERNAME
-  --------------------------------------------------------------------------------
-  USERNAME
-  --------------------------------------------------------------------------------
-  EXTENDED_TIMESTAMP
-  ---------------------------------------------------------------------------
-  ACTION_NAME		     RETURNCODE
-  ---------------------------- ----------
-  oracle
-  ERROR
-  31-MAY-21 02.45.01.660020 PM +00:00
-  LOGON				   1017
-
-
-  OS_USERNAME
-  --------------------------------------------------------------------------------
-  USERNAME
-  --------------------------------------------------------------------------------
-  EXTENDED_TIMESTAMP
-  ---------------------------------------------------------------------------
-  ACTION_NAME		     RETURNCODE
-  ---------------------------- ----------
-  oracle
-  RALE
-  31-MAY-21 02.45.07.774876 PM +00:00
-  LOGON				   1017
-
-
-  OS_USERNAME
-  --------------------------------------------------------------------------------
-  USERNAME
-  --------------------------------------------------------------------------------
-  EXTENDED_TIMESTAMP
-  ---------------------------------------------------------------------------
-  ACTION_NAME		     RETURNCODE
-  ---------------------------- ----------
-  oracle
-  ALE
-  31-MAY-21 02.45.11.642752 PM +00:00
-  LOGON				   1045
-
-
-  OS_USERNAME
-  --------------------------------------------------------------------------------
-  USERNAME
-  --------------------------------------------------------------------------------
-  EXTENDED_TIMESTAMP
-  ---------------------------------------------------------------------------
-  ACTION_NAME		     RETURNCODE
-  ---------------------------- ----------
-  oracle
-  ALE
-  31-MAY-21 02.45.35.528191 PM +00:00
-  LOGON				   1017
-
-
-  OS_USERNAME
-  --------------------------------------------------------------------------------
-  USERNAME
-  --------------------------------------------------------------------------------
-  EXTENDED_TIMESTAMP
-  ---------------------------------------------------------------------------
-  ACTION_NAME		     RETURNCODE
-  ---------------------------- ----------
-  oracle
-  ALE
-  31-MAY-21 02.45.39.220360 PM +00:00
-  LOGON				   1045
-
-
-  OS_USERNAME
-  --------------------------------------------------------------------------------
-  USERNAME
-  --------------------------------------------------------------------------------
-  EXTENDED_TIMESTAMP
-  ---------------------------------------------------------------------------
-  ACTION_NAME		     RETURNCODE
-  ---------------------------- ----------
-  oracle
-  ALE
-  31-MAY-21 02.45.52.633937 PM +00:00
-  LOGON				   1045
-
-
-  OS_USERNAME
-  --------------------------------------------------------------------------------
-  USERNAME
-  --------------------------------------------------------------------------------
-  EXTENDED_TIMESTAMP
-  ---------------------------------------------------------------------------
-  ACTION_NAME		     RETURNCODE
-  ---------------------------- ----------
-  oracle
-  ALE
-  31-MAY-21 02.46.54.986320 PM +00:00
-  LOGON				   1017
-
-
-  OS_USERNAME
-  --------------------------------------------------------------------------------
-  USERNAME
-  --------------------------------------------------------------------------------
-  EXTENDED_TIMESTAMP
-  ---------------------------------------------------------------------------
-  ACTION_NAME		     RETURNCODE
-  ---------------------------- ----------
-  oracle
-  ALE
-  31-MAY-21 02.48.39.814001 PM +00:00
-  LOGOFF				      0
-
-
-  9 rows selected.
-</code></pre>
-</li>
-<li>
-<p>Para desactivar la auditoria lo haríamos usando la siguiente orden:</p>
-<pre><code>  SQL&gt; NOAUDIT CREATE SESSION WHENEVER NOT SUCCESSFUL;
-
-  Noaudit succeeded.
-</code></pre>
+<p>Tambíen podríamos crearla de la siguiente forma:</p>
 </li>
 </ul>
-<h3 id="activa-la-auditoría-de-las-operaciones-dml-realizadas-por-scott-comprueba-su-funcionamiento">Activa la auditoría de las operaciones DML realizadas por SCOTT. Comprueba su funcionamiento.</h3>
-<ul>
-<li>
-<p>Vamos a realizar la auditoria sobre el usuario SCOTT.</p>
-<pre><code>  SQL&gt; AUDIT INSERT TABLE, UPDATE TABLE, DELETE TABLE BY SCOTT BY ACCESS;
-
-  Audit succeeded.
-</code></pre>
-</li>
-<li>
-<p>Al usar el <code>BY ACCESS</code> se guardará un registro por cada acción que se haga. vamos a realizar una prueba por ejemplo conectandonos a este usuario y añadiendo contenido a alguna tabla o modificándolo.</p>
-</li>
-</ul>
-<p>SQL&gt; CONN SCOTT/TIGER
-Connected.
-SQL&gt; INSERT INTO PRUEBA VALUES(10,&lsquo;textoprueba&rsquo;);</p>
-<p>1 row created.</p>
-<ul>
-<li>
-<p>Vamos a ver las acciones que ha realizado este usuario usando la auditoria.</p>
-<pre><code>  SQL&gt; SELECT obj_name, action_name, timestamp
-    2  FROM dba_audit_object
-    3  WHERE username='SCOTT';
-
-  OBJ_NAME
-  --------------------------------------------------------------------------------
-  ACTION_NAME		     TIMESTAMP
-  ---------------------------- ---------
-  PRUEBA
-  INSERT			     31-MAY-21
-
-  PRUEBA
-  INSERT			     31-MAY-21
-
-  PRUEBA
-  INSERT			     31-MAY-21
-
-
-  OBJ_NAME
-  --------------------------------------------------------------------------------
-  ACTION_NAME		     TIMESTAMP
-  ---------------------------- ---------
-  PRUEBA
-  INSERT			     31-MAY-21
-</code></pre>
-</li>
-</ul>
-<h3 id="realiza-una-auditoría-de-grano-fino-para-almacenar-información-sobre-la-inserción-de-empleados-del-departamento-10-en-la-tabla-emp-de-scott">Realiza una auditoría de grano fino para almacenar información sobre la inserción de empleados del departamento 10 en la tabla emp de scott.</h3>
-<ul>
-<li>
-<p>Haremos un proceso PL/SQL para la creación de está auditoría.</p>
-<pre><code>  SQL&gt; BEGIN
-    2  DBMS_FGA.ADD_POLICY (
-    3  object_schema      =&gt;  'SCOTT',
-    4  object_name        =&gt;  'EMP',
-    5  policy_name        =&gt;  'politica1',
-    6  audit_condition    =&gt;  'DEPTNO = 10',
-    7  statement_types    =&gt;  'INSERT'
-    8  );
-    9  END;
-   10  /
-
-  PL/SQL procedure successfully completed.
-</code></pre>
-</li>
-<li>
-<p>Vamos a hacer alguna inserción en el departamento 10 para posteriormente comprobarlo.</p>
-<pre><code>  SQL&gt; INSERT INTO EMP VALUES(8000,'Alvaro','mozo',null,sysdate,1000,1000,10);
-
-  1 row created.
-
-  SQL&gt; INSERT INTO EMP VALUES(8040,'Lila','CM',null,sysdate,1500,1500,10);
-
-  1 row created.
-</code></pre>
-</li>
-<li>
-<p>Comprobemos que la auditoría funciona.</p>
-<pre><code>  SQL&gt; SELECT sql_text
-    2  FROM dba_fga_audit_trail
-    3  WHERE policy_name='politica1';
-
-  SQL_TEXT
-  --------------------------------------------------------------------------------
-  INSERT INTO EMP VALUES(8000,'Alvaro','mozo',null,sysdate,1000,1000,10);
-  INSERT INTO EMP VALUES(8040,'Lila','CM',null,sysdate,1500,1500,10);
-</code></pre>
-</li>
-</ul>
-<h3 id="explica-la-diferencia-entre-auditar-una-operación-by-access-o-by-session">Explica la diferencia entre auditar una operación by access o by session.</h3>
-<ul>
-<li>
-<p><strong>BY ACCESS:</strong> Realiza un registro de todas las acciones sin distinción de ningún parámetro, simplemente registra todas las acciones que se han realizado. Ya lo vimos anteriormente.</p>
-</li>
-<li>
-<p><strong>BY SESSION:</strong> También se realiza un registro de todas las acciones, sin embargo se agrupan por sesión iniciada, es decir, cada vez que iniciemos sesión empezará a agrupar las acciones que se realizan en esa sesión. Cuando cerremos sesión y volvamos a abrir de nuevo empezará a registrar agrupando sobre otra sesión.</p>
-</li>
-</ul>
-<h3 id="documenta-las-diferencias-entre-los-valores-db-y-db-extended-del-parámetro-audit_trail-de-oracle-demuéstralas-poniendo-un-ejemplo-de-la-información-sobre-una-operación-concreta-recopilada-con-cada-uno-de-ellos">Documenta las diferencias entre los valores db y db, extended del parámetro audit_trail de ORACLE. Demuéstralas poniendo un ejemplo de la información sobre una operación concreta recopilada con cada uno de ellos.</h3>
-<ul>
-<li>db almacena información en <code>SYS.AUD$</code>. Y db extend también escribe sobre <code>SQLBIND</code> y <code>SQLTEXT</code>.</li>
-</ul>
-<h3 id="averigua-si-en-postgres-se-pueden-realizar-los-apartados-1-3-y-4-si-es-así-documenta-el-proceso-adecuadamente">Averigua si en Postgres se pueden realizar los apartados 1, 3 y 4. Si es así, documenta el proceso adecuadamente.</h3>
-<ul>
-<li>
-<p>No existen las auditorias en postgres tal como hemos visto en Oracle, pero tenemos dos opciones para realizarlas.</p>
-</li>
-<li>
-<p>La primera es crear una tabla y una función que actue sobre ella y vaya actualizando sus datos. Creamos un trigger que se disparará cuando se produzcan los cambios que especifiquemos y añadirán información a esta tabla.</p>
-</li>
-<li>
-<p>La otra opción podría ser usar una extensión no oficial llamada <code>pgAudit</code> podemos encontrar <a href="https://github.com/pgaudit/pgaudit">aquí</a> el repositorio de github con esta extensión.</p>
-</li>
-</ul>
-<h3 id="averigua-si-en-mysql-se-pueden-realizar-los-apartados-1-3-y-4-si-es-así-documenta-el-proceso-adecuadamente">Averigua si en MySQL se pueden realizar los apartados 1, 3 y 4. Si es así, documenta el proceso adecuadamente.</h3>
-<ul>
-<li>
-<p>Vamos a crear una base de datos de auditorias y dentro una tabla que alamcenará la información cuando se disparen el trigger que crearemos posteriormente.</p>
-<pre><code>  MariaDB [(none)]&gt; CREATE DATABASE auditoria;
-  Query OK, 1 row affected (0.001 sec)
-
-  MariaDB [(none)]&gt; use auditoria;
-  Database changed
-
-  MariaDB [auditoria]&gt; CREATE TABLE acceso (
-      -&gt; codigo int(10) NOT NULL AUTO_INCREMENT,
-      -&gt; user VARCHAR(100),
-      -&gt; fecha DATETIME,
-      -&gt; PRIMARY KEY (`codigo`)
-      -&gt; )
-      -&gt; ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
-  Query OK, 0 rows affected (0.004 sec)
-</code></pre>
-</li>
-<li>
-<p>Creamos una base de datos y una tabla de prueba sobre la que haremos las pruebas.</p>
-<pre><code>  MariaDB [auditoria]&gt; CREATE DATABASE prueba_aud;
-  Query OK, 1 row affected (0.001 sec)
-
-  MariaDB [auditoria]&gt; use prueba_aud;
-  Database changed
-  MariaDB [prueba_aud]&gt; CREATE TABLE algo (
-      -&gt; codigo varchar(5),
-      -&gt; unacosa varchar(10),
-      -&gt; otra varchar(10),
-      -&gt; CONSTRAINT pk_codigo PRIMARY KEY (codigo));
-  Query OK, 0 rows affected, 1 warning (0.047 sec)
-</code></pre>
-</li>
-<li>
-<p>Ahora si, podemos crear el trigger.</p>
-<pre><code>  MariaDB [auditoria]&gt; delimiter $$
-  MariaDB [auditoria]&gt; CREATE TRIGGER prueba_aud.root
-      -&gt; BEFORE INSERT ON prueba_aud.algo
-      -&gt; FOR EACH ROW
-      -&gt; BEGIN
-      -&gt; INSERT INTO auditoria.acceso(user, fecha)
-      -&gt; values (CURRENT_USER(), NOW());
-      -&gt; END$$
-  Query OK, 0 rows affected (0.008 sec)
-</code></pre>
-</li>
-<li>
-<p>Añadimos contenido a la tabla <code>algo</code>.</p>
-<pre><code>  MariaDB [prueba_aud]&gt; INSERT INTO algo
-      -&gt; VALUES ('3245','aqui','alla');
-  Query OK, 1 row affected (0.004 sec)
-</code></pre>
-</li>
-<li>
-<p>Y si volvemos a la base de datos de auditoria y visualizamos la información de la tabla <code>acceso</code> veremos que se ha añadido una entrada con el usuario que añadió algo y en que fecha.</p>
-<pre><code>  MariaDB [auditoria]&gt; SELECT * FROM acceso;
-  +--------+----------------+---------------------+
-  | codigo | user           | fecha               |
-  +--------+----------------+---------------------+
-  |      1 | root@localhost | 2021-05-31 17:29:38 |
-  +--------+----------------+---------------------+
-  1 row in set (0.000 sec)
-</code></pre>
-</li>
-</ul>
-<h3 id="averigua-las-posibilidades-que-ofrece-mongodb-para-auditar-los-cambios-que-va-sufriendo-un-documento">Averigua las posibilidades que ofrece MongoDB para auditar los cambios que va sufriendo un documento.</h3>
-<ul>
-<li>
-<p>Si queremos ver las auditorias que existen podemos usar la siguiente orden:</p>
-<pre><code>  --auditFilter
-</code></pre>
-</li>
-<li>
-<p>Si queremos que se audite cuando creamos o borramos una colección podriamos usar lo siguiente:</p>
-<pre><code>  { atype: { $in: [ &quot;createCollection&quot;, &quot;dropCollection&quot; ] } }
-</code></pre>
-</li>
-<li>
-<p>También podemos auditar con filtros, usando:</p>
-<pre><code>  --auditFilter
-</code></pre>
-</li>
-</ul>
-<h3 id="averigua-si-en-mongodb-se-pueden-auditar-los-accesos-al-sistema">Averigua si en MongoDB se pueden auditar los accesos al sistema.</h3>
-<ul>
-<li>
-<p>Usando lo siguiente:</p>
-<pre><code>  { atype: &quot;authenticate&quot;, &quot;param.db&quot;: &quot;test&quot; }
-
-  mongod --dbpath data/db --auth --auditDestination file --auditFilter '{ atype: &quot;authenticate&quot;, &quot;param.db&quot;: &quot;test&quot; }' --auditFormat BSON --auditPath data/db/auditLog.bson</code></pre>
-</li>
+<pre><code>AUDIT INSERT TABLE, UPDATE TABLE, DELETE TABLE, SELECT TABLE BY SCOTT BY SESSION;
+</code></pre><ul>
+<li>La diferencia se que <code>BY SESSION</code> creara un registro por cada sesión iniciada y <code>BY ACCESS</code> lo creará por cada acción realizada.</li>
 </ul>
 
                 </div>

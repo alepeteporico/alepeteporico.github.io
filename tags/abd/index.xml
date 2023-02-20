@@ -58,17 +58,6 @@ END;</description>
     </item>
     
     <item>
-      <title>Auditoria</title>
-      <link>https://alepeteporico.github.io/practicas/auditoria/</link>
-      <pubDate>Mon, 31 May 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/auditoria/</guid>
-      <description>Activa desde SQL*Plus la auditoría de los intentos de acceso fallidos al sistema. Comprueba su funcionamiento.   Primero vamos a visualizar los diferentes parametros de auditorias de los que disponemos.
- SQL&amp;gt; SHOW PARAMETER AUDIT NAME	TYPE	VALUE ------------------------------------ ----------- ------------------------------ audit_file_dest string	/opt/oracle/admin/ORCLCDB/adum p audit_sys_operations	boolean	TRUE audit_syslog_level	string audit_trail	string	DB unified_audit_common_systemlog	string unified_audit_sga_queue_size	integer	1048576 unified_audit_systemlog string    Nosotros usaremos audit_trail
- SQL&amp;gt; ALTER SYSTEM SET audit_trail=db scope=spfile; System altered.</description>
-    </item>
-    
-    <item>
       <title>Almacenamiento</title>
       <link>https://alepeteporico.github.io/practicas/almacenamiento_bbdd/</link>
       <pubDate>Mon, 10 May 2021 00:00:00 +0000</pubDate>

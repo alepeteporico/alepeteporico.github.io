@@ -106,6 +106,22 @@
 	<li>
 		<div class="post-list-item">
 			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/cortafuegos_antiguo/">Cortafuegos - OpenStack</a></h4>
+				<h4 class="post-date">2021-06-07</h4>
+			</div>
+			<div class="post-summary"><p>Nuestro primer paso será instalar nftables.
+ debian@dulcinea:~$ sudo apt install nftables    Activamos y habilitamos este servicio.
+ debian@dulcinea:~$ sudo systemctl start nftables debian@dulcinea:~$ sudo systemctl enable nftables    Configuraremos la política por defecto a DROP.
+ nft chain inet filter input { policy drop \; } nft chain inet filter forward { policy drop \; } nft chain inet filter output { policy drop \; }    Añadimos las reglas de NAT.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/cortafuegos_antiguo/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
 				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/php_docker/">Implantación de aplicaciones web PHP en docker</a></h4>
 				<h4 class="post-date">2021-06-07</h4>
 			</div>
@@ -160,21 +176,6 @@
  (django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python/django_tutorial$ python3 manage.py test Creating test database for alias 'default'... System check identified no issues (0 silenced). .......... ---------------------------------------------------------------------- Ran 10 tests in 0.056s OK Destroying test database for alias 'default'...    Vamos a modificar el fichero polls/templates/polls/index.</p></div>
 			<div class="post-list-footer text-center">
 				<a href="https://alepeteporico.github.io/practicas/ic/">Read More</a>
-			</div>
-		</div>
-	</li>
-	
-	<li>
-		<div class="post-list-item">
-			<div class="post-header">
-				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/auditoria/">Auditoria</a></h4>
-				<h4 class="post-date">2021-05-31</h4>
-			</div>
-			<div class="post-summary"><p>Activa desde SQL*Plus la auditoría de los intentos de acceso fallidos al sistema. Comprueba su funcionamiento.   Primero vamos a visualizar los diferentes parametros de auditorias de los que disponemos.
- SQL&gt; SHOW PARAMETER AUDIT NAME	TYPE	VALUE ------------------------------------ ----------- ------------------------------ audit_file_dest string	/opt/oracle/admin/ORCLCDB/adum p audit_sys_operations	boolean	TRUE audit_syslog_level	string audit_trail	string	DB unified_audit_common_systemlog	string unified_audit_sga_queue_size	integer	1048576 unified_audit_systemlog string    Nosotros usaremos audit_trail
- SQL&gt; ALTER SYSTEM SET audit_trail=db scope=spfile; System altered.</p></div>
-			<div class="post-list-footer text-center">
-				<a href="https://alepeteporico.github.io/practicas/auditoria/">Read More</a>
 			</div>
 		</div>
 	</li>
