@@ -350,8 +350,27 @@ Stops a hung or stuck worker.
 
 TRACE
 Set trace/debug flags for the current job.
-</code></pre><pre><code>expdp SCOTT/TIGER DUMPFILE=scott.dmp LOG=exportacionscott.log DIRECTORY=dmpdir SCHEMAS=SCOTT EXCLUDE=TABLE:&quot;='BONUS'&quot; QUERY='dept:&quot;WHERE (SELECT d.deptno FROM emp e, dept d WHERE )&quot;' ESTIMATE_ONLY=YES
-</code></pre><ol start="2">
+</code></pre><ul>
+<li>Primero le damos permisos para crear directorios a SCOTT, que será el usuario que usemos para realizar la exportación.</li>
+</ul>
+<pre><code>SQL&gt; GRANT CREATE ANY DIRECTORY TO SCOTT;
+
+Grant succeeded.
+</code></pre><ul>
+<li>Seguidamente nos conectamos a SCOTT y creamos el directorio donde haremos la exportación.</li>
+</ul>
+<pre><code>SQL&gt; connect SCOTT/TIGER
+Connected.
+SQL&gt; CREATE DIRECTORY DATA_PUMP_EXPORT AS '/opt/oracle/admin/ORCLCDB/dpdump/';
+
+Directory created.
+</code></pre><ul>
+<li>Para cumplir con el apartado que nos pide que la acción sea realiada dentro de dos minutos usaremos el comando <code>at</code> de linux que nos permitirá programar la tarea.</li>
+</ul>
+<pre><code>at now + 2 minutes
+</code></pre><pre><code>expdp SCOTT/TIGER DUMPFILE=scott.dmp LOG=exportacionscott.log DIRECTORY=DATA_PUMP_EXPORT SCHEMAS=SCOTT EXCLUDE=TABLE:\&quot;=\'BONUS\'\&quot;
+</code></pre><p>QUERY=&lsquo;dept:&ldquo;WHERE (SELECT d.deptno FROM emp e, dept d WHERE )&quot;&rsquo; ESTIMATE_ONLY=YES</p>
+<ol start="2">
 <li>
 <p>Importa el fichero obtenido anteriormente usando Oracle Data Pump pero en un usuario distinto de la misma base de datos.</p>
 </li>
