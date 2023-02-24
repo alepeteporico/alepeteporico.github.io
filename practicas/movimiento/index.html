@@ -379,9 +379,7 @@ Directory created.
 </li>
 </ol>
 <pre><code>expdp SYSTEM DUMPFILE=myexp.dmp FULL=y LOG=myexp.log 
-</code></pre><p>SELECT deptno
-FROM dept
-WHERE deptno</p>
+</code></pre><p>SELECT deptno FROM dept WHERE deptno IN (SELECT deptno FROM EMP GROUP BY deptno HAVING COUNT(*)&lt;3);</p>
 
                 </div>
                 
