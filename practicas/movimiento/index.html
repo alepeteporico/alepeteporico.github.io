@@ -368,18 +368,281 @@ Directory created.
 <li>Para cumplir con el apartado que nos pide que la acción sea realiada dentro de dos minutos usaremos el comando <code>at</code> de linux que nos permitirá programar la tarea.</li>
 </ul>
 <pre><code>at now + 2 minutes
-</code></pre><pre><code>expdp SCOTT/TIGER DUMPFILE=scott.dmp LOG=exportacionscott.log DIRECTORY=DATA_PUMP_EXPORT SCHEMAS=SCOTT EXCLUDE=TABLE:\&quot;=\'BONUS\'\&quot;
-</code></pre><p>QUERY=&lsquo;dept:&ldquo;WHERE (SELECT d.deptno FROM emp e, dept d WHERE )&quot;&rsquo; ESTIMATE_ONLY=YES</p>
-<ol start="2">
-<li>
-<p>Importa el fichero obtenido anteriormente usando Oracle Data Pump pero en un usuario distinto de la misma base de datos.</p>
-</li>
-<li>
-<p>Realiza una exportación de la estructura de todas las tablas de la base de datos usando el comando expdp de Oracle Data Pump probando al menos cinco de las posibles opciones que ofrece dicho comando y documentándolas adecuadamente.</p>
-</li>
+</code></pre><ul>
+<li>El comando de exportación sería el siguiente:</li>
+</ul>
+<pre><code>expdp SCOTT/TIGER DUMPFILE=scott.dmp LOG=exportacionscott.log DIRECTORY=DATA_PUMP_EXPORT SCHEMAS=SCOTT EXCLUDE=TABLE:\&quot;=\'BONUS\'\&quot; ESTIMATE=BLOCKS QUERY=dept:'&quot;WHERE deptno IN \(SELECT deptno FROM EMP GROUP BY deptno HAVING COUNT\(*\)&gt;2\)&quot;'
+</code></pre><ul>
+<li>Los dos conjuntados sería una cosa así:</li>
+</ul>
+<pre><code>vagrant@oracleagv:~$ at now + 2 minutes
+warning: commands will be executed using /bin/sh
+at&gt; expdp SCOTT/TIGER DUMPFILE=scott.dmp LOG=exportacionscott.log DIRECTORY=DATA_PUMP_EXPORT SCHEMAS=SCOTT EXCLUDE=TABLE:\&quot;=\'BONUS\'\&quot; ESTIMATE=BLOCKS QUERY=dept:'&quot;WHERE deptno IN \(SELECT deptno FROM EMP GROUP BY deptno HAVING COUNT\(*\)&gt;2\)&quot;'
+at&gt; &lt;EOT&gt;
+job 1 at Sat Feb 25 18:46:00 2023
+</code></pre><ul>
+<li>Miramos en el log como se ha realizado el proceso.</li>
+</ul>
+<pre><code>vagrant@oracleagv:~$ sudo cat /opt/oracle/admin/ORCLCDB/dpdump/exportacionscott.log 
+;;; 
+Export: Release 19.0.0.0.0 - Production on Sat Feb 25 18:46:00 2023
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+;;; 
+Connected to: Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+;;; Legacy Mode Active due to the following parameters:
+;;; Legacy Mode Parameter: &quot;log=exportacionscott.log&quot; Location: Command Line, Replaced with: &quot;logfile=exportacionscott.log&quot;
+;;; Legacy Mode has set reuse_dumpfiles=true parameter.
+Starting &quot;SCOTT&quot;.&quot;SYS_EXPORT_SCHEMA_01&quot;:  SCOTT/******** DUMPFILE=scott.dmp logfile=exportacionscott.log DIRECTORY=DATA_PUMP_EXPORT SCHEMAS=SCOTT EXCLUDE=TABLE:&quot;='BONUS'&quot; ESTIMATE=BLOCKS QUERY=dept:&quot;WHERE deptno IN \(SELECT deptno FROM EMP GROUP BY deptno HAVING COUNT\(*\)&gt;2\)&quot; reuse_dumpfiles=true 
+Processing object type SCHEMA_EXPORT/TABLE/TABLE_DATA
+.  estimated &quot;SCOTT&quot;.&quot;EMP&quot;                               8.225 KB
+.  estimated &quot;SCOTT&quot;.&quot;DEPT&quot;                              4.683 KB
+.  estimated &quot;SCOTT&quot;.&quot;DUMMY&quot;                             4.683 KB
+.  estimated &quot;SCOTT&quot;.&quot;SALGRADE&quot;                          4.683 KB
+Processing object type SCHEMA_EXPORT/TABLE/INDEX/STATISTICS/INDEX_STATISTICS
+Processing object type SCHEMA_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+Processing object type SCHEMA_EXPORT/STATISTICS/MARKER
+Processing object type SCHEMA_EXPORT/PRE_SCHEMA/PROCACT_SCHEMA
+Processing object type SCHEMA_EXPORT/TABLE/TABLE
+Processing object type SCHEMA_EXPORT/TABLE/COMMENT
+Processing object type SCHEMA_EXPORT/TABLE/INDEX/INDEX
+. . exported &quot;SCOTT&quot;.&quot;EMP&quot;                               8.851 KB      16 rows
+. . exported &quot;SCOTT&quot;.&quot;DEPT&quot;                                  6 KB       3 rows
+. . exported &quot;SCOTT&quot;.&quot;DUMMY&quot;                             5.054 KB       1 rows
+. . exported &quot;SCOTT&quot;.&quot;SALGRADE&quot;                          5.953 KB       5 rows
+Master table &quot;SCOTT&quot;.&quot;SYS_EXPORT_SCHEMA_01&quot; successfully loaded/unloaded
+******************************************************************************
+Dump file set for SCOTT.SYS_EXPORT_SCHEMA_01 is:
+  /opt/oracle/admin/ORCLCDB/dpdump/scott.dmp
+Job &quot;SCOTT&quot;.&quot;SYS_EXPORT_SCHEMA_01&quot; successfully completed at Sat Feb 25 18:46:34 2023 elapsed 0 00:00:31
+</code></pre><ol>
+<li>Importa el fichero obtenido anteriormente usando Oracle Data Pump pero en un usuario distinto de la misma base de datos.</li>
 </ol>
-<pre><code>expdp SYSTEM DUMPFILE=myexp.dmp FULL=y LOG=myexp.log 
-</code></pre><p>SELECT deptno FROM dept WHERE deptno IN (SELECT deptno FROM EMP GROUP BY deptno HAVING COUNT(*)&lt;3);</p>
+<ul>
+<li>Le damos permisos sobre el directorio al usuario en el que importaremos el esquema.</li>
+</ul>
+<pre><code>SQL&gt; GRANT READ,WRITE ON DIRECTORY DATA_PUMP_EXPORT TO PRUEBA;                          
+
+Grant succeeded.
+</code></pre><ul>
+<li>Realizamos la importación.</li>
+</ul>
+<pre><code>vagrant@oracleagv:~$ impdp PRUEBA/PRUEBA dumpfile=scott.dmp schemas=SCOTT directory=DATA_PUMP_EXPORT remap_schema=SCOTT:PRUEBA
+
+Import: Release 19.0.0.0.0 - Production on Sat Feb 25 19:30:47 2023
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+Connected to: Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+
+Warning: Oracle Data Pump operations are not typically needed when connected to the root or seed of a container database.
+
+Master table &quot;PRUEBA&quot;.&quot;SYS_IMPORT_SCHEMA_01&quot; successfully loaded/unloaded
+Starting &quot;PRUEBA&quot;.&quot;SYS_IMPORT_SCHEMA_01&quot;:  PRUEBA/******** dumpfile=scott.dmp schemas=SCOTT directory=DATA_PUMP_EXPORT remap_schema=SCOTT:PRUEBA 
+Processing object type SCHEMA_EXPORT/PRE_SCHEMA/PROCACT_SCHEMA
+Processing object type SCHEMA_EXPORT/TABLE/TABLE
+Processing object type SCHEMA_EXPORT/TABLE/TABLE_DATA
+. . imported &quot;PRUEBA&quot;.&quot;EMP&quot;                              8.851 KB      16 rows
+. . imported &quot;PRUEBA&quot;.&quot;DEPT&quot;                                 6 KB       3 rows
+. . imported &quot;PRUEBA&quot;.&quot;DUMMY&quot;                            5.054 KB       1 rows
+. . imported &quot;PRUEBA&quot;.&quot;SALGRADE&quot;                         5.953 KB       5 rows
+Processing object type SCHEMA_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+Processing object type SCHEMA_EXPORT/STATISTICS/MARKER
+Job &quot;PRUEBA&quot;.&quot;SYS_IMPORT_SCHEMA_01&quot; successfully completed at Sat Feb 25 19:31:02 2023 elapsed 0 00:00:13
+</code></pre><ul>
+<li>Entramos la usuario y comprobamos que podemos acceder a la inforación de el esquema de SCOTT.</li>
+</ul>
+<pre><code>SQL&gt; connect PRUEBA/PRUEBA
+Connected.
+
+SQL&gt; select * from dept;
+
+    DEPTNO DNAME	  LOC
+---------- -------------- -------------
+	10 ACCOUNTING	  NEW YORK
+	20 RESEARCH	  DALLAS
+	30 SALES	  CHICAGO
+</code></pre><ol start="3">
+<li>Realiza una exportación de la estructura de todas las tablas de la base de datos usando el comando expdp de Oracle Data Pump probando al menos cinco de las posibles opciones que ofrece dicho comando y documentándolas adecuadamente.</li>
+</ol>
+<ul>
+<li>Para realizar esta tarea el usuario <code>SYSTEM</code> debe tener una contraseña.</li>
+</ul>
+<pre><code>SQL&gt; ALTER USER SYSTEM IDENTIFIED BY SYSTEM
+</code></pre><ul>
+<li>Ahora vamos realizar la exportación y desglosaremos cada una de las opciones que hemos añadido.</li>
+</ul>
+<pre><code>vagrant@oracleagv:~$ expdp SYSTEM/SYSTEM DUMPFILE=total.dmp FULL=y LOG=total.log CONTENT=METADATA_ONLY ENCRYPTION_PASSWORD=3Xp0Rt4C10nT0t4L
+
+Export: Release 19.0.0.0.0 - Production on Sat Feb 25 19:58:16 2023
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+Connected to: Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Legacy Mode Active due to the following parameters:
+Legacy Mode Parameter: &quot;log=total.log&quot; Location: Command Line, Replaced with: &quot;logfile=total.log&quot;
+Legacy Mode has set reuse_dumpfiles=true parameter.
+
+Warning: Oracle Data Pump operations are not typically needed when connected to the root or seed of a container database.
+
+Starting &quot;SYSTEM&quot;.&quot;SYS_EXPORT_FULL_01&quot;:  SYSTEM/******** DUMPFILE=total.dmp FULL=y logfile=total.log CONTENT=METADATA_ONLY ENCRYPTION_PASSWORD=******** reuse_dumpfiles=true 
+Processing object type DATABASE_EXPORT/EARLY_OPTIONS/VIEWS_AS_TABLES/TABLE_DATA
+Processing object type DATABASE_EXPORT/NORMAL_OPTIONS/TABLE_DATA
+Processing object type DATABASE_EXPORT/NORMAL_OPTIONS/VIEWS_AS_TABLES/TABLE_DATA
+Processing object type DATABASE_EXPORT/SCHEMA/TABLE/INDEX/STATISTICS/INDEX_STATISTICS
+Processing object type DATABASE_EXPORT/SCHEMA/TABLE/STATISTICS/TABLE_STATISTICS
+Processing object type DATABASE_EXPORT/STATISTICS/MARKER
+Processing object type DATABASE_EXPORT/PRE_SYSTEM_IMPCALLOUT/MARKER
+Processing object type DATABASE_EXPORT/PRE_INSTANCE_IMPCALLOUT/MARKER
+Processing object type DATABASE_EXPORT/TABLESPACE
+Processing object type DATABASE_EXPORT/PROFILE
+Processing object type DATABASE_EXPORT/RADM_FPTM
+Processing object type DATABASE_EXPORT/GRANT/SYSTEM_GRANT/PROC_SYSTEM_GRANT
+Processing object type DATABASE_EXPORT/SCHEMA/GRANT/SYSTEM_GRANT
+Processing object type DATABASE_EXPORT/SCHEMA/ROLE_GRANT
+Processing object type DATABASE_EXPORT/SCHEMA/DEFAULT_ROLE
+Processing object type DATABASE_EXPORT/SCHEMA/ON_USER_GRANT
+Processing object type DATABASE_EXPORT/SCHEMA/TABLESPACE_QUOTA
+Processing object type DATABASE_EXPORT/RESOURCE_COST
+Processing object type DATABASE_EXPORT/TRUSTED_DB_LINK
+Processing object type DATABASE_EXPORT/DIRECTORY/DIRECTORY
+Processing object type DATABASE_EXPORT/DIRECTORY/GRANT/OWNER_GRANT/OBJECT_GRANT
+Processing object type DATABASE_EXPORT/SYSTEM_PROCOBJACT/PRE_SYSTEM_ACTIONS/PROCACT_SYSTEM
+Processing object type DATABASE_EXPORT/SYSTEM_PROCOBJACT/PROCOBJ
+Processing object type DATABASE_EXPORT/SYSTEM_PROCOBJACT/POST_SYSTEM_ACTIONS/PROCACT_SYSTEM
+Processing object type DATABASE_EXPORT/SCHEMA/PROCACT_SCHEMA
+Processing object type DATABASE_EXPORT/EARLY_OPTIONS/VIEWS_AS_TABLES/TABLE
+Processing object type DATABASE_EXPORT/EARLY_POST_INSTANCE_IMPCALLOUT/MARKER
+Processing object type DATABASE_EXPORT/NORMAL_OPTIONS/TABLE
+Processing object type DATABASE_EXPORT/NORMAL_OPTIONS/VIEWS_AS_TABLES/TABLE
+Processing object type DATABASE_EXPORT/NORMAL_POST_INSTANCE_IMPCALLOUT/MARKER
+Processing object type DATABASE_EXPORT/SCHEMA/TABLE/TABLE
+Processing object type DATABASE_EXPORT/SCHEMA/TABLE/COMMENT
+Processing object type DATABASE_EXPORT/SCHEMA/TABLE/FGA_POLICY
+Processing object type DATABASE_EXPORT/SCHEMA/PROCEDURE/PROCEDURE
+Processing object type DATABASE_EXPORT/SCHEMA/PROCEDURE/ALTER_PROCEDURE
+Processing object type DATABASE_EXPORT/SCHEMA/TABLE/INDEX/INDEX
+Processing object type DATABASE_EXPORT/SCHEMA/TABLE/CONSTRAINT/CONSTRAINT
+Processing object type DATABASE_EXPORT/SCHEMA/TABLE/CONSTRAINT/REF_CONSTRAINT
+Processing object type DATABASE_EXPORT/SCHEMA/TABLE/TRIGGER
+Processing object type DATABASE_EXPORT/FINAL_POST_INSTANCE_IMPCALLOUT/MARKER
+Processing object type DATABASE_EXPORT/SCHEMA/POST_SCHEMA/PROCACT_SCHEMA
+Processing object type DATABASE_EXPORT/AUDIT_UNIFIED/AUDIT_POLICY_ENABLE
+Processing object type DATABASE_EXPORT/AUDIT
+Processing object type DATABASE_EXPORT/POST_SYSTEM_IMPCALLOUT/MARKER
+. . exported &quot;SYS&quot;.&quot;KU$_USER_MAPPING_VIEW&quot;               6.125 KB      40 rows
+. . exported &quot;AUDSYS&quot;.&quot;AUD$UNIFIED&quot;:&quot;SYS_P321&quot;           245.1 KB     128 rows
+. . exported &quot;AUDSYS&quot;.&quot;AUD$UNIFIED&quot;:&quot;SYS_P181&quot;           129.9 KB     159 rows
+. . exported &quot;AUDSYS&quot;.&quot;AUD$UNIFIED&quot;:&quot;SYS_P461&quot;           63.63 KB      30 rows
+. . exported &quot;SYS&quot;.&quot;AUD$&quot;                                10.78 MB   84628 rows
+. . exported &quot;SYSTEM&quot;.&quot;REDO_DB&quot;                          25.60 KB       1 rows
+. . exported &quot;WMSYS&quot;.&quot;WM$WORKSPACES_TABLE$&quot;              12.11 KB       1 rows
+. . exported &quot;WMSYS&quot;.&quot;WM$HINT_TABLE$&quot;                    9.992 KB      97 rows
+. . exported &quot;LBACSYS&quot;.&quot;OLS$INSTALLATIONS&quot;               6.968 KB       2 rows
+. . exported &quot;WMSYS&quot;.&quot;WM$WORKSPACE_PRIV_TABLE$&quot;          7.085 KB      11 rows
+. . exported &quot;SYS&quot;.&quot;DAM_CONFIG_PARAM$&quot;                   6.539 KB      14 rows
+. . exported &quot;SYS&quot;.&quot;TSDP_SUBPOL$&quot;                        6.335 KB       1 rows
+. . exported &quot;WMSYS&quot;.&quot;WM$NEXTVER_TABLE$&quot;                 6.382 KB       1 rows
+. . exported &quot;LBACSYS&quot;.&quot;OLS$PROPS&quot;                       6.242 KB       5 rows
+. . exported &quot;WMSYS&quot;.&quot;WM$ENV_VARS$&quot;                      6.023 KB       3 rows
+. . exported &quot;SYS&quot;.&quot;TSDP_PARAMETER$&quot;                     5.960 KB       1 rows
+. . exported &quot;SYS&quot;.&quot;TSDP_POLICY$&quot;                        5.929 KB       1 rows
+. . exported &quot;WMSYS&quot;.&quot;WM$VERSION_HIERARCHY_TABLE$&quot;       5.992 KB       1 rows
+. . exported &quot;WMSYS&quot;.&quot;WM$EVENTS_INFO$&quot;                   5.820 KB      12 rows
+. . exported &quot;LBACSYS&quot;.&quot;OLS$AUDIT_ACTIONS&quot;               5.765 KB       8 rows
+. . exported &quot;LBACSYS&quot;.&quot;OLS$DIP_EVENTS&quot;                  5.546 KB       2 rows
+. . exported &quot;AUDSYS&quot;.&quot;AUD$UNIFIED&quot;:&quot;AUD_UNIFIED_P0&quot;         0 KB       0 rows
+. . exported &quot;LBACSYS&quot;.&quot;OLS$AUDIT&quot;                           0 KB       0 rows
+. . exported &quot;LBACSYS&quot;.&quot;OLS$COMPARTMENTS&quot;                    0 KB       0 rows
+. . exported &quot;LBACSYS&quot;.&quot;OLS$DIP_DEBUG&quot;                       0 KB       0 rows
+. . exported &quot;LBACSYS&quot;.&quot;OLS$GROUPS&quot;                          0 KB       0 rows
+. . exported &quot;LBACSYS&quot;.&quot;OLS$LAB&quot;                             0 KB       0 rows
+. . exported &quot;LBACSYS&quot;.&quot;OLS$LEVELS&quot;                          0 KB       0 rows
+. . exported &quot;LBACSYS&quot;.&quot;OLS$POL&quot;                             0 KB       0 rows
+. . exported &quot;LBACSYS&quot;.&quot;OLS$POLICY_ADMIN&quot;                    0 KB       0 rows
+. . exported &quot;LBACSYS&quot;.&quot;OLS$POLS&quot;                            0 KB       0 rows
+. . exported &quot;LBACSYS&quot;.&quot;OLS$POLT&quot;                            0 KB       0 rows
+. . exported &quot;LBACSYS&quot;.&quot;OLS$PROFILE&quot;                         0 KB       0 rows
+. . exported &quot;LBACSYS&quot;.&quot;OLS$PROFILES&quot;                        0 KB       0 rows
+. . exported &quot;LBACSYS&quot;.&quot;OLS$PROG&quot;                            0 KB       0 rows
+. . exported &quot;LBACSYS&quot;.&quot;OLS$SESSINFO&quot;                        0 KB       0 rows
+. . exported &quot;LBACSYS&quot;.&quot;OLS$USER&quot;                            0 KB       0 rows
+. . exported &quot;LBACSYS&quot;.&quot;OLS$USER_COMPARTMENTS&quot;               0 KB       0 rows
+. . exported &quot;LBACSYS&quot;.&quot;OLS$USER_GROUPS&quot;                     0 KB       0 rows
+. . exported &quot;LBACSYS&quot;.&quot;OLS$USER_LEVELS&quot;                     0 KB       0 rows
+. . exported &quot;SYS&quot;.&quot;DAM_CLEANUP_EVENTS$&quot;                     0 KB       0 rows
+. . exported &quot;SYS&quot;.&quot;DAM_CLEANUP_JOBS$&quot;                       0 KB       0 rows
+. . exported &quot;SYS&quot;.&quot;TSDP_ASSOCIATION$&quot;                       0 KB       0 rows
+. . exported &quot;SYS&quot;.&quot;TSDP_CONDITION$&quot;                         0 KB       0 rows
+. . exported &quot;SYS&quot;.&quot;TSDP_FEATURE_POLICY$&quot;                    0 KB       0 rows
+. . exported &quot;SYS&quot;.&quot;TSDP_PROTECTION$&quot;                        0 KB       0 rows
+. . exported &quot;SYS&quot;.&quot;TSDP_SENSITIVE_DATA$&quot;                    0 KB       0 rows
+. . exported &quot;SYS&quot;.&quot;TSDP_SENSITIVE_TYPE$&quot;                    0 KB       0 rows
+. . exported &quot;SYS&quot;.&quot;TSDP_SOURCE$&quot;                            0 KB       0 rows
+. . exported &quot;SYSTEM&quot;.&quot;REDO_LOG&quot;                             0 KB       0 rows
+. . exported &quot;WMSYS&quot;.&quot;WM$BATCH_COMPRESSIBLE_TABLES$&quot;         0 KB       0 rows
+. . exported &quot;WMSYS&quot;.&quot;WM$CONSTRAINTS_TABLE$&quot;                 0 KB       0 rows
+. . exported &quot;WMSYS&quot;.&quot;WM$CONS_COLUMNS$&quot;                      0 KB       0 rows
+. . exported &quot;WMSYS&quot;.&quot;WM$LOCKROWS_INFO$&quot;                     0 KB       0 rows
+. . exported &quot;WMSYS&quot;.&quot;WM$MODIFIED_TABLES$&quot;                   0 KB       0 rows
+. . exported &quot;WMSYS&quot;.&quot;WM$MP_GRAPH_WORKSPACES_TABLE$&quot;         0 KB       0 rows
+. . exported &quot;WMSYS&quot;.&quot;WM$MP_PARENT_WORKSPACES_TABLE$&quot;        0 KB       0 rows
+. . exported &quot;WMSYS&quot;.&quot;WM$NESTED_COLUMNS_TABLE$&quot;              0 KB       0 rows
+. . exported &quot;WMSYS&quot;.&quot;WM$RESOLVE_WORKSPACES_TABLE$&quot;          0 KB       0 rows
+. . exported &quot;WMSYS&quot;.&quot;WM$RIC_LOCKING_TABLE$&quot;                 0 KB       0 rows
+. . exported &quot;WMSYS&quot;.&quot;WM$RIC_TABLE$&quot;                         0 KB       0 rows
+. . exported &quot;WMSYS&quot;.&quot;WM$RIC_TRIGGERS_TABLE$&quot;                0 KB       0 rows
+. . exported &quot;WMSYS&quot;.&quot;WM$UDTRIG_DISPATCH_PROCS$&quot;             0 KB       0 rows
+. . exported &quot;WMSYS&quot;.&quot;WM$UDTRIG_INFO$&quot;                       0 KB       0 rows
+. . exported &quot;WMSYS&quot;.&quot;WM$VERSION_TABLE$&quot;                     0 KB       0 rows
+. . exported &quot;WMSYS&quot;.&quot;WM$VT_ERRORS_TABLE$&quot;                   0 KB       0 rows
+. . exported &quot;WMSYS&quot;.&quot;WM$WORKSPACE_SAVEPOINTS_TABLE$&quot;        0 KB       0 rows
+. . exported &quot;MDSYS&quot;.&quot;RDF_PARAM$&quot;                        6.523 KB       3 rows
+. . exported &quot;SYS&quot;.&quot;AUDTAB$TBS$FOR_EXPORT&quot;               5.960 KB       2 rows
+. . exported &quot;SYS&quot;.&quot;DBA_SENSITIVE_DATA&quot;                      0 KB       0 rows
+. . exported &quot;SYS&quot;.&quot;DBA_TSDP_POLICY_PROTECTION&quot;              0 KB       0 rows
+. . exported &quot;SYS&quot;.&quot;FGA_LOG$FOR_EXPORT&quot;                  17.89 KB       1 rows
+. . exported &quot;SYS&quot;.&quot;NACL$_ACE_EXP&quot;                           0 KB       0 rows
+. . exported &quot;SYS&quot;.&quot;NACL$_HOST_EXP&quot;                      6.984 KB       2 rows
+. . exported &quot;SYS&quot;.&quot;NACL$_WALLET_EXP&quot;                        0 KB       0 rows
+. . exported &quot;SYS&quot;.&quot;SQL$TEXT_DATAPUMP&quot;                       0 KB       0 rows
+. . exported &quot;SYS&quot;.&quot;SQL$_DATAPUMP&quot;                           0 KB       0 rows
+. . exported &quot;SYS&quot;.&quot;SQLOBJ$AUXDATA_DATAPUMP&quot;                 0 KB       0 rows
+. . exported &quot;SYS&quot;.&quot;SQLOBJ$DATA_DATAPUMP&quot;                    0 KB       0 rows
+. . exported &quot;SYS&quot;.&quot;SQLOBJ$PLAN_DATAPUMP&quot;                    0 KB       0 rows
+. . exported &quot;SYS&quot;.&quot;SQLOBJ$_DATAPUMP&quot;                        0 KB       0 rows
+. . exported &quot;SYSTEM&quot;.&quot;SCHEDULER_JOB_ARGS&quot;                   0 KB       0 rows
+. . exported &quot;SYSTEM&quot;.&quot;SCHEDULER_PROGRAM_ARGS&quot;               0 KB       0 rows
+. . exported &quot;WMSYS&quot;.&quot;WM$EXP_MAP&quot;                        7.726 KB       3 rows
+. . exported &quot;WMSYS&quot;.&quot;WM$METADATA_MAP&quot;                       0 KB       0 rows
+Master table &quot;SYSTEM&quot;.&quot;SYS_EXPORT_FULL_01&quot; successfully loaded/unloaded
+******************************************************************************
+Dump file set for SYSTEM.SYS_EXPORT_FULL_01 is:
+  /opt/oracle/admin/ORCLCDB/dpdump/total.dmp
+Job &quot;SYSTEM&quot;.&quot;SYS_EXPORT_FULL_01&quot; successfully completed at Sat Feb 25 20:00:26 2023 elapsed 0 00:02:09
+</code></pre><ul>
+<li>
+<p><code>DUMPFILE</code>: El fichero donde se hará la exportación.</p>
+</li>
+<li>
+<p><code>LOG</code>: Fichero de log donde se registrará todo el proceso.</p>
+</li>
+<li>
+<p><code>FULL</code>: Especificamos si queremos que se exporte toda la base de datos.</p>
+</li>
+<li>
+<p><code>CONTENT</code>: Contenido específico que queremos exportar, en este caso solo los metadatos, lo que significa que hemos exportado la estructura de las tablas pero no el contenido de las mismas</p>
+</li>
+<li>
+<p><code>ENCRYPTION_PASSWORD</code>: Encripta el fichero de exportación con la contraseña que especifiquemos.</p>
+</li>
+</ul>
+<ol start="4">
+<li>Intenta realizar operaciones similares de importación y exportación con las herramientas proporcionadas con MySQL desde línea de comandos, documentando el proceso.</li>
+</ol>
 
                 </div>
                 
