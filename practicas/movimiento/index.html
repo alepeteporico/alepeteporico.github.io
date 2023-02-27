@@ -684,7 +684,11 @@ MariaDB [empresa2]&gt; show tables;
 </code></pre><ol start="5">
 <li>Intenta realizar operaciones similares de importación y exportación con las herramientas proporcionadas con Postgres desde línea de comandos, documentando el proceso.</li>
 </ol>
-
+<ul>
+<li>Exportamos una base de datos excluyendo una tabla.</li>
+</ul>
+<pre><code>pg_dump prueba --exclude-table=carreras_profesionales &gt; exportacion.sql
+</code></pre>
                 </div>
                 
                 <div class="post-comments">
