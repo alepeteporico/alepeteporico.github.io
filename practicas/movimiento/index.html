@@ -643,6 +643,47 @@ Job &quot;SYSTEM&quot;.&quot;SYS_EXPORT_FULL_01&quot; successfully completed at 
 <ol start="4">
 <li>Intenta realizar operaciones similares de importación y exportación con las herramientas proporcionadas con MySQL desde línea de comandos, documentando el proceso.</li>
 </ol>
+<h3 id="exportación">EXPORTACIÓN</h3>
+<ul>
+<li>Una exportación de la base de datos de scott, excluyendo la tabla bonus y añadiendo un fichero de log por si hay errores.</li>
+</ul>
+<pre><code>root@alepeteporico:~# mysqldump -u root -p empresa --ignore-table=empresa.BONUS --log-error=/home/alejandrogv/Escritorio/ASIR/logfile.log &gt; /home/alejandrogv/Escritorio/ASIR/exportacion.sql
+</code></pre><ul>
+<li>Una exportación de todas las bases de datos.</li>
+</ul>
+<pre><code>root@alepeteporico:~# mysqldump -u root --all-databases --log-error=/home/alejandrogv/Escritorio/ASIR/logfile.log &gt; /home/alejandrogv/Escritorio/ASIR/exportaciontotal.sql
+</code></pre><h3 id="importación">IMPORTACIÓN</h3>
+<ul>
+<li>Creamos una base de datos nueva donde importaremos el esquema de scott.</li>
+</ul>
+<pre><code>MariaDB [(none)]&gt; create database empresa2
+    -&gt; ;
+Query OK, 1 row affected (0,001 sec)
+</code></pre><ul>
+<li>Importaremos la base de datos.</li>
+</ul>
+<pre><code>root@alepeteporico:~# mysql -u root empresa2 &lt; /home/alejandrogv/Escritorio/ASIR/exportacion.sql
+</code></pre><ul>
+<li>Comprobamos que se ha realizado la importación.</li>
+</ul>
+<pre><code>MariaDB [(none)]&gt; use empresa2
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [empresa2]&gt; show tables;
++--------------------+
+| Tables_in_empresa2 |
++--------------------+
+| dept               |
+| dummy              |
+| emp                |
+| salgrade           |
++--------------------+
+4 rows in set (0,001 sec)
+</code></pre><ol start="5">
+<li>Intenta realizar operaciones similares de importación y exportación con las herramientas proporcionadas con Postgres desde línea de comandos, documentando el proceso.</li>
+</ol>
 
                 </div>
                 
