@@ -516,6 +516,10 @@ set pgaudit.log = 'read, ddl';
 <li>Averigua si en MySQL se pueden realizar los apartados 1, 3 y 4. Si es así, documenta el proceso adecuadamente.</li>
 </ol>
 <ul>
+<li>Instalamos el plugin de auditoria.</li>
+</ul>
+<pre><code>MariaDB [(none)]&gt; INSTALL SONAME 'server_audit';
+</code></pre><ul>
 <li>Vamos a auditar los accesos.</li>
 </ul>
 <pre><code>MariaDB [(none)]&gt; SET GLOBAL server_audit_logging=ON;
@@ -523,6 +527,14 @@ set pgaudit.log = 'read, ddl';
 <li>Para auditar las operaciones DDL</li>
 </ul>
 <pre><code>MariaDB [(none)]&gt; SET GLOBAL server_audit_events = 'QUERY_DDL';
+</code></pre><ul>
+<li>Vemos los loggins para comprobar las auditorias.</li>
+</ul>
+<pre><code>alejandrogv@alepeteporico:~$ sudo cat /var/lib/mysql/server_audit.log
+20230221 17:47:57,alepeteporico,root,localhost,31,63,QUERY,,'SET GLOBAL server_audit_file_rotate_now = ON',0
+20230221 17:49:49,alepeteporico,root,localhost,31,64,QUERY,,'mysql­-server_auditing',1064
+20230221 17:49:53,alepeteporico,root,localhost,31,0,DISCONNECT,,,0
+20230301 08:37:40,alepeteporico,root,localhost,30,57,QUERY,,'SET GLOBAL server_audit_logging=ON',0
 </code></pre><ol start="9">
 <li>Averigua las posibilidades que ofrece MongoDB para auditar los cambios que va sufriendo un documento. Demuestra su funcionamiento.</li>
 </ol>
