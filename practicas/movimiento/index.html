@@ -1294,7 +1294,179 @@ ALTER TABLE
  public | jockeys      | table | usuario1
  public | propietarios | table | postgres
 (2 rows)
-</code></pre>
+</code></pre><ol start="6">
+<li>Exporta los documentos de una colección de MongoDB que cumplan una determinada condición e impórtalos en otra base de datos.</li>
+</ol>
+<h3 id="exportación-2">EXPORTACIÓN</h3>
+<ul>
+<li>Realizamos la exportación de un documento especifico.</li>
+</ul>
+<pre><code>vagrant@mongoagv:~$ sudo mongoexport --db nobel -c premios --out exportacion.json
+</code></pre><ul>
+<li>Ahora podemos añadirle alguna condición podemos usar la opción -q, con la que diremos que solo exporte los libros cuyo año de lanzamiento sea 2019.</li>
+</ul>
+<pre><code>vagrant@mongoagv:~$ sudo mongoexport --db nobel -c premios -q &quot;{\&quot;year\&quot;: \&quot;2019\&quot;}&quot; --out libros1819.json
+2023-03-02T17:15:12.386+0000	connected to: mongodb://localhost/
+2023-03-02T17:15:12.391+0000	exported 6 records
+</code></pre><ul>
+<li>Vamos a ver que se han exportado solo los libros que hemos especificado.</li>
+</ul>
+<pre><code>vagrant@mongoagv:~$ cat libros1819.json | jq
+{
+  &quot;_id&quot;: {
+    &quot;$oid&quot;: &quot;6400d466a0f4120b9c5e8a3c&quot;
+  },
+  &quot;year&quot;: &quot;2019&quot;,
+  &quot;category&quot;: &quot;Chemistry&quot;,
+  &quot;laureates&quot;: [
+    {
+      &quot;id&quot;: &quot;976&quot;,
+      &quot;firstname&quot;: &quot;John&quot;,
+      &quot;surname&quot;: &quot;Goodenough&quot;,
+      &quot;motivation&quot;: &quot;\&quot;for the development of lithium-ion batteries\&quot;&quot;,
+      &quot;share&quot;: &quot;3&quot;
+    },
+    {
+      &quot;id&quot;: &quot;977&quot;,
+      &quot;firstname&quot;: &quot;M. Stanley&quot;,
+      &quot;surname&quot;: &quot;Whittingham&quot;,
+      &quot;motivation&quot;: &quot;\&quot;for the development of lithium-ion batteries\&quot;&quot;,
+      &quot;share&quot;: &quot;3&quot;
+    },
+    {
+      &quot;id&quot;: &quot;978&quot;,
+      &quot;firstname&quot;: &quot;Akira&quot;,
+      &quot;surname&quot;: &quot;Yoshino&quot;,
+      &quot;motivation&quot;: &quot;\&quot;for the development of lithium-ion batteries\&quot;&quot;,
+      &quot;share&quot;: &quot;3&quot;
+    }
+  ]
+}
+{
+  &quot;_id&quot;: {
+    &quot;$oid&quot;: &quot;6400d466a0f4120b9c5e8a3d&quot;
+  },
+  &quot;year&quot;: &quot;2019&quot;,
+  &quot;category&quot;: &quot;Economics&quot;,
+  &quot;laureates&quot;: [
+    {
+      &quot;id&quot;: &quot;982&quot;,
+      &quot;firstname&quot;: &quot;Abhijit&quot;,
+      &quot;surname&quot;: &quot;Banerjee&quot;,
+      &quot;motivation&quot;: &quot;\&quot;for their experimental approach to alleviating global poverty\&quot;&quot;,
+      &quot;share&quot;: &quot;3&quot;
+    },
+    {
+      &quot;id&quot;: &quot;983&quot;,
+      &quot;firstname&quot;: &quot;Esther&quot;,
+      &quot;surname&quot;: &quot;Duflo&quot;,
+      &quot;motivation&quot;: &quot;\&quot;for their experimental approach to alleviating global poverty\&quot;&quot;,
+      &quot;share&quot;: &quot;3&quot;
+    },
+    {
+      &quot;id&quot;: &quot;984&quot;,
+      &quot;firstname&quot;: &quot;Michael&quot;,
+      &quot;surname&quot;: &quot;Kremer&quot;,
+      &quot;motivation&quot;: &quot;\&quot;for their experimental approach to alleviating global poverty\&quot;&quot;,
+      &quot;share&quot;: &quot;3&quot;
+    }
+  ]
+}
+{
+  &quot;_id&quot;: {
+    &quot;$oid&quot;: &quot;6400d466a0f4120b9c5e8a3e&quot;
+  },
+  &quot;year&quot;: &quot;2019&quot;,
+  &quot;category&quot;: &quot;Literature&quot;,
+  &quot;laureates&quot;: [
+    {
+      &quot;id&quot;: &quot;980&quot;,
+      &quot;firstname&quot;: &quot;Peter&quot;,
+      &quot;surname&quot;: &quot;Handke&quot;,
+      &quot;motivation&quot;: &quot;\&quot;for an influential work that with linguistic ingenuity has explored the periphery and the specificity of human experience\&quot;&quot;,
+      &quot;share&quot;: &quot;1&quot;
+    }
+  ]
+}
+{
+  &quot;_id&quot;: {
+    &quot;$oid&quot;: &quot;6400d466a0f4120b9c5e8a3f&quot;
+  },
+  &quot;year&quot;: &quot;2019&quot;,
+  &quot;category&quot;: &quot;Peace&quot;,
+  &quot;laureates&quot;: [
+    {
+      &quot;id&quot;: &quot;981&quot;,
+      &quot;firstname&quot;: &quot;Abiy&quot;,
+      &quot;surname&quot;: &quot;Ahmed Ali&quot;,
+      &quot;motivation&quot;: &quot;\&quot;for his efforts to achieve Peace and international cooperation, and in particular for his decisive initiative to resolve the border conflict with neighbouring Eritrea\&quot;&quot;,
+      &quot;share&quot;: &quot;1&quot;
+    }
+  ]
+}
+{
+  &quot;_id&quot;: {
+    &quot;$oid&quot;: &quot;6400d466a0f4120b9c5e8a40&quot;
+  },
+  &quot;year&quot;: &quot;2019&quot;,
+  &quot;category&quot;: &quot;Physics&quot;,
+  &quot;overallMotivation&quot;: &quot;\&quot;for contributions to our understanding of the evolution of the universe and Earth’s place in the cosmos\&quot;&quot;,
+  &quot;laureates&quot;: [
+    {
+      &quot;id&quot;: &quot;973&quot;,
+      &quot;firstname&quot;: &quot;James&quot;,
+      &quot;surname&quot;: &quot;Peebles&quot;,
+      &quot;motivation&quot;: &quot;\&quot;for theoretical discoveries in physical cosmology\&quot;&quot;,
+      &quot;share&quot;: &quot;2&quot;
+    },
+    {
+      &quot;id&quot;: &quot;974&quot;,
+      &quot;firstname&quot;: &quot;Michel&quot;,
+      &quot;surname&quot;: &quot;Mayor&quot;,
+      &quot;motivation&quot;: &quot;\&quot;for the discovery of an exoplanet orbiting a solar-type star\&quot;&quot;,
+      &quot;share&quot;: &quot;4&quot;
+    },
+    {
+      &quot;id&quot;: &quot;975&quot;,
+      &quot;firstname&quot;: &quot;Didier&quot;,
+      &quot;surname&quot;: &quot;Queloz&quot;,
+      &quot;motivation&quot;: &quot;\&quot;for the discovery of an exoplanet orbiting a solar-type star\&quot;&quot;,
+      &quot;share&quot;: &quot;4&quot;
+    }
+  ]
+}
+{
+  &quot;_id&quot;: {
+    &quot;$oid&quot;: &quot;6400d466a0f4120b9c5e8a41&quot;
+  },
+  &quot;year&quot;: &quot;2019&quot;,
+  &quot;category&quot;: &quot;Medicine&quot;,
+  &quot;laureates&quot;: [
+    {
+      &quot;id&quot;: &quot;970&quot;,
+      &quot;firstname&quot;: &quot;William&quot;,
+      &quot;surname&quot;: &quot;Kaelin&quot;,
+      &quot;motivation&quot;: &quot;\&quot;for their discoveries of how cells sense and adapt to oxygen availability\&quot;&quot;,
+      &quot;share&quot;: &quot;3&quot;
+    },
+    {
+      &quot;id&quot;: &quot;971&quot;,
+      &quot;firstname&quot;: &quot;Peter&quot;,
+      &quot;surname&quot;: &quot;Ratcliffe&quot;,
+      &quot;motivation&quot;: &quot;\&quot;for their discoveries of how cells sense and adapt to oxygen availability\&quot;&quot;,
+      &quot;share&quot;: &quot;3&quot;
+    },
+    {
+      &quot;id&quot;: &quot;972&quot;,
+      &quot;firstname&quot;: &quot;Gregg&quot;,
+      &quot;surname&quot;: &quot;Semenza&quot;,
+      &quot;motivation&quot;: &quot;\&quot;for their discoveries of how cells sense and adapt to oxygen availability\&quot;&quot;,
+      &quot;share&quot;: &quot;3&quot;
+    }
+  ]
+}
+</code></pre><h3 id="importación-2">IMPORTACIÓN</h3>
+
                 </div>
                 
                 <div class="post-comments">
