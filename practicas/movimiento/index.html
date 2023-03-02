@@ -684,14 +684,617 @@ MariaDB [empresa2]&gt; show tables;
 </code></pre><ol start="5">
 <li>Intenta realizar operaciones similares de importación y exportación con las herramientas proporcionadas con Postgres desde línea de comandos, documentando el proceso.</li>
 </ol>
+<h3 id="exportación-1">EXPORTACIÓN</h3>
 <ul>
 <li>Exportamos una base de datos excluyendo una tabla.</li>
 </ul>
 <pre><code>pg_dump prueba --exclude-table=carreras_profesionales &gt; exportacion.sql
 </code></pre><ul>
-<li>Vamos a</li>
+<li>Comprobamos que se ha realizado correctamente.</li>
 </ul>
+<pre><code>postgres@postgresagv:~$ cat exportacion.sql 
+--
+-- PostgreSQL database dump
+--
 
+-- Dumped from database version 13.8 (Debian 13.8-0+deb11u1)
+-- Dumped by pg_dump version 13.8 (Debian 13.8-0+deb11u1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: jockeys; Type: TABLE; Schema: public; Owner: usuario1
+--
+
+CREATE TABLE public.jockeys (
+    dni character varying(9) NOT NULL,
+    apellidos character varying(20),
+    nombre character varying(15),
+    peso numeric(4,2),
+    altura numeric(3,2),
+    telefono character varying(10)
+);
+
+
+ALTER TABLE public.jockeys OWNER TO usuario1;
+
+--
+-- Name: propietarios; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.propietarios (
+    nif character varying(9) NOT NULL,
+    nombre character varying(15),
+    apellidos character varying(20),
+    cuota numeric(6,2)
+);
+
+
+ALTER TABLE public.propietarios OWNER TO postgres;
+
+--
+-- Data for Name: jockeys; Type: TABLE DATA; Schema: public; Owner: usuario1
+--
+
+COPY public.jockeys (dni, apellidos, nombre, peso, altura, telefono) FROM stdin;
+77260496T	Gonzalez Reyes	Victor	55.00	1.68	657983401
+18393815W	Baquero Begines	Maria	53.00	1.58	649239153
+86402430D	Lauda Perez	Juan	50.00	1.63	629108927
+62550577F	Vaca Ferreras	Alvaro	50.00	1.47	674327184
+24246622E	Caliani Valle	Carlos	56.00	1.55	643892743
+\.
+
+
+--
+-- Data for Name: propietarios; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.propietarios (nif, nombre, apellidos, cuota) FROM stdin;
+61219065B	Mario	Gutiérrez Valencia	300.00
+20015195C	Alexandra	Angulo Lamas	320.00
+19643077L	Miriam	Zafra Valencia	45.00
+33599573T	Josue	Reche de los Santos	50.00
+X4164637G	Christian	Lopez Reyes	50.00
+\.
+
+
+--
+-- Name: jockeys pk_jockeys; Type: CONSTRAINT; Schema: public; Owner: usuario1
+--
+
+ALTER TABLE ONLY public.jockeys
+    ADD CONSTRAINT pk_jockeys PRIMARY KEY (dni);
+
+
+--
+-- Name: propietarios pk_propietarios; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.propietarios
+    ADD CONSTRAINT pk_propietarios PRIMARY KEY (nif);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
+postgres@postgresagv:~$ cat exportacion.sql
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 13.8 (Debian 13.8-0+deb11u1)
+-- Dumped by pg_dump version 13.8 (Debian 13.8-0+deb11u1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: jockeys; Type: TABLE; Schema: public; Owner: usuario1
+--
+
+CREATE TABLE public.jockeys (
+    dni character varying(9) NOT NULL,
+    apellidos character varying(20),
+    nombre character varying(15),
+    peso numeric(4,2),
+    altura numeric(3,2),
+    telefono character varying(10)
+);
+
+
+ALTER TABLE public.jockeys OWNER TO usuario1;
+
+--
+-- Name: propietarios; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.propietarios (
+    nif character varying(9) NOT NULL,
+    nombre character varying(15),
+    apellidos character varying(20),
+    cuota numeric(6,2)
+);
+
+
+ALTER TABLE public.propietarios OWNER TO postgres;
+
+--
+-- Data for Name: jockeys; Type: TABLE DATA; Schema: public; Owner: usuario1
+--
+
+COPY public.jockeys (dni, apellidos, nombre, peso, altura, telefono) FROM stdin;
+77260496T	Gonzalez Reyes	Victor	55.00	1.68	657983401
+18393815W	Baquero Begines	Maria	53.00	1.58	649239153
+86402430D	Lauda Perez	Juan	50.00	1.63	629108927
+62550577F	Vaca Ferreras	Alvaro	50.00	1.47	674327184
+24246622E	Caliani Valle	Carlos	56.00	1.55	643892743
+\.
+
+
+--
+-- Data for Name: propietarios; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.propietarios (nif, nombre, apellidos, cuota) FROM stdin;
+61219065B	Mario	Gutiérrez Valencia	300.00
+20015195C	Alexandra	Angulo Lamas	320.00
+19643077L	Miriam	Zafra Valencia	45.00
+33599573T	Josue	Reche de los Santos	50.00
+X4164637G	Christian	Lopez Reyes	50.00
+\.
+
+
+--
+-- Name: jockeys pk_jockeys; Type: CONSTRAINT; Schema: public; Owner: usuario1
+--
+
+ALTER TABLE ONLY public.jockeys
+    ADD CONSTRAINT pk_jockeys PRIMARY KEY (dni);
+
+
+--
+-- Name: propietarios pk_propietarios; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.propietarios
+    ADD CONSTRAINT pk_propietarios PRIMARY KEY (nif);
+
+
+--
+-- PostgreSQL database dump complete
+--
+</code></pre><ul>
+<li>Vamos a realizar una exportación de todas las bases de datos.</li>
+</ul>
+<pre><code>postgres@postgresagv:~$ pg_dumpall &gt; exportaciontotal.sql
+</code></pre><ul>
+<li>Volvemos a comprobar.</li>
+</ul>
+<pre><code>postgres@postgresagv:~$ cat exportaciontotal.sql 
+--
+-- PostgreSQL database cluster dump
+--
+
+SET default_transaction_read_only = off;
+
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+
+--
+-- Roles
+--
+
+CREATE ROLE postgres;
+ALTER ROLE postgres WITH SUPERUSER INHERIT CREATEROLE CREATEDB LOGIN REPLICATION BYPASSRLS;
+CREATE ROLE raul;
+ALTER ROLE raul WITH NOSUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NOREPLICATION NOBYPASSRLS PASSWORD 'md5807dea4f78fa1de254efdb5846b603bd';
+CREATE ROLE usuario1;
+ALTER ROLE usuario1 WITH NOSUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NOREPLICATION NOBYPASSRLS PASSWORD 'md5965e5ac260512ff6693906e07332c4a7';
+
+
+
+
+
+
+--
+-- Databases
+--
+
+--
+-- Database &quot;template1&quot; dump
+--
+
+\connect template1
+
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 13.8 (Debian 13.8-0+deb11u1)
+-- Dumped by pg_dump version 13.8 (Debian 13.8-0+deb11u1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- PostgreSQL database dump complete
+--
+
+--
+-- Database &quot;gn2&quot; dump
+--
+
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 13.8 (Debian 13.8-0+deb11u1)
+-- Dumped by pg_dump version 13.8 (Debian 13.8-0+deb11u1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: gn2; Type: DATABASE; Schema: -; Owner: postgres
+--
+
+CREATE DATABASE gn2 WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'C.UTF-8';
+
+
+ALTER DATABASE gn2 OWNER TO postgres;
+
+\connect gn2
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: asignaturas; Type: TABLE; Schema: public; Owner: raul
+--
+
+CREATE TABLE public.asignaturas (
+    nombre character varying(20),
+    dni_profesor character varying(20) NOT NULL
+);
+
+
+ALTER TABLE public.asignaturas OWNER TO raul;
+
+--
+-- Data for Name: asignaturas; Type: TABLE DATA; Schema: public; Owner: raul
+--
+
+COPY public.asignaturas (nombre, dni_profesor) FROM stdin;
+ASO	28888888
+ABD	27777777
+\.
+
+
+--
+-- Name: asignaturas pk_examen; Type: CONSTRAINT; Schema: public; Owner: raul
+--
+
+ALTER TABLE ONLY public.asignaturas
+    ADD CONSTRAINT pk_examen PRIMARY KEY (dni_profesor);
+
+
+--
+-- Name: DATABASE gn2; Type: ACL; Schema: -; Owner: postgres
+--
+
+GRANT ALL ON DATABASE gn2 TO raul;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
+--
+-- Database &quot;postgres&quot; dump
+--
+
+\connect postgres
+
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 13.8 (Debian 13.8-0+deb11u1)
+-- Dumped by pg_dump version 13.8 (Debian 13.8-0+deb11u1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: dblink; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS dblink WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION dblink; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION dblink IS 'connect to other PostgreSQL databases from within a database';
+
+
+--
+-- PostgreSQL database dump complete
+--
+
+--
+-- Database &quot;prueba&quot; dump
+--
+
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 13.8 (Debian 13.8-0+deb11u1)
+-- Dumped by pg_dump version 13.8 (Debian 13.8-0+deb11u1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: prueba; Type: DATABASE; Schema: -; Owner: postgres
+--
+
+CREATE DATABASE prueba WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'C.UTF-8';
+
+
+ALTER DATABASE prueba OWNER TO postgres;
+
+\connect prueba
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: carreras_profesionales; Type: TABLE; Schema: public; Owner: usuario1
+--
+
+CREATE TABLE public.carreras_profesionales (
+    codcarrera character varying(10) NOT NULL,
+    fecha date,
+    hora time without time zone,
+    importepremio numeric(7,2),
+    importemax numeric(7,2),
+    edadminpart numeric(2,0),
+    edadmaxpart numeric(2,0),
+    CONSTRAINT fecha_carrera CHECK (((to_char((fecha)::timestamp with time zone, 'MM/DD'::text) &lt; '03/02'::text) OR (to_char((fecha)::timestamp with time zone, 'MM/DD'::text) &gt; '10/20'::text))),
+    CONSTRAINT hora_carrera CHECK (((to_char((hora)::interval, 'HH24:MM'::text) &gt;= '09:00'::text) AND (to_char((hora)::interval, 'HH24:MM'::text) &lt;= '14:00'::text)))
+);
+
+
+ALTER TABLE public.carreras_profesionales OWNER TO usuario1;
+
+--
+-- Name: jockeys; Type: TABLE; Schema: public; Owner: usuario1
+--
+
+CREATE TABLE public.jockeys (
+    dni character varying(9) NOT NULL,
+    apellidos character varying(20),
+    nombre character varying(15),
+    peso numeric(4,2),
+    altura numeric(3,2),
+    telefono character varying(10)
+);
+
+
+ALTER TABLE public.jockeys OWNER TO usuario1;
+
+--
+-- Name: propietarios; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.propietarios (
+    nif character varying(9) NOT NULL,
+    nombre character varying(15),
+    apellidos character varying(20),
+    cuota numeric(6,2)
+);
+
+
+ALTER TABLE public.propietarios OWNER TO postgres;
+
+--
+-- Data for Name: carreras_profesionales; Type: TABLE DATA; Schema: public; Owner: usuario1
+--
+
+COPY public.carreras_profesionales (codcarrera, fecha, hora, importepremio, importemax, edadminpart, edadmaxpart) FROM stdin;
+9320671591	2020-12-01	12:40:00	50000.00	4000.00	7	17
+\.
+
+
+--
+-- Data for Name: jockeys; Type: TABLE DATA; Schema: public; Owner: usuario1
+--
+
+COPY public.jockeys (dni, apellidos, nombre, peso, altura, telefono) FROM stdin;
+77260496T	Gonzalez Reyes	Victor	55.00	1.68	657983401
+18393815W	Baquero Begines	Maria	53.00	1.58	649239153
+86402430D	Lauda Perez	Juan	50.00	1.63	629108927
+62550577F	Vaca Ferreras	Alvaro	50.00	1.47	674327184
+24246622E	Caliani Valle	Carlos	56.00	1.55	643892743
+\.
+
+
+--
+-- Data for Name: propietarios; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.propietarios (nif, nombre, apellidos, cuota) FROM stdin;
+61219065B	Mario	Gutiérrez Valencia	300.00
+20015195C	Alexandra	Angulo Lamas	320.00
+19643077L	Miriam	Zafra Valencia	45.00
+33599573T	Josue	Reche de los Santos	50.00
+X4164637G	Christian	Lopez Reyes	50.00
+\.
+
+
+--
+-- Name: carreras_profesionales pk_carreras; Type: CONSTRAINT; Schema: public; Owner: usuario1
+--
+
+ALTER TABLE ONLY public.carreras_profesionales
+    ADD CONSTRAINT pk_carreras PRIMARY KEY (codcarrera);
+
+
+--
+-- Name: jockeys pk_jockeys; Type: CONSTRAINT; Schema: public; Owner: usuario1
+--
+
+ALTER TABLE ONLY public.jockeys
+    ADD CONSTRAINT pk_jockeys PRIMARY KEY (dni);
+
+
+--
+-- Name: propietarios pk_propietarios; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.propietarios
+    ADD CONSTRAINT pk_propietarios PRIMARY KEY (nif);
+
+
+--
+-- Name: DATABASE prueba; Type: ACL; Schema: -; Owner: postgres
+--
+
+GRANT ALL ON DATABASE prueba TO usuario1;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
+--
+-- PostgreSQL database cluster dump complete
+--
+</code></pre><h3 id="importación-1">IMPORTACIÓN</h3>
+<ul>
+<li>Realizamos la importación de la base de datos.</li>
+</ul>
+<pre><code>postgres@postgresagv:~$ psql -d prueba2 -f exportacion.sql 
+SET
+SET
+SET
+SET
+SET
+ set_config 
+------------
+ 
+(1 row)
+
+SET
+SET
+SET
+SET
+SET
+SET
+CREATE TABLE
+ALTER TABLE
+CREATE TABLE
+ALTER TABLE
+COPY 5
+COPY 5
+ALTER TABLE
+ALTER TABLE
+</code></pre><ul>
+<li>Al entrar y listar las tablas vemos que no se ha creado la que excluimos.</li>
+</ul>
+<pre><code>prueba2=# \dt
+            List of relations
+ Schema |     Name     | Type  |  Owner   
+--------+--------------+-------+----------
+ public | jockeys      | table | usuario1
+ public | propietarios | table | postgres
+(2 rows)
+</code></pre>
                 </div>
                 
                 <div class="post-comments">
