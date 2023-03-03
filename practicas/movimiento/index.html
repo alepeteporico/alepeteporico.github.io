@@ -1527,13 +1527,37 @@ Enterprise prueba&gt; db.libros.find();
 <li>SQL-Loader es una herramienta que sirve para cargar grandes volúmenes de datos en una instancia de ORACLE. Exportad los datos de una base de datos completa desde Postgres a texto plano con delimitadores y emplead SQL-Loader para realizar el proceso de carga de dichos datos a una instancia ORACLE. Debéis documentar todo el proceso, explicando los distintos ficheros de configuración y de log que tiene SQL-Loader.</li>
 </ol>
 <ul>
-<li>Como bien se nos indica el primer paso será exportar una base de datos de postgres a texto plano usando la herramienta de SQL Loader.</li>
+<li>Como bien se nos indica el primer paso será exportar una base de datos de postgres a texto plano, pero postgres no nos permite pasar toda una base de datos a csv, solo tenemos herramientas para pasar las tablas de una en una de la siguinte forma.</li>
 </ul>
-<pre><code>postgres@postgresagv:~$ pg_dump prueba &gt; exportacion.sql
-</code></pre><ul>
-<li></li>
-</ul>
+<pre><code>COPY jockeys TO '/var/lib/postgresql/jockeys.csv' DELIMITERS ',' CSV HEADER;
 
+COPY jockeys TO '/var/lib/postgresql/propietarios.csv' DELIMITERS ',' CSV HEADER;
+</code></pre><ul>
+<li>Una vez pasadas las tablas pasamos los ficheros a nuestra máquina con oracle.</li>
+</ul>
+<pre><code>vagrant@oracleagv:~$ ls -l
+total 5098748
+-rw-r--r-- 1 vagrant vagrant        300 Mar  3 17:15  jockeys.csv
+-rw-r--r-- 1 vagrant vagrant        228 Mar  3 17:15  propietarios.csv
+</code></pre><ul>
+<li>Pero necesitamos primero varios ficheros, empecemos con los de control. Los ficheros de control constan de diferente información como:</li>
+</ul>
+<p><strong>Donde encontrar los datos</strong>
+<strong>Como se espera que esos datos estén formados</strong>
+<strong>Como se manejaran cosas como: la memoria, interrupciones, registros rechazados, etc&hellip;</strong>
+<strong>Como se manipularán los datos</strong></p>
+<ul>
+<li>Vamos a ver como haremos los dos ficheros de control que necesitamos, uno para cada tabla.</li>
+</ul>
+<pre><code>OPTIONS (SKIP=1)
+LOAD DATA
+INFILE '/home/vagrant/propietarios.csv'
+APPEND
+INTO TABLE propietarios
+FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '&quot;'
+TRAILING NULLCOLS
+()
+</code></pre>
                 </div>
                 
                 <div class="post-comments">
