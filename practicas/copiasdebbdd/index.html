@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Copias de seguridad en bases de datos &middot; Alepetepórico Blog </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.80.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://alepeteporico.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+	<nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg font-header">
+		<div class="container-fluid">
+			<a class="navbar-brand" id="green-terminal" href='https://alepeteporico.github.io/'>
+				blog@alepetepórico ~ $
+			</a>
+			<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse-1" 
+					aria-controls="navbar-collapse-1" aria-expanded="false">
+				<span class="visually-hidden">Toggle navigation</span>
+				<span class="navbar-toggler-icon"></span>
+			</button>
+	
+			
+			<div class="collapse navbar-collapse" id="navbar-collapse-1">
+				<ul class="nav navbar-nav ms-auto">
+					<li class="nav-item">
+						<a class="nav-link" href='https://alepeteporico.github.io/'>
+							/home/blog</a>
+					</li>
+					
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/apuntes">~/apuntes</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/ejercicios">~/ejercicios</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/problemas">~/problemas</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://alepeteporico.github.io/practicas">~/prácticas</a>
+						
+					</li>
+					
+				</ul>
+			</div>
+		</div>
+	</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://alepeteporico.github.io/practicas/copiasdebbdd/">Copias de seguridad en bases de datos</a></h1>
+                <span class="post-date">2023-03-03 </span>
+                <div class="post-content">
+                    <ol>
+<li>Realiza una copia de seguridad lógica de tu base de datos completa, teniendo en cuenta los siguientes requisitos:</li>
+</ol>
+<p><strong>La copia debe estar encriptada y comprimida.</strong></p>
+<p><strong>Debe realizarse en un conjunto de ficheros con un tamaño máximo de 60 MB.</strong></p>
+<p><strong>Programa la operación para que se repita cada día a una hora determinada.</strong></p>
+<ul>
+<li>Antes de todo debemos permitir a los usuarios crear carpetas y manejarlas.</li>
+</ul>
+<pre><code>SQL&gt; GRANT CREATE ANY DIRECTORY TO SYSTEM;
+
+Grant succeeded.
+
+SQL&gt; CREATE DIRECTORY copias AS '/home/vagrant/backups';
+
+Directory created.
+
+SQL&gt; GRANT READ, WRITE ON DIRECTORY copias TO SYSTEM;
+
+Grant succeeded.
+</code></pre><ul>
+<li>Una vez hecho esto también debemos darle permisos para que pueda exportar las bases de datos al usuario system.</li>
+</ul>
+<pre><code>SQL&gt; GRANT DATAPUMP_EXP_FULL_DATABASE TO SYSTEM;
+
+Grant succeeded.
+</code></pre><ul>
+<li>Vamos a realizar la copia.</li>
+</ul>
+<pre><code>vagrant@oracleagv:~$ expdp SYSTEM/SYSTEM FULL=y DIRECTORY=copias FILE=copia_total_$(date +&quot;%d%m%Y&quot;).sql FILESIZE=60MB ENCRYPTION=ALL ENCRYPTION_PASSWORD=copias COMPRESSION=ALL LOG=copias.log
+
+Export: Release 19.0.0.0.0 - Production on Mon Mar 6 22:12:17 2023
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+Connected to: Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Legacy Mode Active due to the following parameters:
+Legacy Mode Parameter: &quot;file=copia_total_06032023.sql&quot; Location: Command Line, Replaced with: &quot;dumpfile=copia_total_06032023.sql&quot;
+Legacy Mode Parameter: &quot;log=copias.log&quot; Location: Command Line, Replaced with: &quot;logfile=copias.log&quot;
+Legacy Mode has set reuse_dumpfiles=true parameter.
+
+Warning: Oracle Data Pump operations are not typically needed when connected to the root or seed of a container database.
+
+Starting &quot;SYSTEM&quot;.&quot;SYS_EXPORT_FULL_01&quot;:  SYSTEM/******** FULL=y DIRECTORY=copias dumpfile=copia_total_06032023.sql FILESIZE=60MB ENCRYPTION=ALL ENCRYPTION_PASSWORD=******** COMPRESSION=ALL logfile=copias.log reuse_dumpfiles=true 
+Processing object type DATABASE_EXPORT/EARLY_OPTIONS/VIEWS_AS_TABLES/TABLE_DATA
+Processing object type DATABASE_EXPORT/NORMAL_OPTIONS/TABLE_DATA
+Processing object type DATABASE_EXPORT/NORMAL_OPTIONS/VIEWS_AS_TABLES/TABLE_DATA
+Processing object type DATABASE_EXPORT/SCHEMA/TABLE/TABLE_DATA
+Processing object type DATABASE_EXPORT/SCHEMA/TABLE/INDEX/STATISTICS/INDEX_STATISTICS
+Processing object type DATABASE_EXPORT/SCHEMA/TABLE/STATISTICS/TABLE_STATISTICS
+Processing object type DATABASE_EXPORT/STATISTICS/MARKER
+Processing object type DATABASE_EXPORT/PRE_SYSTEM_IMPCALLOUT/MARKER
+Processing object type DATABASE_EXPORT/PRE_INSTANCE_IMPCALLOUT/MARKER
+Processing object type DATABASE_EXPORT/TABLESPACE
+Processing object type DATABASE_EXPORT/PROFILE
+Processing object type DATABASE_EXPORT/RADM_FPTM
+Processing object type DATABASE_EXPORT/GRANT/SYSTEM_GRANT/PROC_SYSTEM_GRANT
+Processing object type DATABASE_EXPORT/SCHEMA/GRANT/SYSTEM_GRANT
+Processing object type DATABASE_EXPORT/SCHEMA/ROLE_GRANT
+Processing object type DATABASE_EXPORT/SCHEMA/DEFAULT_ROLE
+Processing object type DATABASE_EXPORT/SCHEMA/ON_USER_GRANT
+...
+...
+...
+</code></pre><ul>
+<li>Tenemos la copia hecha.</li>
+</ul>
+<pre><code>vagrant@oracleagv:~$ ls backups/
+copia_total_06032023.sql  copias.log
+</code></pre><ul>
+<li>Para automatizarla vamos a usar contrab.</li>
+</ul>
+<pre><code>crontab -e
+
+30 12 * * * expdp SYSTEM/SYSTEM FULL=y DIRECTORY=copias FILE=copia_total_$(date +&quot;%d%m%Y&quot;).sql FILESIZE=60MB ENCRYPTION=ALL ENCRYPTION_PASSWORD=copias COMPRESSION=ALL LOG=copias.log
+</code></pre><ol start="2">
+<li>Restaura la copia de seguridad lógica creada en el punto anterior.</li>
+</ol>
+<ul>
+<li>La restauración es sencilla, ya vimos algo similar en la práctica de movimiento de datos.</li>
+</ul>
+<pre><code>vagrant@oracleagv:~$ impdp SYSTEM/SYSTEM DIRECTORY=copias dumpfile=copia_total_06032023.sql FULL=YES ENCRYPTION_PASSWORD=copias
+</code></pre><ul>
+<li>Comprobamos que se ha realizado correctamente.</li>
+</ul>
+<pre><code>vagrant@oracleagv:~$ sqlplus / as sysdba
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Mon Mar 6 22:32:22 2023
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+SQL&gt; connect SCOTT/TIGER
+Connected.
+SQL&gt; SELECT * FROM EMP;
+
+     EMPNO ENAME      JOB	       MGR HIREDATE	    SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7369 SMITH      CLERK	      7902 17-DEC-80	    800
+	20
+
+      7499 ALLEN      SALESMAN	      7698 20-FEB-81	   1600        300
+	30
+
+      7521 WARD       SALESMAN	      7698 22-FEB-81	   1250        500
+	30
+</code></pre><ol start="3">
+<li>
+<p>Pon tu base de datos en modo ArchiveLog y realiza con RMAN una copia de seguridad física en caliente.</p>
+</li>
+<li>
+<p>Documenta el empleo de las herramientas de copia de seguridad y restauración de Postgres.</p>
+</li>
+</ol>
+<h4 id="realizar-copias-de-seguridad">Realizar copias de seguridad.</h4>
+<ul>
+<li>Podemos realizar una copia de cualquier base de datos con un simple comando.</li>
+</ul>
+<pre><code>postgres@postgresagv:~$ pg_dump prueba &gt; prueba.bak
+</code></pre><ul>
+<li>
+<p>Vamos a ver el fichero.</p>
+<pre><code>      postgres@postgresagv:~$ cat prueba.bak 
+      --
+      -- PostgreSQL database dump
+      --
+
+      -- Dumped from database version 13.9 (Debian 13.9-0+deb11u1)
+      -- Dumped by pg_dump version 13.9 (Debian 13.9-0+deb11u1)
+
+      SET statement_timeout = 0;
+      SET lock_timeout = 0;
+      SET idle_in_transaction_session_timeout = 0;
+      SET client_encoding = 'UTF8';
+      SET standard_conforming_strings = on;
+      SELECT pg_catalog.set_config('search_path', '', false);
+      SET check_function_bodies = false;
+      SET xmloption = content;
+      SET client_min_messages = warning;
+      SET row_security = off;
+
+      --
+      -- Name: export_csv(text, text); Type: FUNCTION; Schema: public; Owner: postgres
+      --
+
+      CREATE FUNCTION public.export_csv(name_tab text, ruta text) RETURNS void
+          LANGUAGE plpgsql
+          AS $$
+      DECLARE
+          name_tab TEXT;
+      BEGIN
+          FOR name_tab IN
+              SELECT table_name
+              FROM information_schema.tables
+              WHERE table_schema = 'public'
+              AND table_type = 'BASE TABLE'
+          LOOP
+              EXECUTE format (
+                  'COPY %I TO %L WITH (FORMAT CSV, DELIMITER '','', HEADER TRUE)', name_tab, ruta || name_tab || '.csv'
+              );
+          END LOOP;
+      END;
+      $$;
+
+
+      ALTER FUNCTION public.export_csv(name_tab text, ruta text) OWNER TO postgres;
+
+      SET default_tablespace = '';
+
+      SET default_table_access_method = heap;
+
+      --
+      -- Name: jockeys; Type: TABLE; Schema: public; Owner: usuario1
+      --
+
+      CREATE TABLE public.jockeys (
+          dni character varying(9) NOT NULL,
+          apellidos character varying(20),
+          nombre character varying(15),
+          peso numeric(4,2),
+          altura numeric(3,2),
+          telefono character varying(10)
+      );
+
+
+      ALTER TABLE public.jockeys OWNER TO usuario1;
+
+      --
+      -- Name: propietarios; Type: TABLE; Schema: public; Owner: postgres
+      --
+
+      CREATE TABLE public.propietarios (
+          nif character varying(9) NOT NULL,
+          nombre character varying(15),
+          apellidos character varying(20),
+          cuota numeric(6,2)
+      );
+
+
+      ALTER TABLE public.propietarios OWNER TO postgres;
+
+      --
+      -- Data for Name: jockeys; Type: TABLE DATA; Schema: public; Owner: usuario1
+      --
+
+      COPY public.jockeys (dni, apellidos, nombre, peso, altura, telefono) FROM stdin;
+      77260496T	Gonzalez Reyes	Victor	55.00	1.68	657983401
+      18393815W	Baquero Begines	Maria	53.00	1.58	649239153
+      86402430D	Lauda Perez	Juan	50.00	1.63	629108927
+      62550577F	Vaca Ferreras	Alvaro	50.00	1.47	674327184
+      24246622E	Caliani Valle	Carlos	56.00	1.55	643892743
+      \.
+
+
+      --
+      -- Data for Name: propietarios; Type: TABLE DATA; Schema: public; Owner: postgres
+      --
+
+      COPY public.propietarios (nif, nombre, apellidos, cuota) FROM stdin;
+      61219065B	Mario	Gutiérrez Valencia	300.00
+      20015195C	Alexandra	Angulo Lamas	320.00
+      19643077L	Miriam	Zafra Valencia	45.00
+      33599573T	Josue	Reche de los Santos	50.00
+      X4164637G	Christian	Lopez Reyes	50.00
+      \.
+
+
+      --
+      -- Name: jockeys pk_jockeys; Type: CONSTRAINT; Schema: public; Owner: usuario1
+      --
+
+      ALTER TABLE ONLY public.jockeys
+          ADD CONSTRAINT pk_jockeys PRIMARY KEY (dni);
+
+
+      --
+      -- Name: propietarios pk_propietarios; Type: CONSTRAINT; Schema: public; Owner: postgres
+      --
+
+      ALTER TABLE ONLY public.propietarios
+          ADD CONSTRAINT pk_propietarios PRIMARY KEY (nif);
+
+
+      --
+      -- PostgreSQL database dump complete
+      --
+</code></pre>
+</li>
+<li>
+<p>Podemos añadir algunas opciones, vamos a ver las mas interesantes, como:</p>
+</li>
+</ul>
+<p><code>-a</code>: Solo exportará los datos, no el esquema de las tablas.</p>
+<p><code>-c</code>: Podemos añadir algunas consultas para filtrar los datos.</p>
+<p><code>-C</code>: Añadirá algunas ordenes extra, como ALTER TABLE, SET, ALTER ROLE, etc&hellip;</p>
+<p><code>-F</code>: Con esta opción podremos especificar el formato de salida del fichero resultante entre los que se incluye la opción de que sea un fichero comprimido.</p>
+<p><code>-h</code>: El hostname de la base de datos.</p>
+<p><code>-n</code>: Esquema que queremos exportar.</p>
+<p><code>-N</code>: Excluir un esquema específico.</p>
+<p><code>-s</code>: Solo exporta el esquema, no los datos.</p>
+<p><code>-t</code>: Tabla específica que queremos exportar.</p>
+<p><code>-T</code>: Tabla específica que queremos excluir.</p>
+<p><code>-v</code>: Muestra información durante el proceso.</p>
+<p><code>-Z</code>: Comprime con gpiz.</p>
+<ul>
+<li>
+<p>Hay muchos mas, pero estos son los que he considerado más interesantes.</p>
+</li>
+<li>
+<p>También podemos usar la siguiente variante para realizar una copia de la base de datos completa:</p>
+</li>
+</ul>
+<pre><code>postgres@postgresagv:~$ pg_dumpall &gt; pruebatotal.bak
+</code></pre><ul>
+<li>
+<p>Vemos el fichero resultante.</p>
+<pre><code>      postgres@postgresagv:~$ cat pruebatotal.bak 
+      --
+      -- PostgreSQL database cluster dump
+      --
+
+      SET default_transaction_read_only = off;
+
+      SET client_encoding = 'UTF8';
+      SET standard_conforming_strings = on;
+
+      --
+      -- Roles
+      --
+
+      CREATE ROLE postgres;
+      ALTER ROLE postgres WITH SUPERUSER INHERIT CREATEROLE CREATEDB LOGIN REPLICATION BYPASSRLS;
+      CREATE ROLE raul;
+      ALTER ROLE raul WITH NOSUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NOREPLICATION NOBYPASSRLS PASSWORD 'md5807dea4f78fa1de254efdb5846b603bd';
+      CREATE ROLE usuario1;
+      ALTER ROLE usuario1 WITH NOSUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NOREPLICATION NOBYPASSRLS PASSWORD 'md5965e5ac260512ff6693906e07332c4a7';
+
+
+
+
+
+
+      --
+      -- Databases
+      --
+
+      --
+      -- Database &quot;template1&quot; dump
+      --
+
+      \connect template1
+
+      --
+      -- PostgreSQL database dump
+      --
+
+      -- Dumped from database version 13.9 (Debian 13.9-0+deb11u1)
+      -- Dumped by pg_dump version 13.9 (Debian 13.9-0+deb11u1)
+
+      SET statement_timeout = 0;
+      SET lock_timeout = 0;
+      SET idle_in_transaction_session_timeout = 0;
+      SET client_encoding = 'UTF8';
+      SET standard_conforming_strings = on;
+      SELECT pg_catalog.set_config('search_path', '', false);
+      SET check_function_bodies = false;
+      SET xmloption = content;
+      SET client_min_messages = warning;
+      SET row_security = off;
+
+      --
+      -- PostgreSQL database dump complete
+      --
+
+      --
+      -- Database &quot;gn2&quot; dump
+      --
+
+      --
+      -- PostgreSQL database dump
+      --
+
+      -- Dumped from database version 13.9 (Debian 13.9-0+deb11u1)
+      -- Dumped by pg_dump version 13.9 (Debian 13.9-0+deb11u1)
+
+      SET statement_timeout = 0;
+      SET lock_timeout = 0;
+      SET idle_in_transaction_session_timeout = 0;
+      SET client_encoding = 'UTF8';
+      SET standard_conforming_strings = on;
+      SELECT pg_catalog.set_config('search_path', '', false);
+      SET check_function_bodies = false;
+      SET xmloption = content;
+      SET client_min_messages = warning;
+      SET row_security = off;
+
+      --
+      -- Name: gn2; Type: DATABASE; Schema: -; Owner: postgres
+      --
+
+      CREATE DATABASE gn2 WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'C.UTF-8';
+
+
+      ALTER DATABASE gn2 OWNER TO postgres;
+
+      \connect gn2
+
+      SET statement_timeout = 0;
+      SET lock_timeout = 0;
+      SET idle_in_transaction_session_timeout = 0;
+      SET client_encoding = 'UTF8';
+      SET standard_conforming_strings = on;
+      SELECT pg_catalog.set_config('search_path', '', false);
+      SET check_function_bodies = false;
+      SET xmloption = content;
+      SET client_min_messages = warning;
+      SET row_security = off;
+
+      SET default_tablespace = '';
+
+      SET default_table_access_method = heap;
+
+      --
+      -- Name: asignaturas; Type: TABLE; Schema: public; Owner: raul
+      --
+
+      CREATE TABLE public.asignaturas (
+          nombre character varying(20),
+          dni_profesor character varying(20) NOT NULL
+      );
+
+
+      ALTER TABLE public.asignaturas OWNER TO raul;
+
+      --
+      -- Data for Name: asignaturas; Type: TABLE DATA; Schema: public; Owner: raul
+      --
+
+      COPY public.asignaturas (nombre, dni_profesor) FROM stdin;
+      ASO	28888888
+      ABD	27777777
+      \.
+
+
+      --
+      -- Name: asignaturas pk_examen; Type: CONSTRAINT; Schema: public; Owner: raul
+      --
+
+      ALTER TABLE ONLY public.asignaturas
+          ADD CONSTRAINT pk_examen PRIMARY KEY (dni_profesor);
+
+
+      --
+      -- Name: DATABASE gn2; Type: ACL; Schema: -; Owner: postgres
+      --
+
+      GRANT ALL ON DATABASE gn2 TO raul;
+
+
+      --
+      -- PostgreSQL database dump complete
+      --
+
+      --
+      -- Database &quot;postgres&quot; dump
+      --
+
+      \connect postgres
+
+      --
+      -- PostgreSQL database dump
+      --
+
+      -- Dumped from database version 13.9 (Debian 13.9-0+deb11u1)
+      -- Dumped by pg_dump version 13.9 (Debian 13.9-0+deb11u1)
+
+      SET statement_timeout = 0;
+      SET lock_timeout = 0;
+      SET idle_in_transaction_session_timeout = 0;
+      SET client_encoding = 'UTF8';
+      SET standard_conforming_strings = on;
+      SELECT pg_catalog.set_config('search_path', '', false);
+      SET check_function_bodies = false;
+      SET xmloption = content;
+      SET client_min_messages = warning;
+      SET row_security = off;
+
+      --
+      -- Name: dblink; Type: EXTENSION; Schema: -; Owner: -
+      --
+
+      CREATE EXTENSION IF NOT EXISTS dblink WITH SCHEMA public;
+
+
+      --
+      -- Name: EXTENSION dblink; Type: COMMENT; Schema: -; Owner: 
+      --
+
+      COMMENT ON EXTENSION dblink IS 'connect to other PostgreSQL databases from within a database';
+
+
+      --
+      -- PostgreSQL database dump complete
+      --
+
+      --
+      -- Database &quot;prueba&quot; dump
+      --
+
+      --
+      -- PostgreSQL database dump
+      --
+
+      -- Dumped from database version 13.9 (Debian 13.9-0+deb11u1)
+      -- Dumped by pg_dump version 13.9 (Debian 13.9-0+deb11u1)
+
+      SET statement_timeout = 0;
+      SET lock_timeout = 0;
+      SET idle_in_transaction_session_timeout = 0;
+      SET client_encoding = 'UTF8';
+      SET standard_conforming_strings = on;
+      SELECT pg_catalog.set_config('search_path', '', false);
+      SET check_function_bodies = false;
+      SET xmloption = content;
+      SET client_min_messages = warning;
+      SET row_security = off;
+
+      --
+      -- Name: prueba; Type: DATABASE; Schema: -; Owner: postgres
+      --
+
+      CREATE DATABASE prueba WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'C.UTF-8';
+
+
+      ALTER DATABASE prueba OWNER TO postgres;
+
+      \connect prueba
+
+      SET statement_timeout = 0;
+      SET lock_timeout = 0;
+      SET idle_in_transaction_session_timeout = 0;
+      SET client_encoding = 'UTF8';
+      SET standard_conforming_strings = on;
+      SELECT pg_catalog.set_config('search_path', '', false);
+      SET check_function_bodies = false;
+      SET xmloption = content;
+      SET client_min_messages = warning;
+      SET row_security = off;
+
+      --
+      -- Name: export_csv(text, text); Type: FUNCTION; Schema: public; Owner: postgres
+      --
+
+      CREATE FUNCTION public.export_csv(name_tab text, ruta text) RETURNS void
+          LANGUAGE plpgsql
+          AS $$
+      DECLARE
+          name_tab TEXT;
+      BEGIN
+          FOR name_tab IN
+              SELECT table_name
+              FROM information_schema.tables
+              WHERE table_schema = 'public'
+              AND table_type = 'BASE TABLE'
+          LOOP
+              EXECUTE format (
+                  'COPY %I TO %L WITH (FORMAT CSV, DELIMITER '','', HEADER TRUE)', name_tab, ruta || name_tab || '.csv'
+              );
+          END LOOP;
+      END;
+      $$;
+
+
+      ALTER FUNCTION public.export_csv(name_tab text, ruta text) OWNER TO postgres;
+
+      SET default_tablespace = '';
+
+      SET default_table_access_method = heap;
+
+      --
+      -- Name: jockeys; Type: TABLE; Schema: public; Owner: usuario1
+      --
+
+      CREATE TABLE public.jockeys (
+          dni character varying(9) NOT NULL,
+          apellidos character varying(20),
+          nombre character varying(15),
+          peso numeric(4,2),
+          altura numeric(3,2),
+          telefono character varying(10)
+      );
+
+
+      ALTER TABLE public.jockeys OWNER TO usuario1;
+
+      --
+      -- Name: propietarios; Type: TABLE; Schema: public; Owner: postgres
+      --
+
+      CREATE TABLE public.propietarios (
+          nif character varying(9) NOT NULL,
+          nombre character varying(15),
+          apellidos character varying(20),
+          cuota numeric(6,2)
+      );
+
+
+      ALTER TABLE public.propietarios OWNER TO postgres;
+
+      --
+      -- Data for Name: jockeys; Type: TABLE DATA; Schema: public; Owner: usuario1
+      --
+
+      COPY public.jockeys (dni, apellidos, nombre, peso, altura, telefono) FROM stdin;
+      77260496T	Gonzalez Reyes	Victor	55.00	1.68	657983401
+      18393815W	Baquero Begines	Maria	53.00	1.58	649239153
+      86402430D	Lauda Perez	Juan	50.00	1.63	629108927
+      62550577F	Vaca Ferreras	Alvaro	50.00	1.47	674327184
+      24246622E	Caliani Valle	Carlos	56.00	1.55	643892743
+      \.
+
+
+      --
+      -- Data for Name: propietarios; Type: TABLE DATA; Schema: public; Owner: postgres
+      --
+
+      COPY public.propietarios (nif, nombre, apellidos, cuota) FROM stdin;
+      61219065B	Mario	Gutiérrez Valencia	300.00
+      20015195C	Alexandra	Angulo Lamas	320.00
+      19643077L	Miriam	Zafra Valencia	45.00
+      33599573T	Josue	Reche de los Santos	50.00
+      X4164637G	Christian	Lopez Reyes	50.00
+      \.
+
+
+      --
+      -- Name: jockeys pk_jockeys; Type: CONSTRAINT; Schema: public; Owner: usuario1
+      --
+
+      ALTER TABLE ONLY public.jockeys
+          ADD CONSTRAINT pk_jockeys PRIMARY KEY (dni);
+
+
+      --
+      -- Name: propietarios pk_propietarios; Type: CONSTRAINT; Schema: public; Owner: postgres
+      --
+
+      ALTER TABLE ONLY public.propietarios
+          ADD CONSTRAINT pk_propietarios PRIMARY KEY (nif);
+
+
+      --
+      -- PostgreSQL database dump complete
+      --
+
+      --
+      -- PostgreSQL database cluster dump complete
+      --
+</code></pre>
+</li>
+<li>
+<p>Hasta ahora hemos vista las copias de tipo lógicas, pero tenemos la posibilidad de hacer una copia física. El siguiente comando creará una copia de seguirdad en el directorio <code>backups</code> que recién hemos creado en formato gzip y con sus fichero wal, necesarios para la restauración más adelante.</p>
+</li>
+</ul>
+<pre><code>postgres@postgresagv:~$ pg_basebackup -D /var/lib/postgresql/backups/ -Ft -z -Xs -P
+Password: 
+40219/40219 kB (100%), 1/1 tablespace
+</code></pre><ul>
+<li>Veamos la carpeta de backups</li>
+</ul>
+<pre><code>postgres@postgresagv:~$ ls backups/
+backup_manifest  base.tar.gz  pg_wal.tar.gz
+</code></pre><ul>
+<li>Si quisieramos programar cualquiera de estas tareas deberiamos usar crontab.</li>
+</ul>
+<pre><code>postgres@postgresagv:~$ crontab -e
+</code></pre><ul>
+<li>Y añadimos la siguiente línea que creará un backup lógico semanal:</li>
+</ul>
+<pre><code>0 0 * * 0 pg_dumpall &gt; /var/lib/postgres/backups/backupsemanal-$(date +&quot;%d%m%Y&quot;).bak
+</code></pre><h3 id="restauración">RESTAURACIÓN</h3>
+<ul>
+<li>Para restaurar una copia lógica es muy sencillo, veamoslo:</li>
+</ul>
+<pre><code>postgres@bullseye:~$ psql -f pruebatotal.bak postgres
+</code></pre><ul>
+<li>Comprobamos que se ha realizado la importación.</li>
+</ul>
+<pre><code>prueba=# select * from jockeys 
+prueba-# ;
+    dni    |    apellidos    | nombre | peso  | altura | telefono  
+-----------+-----------------+--------+-------+--------+-----------
+ 77260496T | Gonzalez Reyes  | Victor | 55.00 |   1.68 | 657983401
+ 18393815W | Baquero Begines | Maria  | 53.00 |   1.58 | 649239153
+ 86402430D | Lauda Perez     | Juan   | 50.00 |   1.63 | 629108927
+ 62550577F | Vaca Ferreras   | Alvaro | 50.00 |   1.47 | 674327184
+ 24246622E | Caliani Valle   | Carlos | 56.00 |   1.55 | 643892743
+(5 rows)
+</code></pre><ol start="7">
+<li>Documenta el empleo de las herramientas de copia de seguridad y restauración de MySQL.</li>
+</ol>
+<ul>
+<li>
+<p>Nuevamente tenemos varias formas, sin embargo, la que usamos durante la práctica de movimiento de datos es la mas sencilla y efectiva. Que es mediante el uso de <code>mysqldump</code></p>
+</li>
+<li>
+<p>Vamos a ver un ejemplo sencillo de una copia de una base de datos.</p>
+</li>
+</ul>
+<pre><code>mysqldump -u root -p empresa --log-error=/home/alejandrogv/Escritorio/ASIR/logfile.log &gt; /home/alejandrogv/Escritorio/ASIR/exportacion.sql
+</code></pre><ul>
+<li>
+<p>La orden anterior haría una copia de todos los objetos dentro de la base de datos <code>empresa</code> y a parte crear un fichero de log bastante útil si hay problemas.</p>
+</li>
+<li>
+<p>Veamos como hacer una copia de todas las bases de datos.</p>
+</li>
+</ul>
+<pre><code>mysqldump -u root --all-databases --log-error=/home/alejandrogv/Escritorio/ASIR/logfile.log &gt; /home/alejandrogv/Escritorio/ASIR/exportaciontotal.sql
+</code></pre><ul>
+<li>Como en postgres, tenemos muchisimos otros parametros. Vamos a ver nuevamente los que me han parecido mas interesantes y útiles.</li>
+</ul>
+<p><code>-u</code>: Usuario al que nos conectaremos para realizar la copia.</p>
+<p><code>-p</code>: En caso de realizar la copia a una sola base de datos, este parametro nos permite especificar cual.</p>
+<p><code>--add-drop-database</code>: Antes de cada sentencia <strong>CREATE DATABASE</strong> añade una <strong>DROP DATABASE</strong> lo cual es útil por si tenemos una base de datos creada con el mismo nombre en nuestro gestor.</p>
+<p><code>--add-drop-table</code>: Tiene la misma función y utilidad que la anterior, pero en este caso con las tablas.</p>
+<p><code>-B</code>: Nos permite especificar mas de una base de datos.</p>
+<p><code>-e</code>: Usa <strong>INSERT</strong> en su formato de multiples registros, por tanto la salida será más limpia y se acelerará el proceso. Ideal para grandes volumenes de registros.</p>
+<p><code>-f</code>: Forza continuar con el proceso en caso de fallo.</p>
+<p><code>-h</code>: Donde especificamos el hostname de la base de datos a copiar.</p>
+<p><code>--ignore-table=xxx</code>: Para poder excluir una tabla.</p>
+<p><code>-n</code>: Elimina las sentencias <strong>CREATE DATABASE</strong>.</p>
+<p><code>-d</code>: Solo copia los esquemas, no los registros.</p>
+<p><code>-R</code>: Se añadirían los procedimientos y funciones de nuestro esquema.</p>
+<p><code>--triggers</code>: Se añadirán los triggers.</p>
+<p><code>-v</code>: Da información de lo que está pasando durante el proceso.</p>
+<ul>
+<li>Nuevamente podemos usar contrab para automatizarlo.</li>
+</ul>
+<pre><code>root@alepeteporico:~# crontab -e
+
+0 0 * * 0 mysqldump -u root --all-databases --log-error=/home/alejandrogv/Escritorio/ASIR/logfile.log &gt; /home/alejandrogv/Escritorio/ASIR/backupsemanal-$(date +&quot;%d%m%Y&quot;).sql
+</code></pre><h3 id="restauración-1">RESTAURACIÓN</h3>
+<ul>
+<li>Realizamos la copia de todas las bases de datos.</li>
+</ul>
+<pre><code>root@alepeteporico:~# mysqldump -u root --all-databases --add-drop-database --add-drop-table --log-error=/home/alejandrogv/Escritorio/ASIR/logfile.log &gt; /home/alejandrogv/Escritorio/ASIR/exportaciontotal.sql
+</code></pre><ul>
+<li>Y la restauramos de forma sencilla.</li>
+</ul>
+<pre><code>root@alepeteporico:~# mysql -u root &lt; /home/alejandrogv/Escritorio/ASIR/exportaciontotal.sql
+</code></pre><ul>
+<li>Entramos y comprobamos que todo sigue igual.</li>
+</ul>
+<pre><code>root@alepeteporico:~# mysql -u root
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 32
+Server version: 10.5.18-MariaDB-0+deb11u1 Debian 11
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]&gt; use empresa
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [empresa]&gt; select * from emp;
++-------+--------+-----------+------+------------+------+------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+--------+-----------+------+------------+------+------+--------+
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  800 | NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1600 |  300 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1250 |  500 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 2975 | NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 | 1250 | 1400 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850 | NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450 | NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 3000 | NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5000 | NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1980-09-08 | 1500 |    0 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 1100 | NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950 | NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000 | NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300 | NULL |     10 |
+|  7322 | JUAN   | CHAPERO   | 7902 | 1980-12-17 |  800 | NULL |     20 |
++-------+--------+-----------+------+------------+------+------+--------+
+15 rows in set (0,000 sec)
+</code></pre><ol start="8">
+<li>Documenta el empleo de las herramientas de copia de seguridad y restauración de MongoDB.</li>
+</ol>
+<ul>
+<li>Nuevamente tenemos una herramienta para realizar copias de seguirdad en mongo llamada <code>mongodump</code>. Vamos a ver como realizar una copia de una sola colección.</li>
+</ul>
+<pre><code>vagrant@mongoagv:~$ mongodump -d nobel -o backups/nobel_`date +&quot;%Y%m%d_%H%M%S&quot;`
+2023-03-06T21:14:33.181+0000	writing nobel.premios to backups/nobel_20230306_211433/nobel/premios.bson
+2023-03-06T21:14:33.184+0000	done dumping nobel.premios (658 documents)
+</code></pre><ul>
+<li>Y para hacer una copia total de todas las bases de datos.</li>
+</ul>
+<pre><code>vagrant@mongoagv:~$ mongodump -o backups/total_`date +&quot;%Y%m%d_%H%M%S&quot;`
+2023-03-06T21:15:22.004+0000	writing admin.system.users to backups/total_20230306_211521/admin/system.users.bson
+2023-03-06T21:15:22.005+0000	done dumping admin.system.users (1 document)
+2023-03-06T21:15:22.005+0000	writing admin.system.version to backups/total_20230306_211521/admin/system.version.bson
+2023-03-06T21:15:22.005+0000	done dumping admin.system.version (2 documents)
+2023-03-06T21:15:22.006+0000	writing nobel.premios to backups/total_20230306_211521/nobel/premios.bson
+2023-03-06T21:15:22.007+0000	writing prueba.libros to backups/total_20230306_211521/prueba/libros.bson
+2023-03-06T21:15:22.010+0000	done dumping prueba.libros (6 documents)
+2023-03-06T21:15:22.011+0000	done dumping nobel.premios (658 documents)
+</code></pre><ul>
+<li>Vemos las copias que hemos hecho:</li>
+</ul>
+<pre><code>vagrant@mongoagv:~$ tree backups/
+backups/
+├── nobel_20230306_211433
+│   └── nobel
+│       ├── premios.bson
+│       └── premios.metadata.json
+└── total_20230306_211521
+    ├── admin
+    │   ├── system.users.bson
+    │   ├── system.users.metadata.json
+    │   ├── system.version.bson
+    │   └── system.version.metadata.json
+    ├── nobel
+    │   ├── premios.bson
+    │   └── premios.metadata.json
+    └── prueba
+        ├── libros.bson
+        └── libros.metadata.json
+</code></pre><ul>
+<li>Nuevamente podemos hacer uso de contrab para realizar una copia periodica.</li>
+</ul>
+<pre><code>crontab -e
+
+0 0 * * 0 mongodump -o /home/vagrant/backups/total_`date +&quot;%Y%m%d_%H%M%S&quot;`
+</code></pre><h3 id="restauración-2">RESTAURACIÓN:</h3>
+<ul>
+<li>Vamos a realizar la restauración de una de las colecciones.</li>
+</ul>
+<pre><code>vagrant@mongoagv:~$ mongorestore --db pruebarecuperacion --verbose backups/total_20230306_211521/prueba/
+2023-03-06T21:29:24.969+0000	using write concern: &amp;{majority false 0}
+2023-03-06T21:29:24.991+0000	The --db and --collection flags are deprecated for this use-case; please use --nsInclude instead, i.e. with --nsInclude=${DATABASE}.${COLLECTION}
+2023-03-06T21:29:24.991+0000	building a list of collections to restore from backups/total_20230306_211521/prueba dir
+2023-03-06T21:29:24.991+0000	found collection pruebarecuperacion.libros bson to restore to pruebarecuperacion.libros
+2023-03-06T21:29:24.991+0000	found collection metadata from pruebarecuperacion.libros to restore to pruebarecuperacion.libros
+2023-03-06T21:29:24.991+0000	reading metadata for pruebarecuperacion.libros from backups/total_20230306_211521/prueba/libros.metadata.json
+2023-03-06T21:29:24.993+0000	creating collection pruebarecuperacion.libros with no metadata
+2023-03-06T21:29:25.038+0000	restoring pruebarecuperacion.libros from backups/total_20230306_211521/prueba/libros.bson
+2023-03-06T21:29:25.058+0000	finished restoring pruebarecuperacion.libros (6 documents, 0 failures)
+2023-03-06T21:29:25.058+0000	no indexes to restore for collection pruebarecuperacion.libros
+2023-03-06T21:29:25.058+0000	6 document(s) restored successfully. 0 document(s) failed to restore.
+</code></pre><ul>
+<li>Si queremos recuperar solo una colección usaremos lo siguiente:</li>
+</ul>
+<pre><code>vagrant@mongoagv:~$ mongorestore --db pruebarecuperacion2 --collection coleccion1 --verbose backups/total_20230306_211521/prueba/libros.bson 
+2023-03-06T21:31:53.469+0000	using write concern: &amp;{majority false 0}
+2023-03-06T21:31:53.472+0000	checking for collection data in backups/total_20230306_211521/prueba/libros.bson
+2023-03-06T21:31:53.472+0000	found metadata for collection at backups/total_20230306_211521/prueba/libros.metadata.json
+2023-03-06T21:31:53.472+0000	reading metadata for pruebarecuperacion2.coleccion1 from backups/total_20230306_211521/prueba/libros.metadata.json
+2023-03-06T21:31:53.472+0000	creating collection pruebarecuperacion2.coleccion1 with no metadata
+2023-03-06T21:31:53.509+0000	restoring pruebarecuperacion2.coleccion1 from backups/total_20230306_211521/prueba/libros.bson
+2023-03-06T21:31:53.558+0000	finished restoring pruebarecuperacion2.coleccion1 (6 documents, 0 failures)
+2023-03-06T21:31:53.558+0000	no indexes to restore for collection pruebarecuperacion2.coleccion1
+2023-03-06T21:31:53.558+0000	6 document(s) restored successfully. 0 document(s) failed to restore.
+</code></pre>
+                </div>
+                
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Alepetepórico" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2023 Alepetepórico Blog -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>

@@ -191,6 +191,21 @@ BEGIN
     WHEN 28001 THEN
         dbms_output.put_line('MOTIVO: LA CONTRASEÑA HA EXPIRADO');
 
+    WHEN 3136 THEN
+        dbms_output.put_line('MOTIVO: TIEMPO DE ESPERA DE LA CONEXIÓN AGOTADO');
+
+    WHEN 28003 THEN
+        dbms_output.put_line('MOTIVO: LA VERIFICACIÓN DE LA CONTRASEÑA FALLO');
+
+    WHEN 28007 THEN
+        dbms_output.put_line('MOTIVO: LA CONTRASEÑA NO PUEDE SER REUTILIZADA');
+
+    WHEN 28043 THEN
+        dbms_output.put_line('MOTIVO: CREDENCIALES NO VALIDAS PARA LA CONEXIÓN DB-OID');
+
+    WHEN 00911 THEN
+        dbms_output.put_line('MOTIVO: CARACTERES NO VALIDOS');
+
     ELSE
         dbms_output.put_line('MOTIVO: ERROR DESCONOCIDO');
     END CASE;
@@ -227,6 +242,9 @@ USUARIO: SCOTT
 FECHA: 17/02/23 FRI 12:36
 MOTIVO: CONTRASE??A INCORRECTA
 ------------------------------------------------------------
+USUARIO: PRUEBA
+FECHA: 05/03/23 SUN 17:23
+MOTIVO: CUENTA BLOQUEADA
 
 PL/SQL procedure successfully completed.
 </code></pre><ol start="3">
@@ -251,6 +269,12 @@ ACTION_NAME		     TIMESTAMP
 ---------------------------- ---------
 EMP
 INSERT			     17-FEB-23
+OBJ_NAME
+--------------------------------------------------------------------------------
+ACTION_NAME		     TIMESTAMP
+---------------------------- ---------
+DUAL
+SELECT			     06-MAR-23
 </code></pre><ol start="4">
 <li>Realiza una auditoría de grano fino para almacenar información sobre la inserción de empleados con sueldo superior a 2000 en la tabla emp de scott.</li>
 </ol>

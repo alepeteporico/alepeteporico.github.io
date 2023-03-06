@@ -6,7 +6,19 @@
     <description>Recent content on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 22 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 03 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Copias de seguridad en bases de datos</title>
+      <link>https://alepeteporico.github.io/practicas/copiasdebbdd/</link>
+      <pubDate>Fri, 03 Mar 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/copiasdebbdd/</guid>
+      <description>Realiza una copia de seguridad lógica de tu base de datos completa, teniendo en cuenta los siguientes requisitos:  La copia debe estar encriptada y comprimida.
+Debe realizarse en un conjunto de ficheros con un tamaño máximo de 60 MB.
+Programa la operación para que se repita cada día a una hora determinada.
+ Antes de todo debemos permitir a los usuarios crear carpetas y manejarlas.  SQL&amp;gt; GRANT CREATE ANY DIRECTORY TO SYSTEM; Grant succeeded.</description>
+    </item>
+    
     <item>
       <title>Movimiento de datos</title>
       <link>https://alepeteporico.github.io/practicas/movimiento/</link>
@@ -772,17 +784,6 @@ MariaDB [(none)]&amp;gt; CREATE DATABASE wordpress; Query OK, 1 row affected (0.
       
       <guid>https://alepeteporico.github.io/practicas/instalacion_debian11/</guid>
       <description>Empezamos la instalación y seguimos todos los pasos normalmente hasta llegar a la configuración de los discos, la haremos manualmente y en mi caso he creado una máquina virtual para simular lo que hice en mi máquina anfitriona, para ello he creado una partición sin usar simulando que tengo en ella una partición con Windows 10.   Seguidamente elegiremos la opción de &amp;ldquo;Configurar el gestor de volúmenes lógicos&amp;rdquo; y crearemos un grupo de volúmenes.</description>
-    </item>
-    
-    <item>
-      <title>COPIAS DE SEGURIDAD Y RECUPERACIÓN</title>
-      <link>https://alepeteporico.github.io/practicas/copiasbbdd/</link>
-      <pubDate>Mon, 07 Jun 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/copiasbbdd/</guid>
-      <description>Primero crearemos el directorio donde almacenaremos las copias.
- SQL&amp;gt; CREATE directory COPIA as &#39;/home/backups/&#39;; Directory created.    Comprobemos que se ha creado correctamente.
- SQL&amp;gt; select directory_name from dba_directories; DIRECTORY_NAME -------------------------------------------------------------------------------- COPIA SDO_DIR_WORK SDO_DIR_ADMIN XMLDIR XSDDIR OPATCH_INST_DIR ORACLE_OCM_CONFIG_DIR2 ORACLE_BASE ORACLE_HOME ORACLE_OCM_CONFIG_DIR DATA_PUMP_DIR DIRECTORY_NAME -------------------------------------------------------------------------------- OPATCH_SCRIPT_DIR OPATCH_LOG_DIR JAVA$JOX$CUJS$DIRECTORY$ 14 rows selected.     expdp ale/ale dumpfile=copia_oracle_export_%U.dmp logfile=copia_oracle_export.log directory=CARPETA_EXPORT full=y filesize=100M</description>
     </item>
     
     <item>

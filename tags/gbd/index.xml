@@ -6,7 +6,19 @@
     <description>Recent content in GBD on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 22 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/gbd/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 03 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/tags/gbd/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Copias de seguridad en bases de datos</title>
+      <link>https://alepeteporico.github.io/practicas/copiasdebbdd/</link>
+      <pubDate>Fri, 03 Mar 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/copiasdebbdd/</guid>
+      <description>Realiza una copia de seguridad lógica de tu base de datos completa, teniendo en cuenta los siguientes requisitos:  La copia debe estar encriptada y comprimida.
+Debe realizarse en un conjunto de ficheros con un tamaño máximo de 60 MB.
+Programa la operación para que se repita cada día a una hora determinada.
+ Antes de todo debemos permitir a los usuarios crear carpetas y manejarlas.  SQL&amp;gt; GRANT CREATE ANY DIRECTORY TO SYSTEM; Grant succeeded.</description>
+    </item>
+    
     <item>
       <title>Movimiento de datos</title>
       <link>https://alepeteporico.github.io/practicas/movimiento/</link>

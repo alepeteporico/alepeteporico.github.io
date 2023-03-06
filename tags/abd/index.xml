@@ -47,17 +47,6 @@ END;</description>
     </item>
     
     <item>
-      <title>COPIAS DE SEGURIDAD Y RECUPERACIÓN</title>
-      <link>https://alepeteporico.github.io/practicas/copiasbbdd/</link>
-      <pubDate>Mon, 07 Jun 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://alepeteporico.github.io/practicas/copiasbbdd/</guid>
-      <description>Primero crearemos el directorio donde almacenaremos las copias.
- SQL&amp;gt; CREATE directory COPIA as &#39;/home/backups/&#39;; Directory created.    Comprobemos que se ha creado correctamente.
- SQL&amp;gt; select directory_name from dba_directories; DIRECTORY_NAME -------------------------------------------------------------------------------- COPIA SDO_DIR_WORK SDO_DIR_ADMIN XMLDIR XSDDIR OPATCH_INST_DIR ORACLE_OCM_CONFIG_DIR2 ORACLE_BASE ORACLE_HOME ORACLE_OCM_CONFIG_DIR DATA_PUMP_DIR DIRECTORY_NAME -------------------------------------------------------------------------------- OPATCH_SCRIPT_DIR OPATCH_LOG_DIR JAVA$JOX$CUJS$DIRECTORY$ 14 rows selected.     expdp ale/ale dumpfile=copia_oracle_export_%U.dmp logfile=copia_oracle_export.log directory=CARPETA_EXPORT full=y filesize=100M</description>
-    </item>
-    
-    <item>
       <title>Almacenamiento</title>
       <link>https://alepeteporico.github.io/practicas/almacenamiento_bbdd/</link>
       <pubDate>Mon, 10 May 2021 00:00:00 +0000</pubDate>
