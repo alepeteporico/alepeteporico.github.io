@@ -143,47 +143,29 @@ unified_audit_systemlog 	     string
 </code></pre><ul>
 <li>Creamos la auditoria.</li>
 </ul>
-<pre><code>SQL&gt; AUDIT CREATE SESSION WHENEVER NOT SUCCESSFUL;
+<pre><code>SQL&gt; AUDIT CREATE SESSION WHENEVER SUCCESSFUL;
 
 Audit succeeded.
 </code></pre><ul>
-<li>Vamos a auditar a uno de nuestros usuarios.</li>
+<li>Vamos a ver la auditoria después de haber iniciado sesión.</li>
 </ul>
-<pre><code>SQL&gt; AUDIT CREATE SESSION BY SCOTT;
-
-Audit succeeded.
-
-
-SQL&gt; SELECT * FROM DBA_PRIV_AUDIT_OPTS;
-
-USER_NAME
+<pre><code>SQL&gt; SELECT USERNAME, OS_USERNAME, TIMESTAMP, ACTION_NAME, RETURNCODE
+FROM dba_audit_session  
+WHERE username='SCOTT';
+  2    3  
+USERNAME
 --------------------------------------------------------------------------------
-PROXY_NAME
+OS_USERNAME
 --------------------------------------------------------------------------------
-PRIVILEGE				 SUCCESS    FAILURE
----------------------------------------- ---------- ----------
-
-
-CREATE SESSION				 NOT SET    BY ACCESS
-
-PROFESOR
-
-CREATE SESSION				 BY ACCESS  BY ACCESS
-
-USER_NAME
---------------------------------------------------------------------------------
-PROXY_NAME
---------------------------------------------------------------------------------
-PRIVILEGE				 SUCCESS    FAILURE
----------------------------------------- ---------- ----------
-
+TIMESTAMP ACTION_NAME		       RETURNCODE
+--------- ---------------------------- ----------
 SCOTT
-
-CREATE SESSION				 BY ACCESS  BY ACCESS
+vagrant
+06-MAR-23 LOGON 
 </code></pre><ul>
 <li>Para desactivar la auditoria:</li>
 </ul>
-<pre><code>SQL&gt; NOAUDIT CREATE SESSION WHENEVER NOT SUCCESSFUL;
+<pre><code>SQL&gt; NOAUDIT CREATE SESSION WHENEVER SUCCESSFUL;
 
 Noaudit succeeded.
 </code></pre><ol start="2">
