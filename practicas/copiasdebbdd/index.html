@@ -214,12 +214,42 @@ SQL&gt; SELECT * FROM EMP;
       7521 WARD       SALESMAN	      7698 22-FEB-81	   1250        500
 	30
 </code></pre><ol start="3">
-<li>
-<p>Pon tu base de datos en modo ArchiveLog y realiza con RMAN una copia de seguridad física en caliente.</p>
-</li>
-<li>
-<p>Documenta el empleo de las herramientas de copia de seguridad y restauración de Postgres.</p>
-</li>
+<li>Pon tu base de datos en modo ArchiveLog y realiza con RMAN una copia de seguridad física en caliente.</li>
+</ol>
+<ul>
+<li>Ponemos la base de datos en modo <code>ArchiveLog</code></li>
+</ul>
+<pre><code>SQL&gt; ALTER DATABASE ARCHIVELOG;
+
+Database altered.
+
+SQL&gt; ALTER DATABASE OPEN;
+
+Database altered.
+</code></pre><ul>
+<li>Podemos comprobar que se encuentra en este modo.</li>
+</ul>
+<pre><code>SQL&gt; SELECT LOG_MODE FROM V$DATABASE;
+
+LOG_MODE
+------------
+ARCHIVELOG
+</code></pre><ul>
+<li>Ahora creamos la copia de seguridad física con <code>RMAN</code>.</li>
+</ul>
+<pre><code>vagrant@oracleagv:~$ rman target SYSTEM/SYSTEM
+
+Recovery Manager: Release 19.0.0.0.0 - Production on Mon Mar 6 22:57:41 2023
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+connected to target database: ORCLCDB (DBID=2889724655)
+
+RMAN&gt; BACKUP INCREMENTAL LEVEL 0 SECTION SIZE 512M DATABASE PLUS
+      ARCHIVELOG;
+</code></pre><ol start="6">
+<li>Documenta el empleo de las herramientas de copia de seguridad y restauración de Postgres.</li>
 </ol>
 <h4 id="realizar-copias-de-seguridad">Realizar copias de seguridad.</h4>
 <ul>
