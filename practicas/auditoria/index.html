@@ -631,41 +631,128 @@ vagrant@buster:~$ sudo apt-get install -y mongodb-enterprise
 </code></pre><ul>
 <li>Una vez instalado debemos activar las auditorias y el repositorio donde se guardarán. Para ello añadimos lo siguiente el fichero de configuración <code>/etc/mongod.conf</code></li>
 </ul>
-<pre><code>storage:
-  dbPath: data/db
-auditLog:
+<pre><code>auditLog:
   destination: file   
   format: JSON
-  path: data/db/auditLog.json
+  path: /var/lib/mongodb/auditLog.json
 </code></pre><ul>
-<li>Creamos la carpeta y el fichero de auditorias.</li>
+<li>Después de reiniciar ya se estarían auditando los cambios en el fichero de log. Vamos a hacer algunos cambios.</li>
 </ul>
-<pre><code>vagrant@buster:~$ mkdir data/db
-
-vagrant@buster:~$ cat &gt; data/db/auditLog.json
+<h4 id="creación-de-usuario">Creación de usuario.</h4>
+<pre><code>db.createUser({user: 'admin', pwd: 'admin', roles: [{role: 'userAdminAnyDatabase', db: 'admin'}, {role: 'readWriteAnyDatabase', db: 'admin'}]})
+</code></pre><h4 id="creación-de-colección">Creación de colección.</h4>
+<pre><code>Enterprise test&gt; use prueba
+switched to db prueba
+Enterprise prueba&gt; db.createCollection(&quot;empleados&quot;)
+{ ok: 1 }
 </code></pre><ul>
-<li>Para auditorar los cambios que se hacen debemo usar la siguiente herramienta que informará de todas las modificaciones, inserciones y borrados de los documentos</li>
+<li>Para ver los logs usamos:</li>
 </ul>
-<pre><code>mongod --dbpath data/db --auth --setParameter auditAuthorizationSuccess=true --auditDestination file --auditFilter '{ atype: &quot;authCheck&quot;, &quot;param.command&quot;: { $in: [ &quot;find&quot;, &quot;insert&quot;, &quot;delete&quot;, &quot;update&quot;, &quot;findandmodify&quot; ] } }' --auditFormat JSON --auditPath data/db/auditLog.json
+<pre><code>vagrant@mongoagv:~$ sudo cat /var/lib/mongodb/auditLog.json | jq
 </code></pre><ul>
-<li>Si tambień queremos auditar la creación y borrado de las colecciones podemos usar la siguiente variante.</li>
+<li>Vemos la creación de un usuario.</li>
 </ul>
-<pre><code>mongod --dbpath data/db --auditDestination file --auditFilter '{ atype: { $in: [ &quot;createCollection&quot;, &quot;dropCollection&quot; ] } }' --auditFormat JSON --auditPath data/db/auditLog.json
+<pre><code>{
+  &quot;atype&quot;: &quot;createUser&quot;,
+  &quot;ts&quot;: {
+    &quot;$date&quot;: &quot;2023-03-08T09:09:32.012+00:00&quot;
+  },
+  &quot;uuid&quot;: {
+    &quot;$binary&quot;: &quot;4lEZ0pSvRWet2HKP/V+QbA==&quot;,
+    &quot;$type&quot;: &quot;04&quot;
+  },
+  &quot;local&quot;: {
+    &quot;ip&quot;: &quot;127.0.0.1&quot;,
+    &quot;port&quot;: 27017
+  },
+  &quot;remote&quot;: {
+    &quot;ip&quot;: &quot;127.0.0.1&quot;,
+    &quot;port&quot;: 46796
+  },
+  &quot;users&quot;: [],
+  &quot;roles&quot;: [],
+  &quot;param&quot;: {
+    &quot;user&quot;: &quot;admin&quot;,
+    &quot;db&quot;: &quot;admin&quot;,
+    &quot;roles&quot;: [
+      {
+        &quot;role&quot;: &quot;readWriteAnyDatabase&quot;,
+        &quot;db&quot;: &quot;admin&quot;
+      },
+      {
+        &quot;role&quot;: &quot;userAdminAnyDatabase&quot;,
+        &quot;db&quot;: &quot;admin&quot;
+      }
+    ]
+  },
+  &quot;result&quot;: 0
+}
 </code></pre><ul>
-<li>Ya tenemos el fichero y las auditorias, como las tenemos en json podemos visualizarlas de una forma mas legible a como están habitualmente, para ello podemos intalar la herramienta <code>jq</code></li>
+<li>Creación de la colección:</li>
 </ul>
-<pre><code>
-</code></pre><ol>
+<pre><code>{
+  &quot;atype&quot;: &quot;authenticate&quot;,
+  &quot;ts&quot;: {
+    &quot;$date&quot;: &quot;2023-03-08T09:12:34.042+00:00&quot;
+  },
+  &quot;uuid&quot;: {
+    &quot;$binary&quot;: &quot;ugIel7WaQgKDCE6MQsIiXw==&quot;,
+    &quot;$type&quot;: &quot;04&quot;
+  },
+  &quot;local&quot;: {
+    &quot;ip&quot;: &quot;127.0.0.1&quot;,
+    &quot;port&quot;: 27017
+  },
+  &quot;remote&quot;: {
+    &quot;ip&quot;: &quot;127.0.0.1&quot;,
+    &quot;port&quot;: 46796
+  },
+  &quot;users&quot;: [
+    {
+        &quot;user&quot;: &quot;admin&quot;,
+        &quot;db&quot;: &quot;admin&quot;
+    }
+  ],
+  &quot;roles&quot;: [
+    {
+        &quot;role&quot;: &quot;readWriteAnyDatabase&quot;,
+        &quot;db&quot;: &quot;admin&quot;
+    },
+    {
+        &quot;role&quot;: &quot;userAdminAnyDatabase&quot;,
+        &quot;db&quot;: &quot;admin&quot;
+    }
+  ],
+  &quot;param&quot;: {
+    &quot;user&quot;: &quot;admin&quot;,
+    &quot;db&quot;: &quot;admin&quot;,
+    &quot;mechanism&quot;: &quot;SCRAM-SHA-256&quot;
+  },
+  &quot;result&quot;: 0
+}
+</code></pre><ol start="10">
 <li>Averigua si en MongoDB se pueden auditar los accesos a una colección concreta. Demuestra su funcionamiento.</li>
 </ol>
 <ul>
-<li>Si que tenemos esa posibilidad.</li>
+<li>Si que tenemos esa posibilidad mediante la siguiente orden.</li>
 </ul>
-<pre><code>mongod --dbpath data/db --auth --auditDestination file --auditFilter '{ atype: &quot;authenticate&quot;, &quot;param.db&quot;: &quot;test&quot; }' --auditFormat BSON --auditPath data/db/auditLog.bson
+<pre><code>db.setLogLevel(level, component)
 </code></pre><ul>
-<li>Para saber más sobre las auditorias en mongo podemos ir a <a href="https://www.mongodb.com/docs/manual/tutorial/configure-audit-filters/">la pagina oficial</a>.</li>
+<li>Vamos a ver tanto los levels como los components:</li>
 </ul>
-
+<h4 id="levels">levels:</h4>
+<p><code>0</code>: Nada</p>
+<p><code>1</code>: Errores</p>
+<p><code>2</code>: Errores y advertencias</p>
+<p><code>3</code>: Errores, advertencias y mensajes informativos.</p>
+<p><code>4</code>: Errores, advertencias, mensajes informativos y mensajes de depuración</p>
+<h4 id="components">components:</h4>
+<p><strong>“accessControl”, “command”, “index”, “query”, “replication”, “sharding”, “storage”, “write”, “audit”, “cluster”, “control”, “ftdc”, “geo”, “network”, “query”, “repl”, “security”, “sharding”, “storage”, “write”.</strong></p>
+<ul>
+<li>Nosotros queremos ver los accesos, por lo que usaremos el componente &ldquo;accesControl&rdquo; y por ejemplo el nivel 3.</li>
+</ul>
+<pre><code>db.setLogLevel(3, &quot;accessControl&quot;)
+</code></pre>
                 </div>
                 
                 <div class="post-comments">
