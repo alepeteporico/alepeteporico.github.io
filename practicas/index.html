@@ -106,6 +106,19 @@
 	<li>
 		<div class="post-list-item">
 			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/python_postgres/">Web postgresql con python</a></h4>
+				<h4 class="post-date">2023-03-07</h4>
+			</div>
+			<div class="post-summary"><p>Primero instalamos el entorno virtual y lo activamos.  postgres@postgresagv:~$ python3 -m venv aplicacion/ (aplicacion) postgres@postgresagv:~$ source aplicacion/bin/activate  Instalamos las dependencias necesarias.  (aplicacion) postgres@postgresagv:~$ pip install Flask psycopg2-binary (aplicacion) postgres@postgresagv:~$ pip install psycopg2 (aplicacion) postgres@postgresagv:~$ pip install pygresql  Creamos la aplicación  from flask import Flask, request, session, redirect, url_for, render_template, flash import psycopg2 #pip install psycopg2 import psycopg2.extras import re from werkzeug.security import generate_password_hash, check_password_hash app = Flask(__name__) app.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/python_postgres/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
 				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/copiasdebbdd/">Copias de seguridad en bases de datos</a></h4>
 				<h4 class="post-date">2023-03-03</h4>
 			</div>
@@ -223,22 +236,6 @@ Genera un archivo de log en el directorio raíz.</p></div>
 			<div class="post-summary"><p>Vamos a instalar la aplicación de bookmedik que instalamos con docker en una prática anterior, esta vez con kubernetes.  Despliegue en minikube  Salida de los comando que nos posibilitan ver los recursos que has creado en el cluster.  alejandrogv@AlejandroGV:~/kubernetes/bookmedik_kubernetes/minikube$ kubectl get pv,pvc NAME CAPACITY ACCESS MODES RECLAIM POLICY STATUS CLAIM STORAGECLASS REASON AGE persistentvolume/pvc-2b917463-3f4b-4da5-af30-f159dfd61c14 3Gi RWO Delete Bound default/pvc-bookmedik standard 40s NAME STATUS VOLUME CAPACITY ACCESS MODES STORAGECLASS AGE persistentvolumeclaim/pvc-bookmedik Bound pvc-2b917463-3f4b-4da5-af30-f159dfd61c14 3Gi RWO standard 42s alejandrogv@AlejandroGV:~/kubernetes/bookmedik_kubernetes/minikube$ kubectl get all NAME READY STATUS RESTARTS AGE pod/bookmedik-5f8c5f6bd7-5rrqc 1/1 Running 0 2m24s pod/bookmedik-5f8c5f6bd7-l85nv 1/1 Running 0 2m24s pod/mariadb-7cd5675f98-xv8xc 1/1 Running 0 2m23s NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE service/bookmedik NodePort 10.</p></div>
 			<div class="post-list-footer text-center">
 				<a href="https://alepeteporico.github.io/practicas/kubernetes/">Read More</a>
-			</div>
-		</div>
-	</li>
-	
-	<li>
-		<div class="post-list-item">
-			<div class="post-header">
-				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/docker_python/">Implantación de aplicaciones web Python en docker</a></h4>
-				<h4 class="post-date">2022-06-10</h4>
-			</div>
-			<div class="post-summary"><p>Puntos a tener el cuenta.   La aplicación debe guardar los datos en una base de datos mariadb.
-  La aplicación se podrá configurar para indicar los parámetros de conexión a la base de datos: usuario, contraseña, host y base de datos.
-  La aplicación deberá tener creado un usuario administrador para el acceso.
-  Aplicación Crea una imagen docker para poder desplegar un contenedor con la aplicación.</p></div>
-			<div class="post-list-footer text-center">
-				<a href="https://alepeteporico.github.io/practicas/docker_python/">Read More</a>
 			</div>
 		</div>
 	</li>

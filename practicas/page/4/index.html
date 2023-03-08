@@ -106,6 +106,19 @@
 	<li>
 		<div class="post-list-item">
 			<div class="post-header">
+				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/correo/">Correo en la VPS</a></h4>
+				<h4 class="post-date">2022-02-02</h4>
+			</div>
+			<div class="post-summary"><p>Documenta una prueba de funcionamiento, donde envíes desde tu servidor local al exterior. Muestra el log donde se vea el envío. Muestra el correo que has recibido. Muestra el registro SPF.  debian@mrrobot:~$ mail tojandro@gmail.com Cc: Subject: prueba desde vps debian@mrrobot:~$ cat /var/log/mail.log Feb 2 07:39:58 mrrobot postfix/pickup[915259]: E42DCA0AB9: uid=1000 from=&lt;debian@mrrobot.alejandrogv.site&gt; Feb 2 07:39:58 mrrobot postfix/cleanup[916025]: E42DCA0AB9: message-id=&lt;20220202073958.E42DCA0AB9@mrrobot.alejandrogv.site&gt; Feb 2 07:39:58 mrrobot postfix/qmgr[915260]: E42DCA0AB9: from=&lt;debian@mrrobot.alejandrogv.site&gt;, size=375, nrcpt=1 (queue active) Feb 2 07:39:59 mrrobot postfix/smtp[916027]: connect to gmail-smtp-in.</p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://alepeteporico.github.io/practicas/correo/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
 				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/lxc/">Contenedores LXC</a></h4>
 				<h4 class="post-date">2022-01-19</h4>
 			</div>
@@ -220,19 +233,6 @@ view interna { match-clients { 10.0.1.0/24; 127.0.0.1; }; allow-recursion { any;
 			<div class="post-summary"><p>Vamos a desarrollar la aplicación del tutorial de django 3.1. Vamos a configurar tu equipo como entorno de desarrollo para trabajar con la aplicación.   Realizamos un fork de la aplicación añadiendola a nuestros repositorios y seguidamente lo clonaremos en nuestra maquina:  alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB/despliegue_python$ git clone git@github.com:alepeteporico/django_tutorial.git  Crearemos el entorno virtual donde instalaremos las dependencias necesarias para hacer funcionar nuestra aplicación.  alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ python3 -m venv django (django) alejandrogv@AlejandroGV:~/Escritorio/ASIR/IWEB$ pip install -r despliegue_python/django_tutorial/requirements.</p></div>
 			<div class="post-list-footer text-center">
 				<a href="https://alepeteporico.github.io/practicas/despliegue_python/">Read More</a>
-			</div>
-		</div>
-	</li>
-	
-	<li>
-		<div class="post-list-item">
-			<div class="post-header">
-				<h4 class="post-link"><a href="https://alepeteporico.github.io/practicas/asimetrico/">Cifrado asimétrico con gpg y openssl</a></h4>
-				<h4 class="post-date">2021-11-11</h4>
-			</div>
-			<div class="post-summary"><p>Tarea 1: Generación de claves  Generamos las claves:  alejandrogv@AlejandroGV:~$ gpg --gen-key gpg (GnuPG) 2.2.27; Copyright (C) 2021 Free Software Foundation, Inc. This is free software: you are free to change and redistribute it. There is NO WARRANTY, to the extent permitted by law. Nota: Usa &quot;gpg --full-generate-key&quot; para el diálogo completo de generación de clave. GnuPG debe construir un ID de usuario para identificar su clave. Nombre y apellidos: ALejandro Gutiérrez Valencia Dirección de correo electrónico: tojandro@gmail.</p></div>
-			<div class="post-list-footer text-center">
-				<a href="https://alepeteporico.github.io/practicas/asimetrico/">Read More</a>
 			</div>
 		</div>
 	</li>

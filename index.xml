@@ -6,7 +6,16 @@
     <description>Recent content on Alepetepórico Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 03 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 07 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://alepeteporico.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Web postgresql con python</title>
+      <link>https://alepeteporico.github.io/practicas/python_postgres/</link>
+      <pubDate>Tue, 07 Mar 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://alepeteporico.github.io/practicas/python_postgres/</guid>
+      <description>Primero instalamos el entorno virtual y lo activamos.  postgres@postgresagv:~$ python3 -m venv aplicacion/ (aplicacion) postgres@postgresagv:~$ source aplicacion/bin/activate  Instalamos las dependencias necesarias.  (aplicacion) postgres@postgresagv:~$ pip install Flask psycopg2-binary (aplicacion) postgres@postgresagv:~$ pip install psycopg2 (aplicacion) postgres@postgresagv:~$ pip install pygresql  Creamos la aplicación  from flask import Flask, request, session, redirect, url_for, render_template, flash import psycopg2 #pip install psycopg2 import psycopg2.extras import re from werkzeug.security import generate_password_hash, check_password_hash app = Flask(__name__) app.</description>
+    </item>
+    
     <item>
       <title>Copias de seguridad en bases de datos</title>
       <link>https://alepeteporico.github.io/practicas/copiasdebbdd/</link>
